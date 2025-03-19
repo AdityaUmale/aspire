@@ -5,8 +5,14 @@ import { Menu } from "lucide-react";
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/90 backdrop-blur-md shadow-sm">
-      <div className="container flex h-20 items-center justify-between px-2 md:pl-6">
+    <header className="sticky top-0 z-50 w-full relative">
+      {/* Blue gradient overlay that fades from top to bottom */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1a237e]/15 to-transparent"></div>
+      
+      {/* Semi-transparent white background */}
+      <div className="absolute inset-0 bg-white/90 backdrop-blur-md"></div>
+      
+      <div className="container relative flex h-20 items-center justify-between px-2 md:pl-6">
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Image%202-wKlvojVmZKfsKl6SY0T2zX1H92pLQT.jpeg"
@@ -28,13 +34,15 @@ export default function Navbar() {
             </Link>
           ))}
         </nav>
+        
         <div className="flex items-center gap-8">
           <Button className="bg-[#1a237e] hover:bg-[#0d1642] shadow-md transition-all duration-300 hover:shadow-lg hidden md:flex">
-            Get Started
+            Get Regular Updates
           </Button>
           <Button variant="ghost" size="icon" className="md:hidden">
             <Menu className="h-6 w-16 text-[#1a237e]" />
           </Button>
+        
         </div>
       </div>
     </header>

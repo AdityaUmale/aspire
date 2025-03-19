@@ -25,7 +25,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
       <main className="flex-1">
-        <section className="relative w-full py-16 md:py-24 lg:py-32 overflow-hidden">
+        <section className="relative w-full py-16 md:py-24 lg:py-32 overflow-hidden pl-14 mt-8">
           <div className="absolute inset-0 bg-gradient-to-br from-[#f8f9fa] via-[#e8eaf6] to-[#c5cae9] -z-10"></div>
           <div className="absolute inset-0 bg-[url('/placeholder.svg?height=500&width=1000')] bg-no-repeat bg-cover opacity-5 -z-10"></div>
           <div className="absolute top-0 right-0 w-1/3 h-full bg-[#1a237e]/5 rounded-bl-[100px] -z-10"></div>
