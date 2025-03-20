@@ -1,29 +1,32 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-50 w-full relative">
-      {/* Blue gradient overlay that fades from top to bottom */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1a237e]/15 to-transparent"></div>
+    <header className="sticky top-0 z-50 w-full relative h-24 pl-8">
+      {/* Blue gradient overlay fading from top to bottom */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1a237e] to-transparent"></div>
       
-      {/* Semi-transparent white background */}
-      <div className="absolute inset-0 bg-white/90 backdrop-blur-md"></div>
+      {/* Semi-transparent white background with blur effect */}
+      <div className="absolute inset-0 bg-white/70 backdrop-blur-md"></div>
       
-      <div className="container relative flex h-20 items-center justify-between px-2 md:pl-6">
+      <div className="container relative flex h-20 items-center px-2 md:pl-6">
+        {/* Logo and brand name */}
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Image%202-wKlvojVmZKfsKl6SY0T2zX1H92pLQT.jpeg"
             alt="Aspire Institute Logo"
-            width={48}
-            height={48}
-            className="h-12 w-auto ml-10"
+            width={40}
+            height={40}
+            className="h-8 w-auto ml-10"
           />
           <span className="text-xl font-bold text-[#1a237e]">Aspire Institute</span>
         </Link>
-        <nav className="hidden md:flex gap-8 ml-10">
+        
+        {/* Navigation links */}
+        <nav className="hidden md:flex gap-8 ml-52">
           {["Courses", "About Us", "Founder", "Mission & Vision", "Contact"].map((item) => (
             <Link
               key={item}
@@ -35,14 +38,12 @@ export default function Navbar() {
           ))}
         </nav>
         
-        <div className="flex items-center gap-8">
-          <Button className="bg-[#1a237e] hover:bg-[#0d1642] shadow-md transition-all duration-300 hover:shadow-lg hidden md:flex">
-            Get Regular Updates
-          </Button>
-          <Button variant="ghost" size="icon" className="md:hidden">
-            <Menu className="h-6 w-16 text-[#1a237e]" />
-          </Button>
-        
+        {/* Action buttons */}
+        <div className="flex items-center gap-4 ml-52">
+          <Instagram/>
+          <Facebook/>
+          <Linkedin/>
+          <Twitter/>
         </div>
       </div>
     </header>

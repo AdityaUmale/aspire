@@ -132,9 +132,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="founder" className="py-16 md:py-24 bg-[#f8f9fa]">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+        <section id="founder" className="py-16 md:py-20 bg-white">
+          <div className="container px-4 md:px-6 ml-14">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-18">
               <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm">
                 <Star className="h-3.5 w-3.5 mr-1 text-[#1a237e]" />
                 Meet Our Founder
@@ -154,14 +154,14 @@ export default function Home() {
                   <Image
                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Image%203-NOmWmdO3nMV6OCTItG3VTU3SdNvco8.jpeg"
                     alt="Founder of Aspire Institute"
-                    width={600}
-                    height={600}
+                    width={400}
+                    height={400}
                     className="w-full h-auto object-cover transform transition-transform hover:scale-105 duration-500"
                   />
                 </div>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-6 pl-18">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm">
                   <Award className="h-5 w-5 text-[#1a237e]" />
                   <span className="text-sm font-medium text-[#1a237e]">Award-Winning Educator</span>
@@ -206,8 +206,8 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="mt-16">
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-28 ml-4">
+              <div className="grid gap-18 md:grid-cols-2 lg:grid-cols-3">
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-[#e0e0e0] hover:shadow-md transition-all">
                   <div className="flex items-center gap-3 mb-4">
                     <Award className="h-6 w-6 text-[#1a237e]" />
@@ -286,8 +286,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="relative py-16 md:py-24">
-          <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-[#f8f9fa] to-transparent"></div>
+        <section className="relative py-16 md:py-24 pl-18">
+          <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b bg-white"></div>
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm">
@@ -363,7 +363,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-4 ml-16">
                 <h3 className="text-2xl font-bold text-[#1a237e]">Comprehensive Programs</h3>
                 <p className="text-gray-600">
                   Our wide variety of training programs with vibrant curriculum fits the needs of young and professional
@@ -404,7 +404,7 @@ export default function Home() {
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#1a237e]/5 rounded-full blur-3xl -z-10"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#1a237e]/5 rounded-full blur-3xl -z-10"></div>
 
-          <div className="container px-4 md:px-6 relative">
+          <div className="container px-4 md:px-6 relative ml-18">
             <div className="grid gap-12 lg:grid-cols-2">
               <div className="relative">
                 <div className="absolute -top-6 -left-6 w-24 h-24 bg-[#1a237e]/10 rounded-full blur-xl"></div>
@@ -453,7 +453,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="courses" className="py-16 md:py-24">
+        <section id="courses" className="ml-18">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm">
@@ -537,7 +537,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="relative py-16 md:py-24 overflow-hidden">
+        <section className="relative py-16 md:py-24 overflow-hidden ml-18">
           <div className="absolute inset-0 bg-[#1a237e] -z-10"></div>
           <div className="absolute inset-0 bg-[url('/placeholder.svg?height=500&width=1000')] bg-no-repeat bg-cover opacity-5 -z-10"></div>
           <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -z-10"></div>
@@ -548,15 +548,14 @@ export default function Home() {
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-white mb-4">
                 Ready to Transform Your Life?
               </h2>
-              <p className="text-[#e8eaf6]/80 md:text-lg">
-                Join thousands of learners who have already taken the first step toward personal and professional
-                growth.
+              <p className="text-gray-500 md:text-lg">
+                Join our newsletter for regular updates on our latest courses, events, and more.
               </p>
             </div>
 
             <div className="mx-auto max-w-md">
               <div className="rounded-xl bg-white p-6 shadow-lg">
-                <h3 className="text-xl font-bold text-[#1a237e] mb-4">Request Information</h3>
+                <h3 className="text-xl font-bold text-[#1a237e] mb-4">Join Newsletter</h3>
                 <form className="space-y-4">
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div className="space-y-2">
@@ -606,7 +605,7 @@ export default function Home() {
                       <option>Other</option>
                     </select>
                   </div>
-                  <Button className="w-full bg-[#1a237e] hover:bg-[#0d1642]">Request Information</Button>
+                  <Button className="w-full bg-[#1a237e] hover:bg-[#0d1642]">Join Newsletter</Button>
                   <p className="text-xs text-gray-500 text-center">
                     By submitting this form, you agree to our{" "}
                     <Link href="#" className="text-[#1a237e] underline">
@@ -620,7 +619,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className="border-t bg-white">
+      <footer className="border-t bg-white ml-18">
         <div className="container px-4 py-12 md:px-6">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             <div className="space-y-4">
@@ -689,36 +688,21 @@ export default function Home() {
               <ul className="space-y-2">
                 <li className="flex items-start gap-2">
                   <MapPin className="h-5 w-5 text-[#1a237e]" />
-                  <span className="text-sm text-gray-500">123 Education Street, New Delhi, India</span>
+                  <span className="text-sm text-gray-500">Sahakar Nagar, Gaurakhshan Road, Akola- 444001 Maharashtra(India)</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Mail className="h-5 w-5 text-[#1a237e]" />
-                  <span className="text-sm text-gray-500">info@aspireinstitute.com</span>
+                  <span className="text-sm text-gray-500">infoaspire2009@gmail.com</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Phone className="h-5 w-5 text-[#1a237e]" />
-                  <span className="text-sm text-gray-500">+91 123 456 7890</span>
+                  <span className="text-sm text-gray-500">+91-8275726016/17</span>
                 </li>
               </ul>
             </div>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-gray-200">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <p className="text-sm text-gray-500">© 2024 Aspire Institute. All rights reserved.</p>
-              <div className="flex gap-4">
-                <Link href="#" className="text-xs text-gray-500 hover:text-[#1a237e]">
-                  Privacy Policy
-                </Link>
-                <Link href="#" className="text-xs text-gray-500 hover:text-[#1a237e]">
-                  Terms of Service
-                </Link>
-                <Link href="#" className="text-xs text-gray-500 hover:text-[#1a237e]">
-                  Cookie Policy
-                </Link>
-              </div>
-            </div>
-          </div>
+          
         </div>
       </footer>
     </div>
