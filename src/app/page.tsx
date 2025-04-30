@@ -1,3 +1,5 @@
+'use client';
+
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -19,8 +21,40 @@ import {
   Calendar,
   Newspaper,
 } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export default function Home() {
+  const [courses, setCourses] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [visibleCourses, setVisibleCourses] = useState(3) // Number of courses initially visible
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch('/api/course')
+        
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`)
+        }
+        
+        const data = await response.json()
+        setCourses(data.courses || [])
+      } catch (err: any) {
+        console.error('Failed to fetch courses:', err)
+        setError('Failed to load courses. Please try again later.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchCourses()
+  }, [])
+
+  const loadMoreCourses = () => {
+    setVisibleCourses(prev => prev + 3) // Load 3 more courses when button is clicked
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
@@ -286,7 +320,91 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="relative py-16 md:py-24 pl-18">
+        <section id="courses" className="ml-18">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+              <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm">
+                <BookOpen className="h-3.5 w-3.5 mr-1 text-[#1a237e]" />
+                Our Programs
+              </div>
+              <div className="space-y-2 max-w-3xl">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-[#1a237e]">
+                  Transformative Learning Experiences
+                </h2>
+                <p className="text-gray-500 md:text-lg">
+                  Discover our comprehensive range of training programs designed to transform lives and careers.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid gap-8 md:grid-cols-3">
+              {[
+                {
+                  title: "Leadership Development",
+                  description:
+                    "Develop essential leadership skills for the modern workplace and learn to inspire teams.",
+                  icon: Users,
+                  features: ["Strategic thinking", "Team management", "Decision making", "Conflict resolution"],
+                },
+                {
+                  title: "Personality Development",
+                  description:
+                    "Build confidence and enhance your personal growth through comprehensive self-improvement.",
+                  icon: Target,
+                  features: ["Self-confidence", "Communication skills", "Emotional intelligence", "Personal branding"],
+                },
+                {
+                  title: "Public Speaking",
+                  description: "Master the art of effective communication and captivate any audience with your words.",
+                  icon: BookOpen,
+                  features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
+                },
+              ].map((course, index) => (
+                <div
+                  key={index}
+                  className="group relative overflow-hidden rounded-xl bg-white shadow-lg border border-[#e0e0e0] transition-all hover:shadow-xl hover:border-[#1a237e]/20"
+                >
+                  <div className="absolute top-0 right-0 h-24 w-24 bg-[#e8eaf6] rounded-bl-full opacity-50 transition-all group-hover:bg-[#c5cae9]"></div>
+                  <div className="p-6">
+                    <div className="relative flex flex-col items-start space-y-4">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e8eaf6] text-[#1a237e] transition-all group-hover:bg-[#1a237e] group-hover:text-white">
+                        <course.icon className="h-6 w-6" />
+                      </div>
+                      <h3 className="text-xl font-bold text-[#1a237e]">{course.title}</h3>
+                      <p className="text-gray-500">{course.description}</p>
+
+                      <div className="w-full pt-4 mt-2 border-t border-[#e0e0e0]">
+                        <p className="text-sm font-medium text-[#1a237e] mb-3">Key Focus Areas:</p>
+                        <ul className="space-y-2">
+                          {course.features.map((feature, i) => (
+                            <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
+                              <CheckCircle className="h-4 w-4 text-[#1a237e]" />
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <Button className="mt-4 w-full bg-white text-[#1a237e] border border-[#1a237e] hover:bg-[#1a237e] hover:text-white transition-all duration-300">
+                        Learn More
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-12 text-center">
+              <Button className="bg-[#1a237e] hover:bg-[#0d1642] shadow-md transition-all duration-300 hover:shadow-lg">
+                View All Programs
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        <section className="relative py-16 md:py-24 overflow-hidden ml-18">
           <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b bg-white"></div>
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
@@ -397,147 +515,95 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="mission-&-vision" className="relative py-16 md:py-24 overflow-hidden">
-          <div className="absolute inset-0 bg-[#f8f9fa] -z-10"></div>
-          <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white to-transparent"></div>
-          <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-white to-transparent"></div>
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#1a237e]/5 rounded-full blur-3xl -z-10"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#1a237e]/5 rounded-full blur-3xl -z-10"></div>
-
-          <div className="container px-4 md:px-6 relative ml-18">
-            <div className="grid gap-12 lg:grid-cols-2">
-              <div className="relative">
-                <div className="absolute -top-6 -left-6 w-24 h-24 bg-[#1a237e]/10 rounded-full blur-xl"></div>
-                <div className="relative z-10 rounded-xl bg-white p-8 shadow-lg border border-[#e0e0e0] hover:shadow-xl transition-all">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e8eaf6] text-[#1a237e]">
-                      <Target className="h-6 w-6" />
-                    </div>
-                    <h2 className="text-2xl font-bold tracking-tighter text-[#1a237e]">Our Mission</h2>
-                  </div>
-                  <p className="text-gray-600 leading-relaxed">
-                    To provide an extensive variety of life-transforming programs to create effective Communicators,
-                    Self believers, Engaging leaders, Aspiring professionals and Visionary entrepreneurs.
-                  </p>
-                  <div className="mt-6 pt-6 border-t border-[#e0e0e0]">
-                    <div className="flex items-center gap-2">
-                      <div className="h-1 w-12 rounded-full bg-[#1a237e]"></div>
-                      <p className="text-sm font-medium text-[#1a237e]">Since 2009</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative">
-                <div className="absolute -top-6 -right-6 w-24 h-24 bg-[#1a237e]/10 rounded-full blur-xl"></div>
-                <div className="relative z-10 rounded-xl bg-white p-8 shadow-lg border border-[#e0e0e0] hover:shadow-xl transition-all">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e8eaf6] text-[#1a237e]">
-                      <Star className="h-6 w-6" />
-                    </div>
-                    <h2 className="text-2xl font-bold tracking-tighter text-[#1a237e]">Our Vision</h2>
-                  </div>
-                  <p className="text-gray-600 leading-relaxed">
-                    Aspire The Institute Of Human Development envisions the world where people believe in themselves &
-                    live their true potential to make this world a better place to live.
-                  </p>
-                  <div className="mt-6 pt-6 border-t border-[#e0e0e0]">
-                    <div className="flex items-center gap-2">
-                      <div className="h-1 w-12 rounded-full bg-[#1a237e]"></div>
-                      <p className="text-sm font-medium text-[#1a237e]">Transforming Lives</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="courses" className="ml-18">
+        <section id="upcoming-courses" className="py-16 md:py-24 bg-[#f8f9fa] ml-18">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm">
-                <BookOpen className="h-3.5 w-3.5 mr-1 text-[#1a237e]" />
-                Our Programs
+                <Calendar className="h-3.5 w-3.5 mr-1 text-[#1a237e]" />
+                Upcoming Courses
               </div>
               <div className="space-y-2 max-w-3xl">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-[#1a237e]">
-                  Transformative Learning Experiences
+                  Enroll in Our Latest Programs
                 </h2>
                 <p className="text-gray-500 md:text-lg">
-                  Discover our comprehensive range of training programs designed to transform lives and careers.
+                  Discover our newest course offerings and secure your spot in these transformative learning experiences.
                 </p>
               </div>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-3">
-              {[
-                {
-                  title: "Leadership Development",
-                  description:
-                    "Develop essential leadership skills for the modern workplace and learn to inspire teams.",
-                  icon: Users,
-                  features: ["Strategic thinking", "Team management", "Decision making", "Conflict resolution"],
-                },
-                {
-                  title: "Personality Development",
-                  description:
-                    "Build confidence and enhance your personal growth through comprehensive self-improvement.",
-                  icon: Target,
-                  features: ["Self-confidence", "Communication skills", "Emotional intelligence", "Personal branding"],
-                },
-                {
-                  title: "Public Speaking",
-                  description: "Master the art of effective communication and captivate any audience with your words.",
-                  icon: BookOpen,
-                  features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
-                },
-              ].map((course, index) => (
-                <div
-                  key={index}
-                  className="group relative overflow-hidden rounded-xl bg-white shadow-lg border border-[#e0e0e0] transition-all hover:shadow-xl hover:border-[#1a237e]/20"
-                >
-                  <div className="absolute top-0 right-0 h-24 w-24 bg-[#e8eaf6] rounded-bl-full opacity-50 transition-all group-hover:bg-[#c5cae9]"></div>
-                  <div className="p-6">
-                    <div className="relative flex flex-col items-start space-y-4">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e8eaf6] text-[#1a237e] transition-all group-hover:bg-[#1a237e] group-hover:text-white">
-                        <course.icon className="h-6 w-6" />
-                      </div>
-                      <h3 className="text-xl font-bold text-[#1a237e]">{course.title}</h3>
-                      <p className="text-gray-500">{course.description}</p>
+            {loading ? (
+              <div className="flex justify-center items-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#1a237e]"></div>
+              </div>
+            ) : error ? (
+              <div className="text-center py-12">
+                <p className="text-red-500">{error}</p>
+              </div>
+            ) : courses.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-gray-500">No upcoming courses available at the moment. Check back soon!</p>
+              </div>
+            ) : (
+              <>
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                  {courses.slice(0, visibleCourses).map((course, index) => (
+                    <div
+                      key={index}
+                      className="group relative overflow-hidden rounded-xl bg-white shadow-lg border border-[#e0e0e0] transition-all hover:shadow-xl hover:border-[#1a237e]/20"
+                    >
+                      <div className="absolute top-0 right-0 h-24 w-24 bg-[#e8eaf6] rounded-bl-full opacity-50 transition-all group-hover:bg-[#c5cae9]"></div>
+                      <div className="p-6">
+                        <div className="relative flex flex-col items-start space-y-4">
+                          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e8eaf6] text-[#1a237e] transition-all group-hover:bg-[#1a237e] group-hover:text-white">
+                            <BookOpen className="h-6 w-6" />
+                          </div>
+                          <h3 className="text-xl font-bold text-[#1a237e]">{course.courseName}</h3>
+                          <p className="text-gray-500">{course.description}</p>
 
-                      <div className="w-full pt-4 mt-2 border-t border-[#e0e0e0]">
-                        <p className="text-sm font-medium text-[#1a237e] mb-3">Key Focus Areas:</p>
-                        <ul className="space-y-2">
-                          {course.features.map((feature, i) => (
-                            <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
-                              <CheckCircle className="h-4 w-4 text-[#1a237e]" />
-                              {feature}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                          <div className="w-full pt-4 mt-2 border-t border-[#e0e0e0]">
+                            <p className="text-sm font-medium text-[#1a237e] mb-3">Course Outline:</p>
+                            <ul className="space-y-2">
+                              {Array.isArray(course.courseOutline) ? (
+                                course.courseOutline.slice(0, 4).map((item, i) => (
+                                  <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
+                                    <CheckCircle className="h-4 w-4 text-[#1a237e]" />
+                                    {item}
+                                  </li>
+                                ))
+                              ) : (
+                                <li className="flex items-center gap-2 text-sm text-gray-600">
+                                  <CheckCircle className="h-4 w-4 text-[#1a237e]" />
+                                  {course.courseOutline}
+                                </li>
+                              )}
+                            </ul>
+                          </div>
 
-                      <Button className="mt-4 w-full bg-white text-[#1a237e] border border-[#1a237e] hover:bg-[#1a237e] hover:text-white transition-all duration-300">
-                        Learn More
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
+                        
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
 
-            <div className="mt-12 text-center">
-              <Button className="bg-[#1a237e] hover:bg-[#0d1642] shadow-md transition-all duration-300 hover:shadow-lg">
-                View All Programs
-                <ChevronRight className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
+                {courses.length > visibleCourses && (
+                  <div className="mt-12 text-center">
+                    <Button 
+                      onClick={loadMoreCourses}
+                      className="bg-[#1a237e] hover:bg-[#0d1642] shadow-md transition-all duration-300 hover:shadow-lg"
+                    >
+                      Load More Courses
+                      <ChevronRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </section>
 
-        <section className="relative py-16 md:py-24 overflow-hidden ml-18">
+        {/* <section className="relative py-16 md:py-24 overflow-hidden ml-18">
           <div className="absolute inset-0 bg-[#1a237e] -z-10"></div>
           <div className="absolute inset-0 bg-[url('/placeholder.svg?height=500&width=1000')] bg-no-repeat bg-cover opacity-5 -z-10"></div>
           <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -z-10"></div>
@@ -617,7 +683,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
       <footer className="border-t bg-white ml-18">
         <div className="container px-4 py-12 md:px-6">
