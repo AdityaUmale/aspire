@@ -178,9 +178,8 @@ export default function ArticleReviewDetailPage() {
       <p className="text-sm text-gray-500 mb-6">By {article.author?.name || 'Unknown Author'} ({article.author?.email || 'No Email'})</p>
       
       <div className="prose lg:prose-xl max-w-none border-t border-b py-6 my-6">
-        {/* Render the article content */}
-        {/* Consider using react-markdown if content is Markdown */}
-        <p>{article.content}</p> 
+        {/* Replace the <p> tag with this div to render HTML */}
+        <div dangerouslySetInnerHTML={{ __html: article.content }} />
       </div>
 
       {actionError && (

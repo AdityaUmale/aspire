@@ -105,16 +105,15 @@ export default function StudentArticleDetailPage() {
         By {article.author?.name || 'Unknown Author'} ({article.author?.email || 'No Email'})
       </p>
       
-      {/* Render the article content. Adjust based on format (HTML/Markdown) */}
+      {/* Render the HTML article content */}
       <div className="prose lg:prose-xl max-w-none border-t pt-6 mt-6">
-        {/* If content is plain text: */}
+        {/* Replace the plain text rendering with dangerouslySetInnerHTML */}
+        <div dangerouslySetInnerHTML={{ __html: article.content }} />
+        
+        {/* Remove or keep commented out other options as needed 
         <p style={{ whiteSpace: 'pre-wrap' }}>{article.content}</p> 
-        
-        {/* If content is Markdown, use a library like react-markdown: */}
-        {/* <ReactMarkdown>{article.content}</ReactMarkdown> */}
-        
-        {/* If content is HTML (use with caution): */}
-        {/* <div dangerouslySetInnerHTML={{ __html: article.content }} /> */}
+        <ReactMarkdown>{article.content}</ReactMarkdown> 
+        */}
       </div>
     </div>
   );
