@@ -160,16 +160,61 @@ export default function Home() {
                       </div>
                     </div>
                   </div> */}
-                  <div className="relative z-10 flex justify-center items-center p-4">
-                    <Image
-                      src="/logo2.png" // Path relative to the public folder
-                      alt="Aspire Institute Secondary Logo"
-                      width={450} // Adjust width as needed
-                      height={450} // Adjust height as needed
-                      className="object-contain" // Adjust styling as needed
-                    />
+                  <div className="relative z-10 flex justify-center items-center p-4" style={{ perspective: '1500px' }}>
+                    {/* Subtle background layers */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#e8eaf6]/70 via-[#c5cae9]/60 to-[#9fa8da]/50 rounded-2xl transform rotate-1 scale-[1.01] shadow-lg z-0"></div>
+                    <div className="absolute inset-0 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/20 z-[1]"></div>
+                    <div className="absolute inset-0 bg-[url('/globe.svg')] bg-no-repeat bg-center opacity-5 mix-blend-overlay rounded-xl z-[2]"></div>
+                    
+                    {/* Soft accent lights */}
+                    <div className="absolute -top-5 -right-5 w-32 h-32 bg-gradient-radial from-[#1a237e]/15 to-transparent rounded-full blur-xl z-[3]"></div>
+                    <div className="absolute -bottom-5 -left-5 w-32 h-32 bg-gradient-radial from-[#3949ab]/15 to-transparent rounded-full blur-xl z-[3]"></div>
+                    
+                    {/* Main 3D Logo Container */}
+                    <div 
+                      className="relative transform transition-all duration-500 ease-out group z-[5] hover:[transform:rotateX(5deg)_rotateY(-5deg)_scale(1.05)]"
+                      style={{
+                        transformStyle: 'preserve-3d',
+                        transform: 'rotateX(0deg) rotateY(0deg) scale(1)' // Initial state
+                      }}
+                    >
+                      {/* Inner container for depth */}
+                      <div 
+                        className="relative bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-md rounded-xl p-8 border border-white/30 shadow-2xl overflow-hidden"
+                        style={{
+                          transform: 'translateZ(20px)', // Push inner container forward
+                          boxShadow: '0 25px 50px -12px rgba(26, 35, 126, 0.25)'
+                        }}
+                      >
+                        {/* Logo with subtle 3D effect */}
+                        <div className="relative" style={{ transform: 'translateZ(30px)' }}> {/* Push logo even further */}
+                          <Image
+                            src="/logo2.png"
+                            alt="Aspire Institute Secondary Logo"
+                            width={400}
+                            height={400}
+                            className="object-contain relative z-10 filter drop-shadow-[0_10px_15px_rgba(0,0,0,0.2)] transition-all duration-500 group-hover:drop-shadow-[0_20px_30px_rgba(26,35,126,0.3)]"
+                            style={{
+                              transform: 'translateZ(10px)' // Slight push for logo itself
+                            }}
+                          />
+                        </div>
+                        
+                        {/* Subtle inner glow/shine */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-50"></div>
+                        <div 
+                          className="absolute -inset-[100%] bg-gradient-to-r from-transparent via-white/15 to-transparent skew-x-[-25deg] animate-[shine_7s_ease-in-out_infinite]"
+                          style={{ transform: 'translateZ(10px)' }}
+                        ></div>
+                      </div>
+                      
+                      {/* Subtle 3D edge/shadow */}
+                      <div 
+                        className="absolute inset-0 rounded-xl bg-black/5 shadow-[0_5px_15px_rgba(0,0,0,0.1)]"
+                        style={{ transform: 'translateZ(5px)' }} // Position slightly behind main card
+                      ></div>
+                    </div>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -196,7 +241,7 @@ export default function Home() {
                 <div className="absolute -top-6 -left-6 w-32 h-32 bg-[#1a237e]/5 rounded-full blur-xl"></div>
                 <div className="relative z-10 overflow-hidden rounded-2xl shadow-xl">
                   <Image
-                    src="/founder1.jpg"
+                    src="/founder3.jpg"
                     alt="Founder of Aspire Institute"
                     width={400}
                     height={400}
