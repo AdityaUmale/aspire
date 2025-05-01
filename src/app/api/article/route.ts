@@ -1,5 +1,6 @@
 import connectDB from "@/lib/db";
 import Article from "@/lib/models/Article";
+import "@/lib/models/Admin"; // Import for side effects only
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 
