@@ -16,7 +16,8 @@ export default function Navbar() {
         {/* Logo and brand name */}
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Image%202-wKlvojVmZKfsKl6SY0T2zX1H92pLQT.jpeg"
+            // Correct the path here
+            src="/logo1.png" 
             alt="Aspire Institute Logo"
             width={40}
             height={40}

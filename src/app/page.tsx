@@ -118,7 +118,7 @@ export default function Home() {
                   <div className="absolute -top-6 -left-6 w-24 h-24 bg-[#1a237e]/10 rounded-full blur-xl"></div>
                   <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-[#1a237e]/10 rounded-full blur-xl"></div>
 
-                  <div className="relative z-10 grid grid-cols-2 gap-4 lg:gap-6">
+                  {/* <div className="relative z-10 grid grid-cols-2 gap-4 lg:gap-6">
                     <div className="grid gap-4">
                       <div className="flex items-center gap-3 rounded-xl bg-white p-4 shadow-lg border border-[#e0e0e0] transform transition-transform hover:translate-y-[-5px]">
                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e8eaf6]">
@@ -159,7 +159,17 @@ export default function Home() {
                         </div>
                       </div>
                     </div>
+                  </div> */}
+                  <div className="relative z-10 flex justify-center items-center p-4">
+                    <Image
+                      src="/logo2.png" // Path relative to the public folder
+                      alt="Aspire Institute Secondary Logo"
+                      width={450} // Adjust width as needed
+                      height={450} // Adjust height as needed
+                      className="object-contain" // Adjust styling as needed
+                    />
                   </div>
+
                 </div>
               </div>
             </div>
@@ -186,7 +196,7 @@ export default function Home() {
                 <div className="absolute -top-6 -left-6 w-32 h-32 bg-[#1a237e]/5 rounded-full blur-xl"></div>
                 <div className="relative z-10 overflow-hidden rounded-2xl shadow-xl">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Image%203-NOmWmdO3nMV6OCTItG3VTU3SdNvco8.jpeg"
+                    src="/founder1.jpg"
                     alt="Founder of Aspire Institute"
                     width={400}
                     height={400}
