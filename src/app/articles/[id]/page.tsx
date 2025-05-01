@@ -86,10 +86,8 @@ export default function ArticleDetailPage() {
       <p className="text-sm text-gray-500 mb-6">By {article.author?.name || 'Unknown Author'}</p>
       
       <div className="prose lg:prose-xl max-w-none">
-        {/* Render the article content. You might need a library like react-markdown 
-            if your content is in Markdown format, or dangerouslySetInnerHTML 
-            if it's HTML (use with caution!) */}
-        <p>{article.content}</p> 
+        {/* Use pre-wrap to preserve whitespace formatting */}
+        <pre className="whitespace-pre-wrap font-sans text-base">{article.content}</pre>
       </div>
     </div>
   );
