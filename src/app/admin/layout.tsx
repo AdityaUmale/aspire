@@ -25,6 +25,11 @@ export default function AdminLayout({
               </Link>
             </li>
             {/* Add more sidebar links here */}
+            <li>
+              <Link href="/admin/review-articles" className="block py-2 px-4 rounded hover:bg-gray-700">
+                Review Articles
+              </Link>
+            </li>
           </ul>
         </nav>
       </aside>
