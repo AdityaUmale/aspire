@@ -86,8 +86,8 @@ export default function ArticleDetailPage() {
       <p className="text-sm text-gray-500 mb-6">By {article.author?.name || 'Unknown Author'}</p>
       
       <div className="prose lg:prose-xl max-w-none">
-        {/* Use pre-wrap to preserve whitespace formatting */}
-        <pre className="whitespace-pre-wrap font-sans text-base">{article.content}</pre>
+        {/* Render HTML content safely */}
+        <div dangerouslySetInnerHTML={{ __html: article.content }} />
       </div>
     </div>
   );
