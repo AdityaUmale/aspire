@@ -98,7 +98,7 @@ export async function GET(req: Request) {
     const skip = (page - 1) * limit;
     
     // Define the filter based on the 'published' query parameter
-    const filter: any = {}; 
+    const filter: Record<string, boolean> = {};
     if (publishedOnly) {
       filter.isPublished = true; // Add filter condition
     }

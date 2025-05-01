@@ -40,7 +40,7 @@ export default function Home() {
         
         const data = await response.json()
         setCourses(data.courses || [])
-      } catch (err: any) {
+      } catch (err: Error | unknown) {
         console.error('Failed to fetch courses:', err)
         setError('Failed to load courses. Please try again later.')
       } finally {
@@ -565,7 +565,7 @@ export default function Home() {
                             <p className="text-sm font-medium text-[#1a237e] mb-3">Course Outline:</p>
                             <ul className="space-y-2">
                               {Array.isArray(course.courseOutline) ? (
-                                course.courseOutline.slice(0, 4).map((item, i) => (
+                                course.courseOutline.slice(0, 4).map((item: string, i: number) => (
                                   <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
                                     <CheckCircle className="h-4 w-4 text-[#1a237e]" />
                                     {item}

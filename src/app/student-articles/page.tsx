@@ -48,8 +48,8 @@ export default function StudentArticlesPage() {
       const data = await response.json();
       setArticles(data.articles);
       setPagination(data.pagination);
-    } catch (err: any) {
-      setError(err.message || 'An error occurred while fetching articles');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An error occurred while fetching articles');
       console.error('Error fetching published student articles:', err);
     } finally {
       setLoading(false);

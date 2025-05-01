@@ -41,8 +41,8 @@ export default function ArticleDetailPage() {
         
         const data = await response.json();
         setArticle(data.article);
-      } catch (err: any) {
-        setError(err.message || 'An error occurred');
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
         console.error('Error fetching article:', err);
       } finally {
         setLoading(false);
