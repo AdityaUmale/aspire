@@ -56,14 +56,16 @@ export async function POST(req: Request) {
 }
 
 // GET: Retrieve all student articles or a specific one by ID
+// GET: Retrieve student articles (all, specific by ID, or filtered by published status)
 export async function GET(req: Request) {
   try {
     await connectDB();
     
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
+    const publishedOnly = searchParams.get("published") === "true"; // Check for published filter
     
-    // If ID is provided, return a specific article
+    // If ID is provided, return a specific article (This logic might be better in the [id]/route.ts)
     if (id) {
       if (!mongoose.Types.ObjectId.isValid(id)) {
         return NextResponse.json(
@@ -72,7 +74,8 @@ export async function GET(req: Request) {
         );
       }
       
-      const article = await StudentArticle.findById(id).populate("author", "name email");
+      // Consider fetching from the [id] route instead if you moved the single GET there
+      const article = await StudentArticle.findById(id).populate("author", "name email"); 
       
       if (!article) {
         return NextResponse.json(
@@ -81,17 +84,24 @@ export async function GET(req: Request) {
         );
       }
       
+      // Optional: Check if the user should be able to fetch unpublished articles by ID directly
+      // if (!article.isPublished && publishedOnly) { 
+      //    return NextResponse.json({ error: "Article not found or not published" }, { status: 404 });
+      // }
+
       return NextResponse.json({ article }, { status: 200 });
     }
     
-    // Otherwise, return all articles (with pagination)
+    // Otherwise, return multiple articles (with pagination and optional filter)
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "10");
     const skip = (page - 1) * limit;
     
-    // Optionally filter by isPublished status if needed, e.g.:
-    // const filter = { isPublished: true }; // or based on query param
-    const filter = {}; // Currently fetches all
+    // Define the filter based on the 'published' query parameter
+    const filter: any = {}; 
+    if (publishedOnly) {
+      filter.isPublished = true; // Add filter condition
+    }
 
     const articles = await StudentArticle.find(filter)
       .populate("author", "name email")
