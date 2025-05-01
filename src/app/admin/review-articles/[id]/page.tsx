@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, CheckCircle, XCircle } from 'lucide-react';
+import { Terminal, CheckCircle, XCircle, ArrowLeft, FileText } from 'lucide-react';
 
 // Interface matching the StudentArticle model
 interface StudentArticle {
@@ -134,13 +134,19 @@ export default function ArticleReviewDetailPage() {
   if (loading) {
     return (
       <div className="container mx-auto py-8 px-4 max-w-3xl">
+        <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm mb-6">
+          <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2"></span>
+          Loading Article
+        </div>
         <Skeleton className="h-10 w-3/4 mb-4" />
         <Skeleton className="h-4 w-1/4 mb-8" />
         <Skeleton className="h-4 w-1/4 mb-8" />
-        <Skeleton className="h-96 w-full mb-6" />
+        <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-gray-200/60 mb-6">
+          <Skeleton className="h-96 w-full" />
+        </div>
         <div className="flex space-x-4">
-            <Skeleton className="h-10 w-24" />
-            <Skeleton className="h-10 w-24" />
+          <Skeleton className="h-10 w-24" />
+          <Skeleton className="h-10 w-24" />
         </div>
       </div>
     );
@@ -149,11 +155,17 @@ export default function ArticleReviewDetailPage() {
   if (error) {
     return (
       <div className="container mx-auto py-8 px-4 max-w-3xl text-center">
-        <Alert variant="destructive">
+        <Alert variant="destructive" className="bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
           <Terminal className="h-4 w-4" />
           <AlertTitle>Error Fetching Article</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
+        <Button 
+          onClick={() => router.push('/admin/review-articles')} 
+          className="mt-4 bg-gradient-to-r from-[#1a237e] to-[#3949ab] hover:from-[#0d1642] hover:to-[#1a237e] text-white py-2 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+        >
+          <ArrowLeft className="h-4 w-4" /> Back to Articles
+        </Button>
       </div>
     );
   }
@@ -161,29 +173,48 @@ export default function ArticleReviewDetailPage() {
   if (!article) {
     return (
       <div className="container mx-auto py-8 px-4 max-w-3xl text-center">
-        <p>Article data could not be loaded.</p>
+        <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-gray-200/60 mb-6">
+          <FileText className="h-12 w-12 text-[#1a237e]/40 mx-auto mb-4" />
+          <p className="text-gray-500 text-lg">Article data could not be loaded.</p>
+        </div>
+        <Button 
+          onClick={() => router.push('/admin/review-articles')} 
+          className="mt-4 bg-gradient-to-r from-[#1a237e] to-[#3949ab] hover:from-[#0d1642] hover:to-[#1a237e] text-white py-2 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+        >
+          <ArrowLeft className="h-4 w-4" /> Back to Articles
+        </Button>
       </div>
     );
   }
 
-  // Add Alert for Success message in the return statement:
   return (
     <div className="container mx-auto py-8 px-4 max-w-3xl">
+      <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm mb-6 cursor-pointer" onClick={() => router.push('/admin/review-articles')}>
+        <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2"></span>
+        <ArrowLeft className="h-3.5 w-3.5 mr-1" /> Back to Articles
+      </div>
+      
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-4xl font-bold">{article.title}</h1>
-        <Badge variant={article.isPublished ? "default" : "secondary"} className={article.isPublished ? "bg-green-500" : ""}>
-            {article.isPublished ? 'Published' : 'Pending Review'}
+        <h1 className="text-3xl font-bold text-[#1a237e]">{article.title}</h1>
+        <Badge 
+          variant={article.isPublished ? "default" : "secondary"} 
+          className={article.isPublished ? 
+            "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700" : 
+            "bg-gradient-to-r from-[#1a237e]/70 to-[#3949ab]/70 hover:from-[#1a237e] hover:to-[#3949ab]"}
+        >
+          {article.isPublished ? 'Published' : 'Pending Review'}
         </Badge>
       </div>
+      
       <p className="text-sm text-gray-500 mb-6">By {article.author?.name || 'Unknown Author'} ({article.author?.email || 'No Email'})</p>
       
-      <div className="prose lg:prose-xl max-w-none border-t border-b py-6 my-6">
+      <div className="prose lg:prose-xl max-w-none border-t border-b py-6 my-6 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-gray-200/60">
         {/* Replace the <p> tag with this div to render HTML */}
         <div dangerouslySetInnerHTML={{ __html: article.content }} />
       </div>
 
       {actionError && (
-        <Alert variant="destructive" className="mb-6">
+        <Alert variant="destructive" className="mb-6 bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
           <Terminal className="h-4 w-4" />
           <AlertTitle>Action Error</AlertTitle>
           <AlertDescription>{actionError}</AlertDescription>
@@ -191,7 +222,7 @@ export default function ArticleReviewDetailPage() {
       )}
       
       {actionSuccess && (
-        <Alert variant="default" className="mb-6 bg-green-100 border-green-400 text-green-700">
+        <Alert variant="default" className="mb-6 bg-green-100/50 border-green-300/50 text-green-800 rounded-lg shadow-sm">
            <CheckCircle className="h-4 w-4" />
           <AlertTitle>Success</AlertTitle>
           <AlertDescription>{actionSuccess}</AlertDescription>
@@ -204,7 +235,7 @@ export default function ArticleReviewDetailPage() {
           <Button 
             onClick={handlePublish} 
             disabled={isProcessing || !!actionSuccess} // Disable if processing or success
-            className="bg-green-600 hover:bg-green-700 text-white"
+            className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-2 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
           >
             <CheckCircle className="mr-2 h-4 w-4" /> {isProcessing ? 'Publishing...' : 'Publish'}
           </Button>
@@ -212,7 +243,7 @@ export default function ArticleReviewDetailPage() {
         <Button 
           onClick={handleReject} 
           disabled={isProcessing || !!actionSuccess} // Disable if processing or success
-          variant="destructive"
+          className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-2 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
         >
           <XCircle className="mr-2 h-4 w-4" /> {isProcessing ? 'Rejecting...' : 'Reject'}
         </Button>

@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Badge } from "@/components/ui/badge"; // Import Badge
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Terminal, FileText, BookOpen } from 'lucide-react';
 
 // Interface matching the StudentArticle model
 interface StudentArticle {
@@ -65,19 +67,26 @@ export default function ReviewArticlesPage() {
   };
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-8 text-center">Review Student Articles</h1>
+    <div>
+      <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm mb-6">
+        <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2"></span>
+        Student Submissions
+      </div>
+      
+      <h1 className="text-3xl font-bold text-[#1a237e] mb-6">Review Student Articles</h1>
       
       {error && (
-        <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-          {error}
-        </div>
+        <Alert variant="destructive" className="mb-6 bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
+          <Terminal className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
       )}
       
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(6)].map((_, index) => (
-            <Card key={index} className="overflow-hidden">
+            <Card key={index} className="overflow-hidden bg-white/90 backdrop-blur-sm border border-gray-200/60 shadow-md">
               <CardHeader className="pb-2">
                 <Skeleton className="h-6 w-3/4 mb-2" />
                 <Skeleton className="h-4 w-1/2" />
@@ -92,18 +101,22 @@ export default function ReviewArticlesPage() {
           ))}
         </div>
       ) : articles.length === 0 ? (
-        <div className="text-center py-12">
+        <div className="text-center py-12 bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-200/60 shadow-md">
+          <FileText className="h-12 w-12 text-[#1a237e]/40 mx-auto mb-4" />
           <p className="text-gray-500 text-lg">No student articles submitted for review yet.</p>
         </div>
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {articles.map((article) => (
-              <Card key={article._id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
+              <Card key={article._id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col bg-white/90 backdrop-blur-sm border border-gray-200/60 shadow-md">
                 <CardHeader className="pb-2">
                   <div className="flex justify-between items-start">
-                    <CardTitle className="text-lg font-semibold">{article.title}</CardTitle>
-                    <Badge variant={article.isPublished ? "default" : "secondary"} className={article.isPublished ? "bg-green-500" : ""}>
+                    <CardTitle className="text-lg font-semibold text-[#1a237e]">{article.title}</CardTitle>
+                    <Badge 
+                      variant={article.isPublished ? "default" : "secondary"} 
+                      className={article.isPublished ? "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700" : "bg-gradient-to-r from-[#1a237e]/70 to-[#3949ab]/70 hover:from-[#1a237e] hover:to-[#3949ab]"}
+                    >
                       {article.isPublished ? 'Published' : 'Pending'}
                     </Badge>
                   </div>
@@ -115,12 +128,12 @@ export default function ReviewArticlesPage() {
                   <p className="text-sm text-gray-600 line-clamp-3">{article.description}</p>
                 </CardContent>
                 <CardFooter>
-                  {/* Link to a specific review page (we'll create this next) */}
                   <Button 
                     variant="outline" 
-                    className="w-full" 
+                    className="w-full border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e] transition-all duration-300 flex items-center justify-center gap-2" 
                     onClick={() => router.push(`/admin/review-articles/${article._id}`)}
                   >
+                    <BookOpen className="h-4 w-4" />
                     Review Article
                   </Button>
                 </CardFooter>
@@ -135,6 +148,7 @@ export default function ReviewArticlesPage() {
                 variant="outline" 
                 disabled={pagination.page === 1}
                 onClick={() => handlePageChange(pagination.page - 1)}
+                className="border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e]"
               >
                 Previous
               </Button>
@@ -145,6 +159,9 @@ export default function ReviewArticlesPage() {
                     key={pageNumber}
                     variant={pagination.page === pageNumber ? "default" : "outline"}
                     onClick={() => handlePageChange(pageNumber)}
+                    className={pagination.page === pageNumber ? 
+                      "bg-gradient-to-r from-[#1a237e] to-[#3949ab] hover:from-[#0d1642] hover:to-[#1a237e] text-white" : 
+                      "border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e]"}
                   >
                     {pageNumber}
                   </Button>
@@ -154,6 +171,7 @@ export default function ReviewArticlesPage() {
                 variant="outline" 
                 disabled={pagination.page === pagination.pages}
                 onClick={() => handlePageChange(pagination.page + 1)}
+                className="border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e]"
               >
                 Next
               </Button>

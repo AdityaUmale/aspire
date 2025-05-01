@@ -1,16 +1,18 @@
-'use client'; // Mark as client component for state and event handling
+'use client';
 
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/button'; // Assuming shadcn/ui Button
-import { Input } from '@/components/ui/input';   // Assuming shadcn/ui Input
-import { Label } from '@/components/ui/label';   // Assuming shadcn/ui Label
-import { Textarea } from '@/components/ui/textarea'; // Assuming shadcn/ui Textarea
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Terminal, CheckCircle, GraduationCap } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function AddCoursesPage() {
   const [courseName, setCourseName] = useState('');
   const [description, setDescription] = useState('');
-  const [courseOutlineStr, setCourseOutlineStr] = useState(''); // Input as comma-separated string
+  const [courseOutlineStr, setCourseOutlineStr] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -36,8 +38,6 @@ export default function AddCoursesPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Include Authorization header if your API requires it (e.g., Bearer token)
-          // We rely on the httpOnly cookie being sent automatically by the browser
         },
         body: JSON.stringify({ courseName, description, courseOutline }),
       });
@@ -49,13 +49,10 @@ export default function AddCoursesPage() {
       }
 
       setSuccess('Course added successfully!');
-      // Optionally clear the form
+      // Clear the form
       setCourseName('');
       setDescription('');
       setCourseOutlineStr('');
-      // Optionally redirect or refresh data
-      // router.push('/admin/courses'); // Or wherever you list courses
-      // router.refresh();
 
     } catch (err: any) {
       console.error('Failed to add course:', err);
@@ -67,52 +64,76 @@ export default function AddCoursesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Add Upcoming Course</h1>
-      <div className="bg-white p-6 rounded shadow-md">
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm mb-6">
+        <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2"></span>
+        Create New Course
+      </div>
+      
+      <h1 className="text-3xl font-bold text-[#1a237e] mb-6">Add Upcoming Course</h1>
+      
+      {error && (
+        <Alert variant="destructive" className="mb-6 bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
+          <Terminal className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+      
+      {success && (
+        <Alert className="mb-6 bg-green-100/50 border-green-300/50 text-green-800 rounded-lg shadow-sm">
+          <CheckCircle className="h-4 w-4" />
+          <AlertTitle>Success</AlertTitle>
+          <AlertDescription>{success}</AlertDescription>
+        </Alert>
+      )}
+      
+      <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-gray-200/60">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <Label htmlFor="courseName">Course Name</Label>
+            <Label htmlFor="courseName" className="text-[#1a237e] font-medium">Course Name</Label>
             <Input
               id="courseName"
               type="text"
               value={courseName}
               onChange={(e) => setCourseName(e.target.value)}
               required
-              className="mt-1"
+              className="mt-1 border-[#1a237e]/20 focus:border-[#1a237e] focus:ring-[#1a237e]/20"
+              placeholder="Enter course name"
             />
           </div>
           <div>
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description" className="text-[#1a237e] font-medium">Description</Label>
             <Textarea
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
-              className="mt-1"
+              className="mt-1 border-[#1a237e]/20 focus:border-[#1a237e] focus:ring-[#1a237e]/20"
               rows={4}
+              placeholder="Enter course description"
             />
           </div>
           <div>
-            <Label htmlFor="courseOutline">Course Outline (comma-separated)</Label>
+            <Label htmlFor="courseOutline" className="text-[#1a237e] font-medium">Course Outline (comma-separated)</Label>
             <Textarea
               id="courseOutline"
               value={courseOutlineStr}
               onChange={(e) => setCourseOutlineStr(e.target.value)}
               required
-              className="mt-1"
+              className="mt-1 border-[#1a237e]/20 focus:border-[#1a237e] focus:ring-[#1a237e]/20"
               rows={6}
               placeholder="e.g., Module 1: Intro, Module 2: Basics, Module 3: Advanced"
             />
           </div>
 
-          {error && <p className="text-sm text-red-600">Error: {error}</p>}
-          {success && <p className="text-sm text-green-600">{success}</p>}
-
-          <div>
-            <Button type="submit" disabled={isLoading} className="w-full sm:w-auto">
-              {isLoading ? 'Adding Course...' : 'Add Course'}
-            </Button>
-          </div>
+          <Button 
+            type="submit" 
+            disabled={isLoading} 
+            className="w-full bg-gradient-to-r from-[#1a237e] to-[#3949ab] hover:from-[#0d1642] hover:to-[#1a237e] text-white py-2.5 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+          >
+            <GraduationCap className="h-4 w-4" />
+            {isLoading ? 'Adding Course...' : 'Add Course'}
+          </Button>
         </form>
       </div>
     </div>

@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Terminal, CheckCircle, PenLine } from 'lucide-react';
 
 // TipTap imports
 import { useEditor, EditorContent } from '@tiptap/react';
@@ -13,17 +15,15 @@ import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
-// Remove Underline import
-// import Underline from '@tiptap/extension-underline'; 
 import TextStyle from '@tiptap/extension-text-style';
 import Color from '@tiptap/extension-color';
 
 // Icons for toolbar buttons
 import { 
-  Bold, Italic, Underline as UnderlineIcon, Heading2, Heading3, 
+  Bold, Italic, Heading2, Heading3, 
   List, ListOrdered, Quote, Minus, AlignLeft, AlignCenter, 
   AlignRight, AlignJustify, Link as LinkIcon, Image as ImageIcon,
-  Type, Palette
+  Palette
 } from 'lucide-react';
 
 // Rich Text Editor Toolbar Component
@@ -54,16 +54,16 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
   };
 
   return (
-    <div className="border border-gray-300 rounded-t p-2 bg-gray-50">
+    <div className="border border-[#1a237e]/20 rounded-t p-2 bg-[#f8f9fa]">
       {/* Main toolbar */}
       <div className="flex flex-wrap gap-1 mb-2">
-        <div className="flex items-center mr-2 border-r pr-2 border-gray-300">
+        <div className="flex items-center mr-2 border-r pr-2 border-[#1a237e]/20">
           <Button
             type="button"
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleBold().run()}
-            className={`p-1 h-8 w-8 ${editor.isActive('bold') ? 'bg-gray-200' : ''}`}
+            className={`p-1 h-8 w-8 ${editor.isActive('bold') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Bold"
           >
             <Bold className="h-4 w-4" />
@@ -73,36 +73,20 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={`p-1 h-8 w-8 ${editor.isActive('italic') ? 'bg-gray-200' : ''}`}
+            className={`p-1 h-8 w-8 ${editor.isActive('italic') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Italic"
           >
             <Italic className="h-4 w-4" />
           </Button>
-          {/* Remove the Underline Button */}
-          {/* 
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() => {
-              // Revert back to using the toggleUnderline chain command
-              editor.chain().focus().toggleUnderline().run();
-            }}
-            className={`p-1 h-8 w-8 ${editor.isActive('underline') ? 'bg-gray-200' : ''}`}
-            title="Underline"
-          >
-            <UnderlineIcon className="h-4 w-4" />
-          </Button>
-          */}
         </div>
 
-        <div className="flex items-center mr-2 border-r pr-2 border-gray-300">
+        <div className="flex items-center mr-2 border-r pr-2 border-[#1a237e]/20">
           <Button
             type="button"
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-            className={`p-1 h-8 w-8 ${editor.isActive('heading', { level: 2 }) ? 'bg-gray-200' : ''}`}
+            className={`p-1 h-8 w-8 ${editor.isActive('heading', { level: 2 }) ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Heading 2"
           >
             <Heading2 className="h-4 w-4" />
@@ -112,20 +96,20 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-            className={`p-1 h-8 w-8 ${editor.isActive('heading', { level: 3 }) ? 'bg-gray-200' : ''}`}
+            className={`p-1 h-8 w-8 ${editor.isActive('heading', { level: 3 }) ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Heading 3"
           >
             <Heading3 className="h-4 w-4" />
           </Button>
         </div>
 
-        <div className="flex items-center mr-2 border-r pr-2 border-gray-300">
+        <div className="flex items-center mr-2 border-r pr-2 border-[#1a237e]/20">
           <Button
             type="button"
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleBulletList().run()}
-            className={`p-1 h-8 w-8 ${editor.isActive('bulletList') ? 'bg-gray-200' : ''}`}
+            className={`p-1 h-8 w-8 ${editor.isActive('bulletList') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Bullet List"
           >
             <List className="h-4 w-4" />
@@ -135,7 +119,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            className={`p-1 h-8 w-8 ${editor.isActive('orderedList') ? 'bg-gray-200' : ''}`}
+            className={`p-1 h-8 w-8 ${editor.isActive('orderedList') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Numbered List"
           >
             <ListOrdered className="h-4 w-4" />
@@ -145,7 +129,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
-            className={`p-1 h-8 w-8 ${editor.isActive('blockquote') ? 'bg-gray-200' : ''}`}
+            className={`p-1 h-8 w-8 ${editor.isActive('blockquote') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Quote"
           >
             <Quote className="h-4 w-4" />
@@ -155,20 +139,20 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().setHorizontalRule().run()}
-            className="p-1 h-8 w-8"
+            className="p-1 h-8 w-8 text-[#1a237e] hover:bg-[#e8eaf6]/70"
             title="Divider"
           >
             <Minus className="h-4 w-4" />
           </Button>
         </div>
 
-        <div className="flex items-center mr-2 border-r pr-2 border-gray-300">
+        <div className="flex items-center mr-2 border-r pr-2 border-[#1a237e]/20">
           <Button
             type="button"
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().setTextAlign('left').run()}
-            className={`p-1 h-8 w-8 ${editor.isActive({ textAlign: 'left' }) ? 'bg-gray-200' : ''}`}
+            className={`p-1 h-8 w-8 ${editor.isActive({ textAlign: 'left' }) ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Align Left"
           >
             <AlignLeft className="h-4 w-4" />
@@ -178,7 +162,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().setTextAlign('center').run()}
-            className={`p-1 h-8 w-8 ${editor.isActive({ textAlign: 'center' }) ? 'bg-gray-200' : ''}`}
+            className={`p-1 h-8 w-8 ${editor.isActive({ textAlign: 'center' }) ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Align Center"
           >
             <AlignCenter className="h-4 w-4" />
@@ -188,7 +172,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().setTextAlign('right').run()}
-            className={`p-1 h-8 w-8 ${editor.isActive({ textAlign: 'right' }) ? 'bg-gray-200' : ''}`}
+            className={`p-1 h-8 w-8 ${editor.isActive({ textAlign: 'right' }) ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Align Right"
           >
             <AlignRight className="h-4 w-4" />
@@ -198,7 +182,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().setTextAlign('justify').run()}
-            className={`p-1 h-8 w-8 ${editor.isActive({ textAlign: 'justify' }) ? 'bg-gray-200' : ''}`}
+            className={`p-1 h-8 w-8 ${editor.isActive({ textAlign: 'justify' }) ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Justify"
           >
             <AlignJustify className="h-4 w-4" />
@@ -211,7 +195,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="ghost"
             size="sm"
             onClick={() => setShowLinkInput(!showLinkInput)}
-            className={`p-1 h-8 w-8 ${editor.isActive('link') ? 'bg-gray-200' : ''}`}
+            className={`p-1 h-8 w-8 ${editor.isActive('link') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Add Link"
           >
             <LinkIcon className="h-4 w-4" />
@@ -221,7 +205,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="ghost"
             size="sm"
             onClick={() => setShowImageInput(!showImageInput)}
-            className="p-1 h-8 w-8"
+            className="p-1 h-8 w-8 text-[#1a237e] hover:bg-[#e8eaf6]/70"
             title="Add Image"
           >
             <ImageIcon className="h-4 w-4" />
@@ -232,7 +216,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
               type="button"
               variant="ghost"
               size="sm"
-              className="p-1 h-8 w-8 flex items-center justify-center"
+              className="p-1 h-8 w-8 flex items-center justify-center text-[#1a237e] hover:bg-[#e8eaf6]/70"
               title="Text Color"
             >
               <Palette className="h-4 w-4" />
@@ -255,13 +239,13 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             placeholder="Enter URL"
             value={linkUrl}
             onChange={(e) => setLinkUrl(e.target.value)}
-            className="h-8 text-sm"
+            className="h-8 text-sm border-[#1a237e]/20 focus:border-[#1a237e] focus:ring-[#1a237e]/20"
           />
           <Button 
             type="button" 
             size="sm" 
             onClick={addLink}
-            className="h-8"
+            className="h-8 bg-[#1a237e] hover:bg-[#0d1642] text-white"
           >
             Add Link
           </Button>
@@ -270,7 +254,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="outline" 
             size="sm" 
             onClick={() => setShowLinkInput(false)}
-            className="h-8"
+            className="h-8 border-[#1a237e]/20 text-[#1a237e] hover:bg-[#e8eaf6]/70"
           >
             Cancel
           </Button>
@@ -285,13 +269,13 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             placeholder="Enter image URL"
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
-            className="h-8 text-sm"
+            className="h-8 text-sm border-[#1a237e]/20 focus:border-[#1a237e] focus:ring-[#1a237e]/20"
           />
           <Button 
             type="button" 
             size="sm" 
             onClick={addImage}
-            className="h-8"
+            className="h-8 bg-[#1a237e] hover:bg-[#0d1642] text-white"
           >
             Add Image
           </Button>
@@ -300,7 +284,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="outline" 
             size="sm" 
             onClick={() => setShowImageInput(false)}
-            className="h-8"
+            className="h-8 border-[#1a237e]/20 text-[#1a237e] hover:bg-[#e8eaf6]/70"
           >
             Cancel
           </Button>
@@ -317,18 +301,15 @@ export default function AddArticlesPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  // Initialize TipTap editor without Underline
+  // Initialize TipTap editor
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
-        // underline: false, // No longer needed as Underline extension is removed
-      }),
-      // Underline, // Remove Underline from extensions array
+      StarterKit.configure({}),
       Image,
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: 'text-blue-600 underline',
+          class: 'text-[#3949ab] underline hover:text-[#0d1642]',
         },
       }),
       Placeholder.configure({
@@ -344,7 +325,7 @@ export default function AddArticlesPage() {
     content: '',
     editorProps: {
       attributes: {
-        class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-xl focus:outline-none',
+        class: 'prose prose-indigo lg:prose-lg max-w-none prose-headings:text-[#1a237e] prose-a:text-[#3949ab] hover:prose-a:text-[#0d1642] prose-strong:text-gray-800 focus:outline-none',
       },
     },
   });
@@ -402,50 +383,59 @@ export default function AddArticlesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Add an Article</h1>
+      <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm mb-6">
+        <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2"></span>
+        Create New Article
+      </div>
+      
+      <h1 className="text-3xl font-bold text-[#1a237e] mb-6">Add an Article</h1>
       
       {error && (
-        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-          {error}
-        </div>
+        <Alert variant="destructive" className="mb-6 bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
+          <Terminal className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
       )}
       
       {success && (
-        <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
-          {success}
-        </div>
+        <Alert className="mb-6 bg-green-100/50 border-green-300/50 text-green-800 rounded-lg shadow-sm">
+          <CheckCircle className="h-4 w-4" />
+          <AlertTitle>Success</AlertTitle>
+          <AlertDescription>{success}</AlertDescription>
+        </Alert>
       )}
       
-      <div className="bg-white p-6 rounded shadow-md">
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-gray-200/60">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <Label htmlFor="title" className="text-gray-700 font-medium">Title</Label>
+            <Label htmlFor="title" className="text-[#1a237e] font-medium">Title</Label>
             <Input
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter article title"
-              className="mt-1 border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 border-[#1a237e]/20 focus:border-[#1a237e] focus:ring-[#1a237e]/20"
               required
             />
           </div>
           
           <div>
-            <Label htmlFor="description" className="text-gray-700 font-medium">Description</Label>
+            <Label htmlFor="description" className="text-[#1a237e] font-medium">Description</Label>
             <Textarea
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter a brief description"
-              className="mt-1 border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 border-[#1a237e]/20 focus:border-[#1a237e] focus:ring-[#1a237e]/20"
               rows={3}
               required
             />
           </div>
           
           <div>
-            <Label htmlFor="content" className="text-gray-700 font-medium">Content</Label>
-            <div className="mt-1 border border-gray-300 rounded overflow-hidden">
+            <Label htmlFor="content" className="text-[#1a237e] font-medium">Content</Label>
+            <div className="mt-1 border border-[#1a237e]/20 rounded-lg overflow-hidden shadow-sm">
               <EditorToolbar editor={editor} />
               <EditorContent 
                 editor={editor} 
@@ -457,9 +447,10 @@ export default function AddArticlesPage() {
           
           <Button 
             type="submit" 
-            className="w-full bg-[#1a237e] hover:bg-[#0d1642] text-white py-2 px-4 rounded transition-colors"
+            className="w-full bg-gradient-to-r from-[#1a237e] to-[#3949ab] hover:from-[#0d1642] hover:to-[#1a237e] text-white py-2.5 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
             disabled={isSubmitting}
           >
+            <PenLine className="h-4 w-4" />
             {isSubmitting ? 'Creating Article...' : 'Create Article'}
           </Button>
         </form>
