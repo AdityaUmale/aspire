@@ -118,76 +118,29 @@ export default function Home() {
                   <div className="absolute -top-6 -left-6 w-24 h-24 bg-[#1a237e]/10 rounded-full blur-xl"></div>
                   <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-[#1a237e]/10 rounded-full blur-xl"></div>
 
-                  {/* <div className="relative z-10 grid grid-cols-2 gap-4 lg:gap-6">
-                    <div className="grid gap-4">
-                      <div className="flex items-center gap-3 rounded-xl bg-white p-4 shadow-lg border border-[#e0e0e0] transform transition-transform hover:translate-y-[-5px]">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e8eaf6]">
-                          <GraduationCap className="h-5 w-5 text-[#1a237e]" />
-                        </div>
-                        <div>
-                          <h3 className="font-medium text-[#1a237e]">Professional Development</h3>
-                          <p className="text-xs text-gray-500">Career-focused training</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 rounded-xl bg-white p-4 shadow-lg border border-[#e0e0e0] transform transition-transform hover:translate-y-[-5px]">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e8eaf6]">
-                          <Users className="h-5 w-5 text-[#1a237e]" />
-                        </div>
-                        <div>
-                          <h3 className="font-medium text-[#1a237e]">Leadership Training</h3>
-                          <p className="text-xs text-gray-500">Develop management skills</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="grid gap-4 pt-6">
-                      <div className="flex items-center gap-3 rounded-xl bg-white p-4 shadow-lg border border-[#e0e0e0] transform transition-transform hover:translate-y-[-5px]">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e8eaf6]">
-                          <Target className="h-5 w-5 text-[#1a237e]" />
-                        </div>
-                        <div>
-                          <h3 className="font-medium text-[#1a237e]">Personal Growth</h3>
-                          <p className="text-xs text-gray-500">Self-improvement focus</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 rounded-xl bg-white p-4 shadow-lg border border-[#e0e0e0] transform transition-transform hover:translate-y-[-5px]">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e8eaf6]">
-                          <BookOpen className="h-5 w-5 text-[#1a237e]" />
-                        </div>
-                        <div>
-                          <h3 className="font-medium text-[#1a237e]">English Speaking</h3>
-                          <p className="text-xs text-gray-500">Communication mastery</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
                   <div className="relative z-10 flex justify-center items-center p-4" style={{ perspective: '1500px' }}>
-                    {/* Subtle background layers */}
                     <div className="absolute inset-0 bg-gradient-to-br from-[#e8eaf6]/70 via-[#c5cae9]/60 to-[#9fa8da]/50 rounded-2xl transform rotate-1 scale-[1.01] shadow-lg z-0"></div>
                     <div className="absolute inset-0 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/20 z-[1]"></div>
                     <div className="absolute inset-0 bg-[url('/globe.svg')] bg-no-repeat bg-center opacity-5 mix-blend-overlay rounded-xl z-[2]"></div>
                     
-                    {/* Soft accent lights */}
                     <div className="absolute -top-5 -right-5 w-32 h-32 bg-gradient-radial from-[#1a237e]/15 to-transparent rounded-full blur-xl z-[3]"></div>
                     <div className="absolute -bottom-5 -left-5 w-32 h-32 bg-gradient-radial from-[#3949ab]/15 to-transparent rounded-full blur-xl z-[3]"></div>
                     
-                    {/* Main 3D Logo Container */}
                     <div 
                       className="relative transform transition-all duration-500 ease-out group z-[5] hover:[transform:rotateX(5deg)_rotateY(-5deg)_scale(1.05)]"
                       style={{
                         transformStyle: 'preserve-3d',
-                        transform: 'rotateX(0deg) rotateY(0deg) scale(1)' // Initial state
+                        transform: 'rotateX(0deg) rotateY(0deg) scale(1)'
                       }}
                     >
-                      {/* Inner container for depth */}
                       <div 
                         className="relative bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-md rounded-xl p-8 border border-white/30 shadow-2xl overflow-hidden"
                         style={{
-                          transform: 'translateZ(20px)', // Push inner container forward
+                          transform: 'translateZ(20px)',
                           boxShadow: '0 25px 50px -12px rgba(26, 35, 126, 0.25)'
                         }}
                       >
-                        {/* Logo with subtle 3D effect */}
-                        <div className="relative" style={{ transform: 'translateZ(30px)' }}> {/* Push logo even further */}
+                        <div className="relative" style={{ transform: 'translateZ(30px)' }}>
                           <Image
                             src="/logo2.png"
                             alt="Aspire Institute Secondary Logo"
@@ -195,12 +148,11 @@ export default function Home() {
                             height={400}
                             className="object-contain relative z-10 filter drop-shadow-[0_10px_15px_rgba(0,0,0,0.2)] transition-all duration-500 group-hover:drop-shadow-[0_20px_30px_rgba(26,35,126,0.3)]"
                             style={{
-                              transform: 'translateZ(10px)' // Slight push for logo itself
+                              transform: 'translateZ(10px)'
                             }}
                           />
                         </div>
                         
-                        {/* Subtle inner glow/shine */}
                         <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-50"></div>
                         <div 
                           className="absolute -inset-[100%] bg-gradient-to-r from-transparent via-white/15 to-transparent skew-x-[-25deg] animate-[shine_7s_ease-in-out_infinite]"
@@ -208,10 +160,9 @@ export default function Home() {
                         ></div>
                       </div>
                       
-                      {/* Subtle 3D edge/shadow */}
                       <div 
                         className="absolute inset-0 rounded-xl bg-black/5 shadow-[0_5px_15px_rgba(0,0,0,0.1)]"
-                        style={{ transform: 'translateZ(5px)' }} // Position slightly behind main card
+                        style={{ transform: 'translateZ(5px)' }}
                       ></div>
                     </div>
                   </div>
@@ -392,7 +343,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-3">
+            <div className="flex flex-row overflow-x-auto gap-8 pb-4">
               {[
                 {
                   title: "Leadership Development",
@@ -400,7 +351,7 @@ export default function Home() {
                     "Develop essential leadership skills for the modern workplace and learn to inspire teams.",
                   icon: Users,
                   image: "/ldp.jpg", 
-                  slug: "/courses/leadership-development", // Added slug
+                  slug: "/courses/leadership-development",
                   features: ["Strategic thinking", "Team management", "Decision making", "Conflict resolution"],
                 },
                 {
@@ -409,7 +360,7 @@ export default function Home() {
                     "Build confidence and enhance your personal growth through comprehensive self-improvement.",
                   icon: Target,
                   image: "/pdc.jpg", 
-                  slug: "/courses/personality-development", // Added slug
+                  slug: "/courses/personality-development",
                   features: ["Self-confidence", "Communication skills", "Emotional intelligence", "Personal branding"],
                 },
                 {
@@ -417,15 +368,15 @@ export default function Home() {
                   description: "Master the art of effective communication and captivate any audience with your words.",
                   icon: BookOpen,
                   image: "/public-speaking.jpg", 
-                  slug: "/courses/public-speaking", // Added slug
+                  slug: "/courses/public-speaking",
                   features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
                 },
                 {
-                  title: "English Langauge Training",
+                  title: "English Language Training",
                   description: "Master the art of effective communication and captivate any audience with your words.",
                   icon: BookOpen,
                   image: "/public-speaking.jpg", 
-                  slug: "/courses/english-language-training", // Added slug
+                  slug: "/courses/english-language-training",
                   features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
                 },
                 {
@@ -433,7 +384,7 @@ export default function Home() {
                   description: "Master the art of effective communication and captivate any audience with your words.",
                   icon: BookOpen,
                   image: "/public-speaking.jpg", 
-                  slug: "/courses/childrens-learning-program", // Added slug
+                  slug: "/courses/childrens-learning-program",
                   features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
                 },
                 {
@@ -441,7 +392,7 @@ export default function Home() {
                   description: "Master the art of effective communication and captivate any audience with your words.",
                   icon: BookOpen,
                   image: "/public-speaking.jpg", 
-                  slug: "/courses/voice-and-accent", // Added slug
+                  slug: "/courses/voice-and-accent",
                   features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
                 },
                 {
@@ -449,7 +400,7 @@ export default function Home() {
                   description: "Master the art of effective communication and captivate any audience with your words.",
                   icon: BookOpen,
                   image: "/public-speaking.jpg", 
-                  slug: "/courses/entrepreneurship-development", // Added slug
+                  slug: "/courses/entrepreneurship-development",
                   features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
                 },
                 {
@@ -457,15 +408,15 @@ export default function Home() {
                   description: "Master the art of effective communication and captivate any audience with your words.",
                   icon: BookOpen,
                   image: "/public-speaking.jpg", 
-                  slug: "/courses/teachers-training-program", // Added slug
+                  slug: "/courses/teachers-training-program",
                   features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
                 },
                 {
-                  title: "ARISE - LANGUAGE AND THOUGHTS ENRICHMENT CAMP ",
+                  title: "ARISE - LANGUAGE AND THOUGHTS ENRICHMENT CAMP",
                   description: "Master the art of effective communication and captivate any audience with your words.",
                   icon: BookOpen,
                   image: "/public-speaking.jpg", 
-                  slug: "/courses/arise-camp", // Added slug
+                  slug: "/courses/arise-camp",
                   features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
                 },
                 {
@@ -473,14 +424,12 @@ export default function Home() {
                   description: "Master the art of effective communication and captivate any audience with your words.",
                   icon: BookOpen,
                   image: "/public-speaking.jpg", 
-                  slug: "/courses/international-workshop", // Added slug
+                  slug: "/courses/international-workshop",
                   features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
                 },
               ].map((course, index) => (
-                // Wrap the entire card div with Link
                 <Link key={index} href={course.slug} legacyBehavior passHref>
-                  <a className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-lg border border-gray-200/60 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 block">
-                    {/* Image Section */}
+                  <a className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-lg border border-gray-200/60 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 block flex-shrink-0 w-80">
                     <div className="relative h-48 w-full overflow-hidden">
                       <Image
                         src={course.image}
@@ -495,12 +444,10 @@ export default function Home() {
                       </div>
                     </div>
                     
-                    {/* Content Section */}
                     <div className="p-5 flex flex-col flex-grow">
                       <h3 className="text-lg font-semibold text-[#1a237e] mb-2 group-hover:text-[#0d1642] transition-colors duration-300">{course.title}</h3>
                       <p className="text-gray-600 text-sm mb-4 flex-grow leading-relaxed">{course.description}</p>
 
-                      {/* Features Section */}
                       <div className="w-full pt-3 mt-auto border-t border-gray-200/80">
                         <p className="text-xs font-medium text-gray-500 mb-2">Key Focus Areas:</p>
                         <ul className="space-y-1.5">
@@ -513,12 +460,11 @@ export default function Home() {
                         </ul>
                       </div>
 
-                      {/* Button - Now part of the link, consider removing onClick if it was just for navigation */}
                       <div className="mt-5 w-full">
                         <Button 
                           variant="outline"
                           className="w-full border-[#1a237e]/50 text-[#1a237e] hover:bg-[#e8eaf6]/60 hover:border-[#1a237e]/80 hover:text-[#0d1642] transition-all duration-300 text-sm py-2 group-hover:bg-[#e8eaf6]/80"
-                          tabIndex={-1} // Prevent double focus
+                          tabIndex={-1}
                         >
                           Learn More
                           <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
@@ -707,8 +653,6 @@ export default function Home() {
                               )}
                             </ul>
                           </div>
-
-                        
                         </div>
                       </div>
                     </div>
@@ -730,88 +674,6 @@ export default function Home() {
             )}
           </div>
         </section>
-
-        {/* <section className="relative py-16 md:py-24 overflow-hidden ml-18">
-          <div className="absolute inset-0 bg-[#1a237e] -z-10"></div>
-          <div className="absolute inset-0 bg-[url('/placeholder.svg?height=500&width=1000')] bg-no-repeat bg-cover opacity-5 -z-10"></div>
-          <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -z-10"></div>
-          <div className="absolute bottom-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -z-10"></div>
-
-          <div className="container px-4 md:px-6">
-            <div className="mx-auto max-w-3xl text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-white mb-4">
-                Ready to Transform Your Life?
-              </h2>
-              <p className="text-gray-500 md:text-lg">
-                Join our newsletter for regular updates on our latest courses, events, and more.
-              </p>
-            </div>
-
-            <div className="mx-auto max-w-md">
-              <div className="rounded-xl bg-white p-6 shadow-lg">
-                <h3 className="text-xl font-bold text-[#1a237e] mb-4">Join Newsletter</h3>
-                <form className="space-y-4">
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-gray-700" htmlFor="first-name">
-                        First Name
-                      </label>
-                      <input
-                        className="w-full rounded-md border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a237e]"
-                        id="first-name"
-                        placeholder="John"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-gray-700" htmlFor="last-name">
-                        Last Name
-                      </label>
-                      <input
-                        className="w-full rounded-md border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a237e]"
-                        id="last-name"
-                        placeholder="Doe"
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700" htmlFor="email">
-                      Email
-                    </label>
-                    <input
-                      className="w-full rounded-md border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a237e]"
-                      id="email"
-                      placeholder="john.doe@example.com"
-                      type="email"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700" htmlFor="program">
-                      Program of Interest
-                    </label>
-                    <select
-                      className="w-full rounded-md border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a237e]"
-                      id="program"
-                    >
-                      <option>Leadership Development</option>
-                      <option>Personality Development</option>
-                      <option>Public Speaking</option>
-                      <option>English Speaking</option>
-                      <option>Other</option>
-                    </select>
-                  </div>
-                  <Button className="w-full bg-[#1a237e] hover:bg-[#0d1642]">Join Newsletter</Button>
-                  <p className="text-xs text-gray-500 text-center">
-                    By submitting this form, you agree to our{" "}
-                    <Link href="#" className="text-[#1a237e] underline">
-                      Privacy Policy
-                    </Link>
-                    .
-                  </p>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section> */}
       </main>
       <footer className="border-t bg-white ml-18">
         <div className="container px-4 py-12 md:px-6">
@@ -828,7 +690,7 @@ export default function Home() {
                 <span className="text-lg font-semibold text-[#1a237e]">Aspire Institute</span>
               </div>
               <p className="text-sm text-gray-500">
-                One of India&apos;s largest personal and professional development training institutes, transforming lives
+                One of India's largest personal and professional development training institutes, transforming lives
                 since 2009.
               </p>
               <div className="flex space-x-4">
@@ -895,11 +757,8 @@ export default function Home() {
               </ul>
             </div>
           </div>
-
-          
         </div>
       </footer>
     </div>
   )
 }
-
