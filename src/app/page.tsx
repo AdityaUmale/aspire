@@ -399,7 +399,8 @@ export default function Home() {
                   description:
                     "Develop essential leadership skills for the modern workplace and learn to inspire teams.",
                   icon: Users,
-                  image: "/ldp.jpg", // Added image path
+                  image: "/ldp.jpg", 
+                  slug: "/courses/leadership-development", // Added slug
                   features: ["Strategic thinking", "Team management", "Decision making", "Conflict resolution"],
                 },
                 {
@@ -407,61 +408,125 @@ export default function Home() {
                   description:
                     "Build confidence and enhance your personal growth through comprehensive self-improvement.",
                   icon: Target,
-                  image: "/pdc.jpg", // Added image path
+                  image: "/pdc.jpg", 
+                  slug: "/courses/personality-development", // Added slug
                   features: ["Self-confidence", "Communication skills", "Emotional intelligence", "Personal branding"],
                 },
                 {
                   title: "Public Speaking",
                   description: "Master the art of effective communication and captivate any audience with your words.",
                   icon: BookOpen,
-                  image: "/public-speaking.jpg", // Added image path
+                  image: "/public-speaking.jpg", 
+                  slug: "/courses/public-speaking", // Added slug
+                  features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
+                },
+                {
+                  title: "English Langauge Training",
+                  description: "Master the art of effective communication and captivate any audience with your words.",
+                  icon: BookOpen,
+                  image: "/public-speaking.jpg", 
+                  slug: "/courses/english-language-training", // Added slug
+                  features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
+                },
+                {
+                  title: "Childrens Learning Program",
+                  description: "Master the art of effective communication and captivate any audience with your words.",
+                  icon: BookOpen,
+                  image: "/public-speaking.jpg", 
+                  slug: "/courses/childrens-learning-program", // Added slug
+                  features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
+                },
+                {
+                  title: "Voice & Accent",
+                  description: "Master the art of effective communication and captivate any audience with your words.",
+                  icon: BookOpen,
+                  image: "/public-speaking.jpg", 
+                  slug: "/courses/voice-and-accent", // Added slug
+                  features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
+                },
+                {
+                  title: "Entrepreneurship Development",
+                  description: "Master the art of effective communication and captivate any audience with your words.",
+                  icon: BookOpen,
+                  image: "/public-speaking.jpg", 
+                  slug: "/courses/entrepreneurship-development", // Added slug
+                  features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
+                },
+                {
+                  title: "Teachers Training Program",
+                  description: "Master the art of effective communication and captivate any audience with your words.",
+                  icon: BookOpen,
+                  image: "/public-speaking.jpg", 
+                  slug: "/courses/teachers-training-program", // Added slug
+                  features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
+                },
+                {
+                  title: "ARISE - LANGUAGE AND THOUGHTS ENRICHMENT CAMP ",
+                  description: "Master the art of effective communication and captivate any audience with your words.",
+                  icon: BookOpen,
+                  image: "/public-speaking.jpg", 
+                  slug: "/courses/arise-camp", // Added slug
+                  features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
+                },
+                {
+                  title: "International Workshop",
+                  description: "Master the art of effective communication and captivate any audience with your words.",
+                  icon: BookOpen,
+                  image: "/public-speaking.jpg", 
+                  slug: "/courses/international-workshop", // Added slug
                   features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
                 },
               ].map((course, index) => (
-                <div
-                  key={index}
-                  className="group relative flex flex-col overflow-hidden rounded-xl bg-white shadow-lg border border-[#e0e0e0] transition-all hover:shadow-xl hover:border-[#1a237e]/20"
-                >
-                  {/* Image Section */}
-                  <div className="relative h-48 w-full overflow-hidden">
-                    <Image
-                      src={course.image}
-                      alt={`${course.title} image`}
-                      layout="fill"
-                      objectFit="cover"
-                      className="transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div> {/* Optional overlay */}
-                  </div>
-                  
-                  {/* Content Section */}
-                  <div className="p-6 flex flex-col flex-grow">
-                    <div className="flex items-center space-x-3 mb-4">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e8eaf6] text-[#1a237e] transition-all group-hover:bg-[#1a237e] group-hover:text-white flex-shrink-0">
+                // Wrap the entire card div with Link
+                <Link key={index} href={course.slug} legacyBehavior passHref>
+                  <a className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-lg border border-gray-200/60 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 block">
+                    {/* Image Section */}
+                    <div className="relative h-48 w-full overflow-hidden">
+                      <Image
+                        src={course.image}
+                        alt={`${course.title} image`}
+                        layout="fill"
+                        objectFit="cover"
+                        className="transition-transform duration-500 ease-in-out group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                      <div className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 backdrop-blur-sm text-[#1a237e] shadow-md">
                         <course.icon className="h-5 w-5" />
                       </div>
-                      <h3 className="text-lg font-bold text-[#1a237e]">{course.title}</h3>
                     </div>
-                    <p className="text-gray-500 text-sm mb-4 flex-grow">{course.description}</p>
+                    
+                    {/* Content Section */}
+                    <div className="p-5 flex flex-col flex-grow">
+                      <h3 className="text-lg font-semibold text-[#1a237e] mb-2 group-hover:text-[#0d1642] transition-colors duration-300">{course.title}</h3>
+                      <p className="text-gray-600 text-sm mb-4 flex-grow leading-relaxed">{course.description}</p>
 
-                    <div className="w-full pt-4 mt-auto border-t border-[#e0e0e0]">
-                      <p className="text-xs font-medium text-[#1a237e] mb-2">Key Focus Areas:</p>
-                      <ul className="space-y-1.5">
-                        {course.features.map((feature, i) => (
-                          <li key={i} className="flex items-center gap-2 text-xs text-gray-600">
-                            <CheckCircle className="h-3.5 w-3.5 text-[#1a237e] flex-shrink-0" />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
+                      {/* Features Section */}
+                      <div className="w-full pt-3 mt-auto border-t border-gray-200/80">
+                        <p className="text-xs font-medium text-gray-500 mb-2">Key Focus Areas:</p>
+                        <ul className="space-y-1.5">
+                          {course.features.map((feature, i) => (
+                            <li key={i} className="flex items-center gap-2 text-xs text-gray-700">
+                              <CheckCircle className="h-3.5 w-3.5 text-[#3949ab] flex-shrink-0" />
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Button - Now part of the link, consider removing onClick if it was just for navigation */}
+                      <div className="mt-5 w-full">
+                        <Button 
+                          variant="outline"
+                          className="w-full border-[#1a237e]/50 text-[#1a237e] hover:bg-[#e8eaf6]/60 hover:border-[#1a237e]/80 hover:text-[#0d1642] transition-all duration-300 text-sm py-2 group-hover:bg-[#e8eaf6]/80"
+                          tabIndex={-1} // Prevent double focus
+                        >
+                          Learn More
+                          <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                        </Button>
+                      </div>
                     </div>
-
-                    <Button className="mt-5 w-full bg-white text-[#1a237e] border border-[#1a237e] hover:bg-[#1a237e] hover:text-white transition-all duration-300 text-sm py-2">
-                      Learn More
-                      <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-                    </Button>
-                  </div>
-                </div>
+                  </a>
+                </Link>
               ))}
             </div>
           </div>
