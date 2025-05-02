@@ -399,6 +399,7 @@ export default function Home() {
                   description:
                     "Develop essential leadership skills for the modern workplace and learn to inspire teams.",
                   icon: Users,
+                  image: "/ldp.jpg", // Added image path
                   features: ["Strategic thinking", "Team management", "Decision making", "Conflict resolution"],
                 },
                 {
@@ -406,55 +407,62 @@ export default function Home() {
                   description:
                     "Build confidence and enhance your personal growth through comprehensive self-improvement.",
                   icon: Target,
+                  image: "/pdc.jpg", // Added image path
                   features: ["Self-confidence", "Communication skills", "Emotional intelligence", "Personal branding"],
                 },
                 {
                   title: "Public Speaking",
                   description: "Master the art of effective communication and captivate any audience with your words.",
                   icon: BookOpen,
+                  image: "/public-speaking.jpg", // Added image path
                   features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
                 },
               ].map((course, index) => (
                 <div
                   key={index}
-                  className="group relative overflow-hidden rounded-xl bg-white shadow-lg border border-[#e0e0e0] transition-all hover:shadow-xl hover:border-[#1a237e]/20"
+                  className="group relative flex flex-col overflow-hidden rounded-xl bg-white shadow-lg border border-[#e0e0e0] transition-all hover:shadow-xl hover:border-[#1a237e]/20"
                 >
-                  <div className="absolute top-0 right-0 h-24 w-24 bg-[#e8eaf6] rounded-bl-full opacity-50 transition-all group-hover:bg-[#c5cae9]"></div>
-                  <div className="p-6">
-                    <div className="relative flex flex-col items-start space-y-4">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e8eaf6] text-[#1a237e] transition-all group-hover:bg-[#1a237e] group-hover:text-white">
-                        <course.icon className="h-6 w-6" />
+                  {/* Image Section */}
+                  <div className="relative h-48 w-full overflow-hidden">
+                    <Image
+                      src={course.image}
+                      alt={`${course.title} image`}
+                      layout="fill"
+                      objectFit="cover"
+                      className="transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div> {/* Optional overlay */}
+                  </div>
+                  
+                  {/* Content Section */}
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e8eaf6] text-[#1a237e] transition-all group-hover:bg-[#1a237e] group-hover:text-white flex-shrink-0">
+                        <course.icon className="h-5 w-5" />
                       </div>
-                      <h3 className="text-xl font-bold text-[#1a237e]">{course.title}</h3>
-                      <p className="text-gray-500">{course.description}</p>
-
-                      <div className="w-full pt-4 mt-2 border-t border-[#e0e0e0]">
-                        <p className="text-sm font-medium text-[#1a237e] mb-3">Key Focus Areas:</p>
-                        <ul className="space-y-2">
-                          {course.features.map((feature, i) => (
-                            <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
-                              <CheckCircle className="h-4 w-4 text-[#1a237e]" />
-                              {feature}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <Button className="mt-4 w-full bg-white text-[#1a237e] border border-[#1a237e] hover:bg-[#1a237e] hover:text-white transition-all duration-300">
-                        Learn More
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
+                      <h3 className="text-lg font-bold text-[#1a237e]">{course.title}</h3>
                     </div>
+                    <p className="text-gray-500 text-sm mb-4 flex-grow">{course.description}</p>
+
+                    <div className="w-full pt-4 mt-auto border-t border-[#e0e0e0]">
+                      <p className="text-xs font-medium text-[#1a237e] mb-2">Key Focus Areas:</p>
+                      <ul className="space-y-1.5">
+                        {course.features.map((feature, i) => (
+                          <li key={i} className="flex items-center gap-2 text-xs text-gray-600">
+                            <CheckCircle className="h-3.5 w-3.5 text-[#1a237e] flex-shrink-0" />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <Button className="mt-5 w-full bg-white text-[#1a237e] border border-[#1a237e] hover:bg-[#1a237e] hover:text-white transition-all duration-300 text-sm py-2">
+                      Learn More
+                      <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                    </Button>
                   </div>
                 </div>
               ))}
-            </div>
-
-            <div className="mt-12 text-center">
-              <Button className="bg-[#1a237e] hover:bg-[#0d1642] shadow-md transition-all duration-300 hover:shadow-lg">
-                View All Programs
-                <ChevronRight className="ml-2 h-4 w-4" />
-              </Button>
             </div>
           </div>
         </section>
