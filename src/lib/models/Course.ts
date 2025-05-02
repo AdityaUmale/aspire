@@ -12,6 +12,10 @@ const CourseSchema = new mongoose.Schema({
   courseOutline: {
     type: [String], // Changed from String to [String]
     required: true,
+  },
+  courseDate: { // Add this field
+    type: Date,
+    required: true,
   }
 });
 

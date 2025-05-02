@@ -22,6 +22,7 @@ import {
   Newspaper,
 } from "lucide-react"
 import { useEffect, useState } from "react"
+import { format } from 'date-fns'; // Import date-fns
 
 export default function Home() {
   const [courses, setCourses] = useState<any[]>([])
@@ -615,7 +616,7 @@ export default function Home() {
               </div>
             ) : (
               <div className="flex flex-row overflow-x-auto gap-8 pb-4">
-                {courses.map((course, index) => (
+                {courses.map((course: any, index: number) => ( // Add type any or define a Course type
                   <div
                     key={index}
                     className="group relative overflow-hidden rounded-xl bg-white shadow-lg border border-[#e0e0e0] transition-all hover:shadow-xl hover:border-[#1a237e]/20 w-80 flex-shrink-0"
@@ -628,6 +629,14 @@ export default function Home() {
                         </div>
                         <h3 className="text-xl font-bold text-[#1a237e]">{course.courseName}</h3>
                         <p className="text-gray-500">{course.description}</p>
+
+                        {/* Display Course Date */}
+                        {course.courseDate && (
+                          <div className="flex items-center gap-2 text-sm text-gray-600 pt-2">
+                            <Calendar className="h-4 w-4 text-[#1a237e]" />
+                            <span>Starts: {format(new Date(course.courseDate), 'PPP')}</span>
+                          </div>
+                        )}
 
                         <div className="w-full pt-4 mt-2 border-t border-[#e0e0e0]">
                           <p className="text-sm font-medium text-[#1a237e] mb-3">Course Outline:</p>

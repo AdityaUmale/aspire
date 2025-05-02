@@ -8,11 +8,21 @@ import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal, CheckCircle, GraduationCap } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { CalendarIcon } from 'lucide-react'; // Import CalendarIcon
+import { format } from 'date-fns'; // Import date-fns for formatting
+import { cn } from '@/lib/utils'; // Assuming you have a cn utility
+import { Calendar } from '@/components/ui/calendar'; // Import Calendar component
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"; // Import Popover components
 
 export default function AddCoursesPage() {
   const [courseName, setCourseName] = useState('');
   const [description, setDescription] = useState('');
   const [courseOutlineStr, setCourseOutlineStr] = useState('');
+  const [courseDate, setCourseDate] = useState<Date | undefined>(undefined); // Add state for date
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -27,8 +37,8 @@ export default function AddCoursesPage() {
     // Split the comma-separated string into an array, trimming whitespace
     const courseOutline = courseOutlineStr.split(',').map(item => item.trim()).filter(item => item !== '');
 
-    if (!courseName || !description || courseOutline.length === 0) {
-        setError('Please fill in all fields.');
+    if (!courseName || !description || courseOutline.length === 0 || !courseDate) { // Check for courseDate
+        setError('Please fill in all fields, including the course date.');
         setIsLoading(false);
         return;
     }
@@ -39,7 +49,7 @@ export default function AddCoursesPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ courseName, description, courseOutline }),
+        body: JSON.stringify({ courseName, description, courseOutline, courseDate }), // Include courseDate
       });
 
       const data = await response.json();
@@ -53,6 +63,7 @@ export default function AddCoursesPage() {
       setCourseName('');
       setDescription('');
       setCourseOutlineStr('');
+      setCourseDate(undefined); // Clear date
 
     } catch (err: any) {
       console.error('Failed to add course:', err);
@@ -124,6 +135,33 @@ export default function AddCoursesPage() {
               rows={6}
               placeholder="e.g., Module 1: Intro, Module 2: Basics, Module 3: Advanced"
             />
+          </div>
+
+          {/* Add Date Picker */}
+          <div>
+            <Label htmlFor="courseDate" className="text-[#1a237e] font-medium">Course Start Date</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-left font-normal mt-1 border-[#1a237e]/20 focus:border-[#1a237e] focus:ring-[#1a237e]/20",
+                    !courseDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {courseDate ? format(courseDate, "PPP") : <span>Pick a date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={courseDate}
+                  onSelect={setCourseDate}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
 
           <Button 

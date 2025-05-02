@@ -22,16 +22,36 @@ export async function GET() {
 export async function POST(req: Request){
     try {
         await connectDB();
-        const { courseName, description, courseOutline } = await req.json();
+        const { courseName, description, courseOutline, courseDate } = await req.json(); // Add courseDate
+        
+        // Basic check if date is received (optional, Mongoose validation handles it)
+        if (!courseDate) {
+          return NextResponse.json({ error: "Course date is missing in the request body." }, { status: 400 });
+        }
+
         const newCourse = new Course({
             courseName,
             description,
-            courseOutline
+            courseOutline,
+            courseDate // Add courseDate
         });
         const savedCourse = await newCourse.save();
         return NextResponse.json({ message: "Course created successfully", course: savedCourse }, { status: 201 });
-    } catch (error) {
-        console.log(error);
-        return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+    } catch (error: any) { // Catch any error
+        console.error("Error creating course:", error); // Log the full error for debugging
+
+        // Check if it's a Mongoose validation error
+        if (error.name === 'ValidationError') {
+            // Extract specific validation messages
+            let errors: { [key: string]: string } = {};
+            for (let field in error.errors) {
+                errors[field] = error.errors[field].message;
+            }
+            return NextResponse.json({ error: "Validation failed", details: errors }, { status: 400 });
+        }
+
+        // Generic error for other issues
+        const errorMessage = error instanceof Error ? error.message : "Something went wrong";
+        return NextResponse.json({ error: "Failed to create course", details: errorMessage }, { status: 500 });
     }
 }
