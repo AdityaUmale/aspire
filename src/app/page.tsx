@@ -27,7 +27,6 @@ export default function Home() {
   const [courses, setCourses] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [visibleCourses, setVisibleCourses] = useState(3) // Number of courses initially visible
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -50,10 +49,6 @@ export default function Home() {
 
     fetchCourses()
   }, [])
-
-  const loadMoreCourses = () => {
-    setVisibleCourses(prev => prev + 3) // Load 3 more courses when button is clicked
-  }
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -619,58 +614,44 @@ export default function Home() {
                 <p className="text-gray-500">No upcoming courses available at the moment. Check back soon!</p>
               </div>
             ) : (
-              <>
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                  {courses.slice(0, visibleCourses).map((course, index) => (
-                    <div
-                      key={index}
-                      className="group relative overflow-hidden rounded-xl bg-white shadow-lg border border-[#e0e0e0] transition-all hover:shadow-xl hover:border-[#1a237e]/20"
-                    >
-                      <div className="absolute top-0 right-0 h-24 w-24 bg-[#e8eaf6] rounded-bl-full opacity-50 transition-all group-hover:bg-[#c5cae9]"></div>
-                      <div className="p-6">
-                        <div className="relative flex flex-col items-start space-y-4">
-                          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e8eaf6] text-[#1a237e] transition-all group-hover:bg-[#1a237e] group-hover:text-white">
-                            <BookOpen className="h-6 w-6" />
-                          </div>
-                          <h3 className="text-xl font-bold text-[#1a237e]">{course.courseName}</h3>
-                          <p className="text-gray-500">{course.description}</p>
+              <div className="flex flex-row overflow-x-auto gap-8 pb-4">
+                {courses.map((course, index) => (
+                  <div
+                    key={index}
+                    className="group relative overflow-hidden rounded-xl bg-white shadow-lg border border-[#e0e0e0] transition-all hover:shadow-xl hover:border-[#1a237e]/20 w-80 flex-shrink-0"
+                  >
+                    <div className="absolute top-0 right-0 h-24 w-24 bg-[#e8eaf6] rounded-bl-full opacity-50 transition-all group-hover:bg-[#c5cae9]"></div>
+                    <div className="p-6">
+                      <div className="relative flex flex-col items-start space-y-4">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e8eaf6] text-[#1a237e] transition-all group-hover:bg-[#1a237e] group-hover:text-white">
+                          <BookOpen className="h-6 w-6" />
+                        </div>
+                        <h3 className="text-xl font-bold text-[#1a237e]">{course.courseName}</h3>
+                        <p className="text-gray-500">{course.description}</p>
 
-                          <div className="w-full pt-4 mt-2 border-t border-[#e0e0e0]">
-                            <p className="text-sm font-medium text-[#1a237e] mb-3">Course Outline:</p>
-                            <ul className="space-y-2">
-                              {Array.isArray(course.courseOutline) ? (
-                                course.courseOutline.slice(0, 4).map((item: string, i: number) => (
-                                  <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
-                                    <CheckCircle className="h-4 w-4 text-[#1a237e]" />
-                                    {item}
-                                  </li>
-                                ))
-                              ) : (
-                                <li className="flex items-center gap-2 text-sm text-gray-600">
+                        <div className="w-full pt-4 mt-2 border-t border-[#e0e0e0]">
+                          <p className="text-sm font-medium text-[#1a237e] mb-3">Course Outline:</p>
+                          <ul className="space-y-2">
+                            {Array.isArray(course.courseOutline) ? (
+                              course.courseOutline.slice(0, 4).map((item: string, i: number) => (
+                                <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
                                   <CheckCircle className="h-4 w-4 text-[#1a237e]" />
-                                  {course.courseOutline}
+                                  {item}
                                 </li>
-                              )}
-                            </ul>
-                          </div>
+                              ))
+                            ) : (
+                              <li className="flex items-center gap-2 text-sm text-gray-600">
+                                <CheckCircle className="h-4 w-4 text-[#1a237e]" />
+                                {course.courseOutline}
+                              </li>
+                            )}
+                          </ul>
                         </div>
                       </div>
                     </div>
-                  ))}
-                </div>
-
-                {courses.length > visibleCourses && (
-                  <div className="mt-12 text-center">
-                    <Button 
-                      onClick={loadMoreCourses}
-                      className="bg-[#1a237e] hover:bg-[#0d1642] shadow-md transition-all duration-300 hover:shadow-lg"
-                    >
-                      Load More Courses
-                      <ChevronRight className="ml-2 h-4 w-4" />
-                    </Button>
                   </div>
-                )}
-              </>
+                ))}
+              </div>
             )}
           </div>
         </section>
