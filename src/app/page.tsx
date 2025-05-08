@@ -322,6 +322,45 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="vision-mission" className="py-16 md:py-20 bg-[#f8f9fa]">
+          <div className="container px-4 md:px-6 ml-14">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+              <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm">
+                <Target className="h-3.5 w-3.5 mr-1 text-[#1a237e]" />
+                Our Purpose
+              </div>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-[#1a237e]">
+                Guiding Principles
+              </h2>
+              <p className="text-gray-500 md:text-lg max-w-2xl">
+                Our mission and vision drive us to empower individuals and shape a better future.
+              </p>
+            </div>
+
+            <div className="grid gap-12 md:grid-cols-2 items-start">
+              <div className="bg-white p-8 rounded-xl shadow-lg border border-[#e0e0e0] hover:shadow-xl transition-all">
+                <div className="flex items-center gap-3 mb-4">
+                  <GraduationCap className="h-8 w-8 text-[#1a237e]" />
+                  <h3 className="text-2xl font-semibold text-[#1a237e]">Mission</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  Our mission is to provide an extensive variety of life-transforming programs to create effective Communicators, Self believers, Engaging leaders, Aspiring professionals and Visionary entrepreneurs.
+                </p>
+              </div>
+
+              <div className="bg-white p-8 rounded-xl shadow-lg border border-[#e0e0e0] hover:shadow-xl transition-all">
+                <div className="flex items-center gap-3 mb-4">
+                  <Globe className="h-8 w-8 text-[#1a237e]" />
+                  <h3 className="text-2xl font-semibold text-[#1a237e]">Vision</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  Aspire The Institute Of Human Development envisions the world where people believe in themselves & live their true potential to make this world a better place to live.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="courses" className="ml-18">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
