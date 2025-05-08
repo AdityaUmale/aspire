@@ -23,6 +23,7 @@ import {
 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { format } from 'date-fns'; // Import date-fns
+import EnquiryForm from "@/components/EnquiryForm";
 
 export default function Home() {
   const [courses, setCourses] = useState<any[]>([])
@@ -704,6 +705,7 @@ export default function Home() {
           </div>
         </section>
       </main>
+      <EnquiryForm/>
       <footer className="border-t bg-white ml-18">
         <div className="container px-4 py-12 md:px-6">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">

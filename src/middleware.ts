@@ -79,9 +79,10 @@ export const config = {
          * - The course API route
          * - The student article API route (including dynamic paths)
          * - The main article API route (including dynamic paths)
+         * - The enquiry submission API route
          */
-        // Add api/course, api/student-article, and api/article to the negative lookahead
-        '/((?!api/public|api/course|api/student-article|api/article|_next/static|_next/image|favicon.ico|signin).*)',
+        // Add api/submit-enquiry to the negative lookahead
+        '/((?!api/public|api/course|api/student-article|api/article|api/submit-enquiry|_next/static|_next/image|favicon.ico|signin).*)',
         // Explicitly include /admin and its subpaths if the above pattern is too broad or complex
         // '/admin/:path*',
     ],
