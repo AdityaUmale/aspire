@@ -323,7 +323,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="vision-mission" className="py-16 md:py-20 bg-[#f8f9fa]">
+        <section id="vision-mission" className="py-16 md:py-20 bg-white">
           <div className="container px-4 md:px-6 ml-14">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm">
@@ -625,7 +625,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="upcoming-courses" className="py-16 md:py-24 bg-[#f8f9fa] ml-18">
+        <section id="upcoming-courses" className="py-16 md:py-24 bg-white ml-18">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm">

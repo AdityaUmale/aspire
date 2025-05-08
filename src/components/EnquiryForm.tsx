@@ -132,7 +132,7 @@ export default function EnquiryForm() {
                   id="phone" 
                   value={formData.phone} 
                   onChange={handleInputChange} 
-                  placeholder="+1 (555) 123-4567" 
+                  placeholder="91-9876543210"
                   required 
                   className="pl-10 w-full border-gray-300 rounded-md shadow-sm focus:ring-[#1a237e] focus:border-[#1a237e]" 
                 />
