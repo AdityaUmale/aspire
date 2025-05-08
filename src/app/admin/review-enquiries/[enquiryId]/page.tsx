@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Terminal, User, Mail, Phone, MessageSquareText, CalendarDays, ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button'; // Assuming you have a Button component
+import { Terminal, User, Mail, Phone, MessageSquareText, CalendarDays, ArrowLeft, CheckCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface Enquiry {
   _id: string;
@@ -14,6 +14,7 @@ interface Enquiry {
   phone?: string;
   enquiry: string;
   createdAt: string;
+  reviewed?: boolean; // Add the reviewed field
 }
 
 export default function EnquiryDetailPage() {
@@ -24,6 +25,8 @@ export default function EnquiryDetailPage() {
   const [enquiry, setEnquiry] = useState<Enquiry | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [updating, setUpdating] = useState(false); // Add state for updating
+  const [updateMessage, setUpdateMessage] = useState<string | null>(null); // Add state for update message
 
   useEffect(() => {
     if (!enquiryId) return;
@@ -32,13 +35,13 @@ export default function EnquiryDetailPage() {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`/api/submit-enquiry?id=${enquiryId}`); // Pass ID as a query parameter
+        const response = await fetch(`/api/submit-enquiry?id=${enquiryId}`);
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({ message: 'Failed to fetch enquiry details' }));
           throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setEnquiry(data.data); // Assuming the API returns the enquiry object in data.data
+        setEnquiry(data.data);
       } catch (err: any) {
         setError(err.message || 'An error occurred while fetching enquiry details.');
         console.error('Error fetching enquiry details:', err);
@@ -49,6 +52,38 @@ export default function EnquiryDetailPage() {
 
     fetchEnquiryDetails();
   }, [enquiryId]);
+
+  // Add function to mark enquiry as reviewed
+  const markAsReviewed = async () => {
+    if (!enquiry) return;
+    
+    setUpdating(true);
+    setUpdateMessage(null);
+    
+    try {
+      const response = await fetch(`/api/submit-enquiry?id=${enquiryId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ reviewed: true }),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: 'Failed to update enquiry' }));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      setEnquiry(data.data);
+      setUpdateMessage('Enquiry marked as reviewed successfully!');
+    } catch (err: any) {
+      setUpdateMessage(`Error: ${err.message || 'Failed to mark enquiry as reviewed'}`);
+      console.error('Error marking enquiry as reviewed:', err);
+    } finally {
+      setUpdating(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -90,6 +125,22 @@ export default function EnquiryDetailPage() {
       </Button>
       
       <h1 className="text-3xl font-bold text-[#1a237e] mb-4">Enquiry Details</h1>
+      
+      {/* Add update message alert */}
+      {updateMessage && (
+        <Alert 
+          variant={updateMessage.startsWith('Error') ? "destructive" : "default"}
+          className={updateMessage.startsWith('Error') ? 
+            "bg-red-100/50 border-red-300/50 text-red-800" : 
+            "bg-green-100/50 border-green-300/50 text-green-800"}
+        >
+          {updateMessage.startsWith('Error') ? 
+            <Terminal className="h-4 w-4" /> : 
+            <CheckCircle className="h-4 w-4" />}
+          <AlertTitle>{updateMessage.startsWith('Error') ? "Error" : "Success"}</AlertTitle>
+          <AlertDescription>{updateMessage}</AlertDescription>
+        </Alert>
+      )}
       
       <div className="space-y-4">
         <div className="flex items-center p-3 bg-gray-50/50 rounded-lg border border-gray-200/60">
@@ -133,6 +184,41 @@ export default function EnquiryDetailPage() {
             <p className="text-gray-800 font-medium">{new Date(enquiry.createdAt).toLocaleString()}</p>
           </div>
         </div>
+        
+        {/* Add reviewed status indicator */}
+        <div className="flex items-center p-3 bg-gray-50/50 rounded-lg border border-gray-200/60">
+          <CheckCircle className={`h-5 w-5 mr-3 ${enquiry.reviewed ? 'text-green-600' : 'text-gray-400'}`} />
+          <div>
+            <p className="text-xs text-gray-500">Review Status</p>
+            <p className="text-gray-800 font-medium">
+              {enquiry.reviewed ? 'Reviewed' : 'Pending Review'}
+            </p>
+          </div>
+        </div>
+        
+        {/* Add Mark as Reviewed button */}
+        {!enquiry.reviewed && (
+          <Button 
+            onClick={markAsReviewed}
+            disabled={updating}
+            className="w-full bg-[#1a237e] hover:bg-[#0d1642] text-white font-semibold py-3 px-4 rounded-md shadow-md transition-all duration-300 hover:shadow-lg flex items-center justify-center disabled:opacity-70"
+          >
+            {updating ? (
+              <>
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+              </>
+            ) : (
+              <>
+                <CheckCircle className="mr-2 h-5 w-5" />
+                Mark as Reviewed
+              </>
+            )}
+          </Button>
+        )}
       </div>
     </div>
   );

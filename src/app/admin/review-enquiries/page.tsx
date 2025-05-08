@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation'; // Import useRouter
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Terminal, Inbox, MessageSquare } from 'lucide-react';
+import { Terminal, Inbox, MessageSquare, CheckCircle, XCircle } from 'lucide-react';
 
+// Update the Enquiry interface
 interface Enquiry {
   _id: string;
   name: string;
@@ -14,6 +15,7 @@ interface Enquiry {
   phone?: string;
   enquiry: string;
   createdAt: string;
+  reviewed?: boolean; // Add the reviewed field
 }
 
 export default function ReviewEnquiriesPage() {
@@ -89,6 +91,7 @@ export default function ReviewEnquiriesPage() {
                 <TableHead className="text-[#1a237e] font-semibold">Phone</TableHead>
                 <TableHead className="text-[#1a237e] font-semibold">Enquiry</TableHead>
                 <TableHead className="text-[#1a237e] font-semibold">Date</TableHead>
+                <TableHead className="text-[#1a237e] font-semibold">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -103,6 +106,21 @@ export default function ReviewEnquiriesPage() {
                   <TableCell className="text-gray-600 py-3">{enquiry.phone || '-'}</TableCell>
                   <TableCell className="text-gray-600 py-3 text-sm max-w-xs truncate" title={enquiry.enquiry}>{enquiry.enquiry}</TableCell>
                   <TableCell className="text-gray-500 py-3 text-xs">{new Date(enquiry.createdAt).toLocaleDateString()}</TableCell>
+                  <TableCell className="py-3">
+                    <div className="flex items-center">
+                      {enquiry.reviewed ? (
+                        <div className="flex items-center text-green-600">
+                          <CheckCircle className="h-4 w-4 mr-1" />
+                          <span className="text-xs font-medium">Reviewed</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center text-amber-600">
+                          <XCircle className="h-4 w-4 mr-1" />
+                          <span className="text-xs font-medium">Pending</span>
+                        </div>
+                      )}
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
