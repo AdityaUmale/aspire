@@ -27,8 +27,9 @@ export default function Navbar() {
         </Link>
         
         {/* Navigation links */}
-        <nav className="hidden md:flex gap-8 ml-52">
-          {["Courses", "About Us", "Founder", "Mission & Vision", "Contact"].map((item) => (
+        <nav className="hidden md:flex gap-8 ml-auto mr-24"> {/* Adjusted margin for spacing */}
+          {/* Existing Links - Filtered */}
+          {[ "Mission & Vision"].map((item) => ( // Removed "About Us", "Founder", "Contact"
             <Link
               key={item}
               className="text-sm font-medium text-gray-600 hover:text-[#1a237e] relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#1a237e] after:transition-all hover:after:w-full"
@@ -37,10 +38,39 @@ export default function Navbar() {
               {item}
             </Link>
           ))}
+          {/* New Article Links */}
+           <Link
+              key="Courses"
+              className="text-sm font-medium text-gray-600 hover:text-[#1a237e] relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#1a237e] after:transition-all hover:after:w-full"
+              href="/courses" // Changed to navigate to /courses page
+            >
+              Courses
+            </Link>
+          <Link
+              key="Publish Article"
+              className="text-sm font-medium text-gray-600 hover:text-[#1a237e] relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#1a237e] after:transition-all hover:after:w-full"
+              href="/publish-article"
+            >
+              Publish Article
+            </Link>
+             <Link
+              key="Student Articles"
+              className="text-sm font-medium text-gray-600 hover:text-[#1a237e] relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#1a237e] after:transition-all hover:after:w-full"
+              href="/student-articles"
+            >
+              Student Articles
+            </Link>
+             <Link
+              key="Founder Articles"
+              className="text-sm font-medium text-gray-600 hover:text-[#1a237e] relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#1a237e] after:transition-all hover:after:w-full"
+              href="/articles"
+            >
+              Founder's Articles
+            </Link>
         </nav>
         
-        {/* Action buttons */}
-        <div className="flex items-center gap-4 ml-52">
+        {/* Social Icons */} 
+        <div className="flex items-center gap-4"> {/* Removed margin */}
           <Instagram/>
           <Facebook/>
           <Linkedin/>
