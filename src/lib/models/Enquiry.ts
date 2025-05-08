@@ -35,6 +35,11 @@ const EnquirySchema: Schema = new Schema({
     type: Date,
     default: Date.now,
   },
+  // Add this to your EnquirySchema
+  reviewed: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Enquiry = mongoose.models.Enquiry || mongoose.model<IEnquiry>('Enquiry', EnquirySchema);
