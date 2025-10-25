@@ -20,6 +20,10 @@ import {
   Globe,
   Calendar,
   Newspaper,
+  Linkedin,
+  Instagram,
+  Facebook,
+  Twitter,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { format } from 'date-fns';
@@ -32,6 +36,24 @@ interface Course {
   courseDate?: string;
   courseOutline?: string | string[];
 }
+
+// Map course names to program slugs
+const getProgramSlug = (courseName: string): string | null => {
+  const courseSlugMap: { [key: string]: string } = {
+    "Leadership Development": "/courses/leadership-development",
+    "Personality Development": "/courses/personality-development",
+    "Public Speaking": "/courses/public-speaking",
+    "English Language Training": "/courses/english-language-training",
+    "Childrens Learning Program": "/courses/childrens-learning-program",
+    "Voice & Accent": "/courses/voice-and-accent",
+    "Entrepreneurship Development": "/courses/entrepreneurship-development",
+    "Teachers Training Program": "/courses/teachers-training-program",
+    "ARISE - LANGUAGE AND THOUGHTS ENRICHMENT CAMP": "/courses/arise-camp",
+    "International Workshop": "/courses/international-workshop",
+  };
+  
+  return courseSlugMap[courseName] || null;
+};
 
 export default function Home() {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -112,14 +134,14 @@ export default function Home() {
                 <div className="flex flex-col gap-3 sm:flex-row fade-in w-full sm:w-auto" style={{ animationDelay: '0.3s' }}>
                   <Link href="#courses" className="w-full sm:w-auto">
                     <Button className="bg-[#1a237e] hover:bg-[#0d1642] shadow-md transition-all duration-300 hover:shadow-lg w-full sm:w-auto">
-                      Explore Courses
-                      <ChevronRight className="ml-2 h-4 w-4" />
-                    </Button>
+                    Explore Courses
+                    <ChevronRight className="ml-2 h-4 w-4" />
+                  </Button>
                   </Link>
                   <Link href="#why-choose" className="w-full sm:w-auto">
                     <Button variant="outline" className="text-[#1a237e] border-[#1a237e] hover:bg-[#e8eaf6] transition-all duration-300 w-full sm:w-auto">
-                      Learn More
-                    </Button>
+                    Learn More
+                  </Button>
                   </Link>
                 </div>
                 <div className="flex items-center gap-4 pt-4 fade-in" style={{ animationDelay: '0.4s' }}>
@@ -148,7 +170,7 @@ export default function Home() {
                     <div className="relative transform transition-all duration-500 ease-out group z-[5] hover:[transform:rotateX(5deg)_rotateY(-5deg)_scale(1.05)]" style={{ transformStyle: 'preserve-3d', transform: 'rotateX(0deg) rotateY(0deg) scale(1)' }}>
                       <div className="relative bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6 md:p-8 border border-white/30 shadow-2xl overflow-hidden" style={{ transform: 'translateZ(20px)', boxShadow: '0 25px 50px -12px rgba(26, 35, 126, 0.25)' }}>
                         <div className="relative" style={{ transform: 'translateZ(30px)' }}>
-                          <Image src="/logo2.png" alt="Aspire Institute Secondary Logo" width={400} height={400} className="object-contain relative z-10 filter drop-shadow-[0_10px_15px_rgba(0,0,0,0.2)] transition-all duration-500 group-hover:drop-shadow-[0_20px_30px_rgba(26,35,126,0.3)] w-full h-auto" style={{ transform: 'translateZ(10px)' }} />
+                          <img src="/logo2.png" alt="Aspire Institute Secondary Logo" width="400" height="400" className="object-contain relative z-10 filter drop-shadow-[0_10px_15px_rgba(0,0,0,0.2)] transition-all duration-500 group-hover:drop-shadow-[0_20px_30px_rgba(26,35,126,0.3)] w-full h-auto" style={{ transform: 'translateZ(10px)' }} />
                         </div>
                         <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-50"></div>
                         <div className="absolute -inset-[100%] bg-gradient-to-r from-transparent via-white/15 to-transparent skew-x-[-25deg] animate-[shine_7s_ease-in-out_infinite]" style={{ transform: 'translateZ(10px)' }}></div>
@@ -180,7 +202,7 @@ export default function Home() {
               <div className="relative slide-in-left">
                 <div className="absolute -top-6 -left-6 w-32 h-32 bg-[#1a237e]/5 rounded-full blur-xl"></div>
                 <div className="relative z-10 overflow-hidden rounded-2xl shadow-xl">
-                  <Image src="/founder3.jpg" alt="Founder of Aspire Institute" width={400} height={400} className="w-full h-auto object-cover transform transition-transform hover:scale-105 duration-500" />
+                  <img src="/founder3.jpg" alt="Founder of Aspire Institute" width="400" height="400" className="w-full h-auto object-cover transform transition-transform hover:scale-105 duration-500" />
                 </div>
               </div>
               <div className="space-y-6 lg:pl-8 slide-in-right">
@@ -235,22 +257,22 @@ export default function Home() {
                           <Award className="h-5 w-5 text-[#1a237e]" />
                         </div>
                         <h3 className="font-semibold text-[#1a237e] text-lg">Awards & Recognition</h3>
-                      </div>
-                      <ul className="space-y-3">
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                          <p className="text-sm text-gray-600">Awarded Excellent Institute For Creating Leaders and Discovering The Potential Of Students In India</p>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                          <p className="text-sm text-gray-600">National Achievers Award for Education Excellence</p>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                          <p className="text-sm text-gray-600">Outstanding Young Persons of India (OYP) by JCI in 2014</p>
-                        </li>
-                      </ul>
-                    </div>
+                  </div>
+                  <ul className="space-y-3">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
+                      <p className="text-sm text-gray-600">Awarded Excellent Institute For Creating Leaders and Discovering The Potential Of Students In India</p>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
+                      <p className="text-sm text-gray-600">National Achievers Award for Education Excellence</p>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
+                      <p className="text-sm text-gray-600">Outstanding Young Persons of India (OYP) by JCI in 2014</p>
+                    </li>
+                  </ul>
+                </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-50 rounded-2xl"></div>
                   </div>
                 </div>
@@ -268,22 +290,22 @@ export default function Home() {
                           <Globe className="h-5 w-5 text-[#1a237e]" />
                         </div>
                         <h3 className="font-semibold text-[#1a237e] text-lg">Global Presence</h3>
-                      </div>
-                      <ul className="space-y-3">
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                          <p className="text-sm text-gray-600">Conducted workshops in Singapore, Malaysia, Thailand, UAE, Qatar, and Vietnam</p>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
+                  </div>
+                  <ul className="space-y-3">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
+                      <p className="text-sm text-gray-600">Conducted workshops in Singapore, Malaysia, Thailand, UAE, Qatar, and Vietnam</p>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
                           <p className="text-sm text-gray-600">Invited by HUB Singapore to address youth in 2014 and share insights on entrepreneurship and leadership</p>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                          <p className="text-sm text-gray-600">Successful motivational talk in Dubai organized by SKS Events UAE in 2017</p>
-                        </li>
-                      </ul>
-                    </div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
+                      <p className="text-sm text-gray-600">Successful motivational talk in Dubai organized by SKS Events UAE in 2017</p>
+                    </li>
+                  </ul>
+                </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-50 rounded-2xl"></div>
                   </div>
                 </div>
@@ -302,21 +324,21 @@ export default function Home() {
                           <Newspaper className="h-5 w-5 text-[#1a237e]" />
                         </div>
                         <h3 className="font-semibold text-[#1a237e] text-lg">Media & Publications</h3>
-                      </div>
-                      <ul className="space-y-3">
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                          <p className="text-sm text-gray-600">Life and success story featured on ZEE TV in The Real Heroes</p>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
+                  </div>
+                  <ul className="space-y-3">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
+                      <p className="text-sm text-gray-600">Life and success story featured on ZEE TV in The Real Heroes</p>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
                           <p className="text-sm text-gray-600">Columnist for renowned newspapers like Sakal and Maharashtra Times, writing on education and personal development</p>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                          <p className="text-sm text-gray-600">Honored with Vidharbha MAITRI GAURAV PURSKAR in Nagpur</p>
-                        </li>
-                      </ul>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
+                      <p className="text-sm text-gray-600">Honored with Vidharbha MAITRI GAURAV PURSKAR in Nagpur</p>
+                    </li>
+                  </ul>
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-50 rounded-2xl"></div>
                   </div>
@@ -350,7 +372,7 @@ export default function Home() {
                       <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#1a237e]/10 to-[#3949ab]/5 shadow-lg">
                         <GraduationCap className="h-6 w-6 text-[#1a237e]" />
                       </div>
-                      <h3 className="text-2xl font-semibold text-[#1a237e]">Mission</h3>
+                  <h3 className="text-2xl font-semibold text-[#1a237e]">Mission</h3>
                     </div>
                     <p className="text-gray-600 leading-relaxed text-base">Our mission is to provide an extensive variety of life-transforming programs to create effective Communicators, Self believers, Engaging leaders, Aspiring professionals and Visionary entrepreneurs. Through our innovative training methodologies and expert guidance, we empower individuals to unlock their potential and achieve their personal and professional goals.</p>
                   </div>
@@ -371,7 +393,7 @@ export default function Home() {
                       <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#3949ab]/10 to-[#1a237e]/5 shadow-lg">
                         <Globe className="h-6 w-6 text-[#1a237e]" />
                       </div>
-                      <h3 className="text-2xl font-semibold text-[#1a237e]">Vision</h3>
+                  <h3 className="text-2xl font-semibold text-[#1a237e]">Vision</h3>
                     </div>
                     <p className="text-gray-600 leading-relaxed text-base">Aspire The Institute Of Human Development envisions the world where people believe in themselves & live their true potential to make this world a better place to live. We strive to create a global community of empowered individuals who transform their lives and contribute meaningfully to society through continuous learning and personal development, fostering innovation and excellence in everything we do.</p>
                   </div>
@@ -399,18 +421,18 @@ export default function Home() {
                 { title: "Leadership Development", description: "Develop essential leadership skills for the modern workplace and learn to inspire teams.", icon: Users, image: "/ldp.jpg", slug: "/courses/leadership-development", features: ["Strategic thinking", "Team management", "Decision making", "Conflict resolution"] },
                 { title: "Personality Development", description: "Build confidence and enhance your personal growth through comprehensive self-improvement.", icon: Target, image: "/pdc.jpg", slug: "/courses/personality-development", features: ["Self-confidence", "Communication skills", "Emotional intelligence", "Personal branding"] },
                 { title: "Public Speaking", description: "Master the art of effective communication and captivate any audience with your words.", icon: BookOpen, image: "/public-speaking.jpg", slug: "/courses/public-speaking", features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"] },
-                { title: "English Language Training", description: "Enhance your English skills for better communication.", icon: BookOpen, image: "/public-speaking.jpg", slug: "/courses/english-language-training", features: ["Grammar", "Vocabulary", "Pronunciation", "Fluency"] },
-                { title: "Childrens Learning Program", description: "Fun and educational programs for kids.", icon: BookOpen, image: "/public-speaking.jpg", slug: "/courses/childrens-learning-program", features: ["Creativity", "Learning skills", "Teamwork", "Confidence"] },
-                { title: "Voice & Accent", description: "Improve your voice modulation and accent.", icon: BookOpen, image: "/public-speaking.jpg", slug: "/courses/voice-and-accent", features: ["Clarity", "Tone", "Accent training", "Expression"] },
-                { title: "Entrepreneurship Development", description: "Build skills to start and grow your business.", icon: BookOpen, image: "/public-speaking.jpg", slug: "/courses/entrepreneurship-development", features: ["Innovation", "Business planning", "Leadership", "Risk management"] },
-                { title: "Teachers Training Program", description: "Empower educators with modern teaching methods.", icon: BookOpen, image: "/public-speaking.jpg", slug: "/courses/teachers-training-program", features: ["Pedagogy", "Classroom management", "Engagement", "Assessment"] },
-                { title: "ARISE - LANGUAGE AND THOUGHTS ENRICHMENT CAMP", description: "A unique camp for personal growth.", icon: BookOpen, image: "/public-speaking.jpg", slug: "/courses/arise-camp", features: ["Mindset", "Language skills", "Critical thinking", "Self-expression"] },
-                { title: "International Workshop", description: "Global learning experiences.", icon: BookOpen, image: "/public-speaking.jpg", slug: "/courses/international-workshop", features: ["Cross-cultural skills", "Global trends", "Networking", "Innovation"] },
+                { title: "English Language Training", description: "Enhance your English skills for better communication.", icon: BookOpen, image: "/elt3.jpg", slug: "/courses/english-language-training", features: ["Grammar", "Vocabulary", "Pronunciation", "Fluency"] },
+                { title: "Childrens Learning Program", description: "Fun and educational programs for kids.", icon: BookOpen, image: "/elt.jpg", slug: "/courses/childrens-learning-program", features: ["Creativity", "Learning skills", "Teamwork", "Confidence"] },
+                { title: "Voice & Accent", description: "Improve your voice modulation and accent.", icon: BookOpen, image: "/voice-and-accent.jpg", slug: "/courses/voice-and-accent", features: ["Clarity", "Tone", "Accent training", "Expression"] },
+                { title: "Entrepreneurship Development", description: "Build skills to start and grow your business.", icon: BookOpen, image: "/edp-logo.jpg", slug: "/courses/entrepreneurship-development", features: ["Innovation", "Business planning", "Leadership", "Risk management"] },
+                { title: "Teachers Training Program", description: "Empower educators with modern teaching methods.", icon: BookOpen, image: "/teacher2.png", slug: "/courses/teachers-training-program", features: ["Pedagogy", "Classroom management", "Engagement", "Assessment"] },
+                { title: "ARISE - LANGUAGE AND THOUGHTS ENRICHMENT CAMP", description: "A unique camp for personal growth.", icon: BookOpen, image: "/arise-logo.jpg", slug: "/courses/arise-camp", features: ["Mindset", "Language skills", "Critical thinking", "Self-expression"] },
+                { title: "International Workshop", description: "Global learning experiences.", icon: BookOpen, image: "/international.jpg", slug: "/courses/international-workshop", features: ["Cross-cultural skills", "Global trends", "Networking", "Innovation"] },
               ].map((course, index) => (
                 <Link key={index} href={course.slug} legacyBehavior passHref>
                   <a className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-lg border border-gray-200/60 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 block flex-shrink-0 w-72 sm:w-80 md:w-80 course-card" style={{ animationDelay: `${index * 0.1}s` }}>
                     <div className="relative h-48 w-full overflow-hidden">
-                      <Image src={course.image} alt={`${course.title} image`} layout="fill" objectFit="cover" className="transition-transform duration-500 ease-in-out group-hover:scale-105" />
+                      <img src={course.image} alt={`${course.title} image`} className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
                       <div className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 backdrop-blur-sm text-[#1a237e] shadow-md">
                         <course.icon className="h-5 w-5" />
@@ -590,44 +612,75 @@ export default function Home() {
               </div>
             ) : (
               <div className="flex flex-row overflow-x-auto gap-4 md:gap-6 lg:gap-8 pb-4 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
-                {courses.map((course, index) => (
-                  <div key={index} className="group relative overflow-hidden rounded-xl bg-white shadow-lg border border-[#e0e0e0] transition-all hover:shadow-xl hover:border-[#1a237e]/20 w-72 sm:w-80 md:w-80 flex-shrink-0 course-card" style={{ animationDelay: `${index * 0.1}s` }}>
+                {courses.map((course, index) => {
+                  const programSlug = getProgramSlug(course.courseName);
+                  const CardContent = (
+                    <div className="group relative overflow-hidden rounded-xl bg-white shadow-lg border border-[#e0e0e0] transition-all hover:shadow-xl hover:border-[#1a237e]/20 w-72 sm:w-80 md:w-80 flex-shrink-0 course-card flex flex-col h-full" style={{ animationDelay: `${index * 0.1}s` }}>
                     <div className="absolute top-0 right-0 h-24 w-24 bg-[#e8eaf6] rounded-bl-full opacity-50 transition-all group-hover:bg-[#c5cae9]"></div>
-                    <div className="p-6">
-                      <div className="relative flex flex-col items-start space-y-4">
+                      <div className="p-6 flex-1 flex flex-col h-full">
+                        <div className="relative flex flex-col items-start space-y-4 flex-1">
                         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e8eaf6] text-[#1a237e] transition-all group-hover:bg-[#1a237e] group-hover:text-white">
                           <BookOpen className="h-6 w-6" />
                         </div>
-                        <h3 className="text-xl font-bold text-[#1a237e]">{course.courseName}</h3>
-                        <p className="text-gray-500">{course.description}</p>
+                          <h3 className="text-xl font-bold text-[#1a237e] line-clamp-2">{course.courseName}</h3>
+                          <p className="text-gray-500 line-clamp-2">{course.description}</p>
                         {course.courseDate && (
                           <div className="flex items-center gap-2 text-sm text-gray-600 pt-2">
                             <Calendar className="h-4 w-4 text-[#1a237e]" />
                             <span>Starts: {format(new Date(course.courseDate), 'PPP')}</span>
                           </div>
                         )}
-                        {course.courseOutline && (
-                          <div className="w-full pt-4 mt-2 border-t border-[#e0e0e0]">
-                            <p className="text-sm font-medium text-[#1a237e] mb-3">Course Outline:</p>
-                            <ul className="space-y-2">
-                              {Array.isArray(course.courseOutline) ? course.courseOutline.slice(0, 4).map((item: string, i: number) => (
-                                <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
-                                  <CheckCircle className="h-4 w-4 text-[#1a237e]" />
-                                  {item}
-                                </li>
-                              )) : (
-                                <li className="flex items-center gap-2 text-sm text-gray-600">
-                                  <CheckCircle className="h-4 w-4 text-[#1a237e]" />
-                                  {course.courseOutline}
-                                </li>
-                              )}
-                            </ul>
-                          </div>
-                        )}
+                          {course.courseOutline && (
+                            <div className="w-full pt-4 mt-2 border-t border-[#e0e0e0] flex-1">
+                          <p className="text-sm font-medium text-[#1a237e] mb-3">Course Outline:</p>
+                              <ul className="space-y-2 max-h-32 overflow-y-auto">
+                                {Array.isArray(course.courseOutline) ? course.courseOutline.slice(0, 4).map((item: string, i: number) => (
+                                  <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                                    <CheckCircle className="h-4 w-4 text-[#1a237e] flex-shrink-0 mt-0.5" />
+                                    <span className="line-clamp-1">{item}</span>
+                              </li>
+                            )) : (
+                                  <li className="flex items-start gap-2 text-sm text-gray-600">
+                                    <CheckCircle className="h-4 w-4 text-[#1a237e] flex-shrink-0 mt-0.5" />
+                                    <span className="line-clamp-1">{course.courseOutline}</span>
+                              </li>
+                            )}
+                          </ul>
+                            </div>
+                          )}
+                        </div>
+                        <div className="mt-auto">
+                          {programSlug ? (
+                            <div className="pt-4 border-t border-gray-200">
+                              <Link href={programSlug}>
+                                <Button 
+                                  className="w-full bg-gradient-to-r from-[#1a237e] to-[#3949ab] hover:from-[#0d1642] hover:to-[#1a237e] text-white transition-all duration-300 text-sm"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  Learn More
+                                  <ArrowRight className="ml-2 h-4 w-4" />
+                                </Button>
+                              </Link>
+                            </div>
+                          ) : (
+                            <div className="pt-4 border-t border-gray-200">
+                              <Button 
+                                className="w-full bg-gray-300 text-gray-500 cursor-not-allowed"
+                                disabled
+                              >
+                                No Details Available
+                              </Button>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+
+                  return (
+                    <div key={index}>{CardContent}</div>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -636,58 +689,64 @@ export default function Home() {
       <EnquiryForm />
       <footer className="border-t bg-white lg:ml-18">
         <div className="container px-4 py-8 md:py-12 md:px-6 mx-auto">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            <div className="space-y-4">
+          <div className="flex flex-col lg:flex-row justify-between gap-8 ml-12">
+            <div className="space-y-4 lg:max-w-md">
               <div className="flex items-center gap-2">
-                <Image src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Image%202-wKlvojVmZKfsKl6SY0T2zX1H92pLQT.jpeg" alt="Aspire Institute Logo" width={40} height={40} className="h-10 w-auto" />
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Image%202-wKlvojVmZKfsKl6SY0T2zX1H92pLQT.jpeg" alt="Aspire Institute Logo" width="40" height="40" className="h-10 w-auto" />
                 <span className="text-lg font-semibold text-[#1a237e]">Aspire Institute</span>
               </div>
               <p className="text-sm text-gray-500">One of India's largest personal and professional development training institutes, transforming lives since 2009.</p>
-              <div className="flex space-x-4">
-                {["twitter", "facebook", "instagram", "linkedin"].map((social) => (
-                  <Link key={social} href="#" className="flex h-8 w-8 items-center justify-center rounded-full bg-[#e8eaf6] text-[#1a237e] hover:bg-[#1a237e] hover:text-white transition-colors">
-                    <span className="sr-only">{social}</span>
-                    <div className="h-4 w-4" />
+              <div className="flex items-center gap-2 mt-2">
+              <Link href="https://www.linkedin.com/company/aspire-the-institute-of-human-development/" target="_blank" rel="noopener noreferrer">
+                <Linkedin className="h-5 w-5 text-[#1a237e] flex-shrink-0 mt-0.5" />
+              </Link>
+              <Link href="https://www.instagram.com/official_aspire_institute/" target="_blank" rel="noopener noreferrer">
+                <Instagram className="h-5 w-5 text-[#1a237e] flex-shrink-0 mt-0.5" />
+              </Link>
+              <Facebook className="h-5 w-5 text-[#1a237e] flex-shrink-0 mt-0.5" />
+              <Link href="https://x.com/AspireTIHD" target="_blank" rel="noopener noreferrer">
+                <Twitter className="h-5 w-5 text-[#1a237e] flex-shrink-0 mt-0.5" />
                   </Link>
-                ))}
               </div>
             </div>
+            <div className="flex flex-col sm:flex-row gap-8 lg:gap-12">
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#1a237e]">Programs</h3>
+                <h3 className="text-lg font-semibold text-[#1a237e]">Company</h3>
               <ul className="space-y-2">
-                {["Leadership Development", "Personality Development", "Public Speaking", "English Speaking", "Corporate Training"].map((program) => (
-                  <li key={program}>
-                    <Link href="#" className="text-sm text-gray-500 hover:text-[#1a237e]">{program}</Link>
+                  <li>
+                    <Link href="#" className="text-sm text-gray-500 hover:text-[#1a237e]">About Us</Link>
                   </li>
-                ))}
-              </ul>
-            </div>
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#1a237e]">Company</h3>
-              <ul className="space-y-2">
-                {["About Us", "Mission & Vision", "Our Team", "Testimonials", "Careers"].map((item) => (
-                  <li key={item}>
-                    <Link href="#" className="text-sm text-gray-500 hover:text-[#1a237e]">{item}</Link>
+                  <li>
+                    <Link href="#vision-mission" className="text-sm text-gray-500 hover:text-[#1a237e]">Mission & Vision</Link>
                   </li>
-                ))}
+                  <li>
+                    <Link href="#" className="text-sm text-gray-500 hover:text-[#1a237e]">Our Team</Link>
+                  </li>
+                  <li>
+                    <Link href="#" className="text-sm text-gray-500 hover:text-[#1a237e]">Testimonials</Link>
+                  </li>
+                  <li>
+                    <Link href="#" className="text-sm text-gray-500 hover:text-[#1a237e]">Careers</Link>
+                  </li>
               </ul>
             </div>
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-[#1a237e]">Contact</h3>
               <ul className="space-y-2">
                 <li className="flex items-start gap-2">
-                  <MapPin className="h-5 w-5 text-[#1a237e]" />
-                  <span className="text-sm text-gray-500">Sahakar Nagar, Gaurakhshan Road, Akola- 444001 Maharashtra(India)</span>
+                    <MapPin className="h-5 w-5 text-[#1a237e] flex-shrink-0 mt-0.5" />
+                    <span className="text-sm text-gray-500 max-w-xs break-words">Sahakar Nagar, Gaurakhshan Road,<br />Akola- 444001 Maharashtra(India)</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Mail className="h-5 w-5 text-[#1a237e]" />
+                    <Mail className="h-5 w-5 text-[#1a237e] flex-shrink-0" />
                   <span className="text-sm text-gray-500">infoaspire2009@gmail.com</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Phone className="h-5 w-5 text-[#1a237e]" />
+                    <Phone className="h-5 w-5 text-[#1a237e] flex-shrink-0" />
                   <span className="text-sm text-gray-500">+91-8275726016/17</span>
                 </li>
               </ul>
+              </div>
             </div>
           </div>
         </div>

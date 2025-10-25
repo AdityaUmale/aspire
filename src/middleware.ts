@@ -29,7 +29,8 @@ export async function middleware(request: NextRequest) {
     if (
         pathname.startsWith('/publish-article') || 
         pathname.startsWith('/student-articles') ||
-        pathname.startsWith('/articles') // Add articles path
+        pathname.startsWith('/articles') ||
+        pathname.startsWith('/courses') // Add courses path
     ) {
         return NextResponse.next();
     }
@@ -74,6 +75,7 @@ export const config = {
          * - api routes that shouldn't be protected by default (adjust if needed)
          * - _next/static (static files)
          * - _next/image (image optimization files)
+         * - Static assets (images, etc.)
          * - favicon.ico (favicon file)
          * - The signin page itself to avoid redirect loops
          * - The course API route
@@ -81,9 +83,6 @@ export const config = {
          * - The main article API route (including dynamic paths)
          * - The enquiry submission API route
          */
-        // Add api/submit-enquiry to the negative lookahead
-        '/((?!api/public|api/course|api/student-article|api/article|api/submit-enquiry|_next/static|_next/image|favicon.ico|signin).*)',
-        // Explicitly include /admin and its subpaths if the above pattern is too broad or complex
-        // '/admin/:path*',
+        '/((?!api/public|api/course|api/student-article|api/article|api/submit-enquiry|_next/static|_next/image|favicon.ico|.*\\.(?:jpg|jpeg|png|gif|svg|ico|webp)|signin).*)',
     ],
 };

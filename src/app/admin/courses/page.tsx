@@ -8,25 +8,101 @@ import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal, CheckCircle, GraduationCap } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { CalendarIcon } from 'lucide-react'; // Import CalendarIcon
-import { format } from 'date-fns'; // Import date-fns for formatting
-import { cn } from '@/lib/utils'; // Assuming you have a cn utility
-import { Calendar } from '@/components/ui/calendar'; // Import Calendar component
+import { CalendarIcon } from 'lucide-react';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { Calendar } from '@/components/ui/calendar';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"; // Import Popover components
+} from "@/components/ui/popover";
+
+// Define the available programs from "Our Programs" section
+const AVAILABLE_PROGRAMS = [
+  { 
+    title: "Leadership Development", 
+    description: "Develop essential leadership skills for the modern workplace and learn to inspire teams.", 
+    features: ["Strategic thinking", "Team management", "Decision making", "Conflict resolution"],
+    slug: "/courses/leadership-development"
+  },
+  { 
+    title: "Personality Development", 
+    description: "Build confidence and enhance your personal growth through comprehensive self-improvement.", 
+    features: ["Self-confidence", "Communication skills", "Emotional intelligence", "Personal branding"],
+    slug: "/courses/personality-development"
+  },
+  { 
+    title: "Public Speaking", 
+    description: "Master the art of effective communication and captivate any audience with your words.", 
+    features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
+    slug: "/courses/public-speaking"
+  },
+  { 
+    title: "English Language Training", 
+    description: "Enhance your English skills for better communication.", 
+    features: ["Grammar", "Vocabulary", "Pronunciation", "Fluency"],
+    slug: "/courses/english-language-training"
+  },
+  { 
+    title: "Childrens Learning Program", 
+    description: "Fun and educational programs for kids.", 
+    features: ["Creativity", "Learning skills", "Teamwork", "Confidence"],
+    slug: "/courses/childrens-learning-program"
+  },
+  { 
+    title: "Voice & Accent", 
+    description: "Improve your voice modulation and accent.", 
+    features: ["Clarity", "Tone", "Accent training", "Expression"],
+    slug: "/courses/voice-and-accent"
+  },
+  { 
+    title: "Entrepreneurship Development", 
+    description: "Build skills to start and grow your business.", 
+    features: ["Innovation", "Business planning", "Leadership", "Risk management"],
+    slug: "/courses/entrepreneurship-development"
+  },
+  { 
+    title: "Teachers Training Program", 
+    description: "Empower educators with modern teaching methods.", 
+    features: ["Pedagogy", "Classroom management", "Engagement", "Assessment"],
+    slug: "/courses/teachers-training-program"
+  },
+  { 
+    title: "ARISE - LANGUAGE AND THOUGHTS ENRICHMENT CAMP", 
+    description: "A unique camp for personal growth.", 
+    features: ["Mindset", "Language skills", "Critical thinking", "Self-expression"],
+    slug: "/courses/arise-camp"
+  },
+  { 
+    title: "International Workshop", 
+    description: "Global learning experiences.", 
+    features: ["Cross-cultural skills", "Global trends", "Networking", "Innovation"],
+    slug: "/courses/international-workshop"
+  },
+];
 
 export default function AddCoursesPage() {
+  const [selectedProgram, setSelectedProgram] = useState<string>('');
   const [courseName, setCourseName] = useState('');
   const [description, setDescription] = useState('');
   const [courseOutlineStr, setCourseOutlineStr] = useState('');
-  const [courseDate, setCourseDate] = useState<Date | undefined>(undefined); // Add state for date
+  const [courseDate, setCourseDate] = useState<Date | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const router = useRouter();
+
+  // Handle program selection and auto-fill fields
+  const handleProgramSelect = (programTitle: string) => {
+    const program = AVAILABLE_PROGRAMS.find(p => p.title === programTitle);
+    if (program) {
+      setCourseName(program.title);
+      setDescription(program.description);
+      setCourseOutlineStr(program.features.join(', '));
+      setSelectedProgram(programTitle);
+    }
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -60,10 +136,11 @@ export default function AddCoursesPage() {
 
       setSuccess('Course added successfully!');
       // Clear the form
+      setSelectedProgram('');
       setCourseName('');
       setDescription('');
       setCourseOutlineStr('');
-      setCourseDate(undefined); // Clear date
+      setCourseDate(undefined);
 
     } catch (err: any) {
       console.error('Failed to add course:', err);
@@ -100,6 +177,22 @@ export default function AddCoursesPage() {
       
       <div className="bg-white/90 backdrop-blur-md p-4 lg:p-6 rounded-2xl shadow-xl border border-gray-200/60">
         <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-5">
+          <div>
+            <Label htmlFor="programSelect" className="text-[#1a237e] font-medium">Select from Our Programs (Optional)</Label>
+            <p className="text-xs text-gray-500 mb-2">Choose a program to auto-fill the details below</p>
+            <select
+              id="programSelect"
+              value={selectedProgram}
+              onChange={(e) => handleProgramSelect(e.target.value)}
+              className="w-full px-3 py-2 border border-[#1a237e]/20 rounded-lg focus:border-[#1a237e] focus:ring-[#1a237e]/20 text-sm"
+            >
+              <option value="">-- Select a program --</option>
+              {AVAILABLE_PROGRAMS.map((program, index) => (
+                <option key={index} value={program.title}>{program.title}</option>
+              ))}
+            </select>
+          </div>
+
           <div>
             <Label htmlFor="courseName" className="text-[#1a237e] font-medium">Course Name</Label>
             <Input

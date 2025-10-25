@@ -1,6 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Terminal, CheckCircle, Trash2 } from 'lucide-react';
+import { format } from 'date-fns';
 
 interface Enquiry {
   _id: string;
@@ -9,19 +13,28 @@ interface Enquiry {
   phone: string;
   enquiry: string;
   createdAt: string;
-  // Add other fields if necessary, e.g., reviewed: boolean;
+}
+
+interface Course {
+  _id: string;
+  courseName: string;
+  description: string;
+  courseDate?: string;
+  courseOutline?: string | string[];
 }
 
 export default function AdminDashboardPage() {
   const [totalEnquiries, setTotalEnquiries] = useState<number | string>('--');
   const [pendingArticles, setPendingArticles] = useState<number | string>('--');
-  // We can refine this once we know how to determine 'pending' enquiries
   const [pendingEnquiriesCount, setPendingEnquiriesCount] = useState<number | string>('--'); 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [coursesLoading, setCoursesLoading] = useState(true);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [deleteSuccess, setDeleteSuccess] = useState<string | null>(null);
 
   useEffect(() => {
-    // Replace your existing fetchDashboardData function with this:
     async function fetchDashboardData() {
       setIsLoading(true);
       setError(null);
@@ -36,7 +49,6 @@ export default function AdminDashboardPage() {
           setTotalEnquiries(data.data.totalEnquiries);
           setPendingEnquiriesCount(data.data.pendingEnquiries);
           setPendingArticles(data.data.pendingArticles);
-          // You can also add more stats if needed
         } else {
           throw new Error(data.message || 'Failed to fetch dashboard stats');
         }
@@ -51,8 +63,54 @@ export default function AdminDashboardPage() {
       setIsLoading(false);
     }
 
+    async function fetchCourses() {
+      setCoursesLoading(true);
+      try {
+        const response = await fetch('/api/course');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch courses: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        setCourses(data.courses || []);
+      } catch (err) {
+        console.error('Error fetching courses:', err);
+      }
+      setCoursesLoading(false);
+    }
+
     fetchDashboardData();
+    fetchCourses();
   }, []);
+
+  const handleDeleteCourse = async (courseId: string, courseName: string) => {
+    if (!confirm(`Are you sure you want to delete "${courseName}"?`)) {
+      return;
+    }
+
+    setDeleteError(null);
+    setDeleteSuccess(null);
+
+    try {
+      const response = await fetch(`/api/course?id=${courseId}`, {
+        method: 'DELETE',
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to delete course');
+      }
+
+      setDeleteSuccess('Course deleted successfully!');
+      setCourses(courses.filter(course => course._id !== courseId));
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => setDeleteSuccess(null), 3000);
+    } catch (err: any) {
+      setDeleteError(err.message || 'Failed to delete course. Please try again.');
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -107,6 +165,70 @@ export default function AdminDashboardPage() {
             <p>No recent activity</p>
           </div>
         </div>
+      </div>
+
+      {/* Courses Management Section */}
+      <div className="bg-white/90 backdrop-blur-md p-4 lg:p-6 rounded-2xl shadow-xl border border-gray-200/60 mt-6">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl lg:text-2xl font-bold text-[#1a237e]">Manage Upcoming Courses</h2>
+          <p className="text-sm text-gray-500">{courses.length} course{courses.length !== 1 ? 's' : ''}</p>
+        </div>
+
+        {deleteError && (
+          <Alert variant="destructive" className="mb-4 bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
+            <Terminal className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>{deleteError}</AlertDescription>
+          </Alert>
+        )}
+
+        {deleteSuccess && (
+          <Alert className="mb-4 bg-green-100/50 border-green-300/50 text-green-800 rounded-lg shadow-sm">
+            <CheckCircle className="h-4 w-4" />
+            <AlertTitle>Success</AlertTitle>
+            <AlertDescription>{deleteSuccess}</AlertDescription>
+          </Alert>
+        )}
+
+        {coursesLoading ? (
+          <div className="text-center py-8">
+            <p className="text-gray-500">Loading courses...</p>
+          </div>
+        ) : courses.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-gray-500">No upcoming courses yet. Add courses from the sidebar.</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {courses.map((course) => (
+              <div 
+                key={course._id} 
+                className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-[#1a237e] mb-2">{course.courseName}</h3>
+                    <p className="text-sm text-gray-600 mb-2">{course.description}</p>
+                    {course.courseDate && (
+                      <p className="text-xs text-gray-500">
+                        Start Date: {format(new Date(course.courseDate), 'PPP')}
+                      </p>
+                    )}
+                  </div>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => handleDeleteCourse(course._id, course.courseName)}
+                    className="ml-4 flex-shrink-0"
+                  >
+                    <Trash2 className="h-4 w-4 mr-1" />
+                    Delete
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -35,6 +35,15 @@ export default function AdminLayout({
             <ul className="space-y-2">
               <li>
                 <Link 
+                  href="/admin" 
+                  className="flex items-center gap-2 py-2.5 px-4 rounded-lg text-gray-700 hover:bg-[#e8eaf6] hover:text-[#1a237e] transition-all duration-200"
+                >
+                  <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-1"></span>
+                  Analytics
+                </Link>
+              </li>
+              <li>
+                <Link 
                   href="/admin/courses" 
                   className="flex items-center gap-2 py-2.5 px-4 rounded-lg text-gray-700 hover:bg-[#e8eaf6] hover:text-[#1a237e] transition-all duration-200"
                 >
@@ -80,6 +89,16 @@ export default function AdminLayout({
           <h2 className="text-xl font-bold text-[#1a237e]">Admin Dashboard</h2>
           <nav>
             <ul className="space-y-2">
+              <li>
+                <Link 
+                  href="/admin" 
+                  className="flex items-center gap-2 py-2.5 px-4 rounded-lg text-gray-700 hover:bg-[#e8eaf6] hover:text-[#1a237e] transition-all duration-200 text-sm"
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-1"></span>
+                  Analytics
+                </Link>
+              </li>
               <li>
                 <Link 
                   href="/admin/courses" 

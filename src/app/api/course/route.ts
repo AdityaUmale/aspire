@@ -55,3 +55,27 @@ export async function POST(req: Request){
         return NextResponse.json({ error: "Failed to create course", details: errorMessage }, { status: 500 });
     }
 }
+
+export async function DELETE(req: Request) {
+    try {
+        await connectDB();
+        const { searchParams } = new URL(req.url);
+        const courseId = searchParams.get('id');
+
+        if (!courseId) {
+            return NextResponse.json({ error: "Course ID is required" }, { status: 400 });
+        }
+
+        const deletedCourse = await Course.findByIdAndDelete(courseId);
+
+        if (!deletedCourse) {
+            return NextResponse.json({ error: "Course not found" }, { status: 404 });
+        }
+
+        return NextResponse.json({ message: "Course deleted successfully", course: deletedCourse }, { status: 200 });
+    } catch (error: any) {
+        console.error("Error deleting course:", error);
+        const errorMessage = error instanceof Error ? error.message : "Something went wrong";
+        return NextResponse.json({ error: "Failed to delete course", details: errorMessage }, { status: 500 });
+    }
+}

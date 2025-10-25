@@ -1,8 +1,6 @@
 module.exports = {
-  // ... other config
   theme: {
     extend: {
-      // ... other extensions
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
@@ -15,7 +13,16 @@ module.exports = {
       animation: {
         'shine': 'shine 6s ease-in-out infinite',
       },
+      lineClamp: {
+        1: '1',
+        2: '2',
+        3: '3',
+        4: '4',
+      },
     },
   },
-  // ... other config
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/line-clamp'),
+  ],
 };
