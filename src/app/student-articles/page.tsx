@@ -18,6 +18,7 @@ interface StudentArticle {
     name: string;
     // email: string; // Optional for card view
   };
+  writerName: string;
   isPublished: boolean;
 }
 
@@ -131,7 +132,7 @@ export default function StudentArticlesPage() {
                     <CardHeader className="pb-3 border-b border-gray-200/70">
                       <CardTitle className="text-[#1a237e] text-xl font-semibold group-hover:text-[#0d1642] transition-colors duration-300 line-clamp-2">{article.title}</CardTitle>
                       <CardDescription className="text-sm text-gray-500 pt-1">
-                        By {article.author?.name || 'Unknown Author'}
+                        By {article.writerName || 'Anonymous Student'}
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="flex-grow pt-4 pb-4">

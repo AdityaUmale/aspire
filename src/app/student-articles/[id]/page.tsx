@@ -17,6 +17,7 @@ interface StudentArticle {
     name: string;
     email: string; // Include email if desired
   };
+  writerName?: string;
   isPublished: boolean;
 }
 
@@ -138,7 +139,7 @@ export default function StudentArticleDetailPage() {
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 text-sm text-gray-500 mb-6 sm:mb-8 border-b pb-4 border-gray-200/70">
               <div className="flex items-center">
                 <UserCircle className="h-4 w-4 mr-1.5 text-gray-400 shrink-0" />
-                <span className="break-words">By {article.author?.name || 'Unknown Author'}</span>
+                <span className="break-words">By {article.writerName || 'Anonymous Student'}</span>
               </div>
               {article.author?.email && <span className="hidden sm:inline mx-2">|</span>}
               {article.author?.email && <span className="break-words">{article.author.email}</span>}

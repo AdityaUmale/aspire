@@ -10,7 +10,10 @@ export async function POST(req: Request) {
     await connectDB();
     
     // Note: isPublished defaults to false per the schema
-    const { title, description, content, author } = await req.json();
+    const { title, description, content, author, writerName } = await req.json();
+    
+    // Debug: Log the received data
+    console.log('Received article data:', { title, description, content, author, writerName });
     
     // Validate required fields
     if (!title || !description || !content || !author) {
@@ -28,15 +31,26 @@ export async function POST(req: Request) {
       );
     }
     
-    const newStudentArticle = new StudentArticle({
+    // Build the article object
+    const articleData: any = {
       title,
       description,
       content,
-      author
+      author,
       // isPublished will default to false
-    });
+    };
+    
+    // Only add writerName if it's provided and not empty
+    if (writerName && writerName.trim()) {
+      articleData.writerName = writerName.trim();
+    }
+    
+    const newStudentArticle = new StudentArticle(articleData);
     
     const savedArticle = await newStudentArticle.save();
+    
+    // Debug: Log the saved article
+    console.log('Saved article:', JSON.stringify(savedArticle, null, 2));
     
     return NextResponse.json(
       { message: "Student article created successfully", article: savedArticle },
@@ -109,6 +123,9 @@ export async function GET(req: Request) {
       .skip(skip)
       .limit(limit);
       
+    // Debug: Log the fetched articles
+    console.log('Fetched articles:', JSON.stringify(articles, null, 2));
+    
     const total = await StudentArticle.countDocuments(filter);
     
     return NextResponse.json({

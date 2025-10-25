@@ -300,6 +300,7 @@ import { FileText } from 'lucide-react'; // Add FileText icon
 export default function PublishArticlePage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [writerName, setWriterName] = useState('');
   // Remove content state, editor will manage it
   // const [content, setContent] = useState(''); 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -366,17 +367,22 @@ export default function PublishArticlePage() {
     }
 
     try {
+      // Debug: Log what we're sending
+      const payload = {
+        title,
+        description,
+        content, // Send HTML content from editor
+        author: hardcodedAuthorId,
+        writerName, // Send the writer's name
+      };
+      console.log('Sending article data:', payload);
+      
       const response = await fetch('/api/student-article', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          title,
-          description,
-          content, // Send HTML content from editor
-          author: hardcodedAuthorId,
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
@@ -388,6 +394,7 @@ export default function PublishArticlePage() {
       // Clear form and show success message
       setTitle('');
       setDescription('');
+      setWriterName('');
       // --- Clear editor content ---
       if (editor) {
         editor.commands.setContent('');
@@ -464,6 +471,18 @@ export default function PublishArticlePage() {
                   rows={3}
                   required
                 />
+              </div>
+              
+              <div>
+                <Label htmlFor="writerName" className="text-sm font-medium text-gray-800 mb-1 block">Your Name (Optional)</Label>
+                <Input
+                  id="writerName"
+                  value={writerName}
+                  onChange={(e) => setWriterName(e.target.value)}
+                  placeholder="Enter your name as you'd like it to appear on the article"
+                  className="mt-1 border-gray-300 focus:ring-2 focus:ring-[#3949ab]/50 focus:border-[#3949ab] rounded-lg shadow-sm text-lg p-3" // Enhanced input style
+                />
+                <p className="mt-1 text-xs text-gray-500">Leave blank to remain anonymous</p>
               </div>
               
               {/* Enhanced Editor Section */}

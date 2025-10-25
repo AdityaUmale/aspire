@@ -19,6 +19,7 @@ interface StudentArticle {
     name: string;
     email: string;
   };
+  writerName?: string;
   isPublished: boolean;
 }
 
@@ -121,7 +122,7 @@ export default function ReviewArticlesPage() {
                     </Badge>
                   </div>
                   <CardDescription className="text-xs">
-                    By {article.author?.name || 'Unknown Author'}
+                    By {article.writerName || article.author?.name || 'Anonymous Student'}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-grow p-4">

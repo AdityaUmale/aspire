@@ -18,6 +18,7 @@ interface StudentArticle {
     name: string;
     email: string;
   };
+  writerName?: string;
   isPublished: boolean;
 }
 
@@ -206,7 +207,7 @@ export default function ArticleReviewDetailPage() {
         </Badge>
       </div>
       
-      <p className="text-sm text-gray-500 mb-6">By {article.author?.name || 'Unknown Author'} ({article.author?.email || 'No Email'})</p>
+      <p className="text-sm text-gray-500 mb-6">By {article.writerName || 'Anonymous Student'} {article.author?.email && <span>({article.author.email})</span>}</p>
       
       <div className="prose lg:prose-xl max-w-none border-t border-b py-6 my-6 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-gray-200/60">
         {/* Replace the <p> tag with this div to render HTML */}

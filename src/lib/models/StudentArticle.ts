@@ -18,11 +18,23 @@ const StudentArticleSchema = new mongoose.Schema({
     ref: "Admin",
     required: true,
   },
+  writerName: {
+    type: String,
+    default: null,
+  },
   isPublished: {
     type: Boolean,
     default: false,
   }
+}, { 
+  strict: true,
+  versionKey: false 
 });
 
-const StudentArticle = mongoose.models.StudentArticle || mongoose.model("StudentArticle", StudentArticleSchema);
+// Delete the model if it exists to force re-compilation
+if (mongoose.models.StudentArticle) {
+  delete mongoose.models.StudentArticle;
+}
+
+const StudentArticle = mongoose.model("StudentArticle", StudentArticleSchema);
 export default StudentArticle;

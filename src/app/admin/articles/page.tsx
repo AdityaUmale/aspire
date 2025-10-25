@@ -17,41 +17,44 @@ import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Color from '@tiptap/extension-color';
+import FontSize from 'tiptap-extension-font-size';
 
 // Icons for toolbar buttons
 import { 
-  Bold, Italic, Heading2, Heading3, 
-  List, ListOrdered, Quote, Minus, AlignLeft, AlignCenter, 
-  AlignRight, AlignJustify, Link as LinkIcon, Image as ImageIcon,
-  Palette
+  Bold, Italic, 
+  List, ListOrdered, AlignLeft, AlignCenter, 
+  AlignRight, AlignJustify, Palette, Type
 } from 'lucide-react';
 
 // Rich Text Editor Toolbar Component
 const EditorToolbar = ({ editor }: { editor: any }) => {
-  const [linkUrl, setLinkUrl] = useState('');
-  const [showLinkInput, setShowLinkInput] = useState(false);
-  const [imageUrl, setImageUrl] = useState('');
-  const [showImageInput, setShowImageInput] = useState(false);
+  const [currentFontSize, setCurrentFontSize] = useState('normal');
+
+  // Update font size state when selection changes
+  React.useEffect(() => {
+    if (!editor) return;
+
+    const updateFontSize = () => {
+      const { fontSize } = editor.getAttributes('textStyle');
+      if (fontSize) {
+        setCurrentFontSize(fontSize);
+      } else {
+        setCurrentFontSize('normal');
+      }
+    };
+
+    editor.on('selectionUpdate', updateFontSize);
+    editor.on('transaction', updateFontSize);
+
+    return () => {
+      editor.off('selectionUpdate', updateFontSize);
+      editor.off('transaction', updateFontSize);
+    };
+  }, [editor]);
 
   if (!editor) {
     return null;
   }
-
-  const addLink = () => {
-    if (linkUrl) {
-      editor.chain().focus().setLink({ href: linkUrl }).run();
-      setLinkUrl('');
-      setShowLinkInput(false);
-    }
-  };
-
-  const addImage = () => {
-    if (imageUrl) {
-      editor.chain().focus().setImage({ src: imageUrl }).run();
-      setImageUrl('');
-      setShowImageInput(false);
-    }
-  };
 
   return (
     <div className="border border-[#1a237e]/20 rounded-t p-2 bg-[#f8f9fa]">
@@ -81,26 +84,28 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
         </div>
 
         <div className="flex items-center mr-2 border-r pr-2 border-[#1a237e]/20">
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-            className={`p-1 h-8 w-8 ${editor.isActive('heading', { level: 2 }) ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
-            title="Heading 2"
-          >
-            <Heading2 className="h-4 w-4" />
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-            className={`p-1 h-8 w-8 ${editor.isActive('heading', { level: 3 }) ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
-            title="Heading 3"
-          >
-            <Heading3 className="h-4 w-4" />
-          </Button>
+          <div className="relative inline-block">
+            <select
+              value={currentFontSize}
+              onChange={(e) => {
+                const size = e.target.value;
+                setCurrentFontSize(size);
+                if (size === 'normal') {
+                  editor.chain().focus().unsetFontSize().run();
+                } else {
+                  editor.chain().focus().setFontSize(size).run();
+                }
+              }}
+              className="h-8 px-2 pr-6 text-sm border border-[#1a237e]/20 rounded bg-white text-[#1a237e] hover:bg-[#e8eaf6]/70 focus:outline-none focus:ring-1 focus:ring-[#1a237e]/50 appearance-none cursor-pointer"
+              title="Font Size"
+            >
+              <option value="normal">Normal</option>
+              <option value="18px">Large</option>
+              <option value="24px">XL</option>
+              <option value="32px">XXL</option>
+            </select>
+            <Type className="absolute right-1 top-1/2 -translate-y-1/2 h-3 w-3 text-[#1a237e] pointer-events-none" />
+          </div>
         </div>
 
         <div className="flex items-center mr-2 border-r pr-2 border-[#1a237e]/20">
@@ -108,7 +113,12 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             type="button"
             variant="ghost"
             size="sm"
-            onClick={() => editor.chain().focus().toggleBulletList().run()}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              if (editor) {
+                editor.chain().focus().toggleBulletList().run();
+              }
+            }}
             className={`p-1 h-8 w-8 ${editor.isActive('bulletList') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Bullet List"
           >
@@ -118,31 +128,16 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             type="button"
             variant="ghost"
             size="sm"
-            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              if (editor) {
+                editor.chain().focus().toggleOrderedList().run();
+              }
+            }}
             className={`p-1 h-8 w-8 ${editor.isActive('orderedList') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Numbered List"
           >
             <ListOrdered className="h-4 w-4" />
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() => editor.chain().focus().toggleBlockquote().run()}
-            className={`p-1 h-8 w-8 ${editor.isActive('blockquote') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
-            title="Quote"
-          >
-            <Quote className="h-4 w-4" />
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() => editor.chain().focus().setHorizontalRule().run()}
-            className="p-1 h-8 w-8 text-[#1a237e] hover:bg-[#e8eaf6]/70"
-            title="Divider"
-          >
-            <Minus className="h-4 w-4" />
           </Button>
         </div>
 
@@ -190,28 +185,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
         </div>
 
         <div className="flex items-center">
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() => setShowLinkInput(!showLinkInput)}
-            className={`p-1 h-8 w-8 ${editor.isActive('link') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
-            title="Add Link"
-          >
-            <LinkIcon className="h-4 w-4" />
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() => setShowImageInput(!showImageInput)}
-            className="p-1 h-8 w-8 text-[#1a237e] hover:bg-[#e8eaf6]/70"
-            title="Add Image"
-          >
-            <ImageIcon className="h-4 w-4" />
-          </Button>
-          
-          <div className="relative ml-1">
+          <div className="relative">
             <Button
               type="button"
               variant="ghost"
@@ -230,66 +204,6 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
           </div>
         </div>
       </div>
-
-      {/* Link input */}
-      {showLinkInput && (
-        <div className="flex items-center mt-2 mb-1 space-x-2">
-          <Input
-            type="url"
-            placeholder="Enter URL"
-            value={linkUrl}
-            onChange={(e) => setLinkUrl(e.target.value)}
-            className="h-8 text-sm border-[#1a237e]/20 focus:border-[#1a237e] focus:ring-[#1a237e]/20"
-          />
-          <Button 
-            type="button" 
-            size="sm" 
-            onClick={addLink}
-            className="h-8 bg-[#1a237e] hover:bg-[#0d1642] text-white"
-          >
-            Add Link
-          </Button>
-          <Button 
-            type="button" 
-            variant="outline" 
-            size="sm" 
-            onClick={() => setShowLinkInput(false)}
-            className="h-8 border-[#1a237e]/20 text-[#1a237e] hover:bg-[#e8eaf6]/70"
-          >
-            Cancel
-          </Button>
-        </div>
-      )}
-
-      {/* Image input */}
-      {showImageInput && (
-        <div className="flex items-center mt-2 mb-1 space-x-2">
-          <Input
-            type="url"
-            placeholder="Enter image URL"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            className="h-8 text-sm border-[#1a237e]/20 focus:border-[#1a237e] focus:ring-[#1a237e]/20"
-          />
-          <Button 
-            type="button" 
-            size="sm" 
-            onClick={addImage}
-            className="h-8 bg-[#1a237e] hover:bg-[#0d1642] text-white"
-          >
-            Add Image
-          </Button>
-          <Button 
-            type="button" 
-            variant="outline" 
-            size="sm" 
-            onClick={() => setShowImageInput(false)}
-            className="h-8 border-[#1a237e]/20 text-[#1a237e] hover:bg-[#e8eaf6]/70"
-          >
-            Cancel
-          </Button>
-        </div>
-      )}
     </div>
   );
 };
@@ -303,8 +217,30 @@ export default function AddArticlesPage() {
 
   // Initialize TipTap editor
   const editor = useEditor({
+    immediatelyRender: false, // Fix SSR hydration issues
     extensions: [
-      StarterKit.configure({}),
+      StarterKit.configure({
+        bulletList: {
+          keepMarks: true,
+          HTMLAttributes: {
+            class: 'list-disc pl-4',
+          },
+        },
+        orderedList: {
+          keepMarks: true,
+          HTMLAttributes: {
+            class: 'list-decimal pl-4',
+          },
+        },
+        listItem: {
+          HTMLAttributes: {
+            class: 'ml-4',
+          },
+        },
+        hardBreak: {
+          keepMarks: false,
+        },
+      }),
       Image,
       Link.configure({
         openOnClick: false,
@@ -317,15 +253,17 @@ export default function AddArticlesPage() {
         emptyEditorClass: 'is-editor-empty',
       }),
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
+        types: ['heading', 'paragraph', 'listItem'],
       }),
       TextStyle,
+      FontSize,
       Color,
     ],
     content: '',
     editorProps: {
       attributes: {
         class: 'prose prose-indigo lg:prose-lg max-w-none prose-headings:text-[#1a237e] prose-a:text-[#3949ab] hover:prose-a:text-[#0d1642] prose-strong:text-gray-800 focus:outline-none',
+        style: 'outline: none;',
       },
     },
   });
