@@ -414,7 +414,7 @@ export default function PublishArticlePage() {
       <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#1a237e]/5 blur-3xl -z-10"></div>
       <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-[#9fa8da]/10 blur-3xl -z-10"></div>
 
-      <main className="flex-1 py-12 md:py-16 lg:py-20">
+      <main className="flex-1 pt-24 pb-12 md:pt-28 md:pb-16 lg:pt-32 lg:pb-20">
         <div className="container mx-auto px-4 max-w-4xl">
           {/* Enhanced Heading */}
           <div className="flex items-center justify-center gap-3 mb-10">

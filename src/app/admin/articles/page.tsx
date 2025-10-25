@@ -56,7 +56,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
   return (
     <div className="border border-[#1a237e]/20 rounded-t p-2 bg-[#f8f9fa]">
       {/* Main toolbar */}
-      <div className="flex flex-wrap gap-1 mb-2">
+      <div className="flex flex-wrap gap-1 mb-2 overflow-x-auto">
         <div className="flex items-center mr-2 border-r pr-2 border-[#1a237e]/20">
           <Button
             type="button"
@@ -388,7 +388,7 @@ export default function AddArticlesPage() {
         Create New Article
       </div>
       
-      <h1 className="text-3xl font-bold text-[#1a237e] mb-6">Add an Article</h1>
+      <h1 className="text-2xl lg:text-3xl font-bold text-[#1a237e] mb-6">Add an Article</h1>
       
       {error && (
         <Alert variant="destructive" className="mb-6 bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
@@ -406,8 +406,8 @@ export default function AddArticlesPage() {
         </Alert>
       )}
       
-      <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-gray-200/60">
-        <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="bg-white/90 backdrop-blur-md p-4 lg:p-6 rounded-2xl shadow-xl border border-gray-200/60">
+        <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-5">
           <div>
             <Label htmlFor="title" className="text-[#1a237e] font-medium">Title</Label>
             <Input
@@ -439,7 +439,7 @@ export default function AddArticlesPage() {
               <EditorToolbar editor={editor} />
               <EditorContent 
                 editor={editor} 
-                className="min-h-[350px] p-4 focus:outline-none bg-white" 
+                className="min-h-[250px] lg:min-h-[350px] p-4 focus:outline-none bg-white" 
               />
             </div>
             <p className="mt-1 text-xs text-gray-500">Use the toolbar above to format your content.</p>

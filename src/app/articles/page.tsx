@@ -73,7 +73,7 @@ export default function ArticlesPage() {
       <div className="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-gradient-radial from-[#1a237e]/10 to-transparent blur-3xl -z-10"></div>
       <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-gradient-radial from-[#9fa8da]/15 to-transparent blur-3xl -z-10"></div>
 
-      <main className="flex-1 py-16 md:py-20 lg:py-24"> {/* Increased padding */} 
+      <main className="flex-1 pt-24 pb-16 md:pt-28 md:pb-20 lg:pt-32 lg:pb-24"> {/* Increased padding */} 
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center gap-3 mb-12"> {/* Increased margin */} 
             <BookText className="h-8 w-8 text-[#1a237e]" />
@@ -120,9 +120,7 @@ export default function ArticlesPage() {
                   >
                     <CardHeader className="pb-3 border-b border-gray-200/70">
                       <CardTitle className="text-[#1a237e] text-xl font-semibold group-hover:text-[#0d1642] transition-colors duration-300 line-clamp-2">{article.title}</CardTitle>
-                      <CardDescription className="text-sm text-gray-500 pt-1">
-                        By {article.author?.name || 'Unknown Author'}
-                      </CardDescription>
+                      
                     </CardHeader>
                     <CardContent className="flex-grow pt-4 pb-4">
                       <p className="text-gray-700 line-clamp-4 text-sm leading-relaxed">{article.description}</p> {/* Increased line clamp */} 

@@ -81,7 +81,7 @@ export default function StudentArticlesPage() {
       <div className="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-gradient-radial from-[#1a237e]/10 to-transparent blur-3xl -z-10"></div>
       <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-gradient-radial from-[#9fa8da]/15 to-transparent blur-3xl -z-10"></div>
 
-      <main className="flex-1 py-16 md:py-20 lg:py-24"> {/* Consistent padding */} 
+      <main className="flex-1 pt-24 pb-16 md:pt-28 md:pb-20 lg:pt-32 lg:pb-24"> {/* Consistent padding */} 
         <div className="container mx-auto px-4">
           {/* Enhanced Heading */}
           <div className="flex items-center justify-center gap-3 mb-12"> {/* Consistent margin */} 

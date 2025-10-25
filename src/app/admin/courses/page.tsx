@@ -80,7 +80,7 @@ export default function AddCoursesPage() {
         Create New Course
       </div>
       
-      <h1 className="text-3xl font-bold text-[#1a237e] mb-6">Add Upcoming Course</h1>
+      <h1 className="text-2xl lg:text-3xl font-bold text-[#1a237e] mb-6">Add Upcoming Course</h1>
       
       {error && (
         <Alert variant="destructive" className="mb-6 bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
@@ -98,8 +98,8 @@ export default function AddCoursesPage() {
         </Alert>
       )}
       
-      <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-gray-200/60">
-        <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="bg-white/90 backdrop-blur-md p-4 lg:p-6 rounded-2xl shadow-xl border border-gray-200/60">
+        <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-5">
           <div>
             <Label htmlFor="courseName" className="text-[#1a237e] font-medium">Course Name</Label>
             <Input

@@ -73,7 +73,7 @@ export default function ReviewArticlesPage() {
         Student Submissions
       </div>
       
-      <h1 className="text-3xl font-bold text-[#1a237e] mb-6">Review Student Articles</h1>
+      <h1 className="text-2xl lg:text-3xl font-bold text-[#1a237e] mb-6">Review Student Articles</h1>
       
       {error && (
         <Alert variant="destructive" className="mb-6 bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
@@ -84,38 +84,38 @@ export default function ReviewArticlesPage() {
       )}
       
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
           {[...Array(6)].map((_, index) => (
             <Card key={index} className="overflow-hidden bg-white/90 backdrop-blur-sm border border-gray-200/60 shadow-md">
-              <CardHeader className="pb-2">
-                <Skeleton className="h-6 w-3/4 mb-2" />
-                <Skeleton className="h-4 w-1/2" />
+              <CardHeader className="pb-2 p-4">
+                <Skeleton className="h-5 lg:h-6 w-3/4 mb-2" />
+                <Skeleton className="h-3 lg:h-4 w-1/2" />
               </CardHeader>
-              <CardContent>
-                <Skeleton className="h-16 w-full" />
+              <CardContent className="p-4">
+                <Skeleton className="h-12 lg:h-16 w-full" />
               </CardContent>
-              <CardFooter>
-                <Skeleton className="h-10 w-full" />
+              <CardFooter className="p-4">
+                <Skeleton className="h-8 lg:h-10 w-full" />
               </CardFooter>
             </Card>
           ))}
         </div>
       ) : articles.length === 0 ? (
-        <div className="text-center py-12 bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-200/60 shadow-md">
-          <FileText className="h-12 w-12 text-[#1a237e]/40 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg">No student articles submitted for review yet.</p>
+        <div className="text-center py-8 lg:py-12 bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-200/60 shadow-md">
+          <FileText className="h-10 w-10 lg:h-12 lg:w-12 text-[#1a237e]/40 mx-auto mb-4" />
+          <p className="text-gray-500 text-base lg:text-lg">No student articles submitted for review yet.</p>
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             {articles.map((article) => (
               <Card key={article._id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col bg-white/90 backdrop-blur-sm border border-gray-200/60 shadow-md">
-                <CardHeader className="pb-2">
-                  <div className="flex justify-between items-start">
-                    <CardTitle className="text-lg font-semibold text-[#1a237e]">{article.title}</CardTitle>
+                <CardHeader className="pb-2 p-4">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+                    <CardTitle className="text-base lg:text-lg font-semibold text-[#1a237e]">{article.title}</CardTitle>
                     <Badge 
                       variant={article.isPublished ? "default" : "secondary"} 
-                      className={article.isPublished ? "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700" : "bg-gradient-to-r from-[#1a237e]/70 to-[#3949ab]/70 hover:from-[#1a237e] hover:to-[#3949ab]"}
+                      className={`text-xs ${article.isPublished ? "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700" : "bg-gradient-to-r from-[#1a237e]/70 to-[#3949ab]/70 hover:from-[#1a237e] hover:to-[#3949ab]"} self-start`}
                     >
                       {article.isPublished ? 'Published' : 'Pending'}
                     </Badge>
@@ -124,13 +124,13 @@ export default function ReviewArticlesPage() {
                     By {article.author?.name || 'Unknown Author'}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="flex-grow">
+                <CardContent className="flex-grow p-4">
                   <p className="text-sm text-gray-600 line-clamp-3">{article.description}</p>
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="p-4">
                   <Button 
                     variant="outline" 
-                    className="w-full border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e] transition-all duration-300 flex items-center justify-center gap-2" 
+                    className="w-full border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e] transition-all duration-300 flex items-center justify-center gap-2 text-sm" 
                     onClick={() => router.push(`/admin/review-articles/${article._id}`)}
                   >
                     <BookOpen className="h-4 w-4" />
@@ -143,12 +143,12 @@ export default function ReviewArticlesPage() {
           
           {/* Pagination Controls */}
           {pagination.pages > 1 && (
-            <div className="flex justify-center mt-8 space-x-2">
+            <div className="flex flex-wrap justify-center mt-6 lg:mt-8 gap-2">
               <Button 
                 variant="outline" 
                 disabled={pagination.page === 1}
                 onClick={() => handlePageChange(pagination.page - 1)}
-                className="border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e]"
+                className="border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e] text-sm"
               >
                 Previous
               </Button>
@@ -159,9 +159,9 @@ export default function ReviewArticlesPage() {
                     key={pageNumber}
                     variant={pagination.page === pageNumber ? "default" : "outline"}
                     onClick={() => handlePageChange(pageNumber)}
-                    className={pagination.page === pageNumber ? 
+                    className={`text-sm ${pagination.page === pageNumber ? 
                       "bg-gradient-to-r from-[#1a237e] to-[#3949ab] hover:from-[#0d1642] hover:to-[#1a237e] text-white" : 
-                      "border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e]"}
+                      "border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e]"}`}
                   >
                     {pageNumber}
                   </Button>
@@ -171,7 +171,7 @@ export default function ReviewArticlesPage() {
                 variant="outline" 
                 disabled={pagination.page === pagination.pages}
                 onClick={() => handlePageChange(pagination.page + 1)}
-                className="border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e]"
+                className="border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e] text-sm"
               >
                 Next
               </Button>
