@@ -56,7 +56,10 @@ export default function EnquiryForm() {
       if (!response.ok) {
         // Handle specific validation errors if provided by the backend
         if (result.errors) {
-          const errorMessages = Object.values(result.errors).map((err: any) => err.message).join(', ');
+          const errorMessages = Object.values(result.errors).map((err: unknown) => {
+            const error = err as { message: string };
+            return error.message;
+          }).join(', ');
           throw new Error(`Validation failed: ${errorMessages}`);
         } else {
           throw new Error(result.message || 'Failed to submit enquiry');
@@ -64,9 +67,10 @@ export default function EnquiryForm() {
       }
       setSubmitMessage('Enquiry submitted successfully! We will get back to you soon.');
       setFormData({ name: '', email: '', phone: '', enquiry: '' }); // Reset form
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Enquiry submission error:', error);
-      setSubmitMessage(error.message || 'Failed to submit enquiry. Please try again later.');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to submit enquiry. Please try again later.';
+      setSubmitMessage(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

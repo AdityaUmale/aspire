@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     }
     
     // Build the article object
-    const articleData: any = {
+    const articleData: Record<string, unknown> = {
       title,
       description,
       content,

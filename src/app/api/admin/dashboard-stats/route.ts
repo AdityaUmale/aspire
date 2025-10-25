@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Enquiry from '@/lib/models/Enquiry';
 import StudentArticle from '@/lib/models/StudentArticle';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     await connectDB();
 

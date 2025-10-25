@@ -5,9 +5,9 @@ import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 
 // GET handler for a single article
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
     // Await params before destructuring
-    const resolvedParams = await Promise.resolve(params);
+    const resolvedParams = await params;
     const { id } = resolvedParams;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -30,9 +30,9 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 }
 
 // PATCH: Update a specific student article (e.g., publish it)
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   // Await params before destructuring
-  const resolvedParams = await Promise.resolve(params);
+  const resolvedParams = await params;
   const { id } = resolvedParams;
   
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -78,9 +78,9 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 }
 
 // DELETE: Remove a specific student article
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   // Await params before destructuring
-  const resolvedParams = await Promise.resolve(params);
+  const resolvedParams = await params;
   const { id } = resolvedParams;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {

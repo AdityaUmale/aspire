@@ -39,7 +39,7 @@ export default function InternationalWorkshopPage() {
                   <span>International Program</span>
                 </div>
                 <h1 className="text-3xl md:text-4xl font-bold text-[#1a237e]">International Workshop</h1>
-                <p className="mt-2 text-lg italic text-[#3949ab]">"Travel far enough, you meet yourself."</p>
+                <p className="mt-2 text-lg italic text-[#3949ab]">&ldquo;Travel far enough, you meet yourself.&rdquo;</p>
               </div>
             </div>
 
@@ -63,7 +63,7 @@ export default function InternationalWorkshopPage() {
                     Traveling is NOT just a journey where you visit places, learn new language, see different cultures and update your social media. When it comes to Meet Yourself, traveling is indeed a journey right within, where you learn about yourself. The moments of self-reflection helps you to understand yourself better, and find a better version of yourself.
                   </p>
                   <p>
-                    You'll meet the real you, hidden somewhere on the roads you would travel. This experience comes by crossing the borders that certainly improves and develops the horizon, and also enlarges the view of developing globally.
+                    You&apos;ll meet the real you, hidden somewhere on the roads you would travel. This experience comes by crossing the borders that certainly improves and develops the horizon, and also enlarges the view of developing globally.
                   </p>
                 </div>
               </div>
@@ -81,7 +81,7 @@ export default function InternationalWorkshopPage() {
                  </div>
                 <div className="w-full md:w-3/5 order-1 prose prose-indigo lg:prose-lg max-w-none">
                   <p>
-                    Here is an overseas program "Meet Yourself" to gain the excellent global experience. Since 2013 Aspire has been hosting this training program in different countries like Singapore, Malaysia, Thailand, Dubai and Qatar. Through Meet Yourself ASPIRE provides a platform for students to seize the opportunities. Meet yourself is a well-designed course for change seekers. This training program helps participants to reveal opinions about themselves, and views about themselves and it helps to create a positive self-image.
+                    Here is an overseas program &ldquo;Meet Yourself&rdquo; to gain the excellent global experience. Since 2013 Aspire has been hosting this training program in different countries like Singapore, Malaysia, Thailand, Dubai and Qatar. Through Meet Yourself ASPIRE provides a platform for students to seize the opportunities. Meet yourself is a well-designed course for change seekers. This training program helps participants to reveal opinions about themselves, and views about themselves and it helps to create a positive self-image.
                   </p>
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default function InternationalWorkshopPage() {
               {/* Paragraph 3 */}
               <div className="prose prose-indigo lg:prose-lg max-w-none">
                 <p>
-                  Participants learn to start the journey of self-discovery. It deals with factors causing success: Thoughts, Attitude, Karma, Influence, Eternal Positivity, Communication, Self Analysis, and Learning Dexterity. This training program is all about common people looking for uncommon results and a unique career advancement opportunity. It's a perfect training program for those who are seeking to develop their highest potential. The participants are taught leadership, values, confidence-building, and special sessions by the experts of the institute and by our international faculty members to explore English and foreign culture.
+                  Participants learn to start the journey of self-discovery. It deals with factors causing success: Thoughts, Attitude, Karma, Influence, Eternal Positivity, Communication, Self Analysis, and Learning Dexterity. This training program is all about common people looking for uncommon results and a unique career advancement opportunity. It&apos;s a perfect training program for those who are seeking to develop their highest potential. The participants are taught leadership, values, confidence-building, and special sessions by the experts of the institute and by our international faculty members to explore English and foreign culture.
                 </p>
               </div>
             </div>

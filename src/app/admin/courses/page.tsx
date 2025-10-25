@@ -7,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal, CheckCircle, GraduationCap } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -91,7 +90,6 @@ export default function AddCoursesPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const router = useRouter();
 
   // Handle program selection and auto-fill fields
   const handleProgramSelect = (programTitle: string) => {
@@ -142,9 +140,10 @@ export default function AddCoursesPage() {
       setCourseOutlineStr('');
       setCourseDate(undefined);
 
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to add course. Please try again.';
       console.error('Failed to add course:', err);
-      setError(err.message || 'Failed to add course. Please try again.');
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }

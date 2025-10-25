@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, UserCircle } from 'lucide-react';
+import { Terminal } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 
 interface Article {

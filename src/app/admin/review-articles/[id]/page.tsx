@@ -53,8 +53,9 @@ export default function ArticleReviewDetailPage() {
         
         const data = await response.json();
         setArticle(data.article);
-      } catch (err: any) {
-        setError(err.message || 'An error occurred');
+      } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+        setError(errorMessage);
         console.error('Error fetching student article:', err);
       } finally {
         setLoading(false);
@@ -88,8 +89,9 @@ export default function ArticleReviewDetailPage() {
       setArticle({ ...article, isPublished: true });
       setActionSuccess('Article published successfully!');
 
-    } catch (err: any) {
-      setActionError(err.message || 'An error occurred during publishing');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred during publishing';
+      setActionError(errorMessage);
       console.error('Error publishing article:', err);
     } finally {
       setIsProcessing(false);
@@ -123,8 +125,9 @@ export default function ArticleReviewDetailPage() {
         router.push('/admin/review-articles');
       }, 1500); // 1.5 second delay
 
-    } catch (err: any) {
-      setActionError(err.message || 'An error occurred during rejection');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred during rejection';
+      setActionError(errorMessage);
       console.error('Error rejecting article:', err);
     } finally {
       // Keep processing true if redirecting, otherwise set to false

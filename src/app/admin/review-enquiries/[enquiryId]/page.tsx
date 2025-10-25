@@ -42,8 +42,9 @@ export default function EnquiryDetailPage() {
         }
         const data = await response.json();
         setEnquiry(data.data);
-      } catch (err: any) {
-        setError(err.message || 'An error occurred while fetching enquiry details.');
+      } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : 'An error occurred while fetching enquiry details.';
+        setError(errorMessage);
         console.error('Error fetching enquiry details:', err);
       } finally {
         setLoading(false);
@@ -77,8 +78,9 @@ export default function EnquiryDetailPage() {
       const data = await response.json();
       setEnquiry(data.data);
       setUpdateMessage('Enquiry marked as reviewed successfully!');
-    } catch (err: any) {
-      setUpdateMessage(`Error: ${err.message || 'Failed to mark enquiry as reviewed'}`);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to mark enquiry as reviewed';
+      setUpdateMessage(`Error: ${errorMessage}`);
       console.error('Error marking enquiry as reviewed:', err);
     } finally {
       setUpdating(false);

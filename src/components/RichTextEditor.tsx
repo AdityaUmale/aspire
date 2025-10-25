@@ -23,13 +23,45 @@ interface RichTextEditorProps {
   placeholder?: string;
 }
 
+// Define the chain interface
+interface EditorChain {
+  focus: () => EditorChain;
+  toggleBold: () => EditorChain;
+  toggleItalic: () => EditorChain;
+  toggleHeading: (level: number) => EditorChain;
+  toggleBulletList: () => EditorChain;
+  toggleOrderedList: () => EditorChain;
+  setTextAlign: (alignment: string) => EditorChain;
+  setColor: (color: string) => EditorChain;
+  setFontSize: (size: string) => EditorChain;
+  unsetFontSize: () => EditorChain;
+  run: () => void;
+}
+
+// Type guard for editor
+const isEditor = (editor: unknown): editor is { 
+  getAttributes: (style: string) => { fontSize?: string };
+  on: (event: string, callback: () => void) => void;
+  off: (event: string, callback: () => void) => void;
+  chain: () => EditorChain;
+  isActive: (style: string, value?: string) => boolean;
+} => {
+  return editor !== null && 
+         typeof editor === 'object' && 
+         'getAttributes' in editor && 
+         'on' in editor && 
+         'off' in editor && 
+         'chain' in editor && 
+         'isActive' in editor;
+};
+
 // Rich Text Editor Toolbar Component
-const EditorToolbar = ({ editor }: { editor: any }) => {
+const EditorToolbar = ({ editor }: { editor: unknown }) => {
   const [currentFontSize, setCurrentFontSize] = useState('normal');
 
   // Update font size state when selection changes
   React.useEffect(() => {
-    if (!editor) return;
+    if (!isEditor(editor)) return;
 
     const updateFontSize = () => {
       const { fontSize } = editor.getAttributes('textStyle');
@@ -49,7 +81,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
     };
   }, [editor]);
 
-  if (!editor) {
+  if (!isEditor(editor)) {
     return null;
   }
 
@@ -144,7 +176,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().setTextAlign('left').run()}
-            className={`p-1 h-8 w-8 ${editor.isActive({ textAlign: 'left' }) ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
+            className={`p-1 h-8 w-8 ${editor.isActive('textAlign', 'left') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Align Left"
           >
             <AlignLeft className="h-4 w-4" />
@@ -154,7 +186,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().setTextAlign('center').run()}
-            className={`p-1 h-8 w-8 ${editor.isActive({ textAlign: 'center' }) ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
+            className={`p-1 h-8 w-8 ${editor.isActive('textAlign', 'center') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Align Center"
           >
             <AlignCenter className="h-4 w-4" />
@@ -164,7 +196,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().setTextAlign('right').run()}
-            className={`p-1 h-8 w-8 ${editor.isActive({ textAlign: 'right' }) ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
+            className={`p-1 h-8 w-8 ${editor.isActive('textAlign', 'right') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Align Right"
           >
             <AlignRight className="h-4 w-4" />
@@ -174,7 +206,7 @@ const EditorToolbar = ({ editor }: { editor: any }) => {
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().setTextAlign('justify').run()}
-            className={`p-1 h-8 w-8 ${editor.isActive({ textAlign: 'justify' }) ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
+            className={`p-1 h-8 w-8 ${editor.isActive('textAlign', 'justify') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
             title="Justify"
           >
             <AlignJustify className="h-4 w-4" />

@@ -26,8 +26,9 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error('Error submitting enquiry:', error);
     // Check if the error is a Mongoose validation error
-    if (error instanceof Error && error.name === 'ValidationError') {
-      return NextResponse.json({ message: 'Validation Error', errors: (error as any).errors }, { status: 400 });
+    if (error && typeof error === 'object' && 'name' in error && error.name === 'ValidationError' && 'errors' in error) {
+      const validationError = error as { errors: { [key: string]: { message: string } } };
+      return NextResponse.json({ message: 'Validation Error', errors: validationError.errors }, { status: 400 });
     }
     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
@@ -52,9 +53,9 @@ export async function GET(req: NextRequest) {
       const enquiries = await Enquiry.find({}).sort({ createdAt: -1 });
       return NextResponse.json({ message: 'Enquiries fetched successfully', data: enquiries }, { status: 200 });
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching enquiry/enquiries:', error);
-    if (error.name === 'CastError') { // Handle invalid MongoDB ObjectId format
+    if (error && typeof error === 'object' && 'name' in error && error.name === 'CastError') { // Handle invalid MongoDB ObjectId format
         return NextResponse.json({ message: 'Invalid enquiry ID format' }, { status: 400 });
     }
     return NextResponse.json({ message: 'Internal Server Error while fetching data' }, { status: 500 });
@@ -94,9 +95,9 @@ export async function PATCH(req: NextRequest) {
       message: 'Enquiry updated successfully',
       data: updatedEnquiry
     }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating enquiry:', error);
-    if (error.name === 'CastError') {
+    if (error && typeof error === 'object' && 'name' in error && error.name === 'CastError') {
       return NextResponse.json({ message: 'Invalid enquiry ID format' }, { status: 400 });
     }
     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });

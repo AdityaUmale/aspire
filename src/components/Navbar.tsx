@@ -43,7 +43,7 @@ export default function Navbar() {
                 className="text-sm font-medium text-gray-600 hover:text-[#1a237e] relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#1a237e] after:transition-all hover:after:w-full whitespace-nowrap"
                 href="/articles"
               >
-                Founder's Articles
+                Founder&apos;s Articles
               </Link>
             </nav>
 
@@ -80,7 +80,7 @@ export default function Navbar() {
                   className="px-4 py-3 text-sm font-medium text-gray-700 hover:bg-[#e8eaf6] hover:text-[#1a237e] transition-all"
                   onClick={() => setIsOpen(false)}
                 >
-                  Founder's Articles
+                  Founder&apos;s Articles
                 </Link>
               </nav>
             </div>

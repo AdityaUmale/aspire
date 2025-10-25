@@ -170,7 +170,7 @@ export default function Home() {
                     <div className="relative transform transition-all duration-500 ease-out group z-[5] hover:[transform:rotateX(5deg)_rotateY(-5deg)_scale(1.05)]" style={{ transformStyle: 'preserve-3d', transform: 'rotateX(0deg) rotateY(0deg) scale(1)' }}>
                       <div className="relative bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6 md:p-8 border border-white/30 shadow-2xl overflow-hidden" style={{ transform: 'translateZ(20px)', boxShadow: '0 25px 50px -12px rgba(26, 35, 126, 0.25)' }}>
                         <div className="relative" style={{ transform: 'translateZ(30px)' }}>
-                          <img src="/logo2.png" alt="Aspire Institute Secondary Logo" width="400" height="400" className="object-contain relative z-10 filter drop-shadow-[0_10px_15px_rgba(0,0,0,0.2)] transition-all duration-500 group-hover:drop-shadow-[0_20px_30px_rgba(26,35,126,0.3)] w-full h-auto" style={{ transform: 'translateZ(10px)' }} />
+                          <Image src="/logo2.png" alt="Aspire Institute Secondary Logo" width={400} height={400} className="object-contain relative z-10 filter drop-shadow-[0_10px_15px_rgba(0,0,0,0.2)] transition-all duration-500 group-hover:drop-shadow-[0_20px_30px_rgba(26,35,126,0.3)] w-full h-auto" style={{ transform: 'translateZ(10px)' }} />
                         </div>
                         <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-50"></div>
                         <div className="absolute -inset-[100%] bg-gradient-to-r from-transparent via-white/15 to-transparent skew-x-[-25deg] animate-[shine_7s_ease-in-out_infinite]" style={{ transform: 'translateZ(10px)' }}></div>
@@ -194,7 +194,7 @@ export default function Home() {
               <div className="space-y-2 max-w-3xl">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-[#1a237e]">Visionary Leadership</h2>
                 <p className="text-gray-500 md:text-lg">
-                  The driving force behind Aspire Institute's mission to transform lives across India and beyond.
+                  The driving force behind Aspire Institute&apos;s mission to transform lives across India and beyond.
                 </p>
               </div>
             </div>
@@ -202,7 +202,7 @@ export default function Home() {
               <div className="relative slide-in-left">
                 <div className="absolute -top-6 -left-6 w-32 h-32 bg-[#1a237e]/5 rounded-full blur-xl"></div>
                 <div className="relative z-10 overflow-hidden rounded-2xl shadow-xl">
-                  <img src="/founder3.jpg" alt="Founder of Aspire Institute" width="400" height="400" className="w-full h-auto object-cover transform transition-transform hover:scale-105 duration-500" />
+                  <Image src="/founder3.jpg" alt="Founder of Aspire Institute" width={400} height={400} className="w-full h-auto object-cover transform transition-transform hover:scale-105 duration-500" />
                 </div>
               </div>
               <div className="space-y-6 lg:pl-8 slide-in-right">
@@ -212,7 +212,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold text-[#1a237e]">Transforming Education for Over 19 Years</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  The founder of Aspire The Institute of Human Development is a visionary educator who has been transforming the education industry for over 19 years. Under his leadership, Aspire has become India's leading training institute, creating a revolution in personal and professional development.
+                  The founder of Aspire The Institute of Human Development is a visionary educator who has been transforming the education industry for over 19 years. Under his leadership, Aspire has become India&apos;s leading training institute, creating a revolution in personal and professional development.
                 </p>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="flex items-start gap-3 p-4 bg-white rounded-xl shadow-sm">
@@ -432,7 +432,7 @@ export default function Home() {
                 <Link key={index} href={course.slug} legacyBehavior passHref>
                   <a className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-lg border border-gray-200/60 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 block flex-shrink-0 w-72 sm:w-80 md:w-80 course-card" style={{ animationDelay: `${index * 0.1}s` }}>
                     <div className="relative h-48 w-full overflow-hidden">
-                      <img src={course.image} alt={`${course.title} image`} className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
+                      <Image src={course.image} alt={`${course.title} image`} width={300} height={200} className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
                       <div className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 backdrop-blur-sm text-[#1a237e] shadow-md">
                         <course.icon className="h-5 w-5" />
@@ -475,7 +475,7 @@ export default function Home() {
                 Why Choose Aspire
               </div>
               <div className="space-y-2 max-w-3xl">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-[#1a237e]">India's Premier Institute for Human Development</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-[#1a237e]">India&apos;s Premier Institute for Human Development</h2>
                 <p className="text-gray-500 md:text-lg">We are one of the largest personal and professional development training institutes in India with over 100,000 learners in our full-time training programs.</p>
               </div>
             </div>
@@ -692,10 +692,10 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row justify-between gap-8 ml-12">
             <div className="space-y-4 lg:max-w-md">
               <div className="flex items-center gap-2">
-                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Image%202-wKlvojVmZKfsKl6SY0T2zX1H92pLQT.jpeg" alt="Aspire Institute Logo" width="40" height="40" className="h-10 w-auto" />
+                <Image src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Image%202-wKlvojVmZKfsKl6SY0T2zX1H92pLQT.jpeg" alt="Aspire Institute Logo" width={40} height={40} className="h-10 w-auto" />
                 <span className="text-lg font-semibold text-[#1a237e]">Aspire Institute</span>
               </div>
-              <p className="text-sm text-gray-500">One of India's largest personal and professional development training institutes, transforming lives since 2009.</p>
+              <p className="text-sm text-gray-500">One of India&apos;s largest personal and professional development training institutes, transforming lives since 2009.</p>
               <div className="flex items-center gap-2 mt-2">
               <Link href="https://www.linkedin.com/company/aspire-the-institute-of-human-development/" target="_blank" rel="noopener noreferrer">
                 <Linkedin className="h-5 w-5 text-[#1a237e] flex-shrink-0 mt-0.5" />

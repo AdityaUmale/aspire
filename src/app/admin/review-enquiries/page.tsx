@@ -36,8 +36,9 @@ export default function ReviewEnquiriesPage() {
         }
         const data = await response.json();
         setEnquiries(data.data || []); // Corrected: Access data.data instead of data.enquiries
-      } catch (err: any) {
-        setError(err.message || 'An error occurred while fetching enquiries.');
+      } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : 'An error occurred while fetching enquiries.';
+        setError(errorMessage);
         console.error('Error fetching enquiries:', err);
       } finally {
         setLoading(false);

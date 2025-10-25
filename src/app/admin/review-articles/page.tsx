@@ -51,8 +51,9 @@ export default function ReviewArticlesPage() {
       const data = await response.json();
       setArticles(data.articles);
       setPagination(data.pagination);
-    } catch (err: any) {
-      setError(err.message || 'An error occurred while fetching articles');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred while fetching articles';
+      setError(errorMessage);
       console.error('Error fetching student articles:', err);
     } finally {
       setLoading(false);

@@ -37,15 +37,16 @@ export async function POST(req: Request){
         });
         const savedCourse = await newCourse.save();
         return NextResponse.json({ message: "Course created successfully", course: savedCourse }, { status: 201 });
-    } catch (error: any) { // Catch any error
+    } catch (error: unknown) { // Catch any error
         console.error("Error creating course:", error); // Log the full error for debugging
 
         // Check if it's a Mongoose validation error
-        if (error.name === 'ValidationError') {
+        if (error && typeof error === 'object' && 'name' in error && error.name === 'ValidationError' && 'errors' in error) {
             // Extract specific validation messages
-            let errors: { [key: string]: string } = {};
-            for (let field in error.errors) {
-                errors[field] = error.errors[field].message;
+            const errors: { [key: string]: string } = {};
+            const validationError = error as { errors: { [key: string]: { message: string } } };
+            for (const field in validationError.errors) {
+                errors[field] = validationError.errors[field].message;
             }
             return NextResponse.json({ error: "Validation failed", details: errors }, { status: 400 });
         }
@@ -73,7 +74,7 @@ export async function DELETE(req: Request) {
         }
 
         return NextResponse.json({ message: "Course deleted successfully", course: deletedCourse }, { status: 200 });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Error deleting course:", error);
         const errorMessage = error instanceof Error ? error.message : "Something went wrong";
         return NextResponse.json({ error: "Failed to delete course", details: errorMessage }, { status: 500 });

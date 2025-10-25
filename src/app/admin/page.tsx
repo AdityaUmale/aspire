@@ -6,14 +6,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal, CheckCircle, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 
-interface Enquiry {
-  _id: string;
-  name: string;
-  email: string;
-  phone: string;
-  enquiry: string;
-  createdAt: string;
-}
 
 interface Course {
   _id: string;
@@ -107,8 +99,9 @@ export default function AdminDashboardPage() {
       
       // Clear success message after 3 seconds
       setTimeout(() => setDeleteSuccess(null), 3000);
-    } catch (err: any) {
-      setDeleteError(err.message || 'Failed to delete course. Please try again.');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to delete course. Please try again.';
+      setDeleteError(errorMessage);
     }
   };
 

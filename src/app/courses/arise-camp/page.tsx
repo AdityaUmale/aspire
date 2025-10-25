@@ -69,7 +69,7 @@ export default function AriseCampPage() {
             <div className="mb-10 prose prose-indigo lg:prose-lg max-w-none prose-headings:text-[#1a237e]">
               <h2 className="text-2xl font-semibold mb-4">Inspiration</h2>
               <p>
-                Our inspiration behind the Arise Language And Thoughts Enrichment Camp is the world renowned Viswa Bharati University (Shantineketan), It is established by Shri Rabindranath Tagore in 1921. Tagore's idea on education was that every person is genius and that all students may not bloom at the same time. This perspective inspired us to create Arise Camp, where we can stimulate learners to fully develop their potential. The first ARISE camp was held in year 2012. & This revolution is still on.
+                Our inspiration behind the Arise Language And Thoughts Enrichment Camp is the world renowned Viswa Bharati University (Shantineketan), It is established by Shri Rabindranath Tagore in 1921. Tagore&apos;s idea on education was that every person is genius and that all students may not bloom at the same time. This perspective inspired us to create Arise Camp, where we can stimulate learners to fully develop their potential. The first ARISE camp was held in year 2012. & This revolution is still on.
               </p>
             </div>
 

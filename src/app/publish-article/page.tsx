@@ -61,8 +61,9 @@ export default function PublishArticlePage() {
       setWriterName('');
       setContent('');
       setSuccess('Article submitted successfully! It will be reviewed by our team.');
-    } catch (err: any) {
-      setError(err.message || 'An error occurred while submitting the article');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred while submitting the article';
+      setError(errorMessage);
       console.error('Error submitting article:', err);
     } finally {
       setIsSubmitting(false);

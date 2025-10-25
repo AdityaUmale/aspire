@@ -55,8 +55,9 @@ export default function AddArticlesPage() {
       setDescription('');
       setContent('');
       setSuccess('Article created successfully!');
-    } catch (err: any) {
-      setError(err.message || 'An error occurred while creating the article');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred while creating the article';
+      setError(errorMessage);
       console.error('Error creating article:', err);
     } finally {
       setIsSubmitting(false);
