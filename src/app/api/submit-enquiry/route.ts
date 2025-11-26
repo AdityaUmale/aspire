@@ -7,16 +7,22 @@ export async function POST(req: NextRequest) {
     await connectDB(); // Moved inside the try block
 
     const body = await req.json();
-    const { name, email, phone, enquiry } = body;
+    const { name, email, phone, age, enquiry } = body;
 
-    if (!name || !email || !phone || !enquiry) {
+    if (!name || !email || !phone || typeof age === 'undefined' || !enquiry) {
       return NextResponse.json({ message: 'All fields are required' }, { status: 400 });
+    }
+
+    const parsedAge = Number(age);
+    if (Number.isNaN(parsedAge)) {
+      return NextResponse.json({ message: 'Age must be a valid number' }, { status: 400 });
     }
 
     const newEnquiry = new Enquiry({
       name,
       email,
       phone,
+      age: parsedAge,
       enquiry,
     });
 

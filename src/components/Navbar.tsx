@@ -18,9 +18,9 @@ export default function Navbar() {
               <Image
                 src="/logo1.png" 
                 alt="Aspire Institute Logo"
-                width={40}
-                height={40}
-                className="h-6 w-auto lg:h-8"
+                width={48}
+                height={48}
+                className="h-8 w-auto lg:h-10"
               />
               <span className="text-sm lg:text-lg xl:text-xl font-bold text-[#1a237e]">Aspire Institute</span>
             </Link>

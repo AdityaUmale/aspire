@@ -4,8 +4,10 @@ export interface IEnquiry extends Document {
   name: string;
   email: string;
   phone: string;
+  age: number;
   enquiry: string;
   createdAt: Date;
+  reviewed: boolean;
 }
 
 const EnquirySchema: Schema = new Schema({
@@ -25,6 +27,12 @@ const EnquirySchema: Schema = new Schema({
     type: String,
     required: [true, 'Phone number is required'],
     trim: true,
+  },
+  age: {
+    type: Number,
+    required: [true, 'Age is required'],
+    min: [5, 'Age must be at least 5'],
+    max: [120, 'Age must be below 120'],
   },
   enquiry: {
     type: String,

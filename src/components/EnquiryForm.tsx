@@ -16,6 +16,7 @@ interface FormData {
   name: string;
   email: string;
   phone: string;
+  age: string;
   enquiry: string;
 }
 
@@ -24,6 +25,7 @@ export default function EnquiryForm() {
     name: '',
     email: '',
     phone: '',
+    age: '',
     enquiry: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -66,7 +68,7 @@ export default function EnquiryForm() {
         }
       }
       setSubmitMessage('Enquiry submitted successfully! We will get back to you soon.');
-      setFormData({ name: '', email: '', phone: '', enquiry: '' }); // Reset form
+      setFormData({ name: '', email: '', phone: '', age: '', enquiry: '' }); // Reset form
     } catch (error: unknown) {
       console.error('Enquiry submission error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to submit enquiry. Please try again later.';
@@ -141,6 +143,21 @@ export default function EnquiryForm() {
                   className="pl-10 w-full border-gray-300 rounded-md shadow-sm focus:ring-[#1a237e] focus:border-[#1a237e]" 
                 />
               </div>
+            </div>
+            <div>
+              <Label htmlFor="age" className="block text-sm font-medium text-[#1a237e] mb-1">Age</Label>
+              <Input 
+                type="number" 
+                name="age" 
+                id="age" 
+                value={formData.age} 
+                onChange={handleInputChange} 
+                placeholder="18"
+                min={5}
+                max={120}
+                required 
+                className="w-full border-gray-300 rounded-md shadow-sm focus:ring-[#1a237e] focus:border-[#1a237e]" 
+              />
             </div>
             <div>
               <Label htmlFor="enquiry" className="block text-sm font-medium text-[#1a237e] mb-1">Your Enquiry</Label>

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Terminal, User, Mail, Phone, MessageSquareText, CalendarDays, ArrowLeft, CheckCircle } from 'lucide-react';
+import { Terminal, User, Mail, Phone, MessageSquareText, CalendarDays, ArrowLeft, CheckCircle, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface Enquiry {
@@ -12,6 +12,7 @@ interface Enquiry {
   name: string;
   email: string;
   phone?: string;
+  age?: number;
   enquiry: string;
   createdAt: string;
   reviewed?: boolean; // Add the reviewed field
@@ -167,6 +168,16 @@ export default function EnquiryDetailPage() {
             <div>
               <p className="text-xs text-gray-500">Phone</p>
               <p className="text-gray-800 font-medium">{enquiry.phone}</p>
+            </div>
+          </div>
+        )}
+
+        {typeof enquiry.age !== 'undefined' && (
+          <div className="flex items-center p-3 bg-gray-50/50 rounded-lg border border-gray-200/60">
+            <Users className="h-5 w-5 mr-3 text-[#1a237e]/70" />
+            <div>
+              <p className="text-xs text-gray-500">Age</p>
+              <p className="text-gray-800 font-medium">{enquiry.age}</p>
             </div>
           </div>
         )}

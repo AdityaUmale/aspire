@@ -13,6 +13,7 @@ interface Enquiry {
   name: string;
   email: string;
   phone?: string;
+  age?: number;
   enquiry: string;
   createdAt: string;
   reviewed?: boolean; // Add the reviewed field
@@ -112,7 +113,10 @@ export default function ReviewEnquiriesPage() {
                         </div>
                       </div>
                       <p className="text-xs text-gray-600 mb-1">{enquiry.email}</p>
-                      {enquiry.phone && <p className="text-xs text-gray-600 mb-2">{enquiry.phone}</p>}
+                      {enquiry.phone && <p className="text-xs text-gray-600 mb-1">{enquiry.phone}</p>}
+                      {typeof enquiry.age !== 'undefined' && (
+                        <p className="text-xs text-gray-600 mb-2">Age: {enquiry.age}</p>
+                      )}
                       <p className="text-xs text-gray-500">{new Date(enquiry.createdAt).toLocaleDateString()}</p>
                     </div>
                   </div>
@@ -128,6 +132,7 @@ export default function ReviewEnquiriesPage() {
                     <TableHead className="text-[#1a237e] font-semibold text-xs lg:text-sm">Name</TableHead>
                     <TableHead className="text-[#1a237e] font-semibold text-xs lg:text-sm">Email</TableHead>
                     <TableHead className="text-[#1a237e] font-semibold text-xs lg:text-sm">Phone</TableHead>
+                    <TableHead className="text-[#1a237e] font-semibold text-xs lg:text-sm">Age</TableHead>
                     <TableHead className="text-[#1a237e] font-semibold text-xs lg:text-sm">Date</TableHead>
                     <TableHead className="text-[#1a237e] font-semibold text-xs lg:text-sm">Status</TableHead>
                   </TableRow>
@@ -142,6 +147,7 @@ export default function ReviewEnquiriesPage() {
                       <TableCell className="font-medium text-gray-700 py-2 lg:py-3 text-xs lg:text-sm whitespace-nowrap">{enquiry.name}</TableCell>
                       <TableCell className="text-gray-600 py-2 lg:py-3 text-xs lg:text-sm whitespace-nowrap">{enquiry.email}</TableCell>
                       <TableCell className="text-gray-600 py-2 lg:py-3 text-xs lg:text-sm whitespace-nowrap">{enquiry.phone || '-'}</TableCell>
+                      <TableCell className="text-gray-600 py-2 lg:py-3 text-xs lg:text-sm whitespace-nowrap">{typeof enquiry.age !== 'undefined' ? enquiry.age : '-'}</TableCell>
                       <TableCell className="text-gray-500 py-2 lg:py-3 text-xs whitespace-nowrap">{new Date(enquiry.createdAt).toLocaleDateString()}</TableCell>
                       <TableCell className="py-2 lg:py-3">
                         <div className="flex items-center">

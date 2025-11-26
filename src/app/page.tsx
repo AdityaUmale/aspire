@@ -12,6 +12,7 @@ import {
   BookOpen,
   Star,
   ArrowRight,
+  ArrowLeft,
   CheckCircle,
   MapPin,
   Mail,
@@ -25,7 +26,7 @@ import {
   Facebook,
   Twitter,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { format } from 'date-fns';
 import EnquiryForm from "@/components/EnquiryForm";
 
@@ -59,6 +60,14 @@ export default function Home() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const programsRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollPrograms = (direction: "left" | "right") => {
+    const container = programsRef.current;
+    if (!container) return;
+    const scrollAmount = direction === "left" ? -320 : 320;
+    container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -128,13 +137,13 @@ export default function Home() {
                     </span>
                   </h1>
                   <p className="max-w-[600px] text-gray-600 md:text-xl leading-relaxed">
-                    Join over 800,000+ learners who have transformed their lives through our comprehensive personal and professional development programs.
+                  Join 1,50,000+ learners who have discovered confidence, clarity, and success with ASPIRE India’s Leading Personal & Professional Development Institute. because when you grow, everything changes. 
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 sm:flex-row fade-in w-full sm:w-auto" style={{ animationDelay: '0.3s' }}>
                   <Link href="#courses" className="w-full sm:w-auto">
                     <Button className="bg-[#1a237e] hover:bg-[#0d1642] shadow-md transition-all duration-300 hover:shadow-lg w-full sm:w-auto">
-                    Explore Courses
+                    Explore Our Programs
                     <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
                   </Link>
@@ -184,164 +193,100 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="founder" className="py-12 md:py-16 lg:py-20 bg-white animate-on-scroll">
+        <section id="founder" className="py-12 md:py-16 lg:py-20 bg-gradient-to-br from-[#f8f9fa] via-white to-[#e8eaf6]/30 animate-on-scroll">
           <div className="container px-4 md:px-6 lg:ml-14 mx-auto">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-18">
-              <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm">
-                <Star className="h-3.5 w-3.5 mr-1 text-[#1a237e]" />
-                Meet Our Founder
-              </div>
-              <div className="space-y-2 max-w-3xl">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-[#1a237e]">Visionary Leadership</h2>
-                <p className="text-gray-500 md:text-lg">
-                  The driving force behind Aspire Institute&apos;s mission to transform lives across India and beyond.
-                </p>
-              </div>
-            </div>
-            <div className="grid gap-12 lg:grid-cols-2 items-center">
-              <div className="relative slide-in-left">
-                <div className="absolute -top-6 -left-6 w-32 h-32 bg-[#1a237e]/5 rounded-full blur-xl"></div>
-                <div className="relative z-10 overflow-hidden rounded-2xl shadow-xl">
-                  <Image src="/founder3.jpg" alt="Founder of Aspire Institute" width={400} height={400} className="w-full h-auto object-cover transform transition-transform hover:scale-105 duration-500" />
+            <div className="grid gap-10 lg:grid-cols-2 items-center">
+              {/* Image Side */}
+              <div className="relative slide-in-left order-2 lg:order-1">
+                <div className="absolute -top-8 -left-8 w-40 h-40 bg-[#1a237e]/10 rounded-full blur-2xl"></div>
+                <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-[#3949ab]/10 rounded-full blur-2xl"></div>
+                <div className="relative z-10">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#1a237e]/20 to-[#3949ab]/20 rounded-2xl transform rotate-2"></div>
+                  <div className="relative bg-white p-2 rounded-2xl shadow-2xl">
+                    <Image 
+                      src="/founder3.jpg" 
+                      alt="Hon'ble Mr. Sachin Burghate - Founder of Aspire Institute" 
+                      width={500} 
+                      height={600} 
+                      className="w-full h-auto object-cover rounded-xl" 
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="space-y-6 lg:pl-8 slide-in-right">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm">
-                  <Award className="h-5 w-5 text-[#1a237e]" />
-                  <span className="text-sm font-medium text-[#1a237e]">Award-Winning Educator</span>
-                </div>
-                <h3 className="text-2xl font-bold text-[#1a237e]">Transforming Education for Over 19 Years</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  The founder of Aspire The Institute of Human Development is a visionary educator who has been transforming the education industry for over 19 years. Under his leadership, Aspire has become India&apos;s leading training institute, creating a revolution in personal and professional development.
-                </p>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="flex items-start gap-3 p-4 bg-white rounded-xl shadow-sm">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#e8eaf6] text-[#1a237e]">
-                      <Users className="h-5 w-5" />
+                {/* Floating Stats Badge */}
+                <div className="absolute -bottom-4 -right-4 lg:bottom-6 lg:-right-6 bg-white p-4 rounded-xl shadow-xl border border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-[#e8eaf6] rounded-full">
+                      <Users className="h-5 w-5 text-[#1a237e]" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-[#1a237e]">800,000+</h4>
-                      <p className="text-sm text-gray-500">Audience as keynote speaker across India</p>
+                      <p className="text-xl font-bold text-[#1a237e]">3M+</p>
+                      <p className="text-xs text-gray-500">Lives Impacted</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-white rounded-xl shadow-sm">
+                </div>
+              </div>
+
+              {/* Content Side */}
+              <div className="space-y-6 order-1 lg:order-2 slide-in-right">
+                <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-4 py-1.5 text-sm text-[#1a237e] shadow-sm">
+                  <Star className="h-4 w-4 mr-2 text-[#1a237e]" />
+                  Meet Our Founder
+                </div>
+
+                <div>
+                  <h2 className="text-3xl md:text-4xl font-bold text-[#1a237e] mb-2">Visionary Leadership, Real Impact.</h2>
+                  <p className="text-xl font-semibold text-[#3949ab]">Hon&apos;ble Mr. Sachin Burghate</p>
+                </div>
+
+                <p className="text-gray-600 leading-relaxed text-lg">
+                  Internationally acclaimed speaker with 20+ years in education & empowerment. A leader who inspires leaders—his vision is simple: <span className="font-semibold text-[#1a237e]">every learner can lead with purpose and confidence.</span>
+                </p>
+
+                {/* Quick Stats */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex items-center gap-3 p-4 bg-white rounded-xl shadow-sm border border-gray-100">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#e8eaf6] text-[#1a237e]">
                       <Calendar className="h-5 w-5" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-[#1a237e]">1000+</h4>
-                      <p className="text-sm text-gray-500">Programs and workshops organized worldwide</p>
+                      <h4 className="font-bold text-[#1a237e]">5000+</h4>
+                      <p className="text-xs text-gray-500">Workshops Globally</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-4 bg-white rounded-xl shadow-sm border border-gray-100">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#e8eaf6] text-[#1a237e]">
+                      <Globe className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-[#1a237e]">15+</h4>
+                      <p className="text-xs text-gray-500">Countries Worldwide</p>
                     </div>
                   </div>
                 </div>
-                <div className="pt-4">
-                  <Button className="bg-[#1a237e] hover:bg-[#0d1642] shadow-md transition-all duration-300 hover:shadow-lg">
-                    Learn More About Our Founder
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            </div>
-            <div className="mt-12 md:mt-20 lg:mt-28">
-              <div className="grid gap-6 md:gap-8 lg:gap-10 md:grid-cols-2 lg:grid-cols-3 items-stretch">
-                {/* Awards & Recognition Card */}
-                <div className="relative fade-in-up group flex" style={{ animationDelay: '0.1s' }}>
-                  <div className="absolute -top-3 -left-3 w-24 h-24 bg-[#1a237e]/10 rounded-full blur-2xl"></div>
-                  <div className="absolute -bottom-3 -right-3 w-32 h-32 bg-[#3949ab]/10 rounded-full blur-2xl"></div>
-                  <div className="relative z-10 p-6 rounded-2xl bg-gradient-to-br from-white/90 via-white/70 to-white/60 backdrop-blur-md border border-white/40 shadow-2xl transition-all duration-500 hover:shadow-3xl hover:scale-[1.03] flex-1 flex flex-col" style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 40px -12px rgba(26, 35, 126, 0.3)' }}>
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#e8eaf6]/40 via-transparent to-[#c5cae9]/20 rounded-2xl"></div>
-                    <div className="absolute -top-2 -right-2 w-24 h-24 bg-gradient-radial from-[#1a237e]/20 to-transparent rounded-full blur-xl"></div>
-                    <div className="relative z-10">
-                      <div className="flex items-center gap-3 mb-5">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#1a237e]/15 to-[#3949ab]/8 shadow-lg">
-                          <Award className="h-5 w-5 text-[#1a237e]" />
-                        </div>
-                        <h3 className="font-semibold text-[#1a237e] text-lg">Awards & Recognition</h3>
+
+                {/* Key Highlights */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-[#1a237e]" />
+                    <p className="text-sm text-gray-600">Recipient of Outstanding Young Person of India Award</p>
                   </div>
-                  <ul className="space-y-3">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                      <p className="text-sm text-gray-600">Awarded Excellent Institute For Creating Leaders and Discovering The Potential Of Students In India</p>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                      <p className="text-sm text-gray-600">National Achievers Award for Education Excellence</p>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                      <p className="text-sm text-gray-600">Outstanding Young Persons of India (OYP) by JCI in 2014</p>
-                    </li>
-                  </ul>
-                </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-50 rounded-2xl"></div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-[#1a237e]" />
+                    <p className="text-sm text-gray-600">Featured on ZEE TV&apos;s &quot;The Real Heroes&quot;</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-[#1a237e]" />
+                    <p className="text-sm text-gray-600">Delivered talks in Singapore, Dubai, Thailand, Malaysia & more</p>
                   </div>
                 </div>
 
-                {/* Global Presence Card */}
-                <div className="relative fade-in-up group flex" style={{ animationDelay: '0.2s' }}>
-                  <div className="absolute -top-3 -right-3 w-28 h-28 bg-[#3949ab]/10 rounded-full blur-2xl"></div>
-                  <div className="absolute -bottom-3 -left-3 w-32 h-32 bg-[#9fa8da]/10 rounded-full blur-2xl"></div>
-                  <div className="relative z-10 p-6 rounded-2xl bg-gradient-to-br from-white/90 via-white/70 to-white/60 backdrop-blur-md border border-white/40 shadow-2xl transition-all duration-500 hover:shadow-3xl hover:scale-[1.03] flex-1 flex flex-col" style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 40px -12px rgba(57, 73, 171, 0.3)' }}>
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#e8eaf6]/40 via-transparent to-[#9fa8da]/20 rounded-2xl"></div>
-                    <div className="absolute -top-2 -left-2 w-28 h-28 bg-gradient-radial from-[#3949ab]/20 to-transparent rounded-full blur-xl"></div>
-                    <div className="relative z-10 flex-1">
-                      <div className="flex items-center gap-3 mb-5">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#3949ab]/15 to-[#1a237e]/8 shadow-lg">
-                          <Globe className="h-5 w-5 text-[#1a237e]" />
-                        </div>
-                        <h3 className="font-semibold text-[#1a237e] text-lg">Global Presence</h3>
-                  </div>
-                  <ul className="space-y-3">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                      <p className="text-sm text-gray-600">Conducted workshops in Singapore, Malaysia, Thailand, UAE, Qatar, and Vietnam</p>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                          <p className="text-sm text-gray-600">Invited by HUB Singapore to address youth in 2014 and share insights on entrepreneurship and leadership</p>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                      <p className="text-sm text-gray-600">Successful motivational talk in Dubai organized by SKS Events UAE in 2017</p>
-                    </li>
-                  </ul>
-                </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-50 rounded-2xl"></div>
-                  </div>
-                </div>
-
-                {/* Media & Publications Card */}
-                <div className="relative fade-in-up group md:col-span-2 lg:col-span-1 flex" style={{ animationDelay: '0.3s' }}>
-                  <div className="absolute -top-3 -left-3 w-32 h-32 bg-[#c5cae9]/10 rounded-full blur-2xl"></div>
-                  <div className="absolute -bottom-3 -right-3 w-28 h-28 bg-[#1a237e]/10 rounded-full blur-2xl"></div>
-                  <div className="relative z-10 p-6 rounded-2xl bg-gradient-to-br from-white/90 via-white/70 to-white/60 backdrop-blur-md border border-white/40 shadow-2xl transition-all duration-500 hover:shadow-3xl hover:scale-[1.03] flex-1 flex flex-col" style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 40px -12px rgba(159, 168, 218, 0.3)' }}>
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#e8eaf6]/40 via-transparent to-[#c5cae9]/20 rounded-2xl"></div>
-                    <div className="absolute -top-2 -right-2 w-32 h-32 bg-gradient-radial from-[#9fa8da]/20 to-transparent rounded-full blur-xl"></div>
-                    <div className="absolute -bottom-2 -left-2 w-28 h-28 bg-gradient-radial from-[#c5cae9]/15 to-transparent rounded-full blur-xl"></div>
-                    <div className="relative z-10 flex-1">
-                      <div className="flex items-center gap-3 mb-5">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#9fa8da]/15 to-[#3949ab]/8 shadow-lg">
-                          <Newspaper className="h-5 w-5 text-[#1a237e]" />
-                        </div>
-                        <h3 className="font-semibold text-[#1a237e] text-lg">Media & Publications</h3>
-                  </div>
-                  <ul className="space-y-3">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                      <p className="text-sm text-gray-600">Life and success story featured on ZEE TV in The Real Heroes</p>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                          <p className="text-sm text-gray-600">Columnist for renowned newspapers like Sakal and Maharashtra Times, writing on education and personal development</p>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-[#1a237e] shrink-0 mt-0.5" />
-                      <p className="text-sm text-gray-600">Honored with Vidharbha MAITRI GAURAV PURSKAR in Nagpur</p>
-                    </li>
-                  </ul>
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-50 rounded-2xl"></div>
-                  </div>
+                <div className="pt-2">
+                  <Link href="/founder">
+                    <Button className="bg-[#1a237e] hover:bg-[#0d1642] shadow-md transition-all duration-300 hover:shadow-lg px-6 py-5">
+                      Learn More About Our Founder
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -412,11 +357,32 @@ export default function Home() {
                 Our Programs
               </div>
               <div className="space-y-2 max-w-3xl">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-[#1a237e]">Transformative Learning Experiences</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-[#1a237e]">Trainings that helps you Communicate and Lead</h2>
                 <p className="text-gray-500 md:text-lg">Discover our comprehensive range of training programs designed to transform lives and careers.</p>
               </div>
             </div>
-            <div className="flex flex-row overflow-x-auto gap-4 md:gap-6 lg:gap-8 pb-4 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
+            <div className="hidden md:flex justify-end gap-3 mb-4 w-full">
+              <button
+                type="button"
+                onClick={() => scrollPrograms("left")}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-[#1a237e]/30 text-[#1a237e] hover:bg-[#e8eaf6] transition-colors"
+                aria-label="Scroll programs left"
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollPrograms("right")}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-[#1a237e]/30 text-[#1a237e] hover:bg-[#e8eaf6] transition-colors"
+                aria-label="Scroll programs right"
+              >
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+            <div
+              ref={programsRef}
+              className="flex flex-row overflow-x-auto gap-4 md:gap-6 lg:gap-8 pb-4 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide"
+            >
               {[
                 { title: "Leadership Development", description: "Develop essential leadership skills for the modern workplace and learn to inspire teams.", icon: Users, image: "/ldp.jpg", slug: "/courses/leadership-development", features: ["Strategic thinking", "Team management", "Decision making", "Conflict resolution"] },
                 { title: "Personality Development", description: "Build confidence and enhance your personal growth through comprehensive self-improvement.", icon: Target, image: "/pdc.jpg", slug: "/courses/personality-development", features: ["Self-confidence", "Communication skills", "Emotional intelligence", "Personal branding"] },
@@ -472,11 +438,11 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm">
                 <Star className="h-3.5 w-3.5 mr-1 text-[#1a237e]" />
-                Why Choose Aspire
+                Why Thousands Trust Aspire
               </div>
               <div className="space-y-2 max-w-3xl">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-[#1a237e]">India&apos;s Premier Institute for Human Development</h2>
-                <p className="text-gray-500 md:text-lg">We are one of the largest personal and professional development training institutes in India with over 100,000 learners in our full-time training programs.</p>
+                <p className="text-gray-500 md:text-lg">From Classrooms to Careers Real learning, practical approach, real growth built through years of experience</p>
               </div>
             </div>
             <div className="grid gap-8 md:grid-cols-3">
@@ -695,7 +661,7 @@ export default function Home() {
                 <Image src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Image%202-wKlvojVmZKfsKl6SY0T2zX1H92pLQT.jpeg" alt="Aspire Institute Logo" width={40} height={40} className="h-10 w-auto" />
                 <span className="text-lg font-semibold text-[#1a237e]">Aspire Institute</span>
               </div>
-              <p className="text-sm text-gray-500">One of India&apos;s largest personal and professional development training institutes, transforming lives since 2009.</p>
+              <p className="text-sm text-gray-500">Unlocking Potential , classrooms to careers one learner at a time.</p>
               <div className="flex items-center gap-2 mt-2">
               <Link href="https://www.linkedin.com/company/aspire-the-institute-of-human-development/" target="_blank" rel="noopener noreferrer">
                 <Linkedin className="h-5 w-5 text-[#1a237e] flex-shrink-0 mt-0.5" />
@@ -703,7 +669,9 @@ export default function Home() {
               <Link href="https://www.instagram.com/official_aspire_institute/" target="_blank" rel="noopener noreferrer">
                 <Instagram className="h-5 w-5 text-[#1a237e] flex-shrink-0 mt-0.5" />
               </Link>
+              <Link href=" https://www.facebook.com/share/17VrNSbnhG/" target="_blank" rel="noopener noreferrer">
               <Facebook className="h-5 w-5 text-[#1a237e] flex-shrink-0 mt-0.5" />
+              </Link>
               <Link href="https://x.com/AspireTIHD" target="_blank" rel="noopener noreferrer">
                 <Twitter className="h-5 w-5 text-[#1a237e] flex-shrink-0 mt-0.5" />
                   </Link>
@@ -714,19 +682,16 @@ export default function Home() {
                 <h3 className="text-lg font-semibold text-[#1a237e]">Company</h3>
               <ul className="space-y-2">
                   <li>
-                    <Link href="#" className="text-sm text-gray-500 hover:text-[#1a237e]">About Us</Link>
+                    <Link href="/founder" className="text-sm text-gray-500 hover:text-[#1a237e]">Our Founder</Link>
                   </li>
                   <li>
                     <Link href="#vision-mission" className="text-sm text-gray-500 hover:text-[#1a237e]">Mission & Vision</Link>
                   </li>
                   <li>
-                    <Link href="#" className="text-sm text-gray-500 hover:text-[#1a237e]">Our Team</Link>
+                    <Link href="/team" className="text-sm text-gray-500 hover:text-[#1a237e]">Our Team</Link>
                   </li>
                   <li>
-                    <Link href="#" className="text-sm text-gray-500 hover:text-[#1a237e]">Testimonials</Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="text-sm text-gray-500 hover:text-[#1a237e]">Careers</Link>
+                    <Link href="/careers" className="text-sm text-gray-500 hover:text-[#1a237e]">Careers</Link>
                   </li>
               </ul>
             </div>
