@@ -93,7 +93,7 @@ export default function FounderPage() {
                 {/* Main Image Container */}
                 <div className="relative bg-gray-200 rounded-tr-[4rem] rounded-bl-[4rem] overflow-hidden shadow-2xl aspect-[4/5]">
                   <Image
-                    src="/founder3.jpg"
+                    src="/founder1.jpg"
                     alt="Sachin Burghate"
                     fill
                     className="object-cover hover:scale-105 transition-transform duration-700 ease-in-out"
