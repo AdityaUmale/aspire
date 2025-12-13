@@ -1,7 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { CheckCircle, Baby, Clock, Users, BookOpen, Smile, Star } from 'lucide-react'; 
+import { CheckCircle, Baby, Clock, Users, BookOpen, Smile, Star, ArrowRight } from 'lucide-react'; 
 
 export default function ChildrensLearningProgramPage() {
   const sscComponents = [
@@ -172,6 +173,22 @@ export default function ChildrensLearningProgramPage() {
                 </div>
               </div>
 
+            </div>
+
+            {/* CTA Section */}
+            <div className="mt-12 pt-8 border-t border-gray-200/80">
+              <div className="text-center">
+                <h3 className="text-xl font-semibold text-[#1a237e] mb-4">Ready to Nurture Your Child?</h3>
+                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                  Give your child the gift of confidence and learning. Contact us to enroll them in our Children&apos;s Learning Program.
+                </p>
+                <Link href="/#enquiry">
+                  <button className="inline-flex items-center gap-3 px-8 py-4 bg-[#1a237e] hover:bg-[#0d1642] text-white font-medium rounded-xl transition-all duration-300 shadow-lg shadow-[#1a237e]/20 hover:shadow-xl hover:shadow-[#1a237e]/30 hover:-translate-y-1">
+                    <span>Enroll Your Child</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </button>
+                </Link>
+              </div>
             </div>
 
           </div>

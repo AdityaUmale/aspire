@@ -1,7 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { Languages, CheckCircle, GraduationCap } from 'lucide-react'; // Using Languages icon
+import { Languages, CheckCircle, GraduationCap, ArrowRight } from 'lucide-react'; // Using Languages icon
 
 export default function EnglishLanguageTrainingPage() {
   const courseLevels = [
@@ -89,7 +90,7 @@ export default function EnglishLanguageTrainingPage() {
             <div className="mb-10 prose prose-indigo lg:prose-lg max-w-none prose-headings:text-[#1a237e] prose-a:text-[#3949ab] hover:prose-a:text-[#0d1642] prose-strong:text-gray-800">
               <h2 className="text-2xl font-semibold text-[#1a237e] mb-4">Introduction</h2>
               <p>
-                We have been teaching English language in India for more than 14 years. These English language courses give language learners confidence and skills to get mastery over English language. We train language learners using a natural way of teaching language. We have developed an encouraging culture that allows learners to commit mistakes and take free efforts when their English is just average. Our methodologies help learners to discover that, learning English is very easy. We have a range of 14 courses to suit your language learning needs. No matter you come from any age group and any profession, it’s a right unit of English language courses to unleash your love for English language. We provide a variety of training according to the levels. From methodology to resources we seek the growth of our learners. The syllabus includes activities, stories, audios, videos and games to improve English.
+                We have been teaching English language in India for more than 14 years. These English language courses give language learners confidence and skills to get mastery over English language. We train language learners using a natural way of teaching language. We have developed an encouraging culture that allows learners to commit mistakes and take free efforts when their English is just average. Our methodologies help learners to discover that, learning English is very easy. We have a range of 14 courses to suit your language learning needs. No matter you come from any age group and any profession, it's the right unit of English language courses to unleash your love for English language. We provide a variety of training according to the levels. From methodology to resources we seek the growth of our learners. The syllabus includes activities, stories, audios, videos and games to improve English.
               </p>
             </div>
 
@@ -103,6 +104,22 @@ export default function EnglishLanguageTrainingPage() {
                     <span className="text-gray-700 text-sm">{item}</span>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* CTA Section */}
+            <div className="mt-12 pt-8 border-t border-gray-200/80">
+              <div className="text-center">
+                <h3 className="text-xl font-semibold text-[#1a237e] mb-4">Ready to Master English?</h3>
+                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                  Improve your English language skills and open up new opportunities. Contact us to enroll in our English Language Training program.
+                </p>
+                <Link href="/#enquiry">
+                  <button className="inline-flex items-center gap-3 px-8 py-4 bg-[#1a237e] hover:bg-[#0d1642] text-white font-medium rounded-xl transition-all duration-300 shadow-lg shadow-[#1a237e]/20 hover:shadow-xl hover:shadow-[#1a237e]/30 hover:-translate-y-1">
+                    <span>Start Learning Today</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </button>
+                </Link>
               </div>
             </div>
 

@@ -2,21 +2,31 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import Navbar from '@/components/Navbar'; // Import Navbar
-import { GraduationCap, ArrowRight } from 'lucide-react'; // Changed icon to GraduationCap
+import Navbar from '@/components/Navbar';
+import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
+import { 
+  GraduationCap, 
+  ArrowRight, 
+  BookOpen, 
+  User, 
+  Sparkles, 
+  ChevronLeft, 
+  ChevronRight,
+  PenTool
+} from 'lucide-react';
 
-// Interface matching the StudentArticle model (ensure it includes author details if needed)
+// Font Configuration
+const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-serif' });
+const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-sans' });
+
 interface StudentArticle {
   _id: string;
   title: string;
   description: string;
-  // content: string; // Not needed for the card view
   author: {
     name: string;
-    // email: string; // Optional for card view
   };
   writerName: string;
   isPublished: boolean;
@@ -34,14 +44,12 @@ export default function StudentArticlesPage() {
   const [articles, setArticles] = useState<StudentArticle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  // Keep limit at 9 for consistency with the other articles page
   const [pagination, setPagination] = useState<PaginationInfo>({ total: 0, page: 1, limit: 9, pages: 0 }); 
 
   const fetchPublishedStudentArticles = async (page = 1) => {
     setLoading(true);
     setError(null);
     try {
-      // Use the pagination limit in the API call
       const response = await fetch(`/api/student-article?published=true&page=${page}&limit=${pagination.limit}`); 
       
       if (!response.ok) {
@@ -50,7 +58,6 @@ export default function StudentArticlesPage() {
       
       const data = await response.json();
       setArticles(data.articles);
-      // Ensure pagination state reflects the limit used
       setPagination({ ...data.pagination, limit: pagination.limit }); 
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'An error occurred while fetching articles');
@@ -74,115 +81,158 @@ export default function StudentArticlesPage() {
   };
 
   return (
-    // Apply main page background and structure
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#f8f9fa] via-[#e8eaf6] to-[#c5cae9]">
-      <Navbar /> {/* Add the Navbar */}
-      {/* Add subtle background elements */}
-      <div className="absolute inset-0 bg-[url('/globe.svg')] bg-no-repeat bg-center opacity-[0.02] mix-blend-soft-light -z-10"></div>
-      <div className="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-gradient-radial from-[#1a237e]/10 to-transparent blur-3xl -z-10"></div>
-      <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-gradient-radial from-[#9fa8da]/15 to-transparent blur-3xl -z-10"></div>
+    <div className={`flex flex-col min-h-screen bg-[#FAFAFA] ${playfair.variable} ${jakarta.variable} font-sans selection:bg-[#1a237e] selection:text-white`}>
+      <Navbar />
 
-      <main className="flex-1 pt-24 pb-16 md:pt-28 md:pb-20 lg:pt-32 lg:pb-24"> {/* Consistent padding */} 
-        <div className="container mx-auto px-4">
-          {/* Enhanced Heading */}
-          <div className="flex items-center justify-center gap-3 mb-12"> {/* Consistent margin */} 
-            <GraduationCap className="h-8 w-8 text-[#1a237e]" /> {/* Changed icon */} 
-            <h1 className="text-4xl md:text-5xl font-bold text-center text-[#1a237e]">Student Articles</h1> {/* Consistent title style */} 
+      {/* Global Grain Texture */}
+      <div className="fixed inset-0 opacity-[0.035] pointer-events-none z-50 mix-blend-multiply" 
+           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
+      </div>
+
+      <main className="flex-1 relative pt-32 pb-20 lg:pt-40 lg:pb-24">
+        {/* Background Atmosphere */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-radial from-[#1a237e]/5 to-transparent blur-[100px] opacity-60 pointer-events-none"></div>
+        <div className="absolute top-20 left-0 w-[500px] h-[500px] bg-gradient-radial from-[#3949ab]/5 to-transparent blur-[100px] opacity-40 pointer-events-none"></div>
+
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          
+          {/* Hero Section */}
+          <div className="text-center mb-20 max-w-4xl mx-auto">
+             <div className="inline-flex items-center gap-2 mb-6 animate-in slide-in-from-bottom-4 duration-700 fade-in">
+                <span className="h-px w-8 bg-[#1a237e]/30"></span>
+                <span className="text-xs font-bold tracking-[0.2em] text-[#1a237e] uppercase">The Student Journal</span>
+                <span className="h-px w-8 bg-[#1a237e]/30"></span>
+             </div>
+
+             <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
+               Voices of the <br/>
+               <span className="italic text-[#3949ab]">Future Leaders.</span>
+             </h1>
+             
+             <p className="text-xl text-gray-600 leading-relaxed font-light animate-in slide-in-from-bottom-8 duration-700 delay-200 fade-in max-w-2xl mx-auto">
+               Exploring ideas, sharing knowledge, and shaping perspectives through the written word.
+             </p>
           </div>
           
+          {/* Error State */}
           {error && (
-            <div className="mb-8 p-4 bg-red-100/50 border border-red-300/50 text-red-800 rounded-lg shadow-sm text-center"> {/* Consistent error style */} 
-              {error}
+            <div className="mb-12 p-6 bg-red-50 border border-red-100 text-red-900 rounded-2xl shadow-sm text-center max-w-2xl mx-auto animate-in zoom-in-95">
+              <p className="font-serif text-lg">Unable to load articles</p>
+              <p className="text-sm opacity-80 mt-1">{error}</p>
             </div>
           )}
           
+          {/* Content Grid */}
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"> {/* Consistent gap */} 
-              {[...Array(pagination.limit)].map((_, index) => ( // Use limit for skeletons
-                // Themed Skeleton Card
-                <Card key={index} className="overflow-hidden bg-white/70 backdrop-blur-sm border border-gray-200/40 rounded-xl shadow-md">
-                  <CardHeader className="pb-4">
-                    <Skeleton className="h-6 w-3/4 mb-2 bg-gray-300/60 rounded" />
-                    <Skeleton className="h-4 w-1/2 bg-gray-300/60 rounded" />
-                  </CardHeader>
-                  <CardContent className="pb-4">
-                    <Skeleton className="h-4 w-full mb-2 bg-gray-300/60 rounded" />
-                    <Skeleton className="h-4 w-full mb-2 bg-gray-300/60 rounded" />
-                    <Skeleton className="h-4 w-5/6 bg-gray-300/60 rounded" />
-                  </CardContent>
-                  <CardFooter>
-                    <Skeleton className="h-10 w-full bg-gray-300/60 rounded-lg" />
-                  </CardFooter>
-                </Card>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(pagination.limit)].map((_, index) => (
+                <div key={index} className="bg-white p-8 rounded-[1.5rem] border border-gray-100 h-[400px] flex flex-col">
+                  <div className="flex justify-between items-center mb-6">
+                    <Skeleton className="h-4 w-20 bg-gray-100" />
+                    <Skeleton className="h-8 w-8 rounded-full bg-gray-100" />
+                  </div>
+                  <Skeleton className="h-8 w-3/4 mb-4 bg-gray-100" />
+                  <Skeleton className="h-8 w-1/2 mb-8 bg-gray-100" />
+                  <div className="space-y-3 mt-auto">
+                    <Skeleton className="h-4 w-full bg-gray-100" />
+                    <Skeleton className="h-4 w-full bg-gray-100" />
+                    <Skeleton className="h-4 w-2/3 bg-gray-100" />
+                  </div>
+                </div>
               ))}
             </div>
           ) : articles.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-gray-600 text-xl">No published student articles found.</p> {/* Consistent empty state text */} 
+            <div className="flex flex-col items-center justify-center py-24 bg-white rounded-[3rem] border border-gray-100 shadow-sm text-center">
+              <div className="p-6 bg-[#f8f9fa] rounded-full mb-6">
+                <PenTool className="h-8 w-8 text-[#1a237e] opacity-50" />
+              </div>
+              <h3 className="font-serif text-2xl text-[#1a237e] mb-2">No Articles Yet</h3>
+              <p className="text-gray-500 font-light">Be the first to share your insights with the community.</p>
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"> {/* Consistent gap */} 
-                {articles.map((article) => (
-                  // Themed Article Card
-                  <Card 
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
+                {articles.map((article, idx) => (
+                  <div 
                     key={article._id} 
-                    className="group overflow-hidden bg-gradient-to-br from-white/95 to-white/80 backdrop-blur-md border border-gray-200/50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col transform hover:-translate-y-1"
+                    className="group flex flex-col bg-white p-8 rounded-[1.5rem] border border-gray-100 shadow-[0_2px_20px_-5px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.15)] transition-all duration-500 hover:-translate-y-2 relative overflow-hidden"
+                    style={{ animationDelay: `${idx * 100}ms` }}
                   >
-                    <CardHeader className="pb-3 border-b border-gray-200/70">
-                      <CardTitle className="text-[#1a237e] text-xl font-semibold group-hover:text-[#0d1642] transition-colors duration-300 line-clamp-2">{article.title}</CardTitle>
-                      <CardDescription className="text-sm text-gray-500 pt-1">
-                        By {article.writerName || 'Anonymous Student'}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex-grow pt-4 pb-4">
-                      <p className="text-gray-700 line-clamp-4 text-sm leading-relaxed">{article.description}</p> {/* Consistent line clamp */} 
-                    </CardContent>
-                    <CardFooter className="mt-auto pt-4">
-                      {/* Themed Button */}
+                    {/* Top Accent - Reveals on Hover */}
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#1a237e] to-[#3949ab] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                    {/* Metadata Header */}
+                    <div className="flex justify-between items-start mb-6">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#f8f9fa] text-[#1a237e] text-[10px] font-bold tracking-widest uppercase">
+                        <BookOpen className="h-3 w-3" />
+                        Article
+                      </div>
+                      <div className="text-gray-300 group-hover:text-[#1a237e] transition-colors duration-300">
+                        <GraduationCap className="h-5 w-5" />
+                      </div>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="font-serif text-2xl font-medium text-[#1a237e] mb-3 leading-tight group-hover:text-[#3949ab] transition-colors line-clamp-2">
+                      {article.title}
+                    </h3>
+
+                    {/* Author Byline */}
+                    <div className="flex items-center gap-2 mb-6 text-sm text-gray-500 font-medium border-b border-gray-50 pb-4">
+                      <div className="p-1 bg-[#f0f1fa] rounded-full">
+                        <User className="h-3 w-3 text-[#1a237e]" />
+                      </div>
+                      <span>By <span className="text-[#1a237e]">{article.writerName || 'Student Contributor'}</span></span>
+                    </div>
+
+                    {/* Abstract / Description */}
+                    <p className="text-gray-600 font-light text-sm leading-relaxed line-clamp-3 mb-8 flex-grow">
+                      {article.description}
+                    </p>
+
+                    {/* Footer Action */}
+                    <div className="mt-auto">
                       <Button 
-                        variant="default" // Changed to default for gradient
-                        className="w-full bg-gradient-to-r from-[#1a237e] to-[#3949ab] hover:from-[#0d1642] hover:to-[#1a237e] text-white transition-all duration-300 rounded-lg py-2.5 group-hover:shadow-lg flex items-center justify-center gap-2" // Added gradient and hover shadow
+                        variant="ghost" 
+                        className="w-full justify-between hover:bg-[#f8f9fa] text-[#1a237e] hover:text-[#0d1642] group/btn p-0 h-auto font-medium"
                         onClick={() => handleReadMore(article._id)}
                       >
-                        Read More <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                        <span className="text-sm">Read Full Article</span>
+                        <div className="h-8 w-8 rounded-full bg-[#f8f9fa] flex items-center justify-center group-hover/btn:bg-[#1a237e] group-hover/btn:text-white transition-all duration-300">
+                           <ArrowRight className="h-3.5 w-3.5" />
+                        </div>
                       </Button>
-                    </CardFooter>
-                  </Card>
+                    </div>
+                  </div>
                 ))}
               </div>
               
-              {/* Themed Pagination */}
+              {/* Refined Pagination */}
               {pagination.pages > 1 && (
-                <div className="flex justify-center items-center mt-12 space-x-3"> {/* Consistent pagination style */} 
+                <div className="flex justify-center items-center mt-20 gap-6">
                   <Button 
                     variant="outline" 
-                    size="icon" // Icon button
-                    className="border-[#1a237e]/60 text-[#1a237e] hover:bg-[#e8eaf6]/70 disabled:opacity-40 rounded-full h-9 w-9" // Rounded full
+                    size="icon" 
+                    className="h-12 w-12 rounded-full border-gray-200 text-[#1a237e] hover:bg-[#1a237e] hover:text-white hover:border-[#1a237e] transition-all disabled:opacity-30"
                     disabled={pagination.page === 1}
                     onClick={() => handlePageChange(pagination.page - 1)}
                   >
-                    <span className="sr-only">Previous</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                    </svg>
+                    <ChevronLeft className="h-5 w-5" />
                   </Button>
                   
-                  <span className="text-sm text-gray-600">
-                    Page {pagination.page} of {pagination.pages}
-                  </span>
+                  <div className="flex flex-col items-center">
+                    <span className="text-sm font-bold text-[#1a237e]">Page {pagination.page}</span>
+                    <span className="text-xs text-gray-400">of {pagination.pages}</span>
+                  </div>
                   
                   <Button 
                     variant="outline" 
-                    size="icon" // Icon button
-                    className="border-[#1a237e]/60 text-[#1a237e] hover:bg-[#e8eaf6]/70 disabled:opacity-40 rounded-full h-9 w-9" // Rounded full
+                    size="icon" 
+                    className="h-12 w-12 rounded-full border-gray-200 text-[#1a237e] hover:bg-[#1a237e] hover:text-white hover:border-[#1a237e] transition-all disabled:opacity-30"
                     disabled={pagination.page === pagination.pages}
                     onClick={() => handlePageChange(pagination.page + 1)}
                   >
-                    <span className="sr-only">Next</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                    </svg>
+                    <ChevronRight className="h-5 w-5" />
                   </Button>
                 </div>
               )}

@@ -1,7 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { Target, CheckCircle } from 'lucide-react'; // Using Target icon for personality development
+import { Target, CheckCircle, ArrowRight } from 'lucide-react'; // Using Target icon for personality development
 
 export default function PersonalityDevelopmentPage() {
   const courseOutline = [
@@ -56,7 +57,7 @@ export default function PersonalityDevelopmentPage() {
               
               {/* Paragraph 1 (No Image) */}
               <p className="prose prose-indigo lg:prose-lg max-w-none">
-                Knowing and exploring about oneself is personality development. We believe it is not just about one’s outer appearance which is visible; it is more about inner self. It’s about thoughts, feelings and behaviors that differentiate individual from one another. It is real development of the mind and Behavior. You’ll learn to do introspection and self development for everlasting change as the lessons reverberate confidence, enthusiasm, and serenity.
+                Knowing and exploring about oneself is personality development. We believe it is not just about one's outer appearance which is visible; it is more about inner self. It's about thoughts, feelings and behaviors that differentiate individual from one another. It is real development of the mind and behavior. You'll learn to do introspection and self development for everlasting change as the lessons reverberate confidence, enthusiasm, and serenity.
               </p>
               
               {/* Paragraph 2 with Image 1 */}
@@ -79,12 +80,12 @@ export default function PersonalityDevelopmentPage() {
 
               {/* Paragraph 3 (No Image) */}
               <p className="prose prose-indigo lg:prose-lg max-w-none">
-                This training program enables students to explore more about their talent, abilities and trait of the personality. You’ll ultimately learn to become the best version of yourself. You’ll discover the way to listen to your instinct and follow it. This course provides you an attitude to find the opportunities in adversities. You’ll unleash your hidden potential through the lessons of self discovery. PDC will certainly help you embrace yourself, your weakness and strengths and It will certainly facilitate you get control over anxiety, depression, stress emotions and comparison. This program will also help you develop a practical action plan for continued development and will provide you the strategy to be doer.
+                This training program enables students to explore more about their talent, abilities and trait of the personality. You'll ultimately learn to become the best version of yourself. You'll discover the way to listen to your instinct and follow it. This course provides you an attitude to find the opportunities in adversities. You'll unleash your hidden potential through the lessons of self-discovery. PDC will certainly help you embrace yourself, your weakness and strengths and It will certainly facilitate you get control over anxiety, depression, stress emotions and comparison. This program will also help you develop a practical action plan for continued development and will provide you the strategy to be doer.
               </p>
             </div>
 
             {/* Course Outline Section */}
-            <div className="mb-12"> 
+            <div className="mb-12">
               <h2 className="text-2xl font-semibold text-[#1a237e] mb-5">Course Outline</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
                 {courseOutline.map((item, index) => (
@@ -93,6 +94,22 @@ export default function PersonalityDevelopmentPage() {
                     <span className="text-gray-700 text-sm">{item}</span>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* CTA Section */}
+            <div className="mt-12 pt-8 border-t border-gray-200/80">
+              <div className="text-center">
+                <h3 className="text-xl font-semibold text-[#1a237e] mb-4">Ready to Transform Yourself?</h3>
+                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                  Discover your true potential and build the personality you&apos;ve always dreamed of. Contact us to enroll in our Personality Development Program.
+                </p>
+                <Link href="/#enquiry">
+                  <button className="inline-flex items-center gap-3 px-8 py-4 bg-[#1a237e] hover:bg-[#0d1642] text-white font-medium rounded-xl transition-all duration-300 shadow-lg shadow-[#1a237e]/20 hover:shadow-xl hover:shadow-[#1a237e]/30 hover:-translate-y-1">
+                    <span>Get Started Today</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </button>
+                </Link>
               </div>
             </div>
 

@@ -1,7 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { BookOpen, CheckCircle } from 'lucide-react'; // Using BookOpen icon for public speaking
+import { BookOpen, CheckCircle, ArrowRight } from 'lucide-react'; // Using BookOpen icon for public speaking
 
 export default function PublicSpeakingPage() {
   const courseOutline = [
@@ -70,7 +71,7 @@ export default function PublicSpeakingPage() {
                 </div>
                 <div className="w-full md:w-3/5 order-1 md:order-2 prose prose-indigo lg:prose-lg max-w-none">
                   <p>
-                    Public Speaking is the finest course designed by Aspire which avails you to know public speaking with a practical approach that makes you look Super-Confident. It gives you an ability to stand fearlessly on the stage and to voice your ideas to influence people. Everyone with this course can easily overcome public speaking fear by getting the training and lessons on it. We aim at making public speaking a joy rather than fear. It enables you to improve the quality of your thoughts and presentations. The lessons of public speaking help you speak effectively and discover an impressive speaker in yourself. We believe Public Speaking is a fearless process of the mind to inspire, inform or encourage audience. This course mainly focuses on individual growth. This program will train you to lead a team, a meeting, a conference or a class. It trains you to overcome nervousness and perform exceptionally well. It makes you able to represent your company or an organization in an effective way.
+                    Public Speaking is the finest course designed by Aspire which helps you master public speaking with a practical approach that makes you look super-confident. It gives you an ability to stand fearlessly on the stage and to voice your ideas to influence people. Everyone with this course can easily overcome public speaking fear by getting the training and lessons on it. We aim at making public speaking a joy rather than fear. It enables you to improve the quality of your thoughts and presentations. The lessons of public speaking help you speak effectively and discover an impressive speaker in yourself. We believe Public Speaking is a fearless process of the mind to inspire, inform or encourage audience. This course mainly focuses on individual growth. This program will train you to lead a team, a meeting, a conference or a class. It trains you to overcome nervousness and perform exceptionally well. It makes you able to represent your company or an organization in an effective way.
                   </p>
                 </div>
               </div>
@@ -96,7 +97,7 @@ export default function PublicSpeakingPage() {
             </div>
 
             {/* Course Outline Section */}
-            <div className="mb-12"> 
+            <div className="mb-12">
               <h2 className="text-2xl font-semibold text-[#1a237e] mb-5">Course Outline</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
                 {courseOutline.map((item, index) => (
@@ -105,6 +106,22 @@ export default function PublicSpeakingPage() {
                     <span className="text-gray-700 text-sm">{item}</span>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* CTA Section */}
+            <div className="mt-12 pt-8 border-t border-gray-200/80">
+              <div className="text-center">
+                <h3 className="text-xl font-semibold text-[#1a237e] mb-4">Ready to Speak with Confidence?</h3>
+                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                  Master the art of public speaking and captivate any audience. Contact us to enroll in our Public Speaking Course.
+                </p>
+                <Link href="/#enquiry">
+                  <button className="inline-flex items-center gap-3 px-8 py-4 bg-[#1a237e] hover:bg-[#0d1642] text-white font-medium rounded-xl transition-all duration-300 shadow-lg shadow-[#1a237e]/20 hover:shadow-xl hover:shadow-[#1a237e]/30 hover:-translate-y-1">
+                    <span>Get Started Today</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </button>
+                </Link>
               </div>
             </div>
 

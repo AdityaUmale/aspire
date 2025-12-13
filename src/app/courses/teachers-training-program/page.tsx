@@ -1,7 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { CheckCircle, GraduationCap } from 'lucide-react'; // Using GraduationCap icon
+import { CheckCircle, GraduationCap, ArrowRight } from 'lucide-react'; // Using GraduationCap icon
 
 export default function TeachersTrainingProgramPage() {
   const courseOutline = [
@@ -107,6 +108,22 @@ export default function TeachersTrainingProgramPage() {
                     <span className="text-gray-700 text-sm">{item}</span>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* CTA Section */}
+            <div className="mt-12 pt-8 border-t border-gray-200/80">
+              <div className="text-center">
+                <h3 className="text-xl font-semibold text-[#1a237e] mb-4">Ready to Transform Education?</h3>
+                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                  Empower yourself with modern teaching methods and become an exceptional educator. Contact us to join our Teachers Training Program.
+                </p>
+                <Link href="/#enquiry">
+                  <button className="inline-flex items-center gap-3 px-8 py-4 bg-[#1a237e] hover:bg-[#0d1642] text-white font-medium rounded-xl transition-all duration-300 shadow-lg shadow-[#1a237e]/20 hover:shadow-xl hover:shadow-[#1a237e]/30 hover:-translate-y-1">
+                    <span>Join Our Program</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </button>
+                </Link>
               </div>
             </div>
 

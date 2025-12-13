@@ -1,7 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '../../../components/Navbar';
-import { CheckCircle, Tent, Languages, Sparkles, Users } from 'lucide-react'; // Changed Campfire to Tent
+import { CheckCircle, Tent, Languages, Sparkles, Users, ArrowRight } from 'lucide-react'; // Changed Campfire to Tent
 
 export default function AriseCampPage() {
   const languageFocusOutline = [
@@ -69,7 +70,7 @@ export default function AriseCampPage() {
             <div className="mb-10 prose prose-indigo lg:prose-lg max-w-none prose-headings:text-[#1a237e]">
               <h2 className="text-2xl font-semibold mb-4">Inspiration</h2>
               <p>
-                Our inspiration behind the Arise Language And Thoughts Enrichment Camp is the world renowned Viswa Bharati University (Shantineketan), It is established by Shri Rabindranath Tagore in 1921. Tagore&apos;s idea on education was that every person is genius and that all students may not bloom at the same time. This perspective inspired us to create Arise Camp, where we can stimulate learners to fully develop their potential. The first ARISE camp was held in year 2012. & This revolution is still on.
+                Our inspiration behind the Arise Language And Thoughts Enrichment Camp is the world renowned Viswa Bharati University (Shantineketan), It was established by Shri Rabindranath Tagore in 1921. Tagore&apos;s idea on education was that every person is genius and that all students may not bloom at the same time. This perspective inspired us to create Arise Camp, where we can stimulate learners to fully develop their potential. The first ARISE camp was held in year 2012. & This revolution is still on.
               </p>
             </div>
 
@@ -171,6 +172,22 @@ export default function AriseCampPage() {
                <p>
                  In conclusion, ARISE Residential Camp is a great way to help build language, thought processes and confidence in campers. Furthermore, camp activities are designed to enhance their communication abilities while enriching their social connections and better understanding of themselves.
                </p>
+            </div>
+
+            {/* CTA Section */}
+            <div className="mt-12 pt-8 border-t border-gray-200/80">
+              <div className="text-center">
+                <h3 className="text-xl font-semibold text-[#1a237e] mb-4">Ready for Transformation?</h3>
+                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                  Join our 3-day residential camp and discover your true potential. Contact us to reserve your spot in the ARISE Camp.
+                </p>
+                <Link href="/#enquiry">
+                  <button className="inline-flex items-center gap-3 px-8 py-4 bg-[#1a237e] hover:bg-[#0d1642] text-white font-medium rounded-xl transition-all duration-300 shadow-lg shadow-[#1a237e]/20 hover:shadow-xl hover:shadow-[#1a237e]/30 hover:-translate-y-1">
+                    <span>Book Your Spot</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </button>
+                </Link>
+              </div>
             </div>
 
           </div>

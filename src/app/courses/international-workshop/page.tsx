@@ -1,7 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '../../../components/Navbar';
-import { CheckCircle, Globe, MapPin } from 'lucide-react'; // Using appropriate icons
+import { CheckCircle, Globe, MapPin, ArrowRight } from 'lucide-react'; // Using appropriate icons
 
 export default function InternationalWorkshopPage() {
   const courseOutline = [
@@ -111,6 +112,22 @@ export default function InternationalWorkshopPage() {
             <div className="mt-10 pt-6 border-t border-gray-200/80 flex items-center justify-center gap-2 text-[#3949ab]">
               <MapPin className="h-5 w-5" />
               <span className="text-sm font-medium">Singapore • Malaysia • Thailand • Dubai • Qatar</span>
+            </div>
+
+            {/* CTA Section */}
+            <div className="mt-12 pt-8 border-t border-gray-200/80">
+              <div className="text-center">
+                <h3 className="text-xl font-semibold text-[#1a237e] mb-4">Ready for Global Learning?</h3>
+                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                  Experience transformative learning experiences across international locations. Contact us to join our International Workshop.
+                </p>
+                <Link href="/#enquiry">
+                  <button className="inline-flex items-center gap-3 px-8 py-4 bg-[#1a237e] hover:bg-[#0d1642] text-white font-medium rounded-xl transition-all duration-300 shadow-lg shadow-[#1a237e]/20 hover:shadow-xl hover:shadow-[#1a237e]/30 hover:-translate-y-1">
+                    <span>Reserve Your Spot</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </button>
+                </Link>
+              </div>
             </div>
 
           </div>

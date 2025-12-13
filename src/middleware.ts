@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
     const token = tokenCookie?.value;
 
     // Define static public paths that don't require authentication
-    const staticPublicPaths = ['/signin', '/api/signin', '/'];
+    const staticPublicPaths = ['/signin', '/api/signin', '/', '/success-stories', '/founder', '/team', '/about-us', '/salute-learning-spirit'];
 
     // Allow requests to static public paths
     if (staticPublicPaths.some(path => pathname === path)) {
@@ -30,7 +30,12 @@ export async function middleware(request: NextRequest) {
         pathname.startsWith('/publish-article') || 
         pathname.startsWith('/student-articles') ||
         pathname.startsWith('/articles') ||
-        pathname.startsWith('/courses') // Add courses path
+        pathname.startsWith('/courses') ||
+        pathname.startsWith('/success-stories') ||
+        pathname.startsWith('/founder') ||
+        pathname.startsWith('/team') ||
+        pathname.startsWith('/about-us') ||
+        pathname.startsWith('/salute-learning-spirit') // public marketing pages
     ) {
         return NextResponse.next();
     }

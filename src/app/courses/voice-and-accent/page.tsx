@@ -1,7 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { CheckCircle, Mic, Briefcase } from 'lucide-react'; // Using Mic and Briefcase icons
+import { CheckCircle, Mic, Briefcase, ArrowRight } from 'lucide-react'; // Using Mic and Briefcase icons
 
 export default function VoiceAndAccentPage() {
   const voiceAccentOutline = [
@@ -139,6 +140,22 @@ export default function VoiceAndAccentPage() {
                     <span className="text-gray-700 text-sm">{item}</span>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* CTA Section */}
+            <div className="mt-12 pt-8 border-t border-gray-200/80">
+              <div className="text-center">
+                <h3 className="text-xl font-semibold text-[#1a237e] mb-4">Ready to Perfect Your Voice?</h3>
+                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                  Master your voice modulation and accent for better communication. Contact us to enroll in our Voice & Accent training program.
+                </p>
+                <Link href="/#enquiry">
+                  <button className="inline-flex items-center gap-3 px-8 py-4 bg-[#1a237e] hover:bg-[#0d1642] text-white font-medium rounded-xl transition-all duration-300 shadow-lg shadow-[#1a237e]/20 hover:shadow-xl hover:shadow-[#1a237e]/30 hover:-translate-y-1">
+                    <span>Start Your Journey</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </button>
+                </Link>
               </div>
             </div>
 

@@ -1,7 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { Users, CheckCircle } from 'lucide-react';
+import { Users, CheckCircle, ArrowRight } from 'lucide-react';
 
 export default function LeadershipDevelopmentPage() {
   const courseOutline = [
@@ -58,7 +59,7 @@ export default function LeadershipDevelopmentPage() {
               
               {/* Paragraph 1 (No Image) */}
               <p className="prose prose-indigo lg:prose-lg max-w-none">
-                For us Leadership Development is all about expanding the capacity of individuals to discover a leader in them or to perform leadership roles within organizations, for the betterment of Life and for career advancement. The world believes Leadership matters today. Our highly researched lessons of Leadership give the right turn to the careers and largely the existence of the participants. We strive to develop your functional expertise and enhance strategic planning throughout leadership development program.
+                For us Leadership Development is all about expanding the capacity of individuals to discover a leader in them or to perform leadership roles within organizations, for the betterment of life and for career advancement. The world believes Leadership matters today. Our highly researched lessons of Leadership give the right turn to the careers and largely the existence of the participants. We strive to develop your functional expertise and enhance strategic planning throughout leadership development program.
               </p>
               
               {/* Paragraph 2 with Image 1 */}
@@ -74,7 +75,7 @@ export default function LeadershipDevelopmentPage() {
                 </div>
                 <div className="w-full md:w-3/5 order-1 md:order-2 prose prose-indigo lg:prose-lg max-w-none">
                   <p>
-                    We work on the development of Leaders at all stages from bottom to the top. Our Leadership lessons are designed to the specific requirements and environment of each Organization. These LDP lessons are for long-term leaderships at individual and organizational levels. Learn and grow your leadership with the uniquely nevertheless practically designed course.
+                    We work on the development of Leaders at all stages from bottom to the top. Our Leadership lessons are designed to the specific requirements and environment of each Organization. These LDP lessons are for long-term leaderships at individual and organizational levels. Learn and grow your leadership with the uniquely and practically designed course.
                   </p>
                 </div>
               </div>
@@ -92,14 +93,14 @@ export default function LeadershipDevelopmentPage() {
                  </div>
                 <div className="w-full md:w-3/5 order-1 prose prose-indigo lg:prose-lg max-w-none">
                   <p>
-                    The LDP will provide you insights to know yourself and will give you tools and skills to become a better leader. Participants here learn all the necessary skill set and awareness as they realize their potential and roles during this program. LDP is Topical and highly interactive, it prepares you to strengthen your leadership at individual level and also improves organizations performance.
+                    The LDP will provide you insights to know yourself and will give you tools and skills to become a better leader. Participants here learn all the necessary skill set and awareness as they realize their potential and roles during this program. LDP is Topical and highly interactive, it prepares you to strengthen your leadership at individual level and also improves organization's performance.
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Course Outline Section */}
-            <div className="mb-12"> 
+            <div className="mb-12">
               <h2 className="text-2xl font-semibold text-[#1a237e] mb-5">Course Outline</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
                 {courseOutline.map((item, index) => (
@@ -108,6 +109,22 @@ export default function LeadershipDevelopmentPage() {
                     <span className="text-gray-700 text-sm">{item}</span>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* CTA Section */}
+            <div className="mt-12 pt-8 border-t border-gray-200/80">
+              <div className="text-center">
+                <h3 className="text-xl font-semibold text-[#1a237e] mb-4">Ready to Lead?</h3>
+                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                  Take the first step towards becoming an exceptional leader. Contact us to enroll in our Leadership Development Program.
+                </p>
+                <Link href="/#enquiry">
+                  <button className="inline-flex items-center gap-3 px-8 py-4 bg-[#1a237e] hover:bg-[#0d1642] text-white font-medium rounded-xl transition-all duration-300 shadow-lg shadow-[#1a237e]/20 hover:shadow-xl hover:shadow-[#1a237e]/30 hover:-translate-y-1">
+                    <span>Get Started Today</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </button>
+                </Link>
               </div>
             </div>
 
