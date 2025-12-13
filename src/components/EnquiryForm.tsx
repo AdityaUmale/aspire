@@ -12,7 +12,6 @@ import {
   User,
   Send,
   MessageSquare,
-  Sparkles,
   Loader2,
   Calendar
 } from "lucide-react";

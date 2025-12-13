@@ -7,12 +7,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Navbar from '@/components/Navbar';
 import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
 import { 
-  GraduationCap, 
-  ArrowRight, 
-  BookOpen, 
-  User, 
-  Sparkles, 
-  ChevronLeft, 
+  GraduationCap,
+  ArrowRight,
+  BookOpen,
+  User,
+  ChevronLeft,
   ChevronRight,
   PenTool
 } from 'lucide-react';

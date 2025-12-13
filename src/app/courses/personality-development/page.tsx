@@ -57,7 +57,7 @@ export default function PersonalityDevelopmentPage() {
               
               {/* Paragraph 1 (No Image) */}
               <p className="prose prose-indigo lg:prose-lg max-w-none">
-                Knowing and exploring about oneself is personality development. We believe it is not just about one's outer appearance which is visible; it is more about inner self. It's about thoughts, feelings and behaviors that differentiate individual from one another. It is real development of the mind and behavior. You'll learn to do introspection and self development for everlasting change as the lessons reverberate confidence, enthusiasm, and serenity.
+                Knowing and exploring about oneself is personality development. We believe it is not just about one&apos;s outer appearance which is visible; it is more about inner self. It&apos;s about thoughts, feelings and behaviors that differentiate individual from one another. It is real development of the mind and behavior. You&apos;ll learn to do introspection and self development for everlasting change as the lessons reverberate confidence, enthusiasm, and serenity.
               </p>
               
               {/* Paragraph 2 with Image 1 */}
@@ -80,7 +80,7 @@ export default function PersonalityDevelopmentPage() {
 
               {/* Paragraph 3 (No Image) */}
               <p className="prose prose-indigo lg:prose-lg max-w-none">
-                This training program enables students to explore more about their talent, abilities and trait of the personality. You'll ultimately learn to become the best version of yourself. You'll discover the way to listen to your instinct and follow it. This course provides you an attitude to find the opportunities in adversities. You'll unleash your hidden potential through the lessons of self-discovery. PDC will certainly help you embrace yourself, your weakness and strengths and It will certainly facilitate you get control over anxiety, depression, stress emotions and comparison. This program will also help you develop a practical action plan for continued development and will provide you the strategy to be doer.
+                This training program enables students to explore more about their talent, abilities and trait of the personality. You&apos;ll ultimately learn to become the best version of yourself. You&apos;ll discover the way to listen to your instinct and follow it. This course provides you an attitude to find the opportunities in adversities. You&apos;ll unleash your hidden potential through the lessons of self-discovery. PDC will certainly help you embrace yourself, your weakness and strengths and It will certainly facilitate you get control over anxiety, depression, stress emotions and comparison. This program will also help you develop a practical action plan for continued development and will provide you the strategy to be doer.
               </p>
             </div>
 

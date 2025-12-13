@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Star, Users, Calendar, Globe, CheckCircle, ArrowRight } from "lucide-react";
+import { Star, Calendar, Globe, CheckCircle, ArrowRight } from "lucide-react";
 
 export default function FounderSection() {
   return (

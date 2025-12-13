@@ -2,11 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Mail, Phone, Linkedin, Instagram, Facebook, Twitter, ArrowRight, Heart } from "lucide-react";
+import { MapPin, Mail, Phone, Linkedin, Instagram, Facebook, Twitter, ArrowRight } from "lucide-react";
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-
   return (
     <footer className="relative bg-[#FAFAFA] pt-20 pb-10 overflow-hidden border-t border-[#1a237e]/5 lg:ml-18">
       

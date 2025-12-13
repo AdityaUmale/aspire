@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { Terminal, ChevronLeft, Share2, Feather, Calendar } from 'lucide-react';
+import { Terminal, ChevronLeft, Feather } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
 
@@ -152,7 +152,7 @@ export default function ArticleDetailPage() {
                <div className="mb-6 inline-flex items-center gap-2">
                  <span className="h-px w-8 bg-[#1a237e]/30"></span>
                  <span className="text-xs font-bold tracking-[0.2em] text-[#1a237e] uppercase">
-                   Founder's Insight
+                   Founder&apos;s Insight
                  </span>
                </div>
 

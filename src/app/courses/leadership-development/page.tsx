@@ -93,7 +93,7 @@ export default function LeadershipDevelopmentPage() {
                  </div>
                 <div className="w-full md:w-3/5 order-1 prose prose-indigo lg:prose-lg max-w-none">
                   <p>
-                    The LDP will provide you insights to know yourself and will give you tools and skills to become a better leader. Participants here learn all the necessary skill set and awareness as they realize their potential and roles during this program. LDP is Topical and highly interactive, it prepares you to strengthen your leadership at individual level and also improves organization's performance.
+                    The LDP will provide you insights to know yourself and will give you tools and skills to become a better leader. Participants here learn all the necessary skill set and awareness as they realize their potential and roles during this program. LDP is Topical and highly interactive, it prepares you to strengthen your leadership at individual level and also improves organization&apos;s performance.
                   </p>
                 </div>
               </div>

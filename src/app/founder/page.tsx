@@ -6,19 +6,7 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
-import { cn } from '@/lib/utils'; // Assuming you have a cn utility, otherwise standard string interpolation works
-import {
-  Award,
-  Users,
-  Globe,
-  Mic,
-  Star,
-  Quote,
-  ArrowLeft,
-  Heart,
-  MapPin,
-  
-} from 'lucide-react';
+import { ArrowLeft, Award, Quote, Globe, Users, Mic, Star } from 'lucide-react';
 
 // Initialize fonts (If you are not using next/font, you can remove this and use standard fonts, but this is key for the aesthetic)
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-serif' });
@@ -201,7 +189,7 @@ export default function FounderPage() {
                           />
                       </div>
                       <div>
-                        <p className="font-serif text-xl text-[#1a237e] italic">"A bright and wonderful learning experience!"</p>
+                        <p className="font-serif text-xl text-[#1a237e] italic">&quot;A bright and wonderful learning experience!&quot;</p>
                         <div className="mt-2 text-sm">
                            <span className="font-bold text-[#1a237e] tracking-wider uppercase block">Sachin Burghate</span>
                            <span className="text-gray-400">Founder, Aspire Institute</span>

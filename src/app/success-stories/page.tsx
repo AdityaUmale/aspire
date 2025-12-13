@@ -9,7 +9,6 @@ import {
   Quote,
   ArrowRight,
   Star,
-  Sparkles,
   Heart,
   MessageCircle,
 } from 'lucide-react';
@@ -244,7 +243,7 @@ export default function SuccessStoriesPage() {
       {/* STORIES GRID */}
       <main id="stories" className="container mx-auto px-5 pb-20 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {successStories.map((s, idx) => (
+          {successStories.map((s) => (
             <article key={s.name} className="relative bg-white rounded-3xl p-8 shadow-[0_10px_30px_rgba(16,24,40,0.06)] border border-black/[0.03] overflow-hidden group">
 
               {/* left accent */}

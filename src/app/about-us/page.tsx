@@ -12,7 +12,6 @@ import {
   Zap,
   Microscope,
   Heart,
-  Star,
   CheckCircle,
   Sparkles,
   ArrowUpRight
@@ -52,7 +51,7 @@ export default function AboutUsPage() {
             </h1>
             
             <p className="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-3xl mx-auto font-light animate-in slide-in-from-bottom-8 duration-700 delay-200 fade-in">
-              We are India's premier institute for personal and professional development, dedicated to the belief that every individual holds the power to transform.
+              We are India&apos;s premier institute for personal and professional development, dedicated to the belief that every individual holds the power to transform.
             </p>
           </div>
 
@@ -98,7 +97,7 @@ export default function AboutUsPage() {
                   <strong className="text-[#1a237e] font-medium"> everyone has the potential to become an incredible version of themselves.</strong>
                 </p>
                 <p>
-                  Through our meticulously crafted programs, we provide the tools, knowledge, and environment needed to unlock that potential. We don't just teach; we transform. We cultivate a positive shift that empowers learners to live confidently and successfully.
+                  Through our meticulously crafted programs, we provide the tools, knowledge, and environment needed to unlock that potential. We don&apos;t just teach; we transform. We cultivate a positive shift that empowers learners to live confidently and successfully.
                 </p>
               </div>
             </div>
@@ -262,7 +261,7 @@ export default function AboutUsPage() {
                   </div>
                   <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6">Why Choose Aspire?</h2>
                   <p className="text-[#c5cae9] text-lg font-light leading-relaxed mb-12">
-                    Our brand has a rich history of over 15 years in the industry, establishing a strong presence and credibility. We don't just teach courses; we build careers and character.
+                    Our brand has a rich history of over 15 years in the industry, establishing a strong presence and credibility. We don&apos;t just teach courses; we build careers and character.
                   </p>
                   
                   <div className="flex items-center gap-4 p-4 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/10">

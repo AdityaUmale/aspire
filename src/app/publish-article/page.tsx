@@ -117,7 +117,7 @@ export default function PublishArticlePage() {
             </h1>
             
             <p className="text-gray-500 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-6">
-              This is your platform to inspire. Whether it's a lesson on self-growth, a breakthrough in your career, or a perspective that needs to be heard—your words have the power to shape the Aspire community.
+              This is your platform to inspire. Whether it&apos;s a lesson on self-growth, a breakthrough in your career, or a perspective that needs to be heard—your words have the power to shape the Aspire community.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 animate-in fade-in slide-in-from-bottom-8">

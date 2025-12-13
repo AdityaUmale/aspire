@@ -5,12 +5,10 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
-import { 
-  Quote, 
-  Star, 
-  ArrowRight, 
-  Award, 
-  Heart,
+import {
+  Quote,
+  ArrowRight,
+  Award,
   Scroll
 } from 'lucide-react';
 
@@ -108,7 +106,7 @@ export default function SaluteLearningSpiritPage() {
       <section className="py-20 bg-[#f8f9fa] border-t border-gray-100 relative">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid gap-12 lg:grid-cols-3 md:gap-8">
-            {stories.map((story, index) => (
+            {stories.map((story) => (
               <div
                 key={story.name}
                 className="group relative flex flex-col bg-white rounded-[20px] shadow-[0_2px_20px_-5px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.15)] border border-gray-100 transition-all duration-500 hover:-translate-y-2 overflow-hidden"

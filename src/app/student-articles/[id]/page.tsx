@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { Terminal, User, ChevronLeft, Calendar, Share2 } from 'lucide-react';
+import { Terminal, User, ChevronLeft } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
 

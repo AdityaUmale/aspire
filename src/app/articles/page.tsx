@@ -6,12 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import Navbar from '@/components/Navbar';
 import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
-import { 
-  BookOpen, 
-  ArrowRight, 
-  Feather, 
-  User, 
-  ChevronLeft, 
+import {
+  ArrowRight,
+  Feather,
+  User,
+  ChevronLeft,
   ChevronRight,
   PenTool,
   Quote
@@ -100,7 +99,7 @@ export default function ArticlesPage() {
              </div>
 
              <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
-               The Founder's <br/>
+               The Founder&apos;s <br/>
                <span className="italic text-[#3949ab]">Perspectives.</span>
              </h1>
              

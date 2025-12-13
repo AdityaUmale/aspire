@@ -6,17 +6,12 @@ import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import FounderSection from "@/components/FounderSection";
-import VisionMissionSection from "@/components/VisionMissionSection";
 import {
-  Users,
-  Target,
   BookOpen,
   ArrowRight,
   ArrowLeft,
   CheckCircle,
   Calendar,
-  Sparkles,
-  MapPin,
   GraduationCap
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";

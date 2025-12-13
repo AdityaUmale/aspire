@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
@@ -11,9 +10,7 @@ import {
   Target,
   Award,
   Lightbulb,
-  BookOpen,
   Heart,
-  ArrowRight,
   GraduationCap,
   Microscope,
   CheckCircle,
@@ -99,7 +96,7 @@ export default function TeamPage() {
             <div className="lg:col-span-5 relative">
                <div className="absolute -left-6 top-0 bottom-0 w-1 bg-[#1a237e]/10"></div>
                <p className="text-lg md:text-xl text-gray-600 leading-relaxed pl-6 font-serif italic">
-                 "Each of our team members is amazing in their own way, but together they are what make ASPIRE such a creative and rewarding place to work."
+                 &quot;Each of our team members is amazing in their own way, but together they are what make ASPIRE such a creative and rewarding place to work.&quot;
                </p>
                <p className="mt-6 pl-6 text-sm font-bold text-[#1a237e] uppercase tracking-widest">
                  Committed to Excellence
@@ -183,7 +180,7 @@ export default function TeamPage() {
                <div className="absolute -top-10 -left-10 w-full h-full bg-[#f0f1fa] rounded-[3rem] -z-10"></div>
                
                <div className="bg-white border border-gray-100 rounded-[2rem] p-8 md:p-10 shadow-lg">
-                  <h3 className="font-serif text-2xl text-[#1a237e] mb-8">The Educator's Standard</h3>
+                  <h3 className="font-serif text-2xl text-[#1a237e] mb-8">The Educator&apos;s Standard</h3>
                   <div className="grid gap-4">
                     {[
                       "Exceptional classroom management",
@@ -264,7 +261,7 @@ export default function TeamPage() {
                  </div>
                  <div className="border-l border-white/10 pl-8">
                     <p className="font-serif text-2xl text-white italic leading-relaxed">
-                      "Enhancing learning experiences through research, customisation, and a commitment to personal growth."
+                      &quot;Enhancing learning experiences through research, customisation, and a commitment to personal growth.&quot;
                     </p>
                  </div>
               </div>
