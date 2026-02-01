@@ -11,9 +11,6 @@ import {
   Star,
   Heart,
   MessageCircle,
-  Sparkles,
-  TrendingUp,
-  Award,
 } from 'lucide-react';
 
 type SuccessStory = {

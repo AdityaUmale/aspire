@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { CheckCircle, Lightbulb, ArrowRight, Target, Award } from 'lucide-react';
+import { CheckCircle, Lightbulb, ArrowRight, Award } from 'lucide-react';
 
 export default function EntrepreneurshipDevelopmentPage() {
   const courseOutline = [

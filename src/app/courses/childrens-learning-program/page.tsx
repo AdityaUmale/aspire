@@ -5,13 +5,6 @@ import Navbar from '@/components/Navbar';
 import { CheckCircle, Baby, Clock, Users, ArrowRight, Languages, Mic, Heart, Star, Award } from 'lucide-react';
 
 export default function ChildrensLearningProgramPage() {
-  const sscComponents = [
-    'English Language For Kids',
-    'Public Speaking For Kids',
-    'Social Skills For Kids',
-    'Personality Development For Kids',
-  ];
-
   const outlineEnglish = [
     'Sentences Formation Activities (SFA)',
     'Language Improvement Games (LIG)',

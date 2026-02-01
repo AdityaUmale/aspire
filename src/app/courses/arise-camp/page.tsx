@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { CheckCircle, Tent, Languages, ArrowRight, Calendar, MapPin, Users, Award } from 'lucide-react';
+import { CheckCircle, Tent, ArrowRight, Calendar, MapPin, Users, Award } from 'lucide-react';
 
 export default function AriseCampPage() {
   const courseOutline = [

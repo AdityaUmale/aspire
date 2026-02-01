@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { Users, CheckCircle, ArrowRight, Award, Target, Compass, Sparkles, BookOpen } from 'lucide-react';
+import { CheckCircle, ArrowRight, Award, Users } from 'lucide-react';
 
 export default function LeadershipDevelopmentPage() {
   const courseOutline = [

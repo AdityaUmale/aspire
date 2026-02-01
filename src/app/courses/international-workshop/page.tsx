@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { CheckCircle, Globe, ArrowRight, Compass, Award } from 'lucide-react';
+import { CheckCircle, Globe, ArrowRight, Award } from 'lucide-react';
 
 export default function InternationalWorkshopPage() {
   const courseOutline = [

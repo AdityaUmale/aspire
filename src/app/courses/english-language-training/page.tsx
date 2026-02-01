@@ -51,7 +51,7 @@ export default function EnglishLanguageTrainingPage() {
                   English Language Training
                 </h1>
                 <p className="text-lg md:text-xl text-[#c5cae9] mb-8 leading-relaxed max-w-lg mx-auto md:mx-0">
-                  Master English with our proven teaching methodology. From basics to fluency, we've got you covered.
+                  Master English with our proven teaching methodology. From basics to fluency, we&apos;ve got you covered.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                   <Link href="/#enquiry">
@@ -162,7 +162,7 @@ export default function EnglishLanguageTrainingPage() {
                   Our methodologies help learners to discover that learning English is very easy. We have a range of courses to suit your language learning needs.
                 </p>
                 <p className="text-gray-700 leading-relaxed text-lg">
-                  No matter you come from any age group and any profession, it's the right unit of English language courses to unleash your love for English language.
+                  No matter you come from any age group and any profession, it&apos;s the right unit of English language courses to unleash your love for English language.
                 </p>
               </div>
             </div>
