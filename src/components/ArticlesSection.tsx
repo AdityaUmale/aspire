@@ -307,7 +307,7 @@ export default function ArticlesSection() {
             </span>
           </div>
           <h2 className="font-bold text-4xl md:text-5xl lg:text-6xl text-[#1a237e] mb-6 text-balance">
-            Articles That <span className="italic">Inspire</span>
+            Articles That Inspire
           </h2>
           <p className="font-sans text-gray-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed text-pretty">
             Share your story, learn from peers, or dive into expert insights. Our article ecosystem fuels your growth

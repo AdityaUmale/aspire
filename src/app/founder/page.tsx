@@ -55,7 +55,7 @@ export default function FounderPage() {
 
               <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-medium text-[#1a237e] leading-[0.9] mb-8 tracking-tight animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
                 Hon&apos;ble <br />
-                <span className="italic opacity-80">Mr. Sachin</span> <br />
+                <span className="opacity-80">Mr. Sachin</span> <br />
                 Burghate
               </h1>
 

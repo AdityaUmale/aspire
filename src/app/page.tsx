@@ -144,7 +144,7 @@ export default function Home() {
               <div className="max-w-3xl space-y-4">
                 <h2 className="font-bold text-4xl md:text-5xl lg:text-6xl text-[#1a237e] leading-tight">
                   Training programs that help you <br />
-                  <span className="italic text-[#3949ab]">Communicate and Lead.</span>
+                  <span className="text-[#3949ab]">Communicate and Lead.</span>
                 </h2>
                 <p className="text-gray-500 text-lg md:text-xl font-light leading-relaxed">
                   Discover our comprehensive range of training programs designed to transform lives and careers.
@@ -248,9 +248,9 @@ export default function Home() {
               </div>
 
               <div className="max-w-3xl space-y-4">
-<h2 className="font-bold text-4xl md:text-5xl lg:text-6xl text-[#1a237e]">
-                   Upcoming Batches
-                 </h2>
+                <h2 className="font-bold text-4xl md:text-5xl lg:text-6xl text-[#1a237e]">
+                  Upcoming Batches
+                </h2>
                 <p className="text-gray-500 text-lg font-light">
                   Secure your spot in these transformative learning experiences starting soon.
                 </p>
@@ -267,7 +267,7 @@ export default function Home() {
               </div>
             ) : courses.length === 0 ? (
               <div className="text-center py-16 bg-white rounded-[2rem] border border-gray-200/50">
-                <p className="text-gray-400 text-lg font-bold italic">No upcoming courses available at the moment. Check back soon!</p>
+                <p className="text-gray-400 text-lg font-bold">No upcoming courses available at the moment. Check back soon!</p>
               </div>
             ) : (
               <>

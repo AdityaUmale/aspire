@@ -44,7 +44,7 @@ export default function InternationalWorkshopPage() {
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight leading-tight">
                   Meet Yourself
                 </h1>
-                <p className="text-xl md:text-2xl text-[#c5cae9] italic mb-6">
+                <p className="text-xl md:text-2xl text-[#c5cae9] mb-6">
                   &ldquo;Travel far enough, you meet yourself.&rdquo;
                 </p>
                 <p className="text-base text-white/70 mb-8">

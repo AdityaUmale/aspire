@@ -87,7 +87,7 @@ export default function SaluteLearningSpiritPage() {
 
           <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl font-medium text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
             Lifelong Learners, <br />
-            <span className="italic text-[#3949ab] relative">
+            <span className="text-[#3949ab] relative">
               Limitless Spirit.
               <span className="absolute -bottom-2 left-0 right-0 h-1 bg-[#3949ab]/10 rounded-full w-full"></span>
             </span>
@@ -142,7 +142,7 @@ export default function SaluteLearningSpiritPage() {
                   {/* The Hook Quote */}
                   <div className="relative mb-8">
                     <Quote className="absolute -top-3 -left-2 h-8 w-8 text-[#1a237e]/10 -z-10" />
-                    <h4 className="font-bold text-xl italic text-gray-800 leading-snug">
+                    <h4 className="font-bold text-xl text-gray-800 leading-snug">
                       &ldquo;{story.headline}&rdquo;
                     </h4>
                   </div>
@@ -160,7 +160,7 @@ export default function SaluteLearningSpiritPage() {
                   <div className="mt-8 pt-6 border-t border-gray-100 bg-gray-50 -mx-10 -mb-10 p-10 group-hover:bg-[#f8f9ff] transition-colors">
                     <div className="flex gap-3 items-center">
                       <Scroll className="h-5 w-5 text-[#1a237e] shrink-0" />
-                      <p className="text-sm font-medium text-[#1a237e] italic">
+                      <p className="text-sm font-medium text-[#1a237e]">
                         {story.quote}
                       </p>
                     </div>
@@ -184,7 +184,7 @@ export default function SaluteLearningSpiritPage() {
 
             <h2 className="font-bold text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight">
               Ready to write your <br />
-              <span className="italic opacity-80">own story?</span>
+              <span className="opacity-80">own story?</span>
             </h2>
 
             <p className="text-[#c5cae9] text-lg md:text-xl font-light mb-12 max-w-2xl mx-auto leading-relaxed">

@@ -235,7 +235,7 @@ export default function SuccessStoriesPage() {
           </div>
 
           <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl font-medium text-[#1a237e] mb-8 tracking-tight leading-[1.1] max-w-4xl mx-auto">
-            Where Aspirations <br /> Become <span className="italic text-[#3949ab]">Achievements</span>
+            Where Aspirations <br /> Become <span className="text-[#3949ab]">Achievements</span>
           </h1>
 
           <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto font-light">
@@ -294,7 +294,7 @@ export default function SuccessStoriesPage() {
 
                   <div className="mt-6 bg-[#fbfbff] border-t pt-4 flex items-start gap-3">
                     <MessageCircle className="h-5 w-5 text-[#1a237e] mt-1 flex-shrink-0" />
-                    <p className="text-[#1a237e] italic font-medium">{s.quote}</p>
+                    <p className="text-[#1a237e] font-medium">{s.quote}</p>
                   </div>
                 </div>
               </div>
@@ -323,7 +323,7 @@ export default function SuccessStoriesPage() {
               </div>
 
               <h2 className="font-bold text-4xl md:text-5xl lg:text-6xl text-white mb-8">
-                Your success story <br /> begins with <span className="italic opacity-80">one step.</span>
+                Your success story <br /> begins with <span className="opacity-80">one step.</span>
               </h2>
 
               <div className="flex flex-col sm:flex-row gap-5 justify-center mt-10">

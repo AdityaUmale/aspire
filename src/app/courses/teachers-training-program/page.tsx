@@ -44,7 +44,7 @@ export default function TeachersTrainingProgramPage() {
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight leading-tight">
                   Teachers Training Program
                 </h1>
-                <p className="text-xl md:text-2xl text-[#c5cae9] italic mb-8 leading-relaxed">
+                <p className="text-xl md:text-2xl text-[#c5cae9] mb-8 leading-relaxed">
                   Be Not A Teacher But A Mentor
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">

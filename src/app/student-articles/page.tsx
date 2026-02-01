@@ -100,7 +100,7 @@ export default function StudentArticlesPage() {
 
 <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
                 Voices of the <br/>
-                <span className="italic text-[#3949ab]">Future Leaders.</span>
+                <span className="text-[#3949ab]">Future Leaders.</span>
               </h1>
              
              <p className="text-xl text-gray-600 leading-relaxed font-light animate-in slide-in-from-bottom-8 duration-700 delay-200 fade-in max-w-2xl mx-auto">

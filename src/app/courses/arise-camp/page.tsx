@@ -53,7 +53,7 @@ export default function AriseCampPage() {
                 <p className="text-lg md:text-xl text-[#c5cae9] mb-4 leading-relaxed">
                   Language & Thoughts Enrichment Residential Camp
                 </p>
-                <p className="text-base text-white/70 mb-8 italic">
+                <p className="text-base text-white/70 mb-8">
                   Inspired by Visva-Bharati University, Shantiniketan, founded by Rabindranath Tagore
                 </p>
 

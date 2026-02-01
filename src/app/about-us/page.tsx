@@ -42,7 +42,7 @@ export default function AboutUsPage() {
 
             <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl font-medium text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
               Unlocking Potential, <br />
-              <span className="italic text-[#3949ab]">Shaping Futures.</span>
+              <span className="text-[#3949ab]">Shaping Futures.</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-3xl mx-auto font-light animate-in slide-in-from-bottom-8 duration-700 delay-200 fade-in">
@@ -83,9 +83,9 @@ export default function AboutUsPage() {
 
             {/* Text Column */}
             <div className="lg:col-span-5 space-y-8 sticky top-24">
-<h2 className="font-bold text-4xl md:text-5xl text-[#1a237e] leading-tight">
-              More than just an institute, we are a <span className="italic">movement.</span>
-            </h2>
+              <h2 className="font-bold text-4xl md:text-5xl text-[#1a237e] leading-tight">
+                More than just an institute, we are a <span>movement.</span>
+              </h2>
               <div className="prose prose-lg text-gray-600 leading-relaxed font-light">
                 <p>
                   Aspire - The Institute Of Human Development offers a vibrant curriculum tailored for both young minds and seasoned professionals. We operate on a fundamental truth:

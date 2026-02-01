@@ -157,7 +157,7 @@ export default function ArticleDetailPage() {
                 </h1>
 
                {/* Lead / Description */}
-               <p className="text-xl md:text-2xl text-gray-500 font-light leading-relaxed italic mb-10 border-l-4 border-[#1a237e]/20 pl-6">
+               <p className="text-xl md:text-2xl text-gray-500 font-light leading-relaxed  mb-10 border-l-4 border-[#1a237e]/20 pl-6">
                  {article.description}
                </p>
 

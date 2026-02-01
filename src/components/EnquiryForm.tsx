@@ -98,7 +98,7 @@ export default function EnquiryForm() {
           
           <div className="max-w-2xl space-y-4">
             <h2 className="font-bold text-4xl md:text-5xl text-[#1a237e] leading-tight">
-              Start Your <span className="italic text-[#3949ab]">Transformation.</span>
+              Start Your <span className="text-[#3949ab]">Transformation.</span>
             </h2>
             <p className="text-gray-500 text-lg font-light">
               Have questions about our programs? Fill out the form below and our admissions team will guide you on the right path.

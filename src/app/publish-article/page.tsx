@@ -108,7 +108,7 @@ export default function PublishArticlePage() {
             
             <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl text-[#1a237e] leading-[1.1] animate-in fade-in slide-in-from-bottom-5">
               Every leader starts with <br/>
-              <span className="italic text-[#3949ab]">a story to tell.</span>
+              <span className="text-[#3949ab]">a story to tell.</span>
             </h1>
             
             <p className="text-gray-500 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-6">
@@ -251,7 +251,7 @@ export default function PublishArticlePage() {
                         <PenTool className="h-4 w-4" />
                         The Story
                       </Label>
-                      <span className="text-xs text-gray-400 italic">Rich text supported</span>
+                      <span className="text-xs text-gray-400">Rich text supported</span>
                   </div>
                   
                   <div className="prose prose-lg max-w-none rounded-2xl border border-gray-200 bg-white focus-within:ring-2 focus-within:ring-[#1a237e]/10 focus-within:border-[#1a237e] transition-all shadow-sm min-h-[400px] overflow-hidden">
