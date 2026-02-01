@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
@@ -23,175 +24,180 @@ type SuccessStory = {
   headline: string;
   quote: string;
   story: string[];
-  
+  image?: string;
 };
 
 const successStories: SuccessStory[] = [
   {
     name: 'Tejas Kakkad',
     role: 'Parekh Group, India',
-    headline: "ASPIRE didn't just shape my skills - it shaped me.",
+    headline: "ASPIRE Institute didn't just shape my skills, it walked alongside me as I shaped myself.",
     quote: 'If you feel even a spark of ambition within you, Aspire Institute is where that spark becomes your story.',
     story: [
-      'My journey with Aspire Institute has been a turning point filled with learning, unlearning, and immense growth. I walked in with hesitation, but slowly discovered confidence I didn’t know I had.',
-      'Through powerful workshops, real-time experiences, and constant encouragement, I learned how to communicate better, work effectively in teams, think strategically, and stretch beyond every comfort zone I had built for myself.',
-      'Aspire taught me resilience, professionalism, and the courage to pursue excellence. From securing a PPO to seeing my personal transformation unfold, every milestone has been a reminder that the right guidance can unlock unimaginable potential.',
+      'I entered with hesitation, but through consistent effort and the right guidance, I discovered confidence, clarity, and courage.',
+      'Real experiences challenged me to communicate better, think sharper, and step beyond my comfort zone. Aspire Institute taught me resilience, professionalism, and the mindset to strive for excellence.',
+      'From personal transformation to securing a PPO, this journey proved that the right guidance can unlock unimaginable potential.',
     ],
-    
+    image: '/sls/tejas.jpg',
   },
   {
     name: 'Sharayu Hande',
     role: 'Amazon, India',
-    headline: "Aspire Institute didn't just prepare me for a placement; it prepared me for a life I once only dreamed about.",
-    quote: "If you’re ready to rewrite your story, Aspire is where the first chapter begins.",
+    headline: "At Aspire Institute, I unlocked a version of myself I never knew existed.",
+    quote: "If you're ready to rewrite your story, Aspire is where the first chapter begins.",
     story: [
-      'I unlocked a version of myself I never knew existed at Aspire Institute. The training, the guidance, and the constant belief they had in me equipped me with the skills, confidence, and mindset that ultimately led me to my placement at Amazon.',
-      'What I experienced wasn’t a single change but a chain of transformations. My confidence soared, my outlook became positive, and I gathered the tools that now shape every area of my personal and professional growth.',
-      'Working at a global MNC feels fulfilling, but knowing Aspire played a huge role in helping me reach this point makes it even more meaningful. Aspire gave me lessons I’ll carry for life—lessons that push me to dream boldly and aim for heights like becoming the CEO of an international company someday.',
+      'With the right training, guidance, and constant belief paired with my efforts, I built the skills, confidence, and mindset that led to my placement at Amazon. This wasn\'t one big change, but a series of transformations, clearer thinking, stronger confidence, and a positive outlook on growth.',
+      'Working at a global MNC is really fulfilling, but knowing Aspire Institute helped shape this journey makes it truly meaningful. The lessons I gained here stay with me pushing me to dream boldly and aim for heights as big as leading an International Company someday.',
     ],
+    image: '/sls/sharayu.jpg',
   },
   {
     name: 'Sachin Ingle',
     role: 'Indian Army',
-    headline: "Aspire didn’t just polish my English; it polished the man I became.",
-    quote: 'If you dream of transforming yourself not just for a career, but for the life you’re meant to lead, Aspire is where that transformation begins.',
+    headline: "I began my journey at Aspire with a different linguistic background, and over time that journey unfolded into a powerful transformation.",
+    quote: 'If you dream of transforming yourself not just for a career, but for the life you\'re meant to lead, Aspire is where that transformation begins.',
     story: [
-      'I stepped into Aspire as someone who barely knew the English language, shaped by a background where the language was never my strength. The journey from there to today still amazes the people around me.',
-      'Aspire didn’t just teach me language; it reshaped my confidence, refined my personality, and helped a shy boy grow into a gentleman ready to serve the nation.',
-      'The communication skills, discipline, and self-belief I built here became my greatest assets when I joined the Indian Army. Aspire believed in me long before I believed in myself, and that changed everything.',
+      'Aspire helped refine my communication, confidence, and discipline, shaping my personality and preparing me to serve the nation with pride and purpose.',
+      'The skills and self-belief I strengthened here became invaluable when I joined the \'Indian Army\'. Aspire Institute\'s guidance amplified my potential and helped me step forward with clarity & confidence.',
     ],
+
   },
   {
     name: 'Omkara Dethe',
     role: 'Human Resource Officer, Adani Group, India',
-    headline: "Aspire didn’t just change my communication; it changed the way I see myself.",
-    quote: 'If you feel you’re capable of more but don’t know where to begin, Aspire Institute is the place where your new self is born.',
+    headline: "Aspire Institute didn't change who I was, it helped me step fully into who I was becoming.",
+    quote: 'If you feel you\'re capable of more but don\'t know where to begin, Aspire Institute is the place where your new self is born.',
     story: [
-      'When I joined Aspire back in 2019, I struggled to speak, share, or even express simple thoughts. I carried the weight of hesitation and fear.',
-      'With every session, activity, and push from mentors, my confidence rose to a level I never imagined. I learned how to communicate, present myself, and step into opportunities I once thought were not for me.',
-      'The transformation shaped my skills and my identity—helping me become more knowledgeable, skilled, and grounded. Aspire gave me the courage to dream bigger and the clarity to pursue those dreams with certainty.',
+      'I joined Aspire back in 2019 as someone who preferred silence over speaking and observation over expression. Growth reshaped me gradually, session by session, nudge by nudge.',
+      'Over time, I found my voice, learning not just how to speak, but how to show up with confidence and intent. Opportunities that once felt distant began to feel possible.',
+      'This beautiful journey shaped both my skills and my sense of self, helping me become more aware, capable, and grounded.',
     ],
   },
   {
     name: 'ADV Sonali Bobade',
     role: 'Advocate, Judiciary of India',
-    headline: 'Aspire helped me find the voice I now use to stand for others.',
-    quote: 'If you’re a woman fighting life’s battles while building your career, Aspire Institute is the hand that lifts you while you lift others.',
+    headline: 'Aspire Institute didn\'t change my path, it empowered me to walk it with strength, dignity, and momentum.',
+    quote: 'If you\'re a woman fighting life\'s battles while building your career, Aspire Institute is the hand that lifts you while you lift others.',
     story: [
-      'I lost my father in my first year of LL.B., balanced my education, supported my family, got married, became a mother, and still built my career step by step.',
-      'Aspire added a strength I didn’t know I needed. I learned to look at life with a positive attitude, express myself with clarity, and carry confidence into every courtroom.',
-      'My clients now appreciate my communication, my income has grown, and most importantly, I’ve learned to believe in myself with honesty and pride. Aspire uplifted my spirit, reminding me that growth never stops.',
+      'Life tested me early. I lost my father during my first year of LLB, yet I moved forward balancing education, supporting my family, embracing marriage, becoming a mother, and building my career step by step.',
+      'Miraculously, Aspire entered my journey as quiet strength at the right moment. It helped me cultivate a positive lens on life, express myself with clarity, and carry unshakeable confidence into every courtroom.',
+      'Today, my clients value my communication, my professional growth reflects in my worth, and most importantly, I stand grounded in self-belief and pride.',
     ],
   },
   {
     name: 'Abhishek Wathurkar',
     role: 'QA Engineer, Reactore, India',
-    headline: 'Aspire turned my silence into strength—and that strength built my career.',
+    headline: 'When I joined Aspire, I was eager to grow and explore my potential.',
     quote: 'If you feel stuck today, remember Aspire Institute can turn that starting point into a success story.',
     story: [
-      'When I first joined Aspire, my confidence was at its lowest. Today, I communicate, collaborate, and present with ease—not because life became simpler, but because Aspire equipped me with the skills to rise.',
-      'From completing a public speaking course to handling full client discussions, every step transformed me. I now manage projects and communicate confidently with teams and clients.',
-      'Aspire taught me not just how to speak, but how to stand tall, solve problems, and keep moving forward with courage.',
+      'Step by step, I learned to communicate clearly, work with teams, and handle responsibilities with confidence. From public speaking training program to leading client discussions, every experience strengthened my skills and mindset, shaping me into a capable and grounded professional.',
+      'Today, I approach challenges with clarity and calm, knowing that preparation and persistence are the keys to success. The lessons I learned at Aspire guide me in making thoughtful decisions and achieving results every day.',
+      'Beyond career growth, Aspire taught me that learning is continuous. Each opportunity to improve, take initiative, and step confidently into new experiences reinforces the belief that we can always rise higher.',
     ],
   },
   {
     name: 'Dr. Renuka Pawar',
     role: 'Student of the Year 2023',
-    headline: 'Aspire didn’t just change my confidence; it changed the direction of my entire journey.',
+    headline: 'Joining Aspire was a turning point in my journey.',
     quote: 'If you ever need a place that equips you to chase the impossible, Aspire Institute is where impossible begins to feel achievable.',
     story: [
-      'Before joining Aspire, I was an introverted student struggling to express myself and doubting my abilities. Through training and workshops, I rebuilt my confidence and sharpened my communication.',
-      'Life’s challenges no longer intimidate me—I see them as opportunities to grow. That belief helped me pursue research, contribute meaningfully, and even earn patents.',
-      'Being awarded Student of the Year 2023 was a turning point. Today, I walk toward my dream of becoming an Agricultural Research Scientist with confidence, clarity, and courage.',
+      'Through immersive training and workshops, I transformed my confidence, sharpened my communication, and learned to see every challenge as an opportunity to excel.',
+      'That belief fuelled my research pursuits, meaningful contributions, and even led to earning patents. Being honoured as Student of the Year 2023 was a moment that celebrated not just achievement, but growth, perseverance, and vision.',
+      'Today, I stride toward my dream of becoming an Agricultural Research Scientist with unwavering clarity, courage, and the conviction that every step forward is a step toward impact.',
     ],
+    image: '/sls/renuka.jpg',
   },
   {
     name: 'Dr. Maleka Ansari',
     role: 'Dentist, Maharashtra, India',
-    headline: 'Aspire helped me find the version of myself I thought I had lost.',
-    quote: "Aspire doesn’t just train you—it lifts you back into your life.",
+    headline: 'Aspire didn\'t just equip me with skills, it helped me embrace my potential, trust in myself, and move forward in life with clarity, purpose, and confidence.',
+    quote: "Aspire doesn't just train you—it lifts you back into your life.",
     story: [
-      'I came to Aspire as an introvert battling many challenges—unsure of how to face people or life. Aspire rebuilt me piece by piece: my confidence, my expressiveness, my courage.',
-      'Today, I run my clinic independently, I’m planning a new venture, and I’ve returned to my studies to complete my Bachelor’s in Psychology.',
-      'None of this would have happened without Aspire’s support, guidance, and belief in me.',
+      'I came to Aspire as an introvert, unsure how to face people or navigate life\'s challenges. Piece by piece, Aspire Institute helped me grow, building my confidence, sharpening my expressiveness, and nurturing the courage I didn\'t know I had.',
+      'Today, I run my clinic independently, plan exciting new ventures, and have returned to complete my Bachelor\'s in Psychology.',
+      'Each step forward is a reflection of my effort combined with the guidance, support, and belief that Aspire instilled in me.',
     ],
   },
   {
     name: 'Gauri Gadge',
-    role: 'Front-end Developer, India',
-    headline: "Aspire didn’t just remove my hesitation; it helped me discover the confident version of myself.",
-    quote: "If you’re talented but unheard, Aspire Institute is the bridge between your potential and your opportunity.",
+    role: 'Pro Developer, Infosys, India',
+    headline: "Aspire didn't just equip me with skills, it gave me wings to aim higher.",
+    quote: "If you're talented but unheard, Aspire Institute is the bridge between your potential and your opportunity.",
     story: [
-      'Even though I was a BCA student attending hackathons and building projects, my communication held me back from connecting with people and showcasing what I could do.',
-      'Aspire changed everything. My confidence shot up, my stage fear disappeared, and networking became natural. That transformation helped me get selected as a Pro Developer at Infosys in Pune.',
-      'Aspire didn’t just give me skills—it gave me wings, and now I’m aiming for companies like Google with the belief that I can reach there.',
+      'As a BCA student, I could build projects and participate in hackathons but, to communicate effectively and showcase my abilities was a task back in time. That gap often held me back from connecting with people and opportunities.',
+      'Aspire changed everything. Through training, workshops, and guidance, my confidence grew, stage fear disappeared, and networking became natural. This transformation helped me secure a role as a Pro Developer at Infosys in Pune.',
+      'Today, I dream bigger and approach challenges with the belief that even companies like Google are within my reach.',
     ],
+    image: '/sls/gauri.jpg',
   },
   {
     name: 'Suhana Pathan',
     role: 'MahaTransCo, Maharashtra, India',
-    headline: "Aspire didn’t just improve my communication; it helped me find me.",
+    headline: "Aspire Institute didn't just teach me a skill, it helped me discover my potential, embrace challenges, and approach life with courage and clarity.",
     quote: 'If fear is holding you back, Aspire Institute is the place where your voice returns to you.',
     story: [
-      'When I joined Aspire in December 2024, I was filled with fear, negativity, and doubt. Communicating in English felt impossible.',
-      'The positive environment and constant encouragement transformed me. My listening, writing, and understanding improved, and I overcame the fear that once held me back.',
-      'That change helped me clear my competitive exam and step into my government job with pride. Aspire didn’t just teach me a skill; it helped me find myself.',
+      'When I joined Aspire in December 2024, I was filled with fear, doubt, and negativity. Even communicating in English felt tough at first, and I often questioned my own abilities.',
+      'The supportive environment, guidance, and constant encouragement gradually transformed me. My listening, writing, and comprehension improved, my confidence grew, and the fears that once held me back became stepping stones for growth.',
+      'That change empowered me to clear my competitive exam and step into a government job with pride and assurance.',
     ],
   },
   {
     name: 'Sahil Ansari',
     role: 'Web Developer, India',
-    headline: "Aspire didn’t just change my story—it also changed the way I tell it.",
-    quote: 'If you’re building a future but your voice isn’t ready yet, Aspire is the place where your voice learns to fly.',
+    headline: "Aspire didn't just teach me communication, it connected me to a world I had only imagined.",
+    quote: 'If you\'re building a future but your voice isn\'t ready yet, Aspire is the place where your voice learns to fly.',
     story: [
-      'I could build, code, and dream—but couldn’t express it. When I walked into Aspire, I didn’t know a classroom could feel like a launchpad.',
-      'My hesitation melted into expression, my silence into clarity, and my confidence into something solid. That shift carried me through hackathons, prize-winning projects, a scholarship, and even to ISRO as a volunteer.',
-      'Aspire didn’t just improve my communication—it connected me to the world I was meant to be part of.',
+      'I could build, code, and dream but to express it was what I hesitated at. When I first walked into Aspire, I didn\'t realize a classroom could feel like a launchpad for so much more than skills, it could spark transformation.',
+      'Gradually, my hesitation turned into expression, my silence into clarity, and my confidence into something solid and unshakable. Every session, every mentor\'s guidance, every challenge became a step forward.',
+      'That growth carried me through hackathons, prize-winning projects, a scholarship, and even the incredible opportunity to volunteer at ISRO. It showed me that potential isn\'t just about what you can do, it\'s about how boldly you step into it. Today, I carry that confidence, clarity, and courage into every project, every challenge, and every opportunity that comes my way.',
     ],
+
   },
   {
     name: 'Asawari Kulkarni',
     role: 'HR Executive, Pune, India',
-    headline: 'Aspire shaped the way I experience life itself.',
+    headline: 'Aspire didn\'t just guide me, it became my pillar of strength, motivation, and inspiration.',
     quote: 'If you want to grow not only as a professional but as a human being, Aspire is where that transformation begins.',
     story: [
-      'I joined Aspire at ELT Basic Level searching for confidence and clarity. By the time I completed ELT Proficient Level and personality development, something inside me had shifted.',
-      'Aspire gave me a new perspective filled with warmth, positivity, and courage. It shaped my character and helped me grow professionally.',
-      'I stepped into my HR role with empathy and strength—the kind the field truly demands. Aspire became my pillar of strength and motivation.',
+      'I joined Aspire at the ELT Basic Level Training course, seeking confidence and clarity, not knowing that the journey ahead would transform not just my skills, but my perspective.',
+      'By the time I completed ELT Proficient Level and personality development, something fundamental inside me had shifted. Aspire gave me more than knowledge, it instilled warmth, positivity, and courage, shaping and empowering my professional growth.',
+      'Every session, every interaction, every challenge became a stepping stone toward the professional I was becoming. Today, as I step into my HR role, I carry empathy, strength, and clarity, the qualities this field truly demands.',
     ],
   },
   {
     name: 'Deeptesh Patil',
     role: 'Engineer, Maharashtra Highway, India',
-    headline: "Aspire didn’t just upgrade my communication; it upgraded the entire blueprint of my life.",
+    headline: "Aspire Institute didn't just equip me with skills, it gave me the belief and courage to pursue my dream.",
     quote: 'Aspire is the foundation that strengthens your future brick by brick, belief by belief.',
     story: [
-      'From the moment I joined Aspire, I experienced transformation after transformation—each one shaping me into a stronger, sharper version of myself.',
-      'My confidence shot up, communication improved, and I learned to identify my true potential. I became more productive, self-aware, and better at managing time and leading my team.',
-      'Aspire helped me believe in my dream of starting my own construction firm and giving back to society with meaningful work.',
+      'From the moment I joined Aspire Institute, every experience sparked a transformation shaping me into a stronger, sharper, and more confident version of myself.',
+      'I honed my communication, discovered my true potential, and grew in productivity, self-awareness, and leadership. Each step taught me how to manage time effectively and guide my team with clarity.',
+      'Aspire Institute gave me the belief and courage to pursue my dream of starting my own construction firm and making a meaningful impact on society, which is a dream I\'m living every day in reality.',
     ],
   },
   {
     name: 'Sahil Takrani',
     role: 'Business Owner, India',
-    headline: "Aspire didn’t just build my confidence; it built the mindset that guides my business.",
+    headline: "I'm building a life of my dreams for myself with Aspire as one of my backbones.",
     quote: 'If you want to build a business, start by building yourself—Aspire Institute is the place where that journey starts.',
     story: [
-      'I joined Aspire relying on others for direction, unsure of my decisions and afraid to take steps alone. Aspire changed that completely.',
-      'It helped me become calm, confident, grounded, and humble, and taught me how to carry myself with clarity in both business and life.',
-      'When I applied Aspire’s lessons to my work, everything improved—communication, leadership, and the way people responded to my ideas.',
+      'I joined Aspire ready to grow, looking to sharpen my decision-making and step into my potential. Aspire accelerated that growth.',
+      'Aspire transformed that completely. It helped me grow calm, confident, grounded, and humble, teaching me to carry myself with clarity in both business and life.',
+      'Applying Aspire Institute\'s lessons to my work changed everything, my communication became sharper, my leadership stronger, and people began responding to my ideas with respect and trust.',
     ],
+    image: '/sls/sahil.jpg',
   },
   {
     name: 'Mudita Gawai',
     role: 'India',
-    headline: "Aspire Institute didn’t just give me wings—it gave me direction.",
+    headline: "The lessons learned at the Institute are the cornerstone for all this.",
     quote: 'If you want to rise with clarity and courage, Aspire is where your journey truly begins.',
     story: [
-      'Before Aspire, I often felt unsure about which path was right for my career and my life. Through Aspire’s courses and guidance, I learned how to think and choose wisely.',
-      'Aspire taught me how to solve problems instead of depending on others, rise stronger in my personal life, and seize opportunities in my professional journey.',
-      'Today, I’m more confident, disciplined, and determined to serve in the government sector with integrity—aiming to become an officer who leads with strength and purpose.',
+      'Before Aspire, I was on the path to find direction in my career and in life. I learned from Aspire Institute, discovering how to think clearly, make decisions confidently, and take ownership of my path.',
+      'I faced challenges head-on, solved problems independently, and embraced opportunities that once felt out of reach. Each step strengthened my resilience, focus, and determination.',
+      'Today, I move forward as a confident, disciplined, and purposeful individual, ready to serve in the government sector with integrity. My goal is to become an officer who leads with strength, conviction, and the courage to make a meaningful impact.',
     ],
+    image: '/sls/mudita.jpg',
   },
 ];
 
@@ -251,9 +257,21 @@ export default function SuccessStoriesPage() {
 
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
-                  <div className="h-14 w-14 rounded-xl flex items-center justify-center text-white font-semibold text-lg" style={{ background: accentColorFromName(s.name) }}>
-                    {initials(s.name)}
-                  </div>
+                  {s.image ? (
+                    <div className="h-20 w-20 rounded-xl overflow-hidden shadow-md">
+                      <Image
+                        src={s.image}
+                        alt={s.name}
+                        width={80}
+                        height={80}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-14 w-14 rounded-xl flex items-center justify-center text-white font-semibold text-lg" style={{ background: accentColorFromName(s.name) }}>
+                      {initials(s.name)}
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex-1">
@@ -263,7 +281,7 @@ export default function SuccessStoriesPage() {
                       <div className="text-xs uppercase tracking-wider text-gray-400">{s.role}</div>
                     </div>
 
-                    
+
                   </div>
 
                   <h4 className="mt-4 font-serif text-2xl text-[#1a237e] leading-tight">“{s.headline}”</h4>

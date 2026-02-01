@@ -27,7 +27,7 @@ export async function middleware(request: NextRequest) {
 
     // Allow requests to specific public pages and their subpaths
     if (
-        pathname.startsWith('/publish-article') || 
+        pathname.startsWith('/publish-article') ||
         pathname.startsWith('/student-articles') ||
         pathname.startsWith('/articles') ||
         pathname.startsWith('/courses') ||
@@ -44,7 +44,7 @@ export async function middleware(request: NextRequest) {
     if (!token) {
         // This check might be redundant now but safe to keep
         if (pathname === '/') {
-             return NextResponse.next();
+            return NextResponse.next();
         }
         const url = request.nextUrl.clone();
         url.pathname = '/signin';
@@ -88,6 +88,6 @@ export const config = {
          * - The main article API route (including dynamic paths)
          * - The enquiry submission API route
          */
-        '/((?!api/public|api/course|api/student-article|api/article|api/submit-enquiry|_next/static|_next/image|favicon.ico|.*\\.(?:jpg|jpeg|png|gif|svg|ico|webp)|signin).*)',
+        '/((?!api/public|api/course|api/student-article|api/article|api/submit-enquiry|_next/static|_next/image|favicon.ico|.*\\.(?:jpg|jpeg|png|gif|svg|ico|webp|mp4)|signin).*)',
     ],
 };

@@ -25,31 +25,31 @@ export default function AboutUsPage() {
   return (
     <div className={`flex flex-col min-h-screen bg-[#FAFAFA] ${playfair.variable} ${jakarta.variable} font-sans selection:bg-[#1a237e] selection:text-white`}>
       <Navbar />
-      
+
       {/* Global Grain Texture */}
-      <div className="fixed inset-0 opacity-[0.035] pointer-events-none z-50 mix-blend-multiply" 
-           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
+      <div className="fixed inset-0 opacity-[0.035] pointer-events-none z-50 mix-blend-multiply"
+        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
       </div>
-      
+
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white">
         {/* Subtle Background Elements */}
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-radial from-[#1a237e]/5 to-transparent blur-3xl opacity-60"></div>
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-radial from-[#3949ab]/5 to-transparent blur-3xl opacity-60"></div>
-        
+
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-5xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 mb-8 animate-in slide-in-from-bottom-4 duration-700 fade-in">
-               <span className="h-px w-12 bg-[#1a237e]/30"></span>
-               <span className="text-sm font-bold tracking-[0.2em] text-[#1a237e] uppercase">Since 2009</span>
-               <span className="h-px w-12 bg-[#1a237e]/30"></span>
+              <span className="h-px w-12 bg-[#1a237e]/30"></span>
+              <span className="text-sm font-bold tracking-[0.2em] text-[#1a237e] uppercase">Since 2009</span>
+              <span className="h-px w-12 bg-[#1a237e]/30"></span>
             </div>
 
             <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-medium text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
-              Unlocking Potential, <br/>
+              Unlocking Potential, <br />
               <span className="italic text-[#3949ab]">Shaping Futures.</span>
             </h1>
-            
+
             <p className="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-3xl mx-auto font-light animate-in slide-in-from-bottom-8 duration-700 delay-200 fade-in">
               We are India&apos;s premier institute for personal and professional development, dedicated to the belief that every individual holds the power to transform.
             </p>
@@ -85,7 +85,7 @@ export default function AboutUsPage() {
       <section className="py-24 bg-[#f8f9fa] relative border-y border-gray-200">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid lg:grid-cols-12 gap-12 items-start">
-            
+
             {/* Text Column */}
             <div className="lg:col-span-5 space-y-8 sticky top-24">
               <h2 className="font-serif text-4xl md:text-5xl text-[#1a237e] leading-tight">
@@ -93,7 +93,7 @@ export default function AboutUsPage() {
               </h2>
               <div className="prose prose-lg text-gray-600 leading-relaxed font-light">
                 <p>
-                  Aspire - The Institute Of Human Development offers a vibrant curriculum tailored for both young minds and seasoned professionals. We operate on a fundamental truth: 
+                  Aspire - The Institute Of Human Development offers a vibrant curriculum tailored for both young minds and seasoned professionals. We operate on a fundamental truth:
                   <strong className="text-[#1a237e] font-medium"> everyone has the potential to become an incredible version of themselves.</strong>
                 </p>
                 <p>
@@ -104,16 +104,16 @@ export default function AboutUsPage() {
 
             {/* Cards Column */}
             <div className="lg:col-span-7 grid gap-6">
-               {[
-                 { title: "Our Mission", content: "Our mission is to provide an extensive variety of life-transforming programs to create effective Communicators, Self-believers, Engaging leaders, Aspiring professionals and Visionary entrepreneurs.", icon: Target, color: "bg-blue-50" },
-                 { title: "Our Vision", content: "Aspire The Institute Of Human Development envisions the world where people believe in themselves & live their true potential to make this world a better place to live.", icon: Zap, color: "bg-indigo-50" },
-               ].map((item, idx) => (
-                 <div key={idx} className="bg-white p-8 md:p-10 rounded-[2rem] shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 group">
-                   
-                   <h3 className="font-serif text-2xl font-medium text-[#1a237e] mb-4">{item.title}</h3>
-                   <p className="text-gray-600 leading-relaxed text-lg">{item.content}</p>
-                 </div>
-               ))}
+              {[
+                { title: "Our Mission", content: "Our mission is to provide an extensive variety of life-transforming programs to create effective Communicators, Self-believers, Engaging leaders, Aspiring professionals and Visionary entrepreneurs.", icon: Target, color: "bg-blue-50" },
+                { title: "Our Vision", content: "Aspire The Institute Of Human Development envisions the world where people believe in themselves & live their true potential to make this world a better place to live.", icon: Zap, color: "bg-indigo-50" },
+              ].map((item, idx) => (
+                <div key={idx} className="bg-white p-8 md:p-10 rounded-[2rem] shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+
+                  <h3 className="font-serif text-2xl font-medium text-[#1a237e] mb-4">{item.title}</h3>
+                  <p className="text-gray-600 leading-relaxed text-lg">{item.content}</p>
+                </div>
+              ))}
             </div>
 
           </div>
@@ -134,16 +134,16 @@ export default function AboutUsPage() {
                 From public speaking to corporate leadership, our R&D-backed modules cover every aspect of human development.
               </p>
             </div>
-            
+
             {/* R&D Badge */}
             <div className="hidden md:flex items-center gap-4 bg-white/5 backdrop-blur-md px-6 py-4 rounded-2xl border border-white/10">
-               <div className="bg-[#3949ab] p-3 rounded-full animate-pulse">
-                  <Microscope className="h-6 w-6 text-white" />
-               </div>
-               <div>
-                  <p className="font-bold text-sm">Science-Backed R&D</p>
-                  <p className="text-xs text-gray-400">Methodology updated quarterly</p>
-               </div>
+              <div className="bg-[#3949ab] p-3 rounded-full animate-pulse">
+                <Microscope className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <p className="font-bold text-sm">Research Backed R&D</p>
+                <p className="text-xs text-gray-400">Methodology updated quarterly</p>
+              </div>
             </div>
           </div>
 
@@ -223,12 +223,12 @@ export default function AboutUsPage() {
                     {award.year}
                   </span>
                 </div>
-                
+
                 <h3 className="font-serif text-xl font-medium text-[#1a237e] mb-2 leading-tight">
                   {award.title}
                 </h3>
                 <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-6">{award.org}</p>
-                
+
                 <div className="mt-auto pt-6 border-t border-dashed border-gray-200">
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Honoured By</p>
                   <div className="flex flex-wrap gap-2">
@@ -253,17 +253,17 @@ export default function AboutUsPage() {
               <div className="p-12 md:p-20 bg-[#1a237e] text-white flex flex-col justify-center relative overflow-hidden">
                 {/* Decorative Texture */}
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-                
+
                 <div className="relative z-10">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/20 bg-white/10 mb-6">
-                     <Sparkles className="h-4 w-4 text-yellow-300" />
-                     <span className="text-xs font-bold tracking-wider uppercase">The Aspire Advantage</span>
+                    <Sparkles className="h-4 w-4 text-yellow-300" />
+                    <span className="text-xs font-bold tracking-wider uppercase">The Aspire Advantage</span>
                   </div>
                   <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6">Why Choose Aspire?</h2>
                   <p className="text-[#c5cae9] text-lg font-light leading-relaxed mb-12">
-                    Our brand has a rich history of over 15 years in the industry, establishing a strong presence and credibility. We don&apos;t just teach courses; we build careers and character.
+                    Our brand has a rich history of over 17 years in the industry, establishing a strong presence and credibility. We don&apos;t just teach courses; we build careers and character.
                   </p>
-                  
+
                   <div className="flex items-center gap-4 p-4 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/10">
                     <div className="h-12 w-12 bg-white text-[#1a237e] rounded-full flex items-center justify-center">
                       <Heart className="h-6 w-6 fill-current" />

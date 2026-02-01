@@ -86,25 +86,22 @@ function PublishJourney() {
               return (
                 <div
                   key={step.title}
-                  className={`relative flex items-start gap-5 p-5 rounded-2xl transition-all duration-500 cursor-pointer ${
-                    isActive ? "bg-[#e8eaf6]/60 scale-[1.02]" : "hover:bg-[#e8eaf6]/30"
-                  }`}
+                  className={`relative flex items-start gap-5 p-5 rounded-2xl transition-all duration-500 cursor-pointer ${isActive ? "bg-[#e8eaf6]/60 scale-[1.02]" : "hover:bg-[#e8eaf6]/30"
+                    }`}
                   onClick={() => setActiveStep(index)}
                 >
                   {/* Step Number/Icon */}
                   <div
-                    className={`relative z-10 flex items-center justify-center w-12 h-12 rounded-xl transition-all duration-300 ${
-                      isActive
-                        ? "bg-gradient-to-br from-[#1a237e] to-[#3949ab] shadow-lg shadow-[#1a237e]/30"
-                        : isCompleted
-                          ? "bg-[#3949ab]"
-                          : "bg-white border-2 border-[#e8eaf6]"
-                    }`}
+                    className={`relative z-10 flex items-center justify-center w-12 h-12 rounded-xl transition-all duration-300 ${isActive
+                      ? "bg-gradient-to-br from-[#1a237e] to-[#3949ab] shadow-lg shadow-[#1a237e]/30"
+                      : isCompleted
+                        ? "bg-[#3949ab]"
+                        : "bg-white border-2 border-[#e8eaf6]"
+                      }`}
                   >
                     <step.icon
-                      className={`w-5 h-5 transition-colors duration-300 ${
-                        isActive || isCompleted ? "text-white" : "text-[#3949ab]"
-                      }`}
+                      className={`w-5 h-5 transition-colors duration-300 ${isActive || isCompleted ? "text-white" : "text-[#3949ab]"
+                        }`}
                       strokeWidth={1.5}
                     />
                   </div>
@@ -113,9 +110,8 @@ function PublishJourney() {
                   <div className="flex-1 pt-1">
                     <div className="flex items-center gap-3 mb-1">
                       <h4
-                        className={`font-sans font-semibold text-lg transition-colors duration-300 ${
-                          isActive ? "text-[#1a237e]" : "text-gray-700"
-                        }`}
+                        className={`font-sans font-semibold text-lg transition-colors duration-300 ${isActive ? "text-[#1a237e]" : "text-gray-700"
+                          }`}
                       >
                         {step.title}
                       </h4>
@@ -126,9 +122,8 @@ function PublishJourney() {
                       )}
                     </div>
                     <p
-                      className={`font-sans text-sm leading-relaxed transition-colors duration-300 ${
-                        isActive ? "text-gray-700" : "text-gray-500"
-                      }`}
+                      className={`font-sans text-sm leading-relaxed transition-colors duration-300 ${isActive ? "text-gray-700" : "text-gray-500"
+                        }`}
                     >
                       {step.description}
                     </p>
@@ -163,19 +158,19 @@ function StudentStoriesCard() {
       icon: TrendingUp,
       title: "Growth Journeys",
       description: "Personal transformation stories and breakthrough moments",
-      
+
     },
     {
       icon: Brain,
       title: "Learning Experiences",
       description: "Academic challenges overcome and study techniques that work",
-      
+
     },
     {
       icon: Users,
       title: "Relationship Wisdom",
       description: "Friendships, family dynamics, and social connections",
-      
+
     }
   ]
 
@@ -213,7 +208,7 @@ function StudentStoriesCard() {
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-1">
                   <p className="font-sans font-semibold text-sm text-white">{story.title}</p>
-                  
+
                 </div>
                 <p className="font-sans text-xs text-white/70 leading-relaxed">{story.description}</p>
               </div>
@@ -221,7 +216,7 @@ function StudentStoriesCard() {
           ))}
         </div>
 
-        
+
 
         {/* CTA */}
         <Link
@@ -238,9 +233,9 @@ function StudentStoriesCard() {
 
 function AspireInsightsCard() {
   const topics = [
-    { icon: TrendingUp, label: "Productivity"},
-    { icon: Brain, label: "Mindset"},
-    { icon: Clock, label: "Time Management"},
+    { icon: TrendingUp, label: "Productivity" },
+    { icon: Brain, label: "Mindset" },
+    { icon: Clock, label: "Time Management" },
   ]
 
   return (
@@ -315,7 +310,7 @@ export default function ArticlesSection() {
             Articles That <span className="italic">Inspire</span>
           </h2>
           <p className="font-sans text-gray-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed text-pretty">
-            Share your story, learn from peers, or dive into expert insights — our articles ecosystem fuels your growth
+            Share your story, learn from peers, or dive into expert insights. Our article ecosystem fuels your growth
             journey.
           </p>
         </div>

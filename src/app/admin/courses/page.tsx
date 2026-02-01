@@ -19,63 +19,63 @@ import {
 
 // Define the available programs from "Our Programs" section
 const AVAILABLE_PROGRAMS = [
-  { 
-    title: "Leadership Development", 
-    description: "Develop essential leadership skills for the modern workplace and learn to inspire teams.", 
+  {
+    title: "Leadership Development",
+    description: "Develop essential leadership skills for the modern workplace and learn to inspire teams.",
     features: ["Strategic thinking", "Team management", "Decision making", "Conflict resolution"],
     slug: "/courses/leadership-development"
   },
-  { 
-    title: "Personality Development", 
-    description: "Build confidence and enhance your personal growth through comprehensive self-improvement.", 
+  {
+    title: "Personality Development",
+    description: "Build confidence and enhance your personal growth through comprehensive self-improvement.",
     features: ["Self-confidence", "Communication skills", "Emotional intelligence", "Personal branding"],
     slug: "/courses/personality-development"
   },
-  { 
-    title: "Public Speaking", 
-    description: "Master the art of effective communication and captivate any audience with your words.", 
+  {
+    title: "Public Speaking",
+    description: "Master the art of effective communication and captivate any audience with your words.",
     features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"],
     slug: "/courses/public-speaking"
   },
-  { 
-    title: "English Language Training", 
-    description: "Enhance your English skills for better communication.", 
+  {
+    title: "English Language Training",
+    description: "Enhance your English skills for better communication.",
     features: ["Grammar", "Vocabulary", "Pronunciation", "Fluency"],
     slug: "/courses/english-language-training"
   },
-  { 
-    title: "Childrens Learning Program", 
-    description: "Fun and educational programs for kids.", 
+  {
+    title: "Children's Learning Program",
+    description: "Fun and educational programs for kids.",
     features: ["Creativity", "Learning skills", "Teamwork", "Confidence"],
     slug: "/courses/childrens-learning-program"
   },
-  { 
-    title: "Voice & Accent", 
-    description: "Improve your voice modulation and accent.", 
+  {
+    title: "Voice & Accent",
+    description: "Improve your voice modulation and accent.",
     features: ["Clarity", "Tone", "Accent training", "Expression"],
     slug: "/courses/voice-and-accent"
   },
-  { 
-    title: "Entrepreneurship Development", 
-    description: "Build skills to start and grow your business.", 
+  {
+    title: "Entrepreneurship Development",
+    description: "Build skills to start and grow your business.",
     features: ["Innovation", "Business planning", "Leadership", "Risk management"],
     slug: "/courses/entrepreneurship-development"
   },
-  { 
-    title: "Teachers Training Program", 
-    description: "Empower educators with modern teaching methods.", 
+  {
+    title: "Teachers Training Program",
+    description: "Empower educators with modern teaching methods.",
     features: ["Pedagogy", "Classroom management", "Engagement", "Assessment"],
     slug: "/courses/teachers-training-program"
   },
-  { 
-    title: "ARISE - LANGUAGE AND THOUGHTS ENRICHMENT CAMP", 
-    description: "A unique camp for personal growth.", 
+  {
+    title: "ARISE – Language and Thought Enrichment Camp",
+    description: "A unique camp for personal growth.",
     features: ["Mindset", "Language skills", "Critical thinking", "Self-expression"],
     slug: "/courses/arise-camp"
   },
-  { 
-    title: "International Workshop", 
-    description: "Global learning experiences.", 
+  {
+    title: "International Workshop",
+    description: "Global learning experiences.",
     features: ["Cross-cultural skills", "Global trends", "Networking", "Innovation"],
     slug: "/courses/international-workshop"
   },
@@ -112,9 +112,9 @@ export default function AddCoursesPage() {
     const courseOutline = courseOutlineStr.split(',').map(item => item.trim()).filter(item => item !== '');
 
     if (!courseName || !description || courseOutline.length === 0 || !courseDate) { // Check for courseDate
-        setError('Please fill in all fields, including the course date.');
-        setIsLoading(false);
-        return;
+      setError('Please fill in all fields, including the course date.');
+      setIsLoading(false);
+      return;
     }
 
     try {
@@ -155,9 +155,9 @@ export default function AddCoursesPage() {
         <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2"></span>
         Create New Course
       </div>
-      
+
       <h1 className="text-2xl lg:text-3xl font-bold text-[#1a237e] mb-6">Add Upcoming Course</h1>
-      
+
       {error && (
         <Alert variant="destructive" className="mb-6 bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
           <Terminal className="h-4 w-4" />
@@ -165,7 +165,7 @@ export default function AddCoursesPage() {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-      
+
       {success && (
         <Alert className="mb-6 bg-green-100/50 border-green-300/50 text-green-800 rounded-lg shadow-sm">
           <CheckCircle className="h-4 w-4" />
@@ -173,7 +173,7 @@ export default function AddCoursesPage() {
           <AlertDescription>{success}</AlertDescription>
         </Alert>
       )}
-      
+
       <div className="bg-white/90 backdrop-blur-md p-4 lg:p-6 rounded-2xl shadow-xl border border-gray-200/60">
         <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-5">
           <div>
@@ -256,9 +256,9 @@ export default function AddCoursesPage() {
             </Popover>
           </div>
 
-          <Button 
-            type="submit" 
-            disabled={isLoading} 
+          <Button
+            type="submit"
+            disabled={isLoading}
             className="w-full bg-gradient-to-r from-[#1a237e] to-[#3949ab] hover:from-[#0d1642] hover:to-[#1a237e] text-white py-2.5 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
           >
             <GraduationCap className="h-4 w-4" />

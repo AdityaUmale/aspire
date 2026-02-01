@@ -19,7 +19,7 @@ export default function FounderSection() {
               <div className="relative bg-white p-2 rounded-2xl shadow-2xl">
                 <Image
                   src="/founder3.jpg"
-                  alt="Hon'ble Mr. Sachin Burghate - Founder of Aspire Institute"
+                  alt="Hon'ble Mr. Sachin Burghate, Founder of Aspire Institute"
                   width={500}
                   height={600}
                   className="w-full h-auto object-cover rounded-xl"
@@ -41,7 +41,7 @@ export default function FounderSection() {
             </div>
 
             <p className="text-gray-600 leading-relaxed text-lg">
-              Internationally acclaimed speaker with 20+ years in education & empowerment. A leader who inspires leaders—his vision is simple: <span className="font-semibold text-[#1a237e]">every learner can lead with purpose and confidence.</span>
+              Internationally acclaimed speaker with over 20 years of experience in education and empowerment. A leader who inspires leaders. His vision is simple: <span className="font-semibold text-[#1a237e]">every learner can lead with purpose and confidence.</span>
             </p>
 
             {/* Quick Stats */}
@@ -51,8 +51,8 @@ export default function FounderSection() {
                   <Calendar className="h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#1a237e]">5000+</h4>
-                  <p className="text-xs text-gray-500">Workshops Globally</p>
+                  <h4 className="font-bold text-[#1a237e]">5,000+</h4>
+                  <p className="text-xs text-gray-500">Workshops Conducted Globally</p>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-4 bg-white rounded-xl shadow-sm border border-gray-100">

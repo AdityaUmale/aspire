@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
@@ -22,6 +23,7 @@ type SpiritStory = {
   headline: string;
   quote: string;
   story: string[];
+  image?: string;
 };
 
 const stories: SpiritStory[] = [
@@ -35,6 +37,7 @@ const stories: SpiritStory[] = [
       'Her dedication became an inspiration for learners across all ages. Watching her participate, practise, and progress reminded everyone that learning isn’t bound by time—it’s powered by spirit.',
       'At our 17th Annual Function, she received the “We Salute Your Learning Spirit Award,” earning a heartfelt standing ovation for her courage and lifelong commitment to growth.',
     ],
+    image: '/sls/Shradda.jpg',
   },
   {
     name: 'Shri Ramkrushna Gavhale',
@@ -46,6 +49,7 @@ const stories: SpiritStory[] = [
       'His enthusiasm to learn, ask questions, and embrace new knowledge inspired everyone around him. He showed us that personal development has no timeline—only a willing heart.',
       'We proudly honoured him with the “We Salute Your Learning Spirit Award” for his remarkable determination and example of lifelong learning.',
     ],
+    image: '/sls/ramkrushn.jpg',
   },
   {
     name: 'Smt. Ashwini Pathak',
@@ -66,8 +70,8 @@ export default function SaluteLearningSpiritPage() {
       <Navbar />
 
       {/* Global Grain Texture for "Archival" feel */}
-      <div className="fixed inset-0 opacity-[0.03] pointer-events-none z-50 mix-blend-multiply" 
-           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
+      <div className="fixed inset-0 opacity-[0.03] pointer-events-none z-50 mix-blend-multiply"
+        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
       </div>
 
       {/* Hero Section - Dignified & Elegant */}
@@ -78,27 +82,27 @@ export default function SaluteLearningSpiritPage() {
 
         <div className="container mx-auto px-4 md:px-6 relative z-10 text-center">
           <div className="inline-flex items-center gap-3 mb-8 animate-in slide-in-from-bottom-4 duration-700 fade-in">
-             <div className="h-px w-8 bg-[#1a237e]/40"></div>
-             <div className="flex items-center gap-2 text-[#1a237e] uppercase tracking-[0.2em] text-xs font-bold">
-                <Award className="h-4 w-4" />
-                <span>The Spirit Award</span>
-             </div>
-             <div className="h-px w-8 bg-[#1a237e]/40"></div>
+            <div className="h-px w-8 bg-[#1a237e]/40"></div>
+            <div className="flex items-center gap-2 text-[#1a237e] uppercase tracking-[0.2em] text-xs font-bold">
+              <Award className="h-4 w-4" />
+              <span>The Spirit Award</span>
+            </div>
+            <div className="h-px w-8 bg-[#1a237e]/40"></div>
           </div>
 
           <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-medium text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
-            Lifelong Learners, <br/>
+            Lifelong Learners, <br />
             <span className="italic text-[#3949ab] relative">
               Limitless Spirit.
               <span className="absolute -bottom-2 left-0 right-0 h-1 bg-[#3949ab]/10 rounded-full w-full"></span>
             </span>
           </h1>
-          
+
           <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto font-light animate-in slide-in-from-bottom-8 duration-700 delay-200 fade-in">
             Honouring the remarkable individuals who prove that growth has no age limit. Courage, curiosity, and commitment have no expiration date.
           </p>
 
-          
+
         </div>
       </section>
 
@@ -113,13 +117,24 @@ export default function SaluteLearningSpiritPage() {
               >
                 {/* Top Accent Line */}
                 <div className="h-1.5 w-full bg-[#1a237e] group-hover:bg-[#3949ab] transition-colors"></div>
-                
+
                 <div className="p-8 md:p-10 flex flex-col h-full">
                   {/* Header */}
                   <div className="mb-6">
+                    {story.image && (
+                      <div className="mb-4 w-20 h-20 rounded-xl overflow-hidden shadow-md">
+                        <Image
+                          src={story.image}
+                          alt={story.name}
+                          width={80}
+                          height={80}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#f0f1fa] text-[#1a237e] text-[10px] font-bold uppercase tracking-widest rounded-full mb-4">
-                       <Award className="h-3 w-3" />
-                       Spirit Awardee
+                      <Award className="h-3 w-3" />
+                      Spirit Awardee
                     </div>
                     <h3 className="font-serif text-2xl font-bold text-[#1a237e] mb-2 leading-tight group-hover:text-[#3949ab] transition-colors">
                       {story.name}
@@ -149,10 +164,10 @@ export default function SaluteLearningSpiritPage() {
                   {/* Footer Quote */}
                   <div className="mt-8 pt-6 border-t border-gray-100 bg-gray-50 -mx-10 -mb-10 p-10 group-hover:bg-[#f8f9ff] transition-colors">
                     <div className="flex gap-3 items-center">
-                       <Scroll className="h-5 w-5 text-[#1a237e] shrink-0" />
-                       <p className="text-sm font-medium text-[#1a237e] italic">
-                         {story.quote}
-                       </p>
+                      <Scroll className="h-5 w-5 text-[#1a237e] shrink-0" />
+                      <p className="text-sm font-medium text-[#1a237e] italic">
+                        {story.quote}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -167,20 +182,20 @@ export default function SaluteLearningSpiritPage() {
         {/* Background Patterns */}
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-white opacity-[0.03] rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#3949ab] opacity-30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
-        
+
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            
-            
+
+
             <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight">
-              Ready to write your <br/>
+              Ready to write your <br />
               <span className="italic opacity-80">own story?</span>
             </h2>
-            
+
             <p className="text-[#c5cae9] text-lg md:text-xl font-light mb-12 max-w-2xl mx-auto leading-relaxed">
               Join a community where every learner, at every age, is celebrated for their courage to grow.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-5 justify-center">
               <Link href="/#enquiry">
                 <Button className="h-14 px-10 rounded-full bg-white text-[#1a237e] hover:bg-gray-100 text-base font-bold tracking-wide shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">

@@ -1,11 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Navbar from '../../../components/Navbar';
-import { CheckCircle, Tent, Languages, Sparkles, Users, ArrowRight } from 'lucide-react'; // Changed Campfire to Tent
+import Navbar from '@/components/Navbar';
+import { CheckCircle, Tent, Languages, ArrowRight, Calendar, MapPin, Users, Award } from 'lucide-react';
 
 export default function AriseCampPage() {
-  const languageFocusOutline = [
+  const courseOutline = [
     'Introduction to organic way of learning English Language',
     'Listening and Speaking Exercises',
     'Vocabulary Building Activities',
@@ -14,9 +14,6 @@ export default function AriseCampPage() {
     'Drama Sessions',
     'Song Sessions',
     'Educational videos and language Games',
-  ];
-
-  const selfAwarenessOutline = [
     'Group activities to build empathy & creativity',
     'Interactive Group Games',
     'Inspiring Talks',
@@ -24,175 +21,246 @@ export default function AriseCampPage() {
     'Open Mic Debates & Discussions',
     'Camp Fire',
     'High Energy Activities To Build Confidence',
-    'Break through communication barriers',
     'Team Building Activities',
     'Leadership Development Activities',
     'Presentations and Stage Performances',
   ];
 
-  const culturalExchange = [
-    'Meeting with people from different cultures and backgrounds.',
-  ];
-
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#f8f9fa] via-[#e8eaf6] to-[#c5cae9]">
+    <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
-      {/* Subtle background elements */}
-      <div className="absolute inset-0 bg-[url('/globe.svg')] bg-no-repeat bg-center opacity-[0.02] mix-blend-soft-light -z-10"></div>
-      <div className="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-gradient-radial from-[#3949ab]/10 to-transparent blur-3xl -z-10"></div>
 
-      <main className="flex-1 py-16 md:py-20 lg:py-24">
-        <div className="container mx-auto px-4 max-w-4xl">
-          {/* Themed Content Card */}
-          <div className="bg-white/90 backdrop-blur-md p-6 md:p-10 rounded-2xl shadow-xl border border-gray-200/60">
-            {/* Header Section */}
-            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 mb-8 border-b border-gray-200/80 pb-6">
-              <div className="flex-shrink-0">
-                <Image 
-                  src="/arise.jpg" // Using provided image
-                  alt="ARISE Camp" 
-                  width={150} 
-                  height={150} 
-                  className="rounded-lg object-cover shadow-md"
-                />
-              </div>
+      {/* Hero Section */}
+      <section className="relative pt-28 pb-20 md:pt-36 md:pb-28 overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1a237e] via-[#283593] to-[#3949ab]"></div>
+        <div className="absolute inset-0 bg-[url('/globe.svg')] bg-no-repeat bg-center opacity-5"></div>
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-radial from-[#c5cae9]/20 to-transparent blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-radial from-[#c5cae9]/10 to-transparent blur-3xl"></div>
+
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              {/* Left - Text */}
               <div className="text-center md:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#e8eaf6]/70 text-[#1a237e] rounded-full text-sm font-medium mb-3">
-  <Tent className="h-4 w-4" /> 
-  <span>Residential Camp</span>
-</div>
-                <h1 className="text-3xl md:text-4xl font-bold text-[#1a237e]">ARISE - Language & Thoughts Enrichment Camp</h1>
-                <p className="mt-2 text-lg text-[#3949ab]">(3 DAYS RESIDENTIAL CAMP)</p>
-              </div>
-            </div>
-
-            {/* Inspiration Section */}
-            <div className="mb-10 prose prose-indigo lg:prose-lg max-w-none prose-headings:text-[#1a237e]">
-              <h2 className="text-2xl font-semibold mb-4">Inspiration</h2>
-              <p>
-                Our inspiration behind the Arise Language And Thoughts Enrichment Camp is the world renowned Viswa Bharati University (Shantineketan), It was established by Shri Rabindranath Tagore in 1921. Tagore&apos;s idea on education was that every person is genius and that all students may not bloom at the same time. This perspective inspired us to create Arise Camp, where we can stimulate learners to fully develop their potential. The first ARISE camp was held in year 2012. & This revolution is still on.
-              </p>
-            </div>
-
-            {/* Introduction Section with Images */}
-            <div className="mb-10 space-y-8">
-              <h2 className="text-2xl font-semibold text-[#1a237e] mb-4 prose prose-indigo lg:prose-lg max-w-none">Introduction</h2>
-              
-              {/* Paragraph 1 with Image 1 */}
-              <div className="flex flex-col md:flex-row items-start gap-6">
-                <div className="w-full md:w-2/5 flex-shrink-0 order-2 md:order-1">
-                  <Image 
-                    src="/arise1.jpg" // Using provided image
-                    alt="Arise Camp Activity 1" 
-                    width={350} 
-                    height={233} 
-                    className="rounded-lg shadow-md border border-gray-200/60 w-full h-auto object-cover"
-                  />
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 mb-6">
+                  <Tent className="h-4 w-4 text-[#c5cae9]" />
+                  <span className="text-white/90 text-sm font-medium">3-Day Residential Camp</span>
                 </div>
-                <div className="w-full md:w-3/5 order-1 md:order-2 prose prose-indigo lg:prose-lg max-w-none">
-                  <p>
-                    The ARISE Residential Camp is a 3-day program dedicated to enriching language and thoughts. At Arise, we provide campers with an organic way of learning the English language. Our environment motivates enthusiastic participation and encourages mistakes, hence allowing learners to try wholeheartedly. Our training methods assist them in realising how easy learning the language can be. No matter where the campers originate from, what their age group is, or the type of profession they come from, ARISE offers a perfect platform to explore their affinity for the English language. The thoughtfully crafted sessions and modules are adapted to each participant’s unique level of proficiency in language skills, presenting material ranging from sentences formation, idioms, videos, audio clips, language games, slang expressions, story sections and improvisation activities.
-                  </p>
-                </div>
-              </div>
-
-              {/* Paragraph 2 with Image 2 */}
-              <div className="flex flex-col md:flex-row items-start gap-6">
-                 <div className="w-full md:w-2/5 flex-shrink-0 order-2">
-                   <Image 
-                    src="/arise2.jpg" // Using provided image
-                    alt="Arise Camp Activity 2" 
-                    width={350} 
-                    height={233} 
-                    className="rounded-lg shadow-md border border-gray-200/60 w-full h-auto object-cover"
-                  />
-                 </div>
-                <div className="w-full md:w-3/5 order-1 prose prose-indigo lg:prose-lg max-w-none">
-                  <p>
-                    In addition to language improvement, our thought enrichment training emphasises self-awareness and confidence building through interactive sessions. Campers will learn how to identify pessimistic thoughts, barriers to self-growth, as well as be equipped with the necessary tools for a practical action plan towards self-improvement. Campers will learn to do introspection and self-development for everlasting change as the lessons reverberate confidence, enthusiasm, and serenity. Through interactive training, we empower campers to conquer obstacles and achieve their dreams while identifying what triggers their negative feelings.
-                  </p>
-                </div>
-              </div>
-              
-              {/* Paragraph 3 */}
-              <div className="prose prose-indigo lg:prose-lg max-w-none">
-                <p>
-                  In nutshell, ARISE Camp enables campers to Learn social English and explore more about their talent, abilities, and area of interest. Campers ultimately learn to become the best version of themselves.
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight leading-tight">
+                  ARISE Camp
+                </h1>
+                <p className="text-lg md:text-xl text-[#c5cae9] mb-4 leading-relaxed">
+                  Language & Thoughts Enrichment Residential Camp
                 </p>
-              </div>
-            </div>
-
-            {/* Course Outline Section - Grouped */}
-            <div className="mb-12 space-y-6"> 
-              <h2 className="text-2xl font-semibold text-[#1a237e] mb-5">Outline</h2>
-              
-              {/* Language Focus Outline */}
-              <div>
-                <h3 className="text-lg font-semibold text-[#3949ab] mb-3 flex items-center gap-2"><Languages className="h-5 w-5"/>Language Focus</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-                  {languageFocusOutline.map((item, index) => (
-                    <div key={index} className="flex items-center gap-3 p-3 bg-gray-50/50 rounded-md border border-gray-200/70">
-                      <CheckCircle className="h-5 w-5 text-[#3949ab] flex-shrink-0" />
-                      <span className="text-gray-700 text-sm">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Self Awareness Focus Outline */}
-              <div>
-                <h3 className="text-lg font-semibold text-[#3949ab] mb-3 flex items-center gap-2"><Sparkles className="h-5 w-5"/>Self Awareness Focus</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-                  {selfAwarenessOutline.map((item, index) => (
-                    <div key={index} className="flex items-center gap-3 p-3 bg-gray-50/50 rounded-md border border-gray-200/70">
-                      <CheckCircle className="h-5 w-5 text-[#3949ab] flex-shrink-0" />
-                      <span className="text-gray-700 text-sm">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Cultural Exchange Outline */}
-              <div>
-                <h3 className="text-lg font-semibold text-[#3949ab] mb-3 flex items-center gap-2"><Users className="h-5 w-5"/>Cultural Exchange</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-                  {culturalExchange.map((item, index) => (
-                    <div key={index} className="flex items-center gap-3 p-3 bg-gray-50/50 rounded-md border border-gray-200/70">
-                      <CheckCircle className="h-5 w-5 text-[#3949ab] flex-shrink-0" />
-                      <span className="text-gray-700 text-sm">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-            </div>
-
-            {/* Conclusion Section */}
-            <div className="mt-10 pt-6 border-t border-gray-200/80 prose prose-indigo lg:prose-lg max-w-none">
-               <p>
-                 In conclusion, ARISE Residential Camp is a great way to help build language, thought processes and confidence in campers. Furthermore, camp activities are designed to enhance their communication abilities while enriching their social connections and better understanding of themselves.
-               </p>
-            </div>
-
-            {/* CTA Section */}
-            <div className="mt-12 pt-8 border-t border-gray-200/80">
-              <div className="text-center">
-                <h3 className="text-xl font-semibold text-[#1a237e] mb-4">Ready for Transformation?</h3>
-                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                  Join our 3-day residential camp and discover your true potential. Contact us to reserve your spot in the ARISE Camp.
+                <p className="text-base text-white/70 mb-8 italic">
+                  Inspired by Visva-Bharati University, Shantiniketan, founded by Rabindranath Tagore
                 </p>
-                <Link href="/#enquiry">
-                  <button className="inline-flex items-center gap-3 px-8 py-4 bg-[#1a237e] hover:bg-[#0d1642] text-white font-medium rounded-xl transition-all duration-300 shadow-lg shadow-[#1a237e]/20 hover:shadow-xl hover:shadow-[#1a237e]/30 hover:-translate-y-1">
-                    <span>Book Your Spot</span>
-                    <ArrowRight className="h-5 w-5" />
-                  </button>
-                </Link>
+
+                {/* Highlights */}
+                <div className="flex flex-wrap gap-4 mb-8 justify-center md:justify-start">
+                  <div className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg">
+                    <Calendar className="h-4 w-4 text-[#c5cae9]" />
+                    <span className="text-white text-sm">3 Days</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg">
+                    <MapPin className="h-4 w-4 text-[#c5cae9]" />
+                    <span className="text-white text-sm">Residential</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg">
+                    <Users className="h-4 w-4 text-[#c5cae9]" />
+                    <span className="text-white text-sm">All Ages</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                  <Link href="/#enquiry">
+                    <button className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-[#1a237e] font-bold rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 w-full sm:w-auto">
+                      <span>Reserve Your Spot</span>
+                      <ArrowRight className="h-5 w-5" />
+                    </button>
+                  </Link>
+                  <Link href="#outline">
+                    <button className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium rounded-xl hover:bg-white/20 transition-all duration-300 w-full sm:w-auto">
+                      <span>View Program Outline</span>
+                    </button>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Right - Image */}
+              <div className="hidden md:block">
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#c5cae9]/30 to-transparent rounded-2xl blur-2xl group-hover:blur-3xl transition-all duration-500"></div>
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                    <Image
+                      src="/arise1.jpg"
+                      alt="ARISE Camp Activity"
+                      width={600}
+                      height={500}
+                      className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-700"
+                    />
+                    {/* Overlay Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a237e]/40 to-transparent"></div>
+                  </div>
+
+                  {/* Floating Badge */}
+                  <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl border border-[#e8eaf6] flex items-center gap-3">
+                    <div className="h-12 w-12 rounded-full bg-[#e8eaf6] flex items-center justify-center">
+                      <Award className="h-6 w-6 text-[#1a237e]" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 font-medium">3-Day Program</p>
+                      <p className="text-[#1a237e] font-bold">Transformative Experience</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-
           </div>
         </div>
-      </main>
+
+        {/* Wave separator */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+            <path d="M0 50L48 45.8C96 41.7 192 33.3 288 29.2C384 25 480 25 576 33.3C672 41.7 768 58.3 864 62.5C960 66.7 1056 58.3 1152 50C1248 41.7 1344 33.3 1392 29.2L1440 25V100H1392C1344 100 1248 100 1152 100C1056 100 960 100 864 100C768 100 672 100 576 100C480 100 384 100 288 100C192 100 96 100 48 100H0V50Z" fill="white" />
+          </svg>
+        </div>
+      </section>
+
+      {/* Introduction Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center mb-20">
+            <div>
+              <div className="inline-flex items-center gap-2 mb-4">
+                <span className="h-px w-8 bg-[#1a237e]"></span>
+                <span className="text-[#1a237e] uppercase tracking-wider text-sm font-bold">Introduction</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#1a237e] mb-6 leading-tight">
+                Learn English Naturally
+              </h2>
+              <div className="prose prose-lg text-gray-700 leading-relaxed">
+                <p className="mb-6">
+                  The ARISE Residential Camp is a 3-day program dedicated to enriching language and thoughts. At ARISE, we provide campers with an <span className="font-bold text-[#1a237e]">organic way of learning</span> the English language.
+                </p>
+                <p>
+                  Our environment motivates enthusiastic participation and encourages mistakes, hence allowing learners to try wholeheartedly. Our training methods assist them in realising how easy learning the language can be.
+                </p>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#e8eaf6] rounded-full blur-xl"></div>
+              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-[#c5cae9] rounded-full blur-xl"></div>
+              <Image
+                src="/ac1.jpg"
+                alt="ARISE Camp language activity"
+                width={600}
+                height={450}
+                className="relative rounded-2xl shadow-xl w-full object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Feature Sections */}
+          <div className="space-y-20">
+            {/* Block 1 */}
+            <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+              <div className="order-2 md:order-1 relative">
+                <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform -rotate-2 scale-[1.02]"></div>
+                <Image
+                  src="/ac2.jpg"
+                  alt="ARISE Camp self-awareness session"
+                  width={600}
+                  height={450}
+                  className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:rotate-1 transition-transform duration-500"
+                />
+              </div>
+              <div className="order-1 md:order-2">
+                <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Build Self-Awareness</h3>
+                <p className="text-gray-700 leading-relaxed text-lg mb-6">
+                  In addition to language improvement, our thought enrichment training emphasises self-awareness and confidence building through interactive sessions.
+                </p>
+                <p className="text-gray-700 leading-relaxed text-lg">
+                  Campers will learn how to identify pessimistic thoughts, barriers to self-growth, as well as be equipped with the necessary tools for a practical action plan towards self-improvement.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Course Outline Section */}
+      <section id="outline" className="py-20 md:py-28 bg-white">
+        <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a237e] mb-4">Camp Program Outline</h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Thoughtfully designed activities for all ages and backgrounds.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {courseOutline.map((item, index) => (
+              <div
+                key={index}
+                className="group bg-white rounded-2xl p-5 shadow-md hover:shadow-xl border-l-4 border-[#1a237e] hover:-translate-y-1 transition-all duration-300"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="h-10 w-10 rounded-xl bg-[#e8eaf6] flex items-center justify-center flex-shrink-0 group-hover:bg-[#1a237e] transition-colors duration-300">
+                    <CheckCircle className="h-5 w-5 text-[#1a237e] group-hover:text-white transition-colors duration-300" />
+                  </div>
+                  <span className="text-gray-700 font-medium leading-snug group-hover:text-[#1a237e] transition-colors duration-300">
+                    {item}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-6xl mx-auto">
+            {/* Rounded Rectangle CTA */}
+            <div className="relative bg-gradient-to-r from-[#1a237e] via-[#283593] to-[#3949ab] rounded-3xl py-16 md:py-20 px-8 md:px-16 lg:px-20 overflow-hidden shadow-2xl">
+              {/* Decorative elements */}
+              <div className="absolute inset-0 bg-[url('/globe.svg')] bg-no-repeat bg-center opacity-5"></div>
+              <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-60 h-60 bg-[#c5cae9]/20 rounded-full blur-3xl"></div>
+              <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-60 h-60 bg-[#c5cae9]/20 rounded-full blur-3xl"></div>
+
+              <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
+                {/* Text Content */}
+                <div className="text-center lg:text-left">
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+                    Ready to Rise?
+                  </h2>
+                  <p className="text-[#c5cae9] text-base md:text-lg max-w-xl">
+                    Join our 3-day residential camp and emerge as a confident communicator, clear thinker, and the best version of yourself.
+                  </p>
+                </div>
+
+                {/* Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 flex-shrink-0">
+                  <Link href="/#enquiry">
+                    <button className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-[#1a237e] font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 whitespace-nowrap">
+                      <span>Book Your Spot</span>
+                      <ArrowRight className="h-5 w-5" />
+                    </button>
+                  </Link>
+                  <Link href="/#courses">
+                    <button className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-medium rounded-xl hover:bg-white/20 transition-all duration-300 whitespace-nowrap">
+                      <span>View All Programs</span>
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

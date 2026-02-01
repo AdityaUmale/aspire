@@ -44,10 +44,10 @@ const getProgramSlug = (courseName: string): string | null => {
     "Voice & Accent": "/courses/voice-and-accent",
     "Entrepreneurship Development": "/courses/entrepreneurship-development",
     "Teachers Training Program": "/courses/teachers-training-program",
-    "ARISE - LANGUAGE AND THOUGHTS ENRICHMENT CAMP": "/courses/arise-camp",
+    "ARISE – Language and Thought Enrichment Camp": "/courses/arise-camp",
     "International Workshop": "/courses/international-workshop",
   };
-  
+
   return courseSlugMap[courseName] || null;
 };
 
@@ -78,15 +78,15 @@ export default function Home() {
         const response = await fetch('/api/course');
         if (!response.ok) throw new Error(`Error: ${response.status}`);
         const data = await response.json();
-        
-        const validCourses = Array.isArray(data?.courses) 
-          ? data.courses.filter((course: Course | null | undefined) => 
-              course && 
-              course.courseName && 
-              course.description
-            )
+
+        const validCourses = Array.isArray(data?.courses)
+          ? data.courses.filter((course: Course | null | undefined) =>
+            course &&
+            course.courseName &&
+            course.description
+          )
           : [];
-        
+
         setCourses(validCourses);
       } catch (err) {
         console.error('Failed to fetch courses:', err);
@@ -113,21 +113,21 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={`flex flex-col min-h-screen bg-[#FAFAFA] ${playfair.variable} ${jakarta.variable} font-sans selection:bg-[#1a237e] selection:text-white`}>
+    <div className={`flex flex-col min-h-screen bg-white ${playfair.variable} ${jakarta.variable} font-sans selection:bg-[#1a237e] selection:text-white`}>
       <Navbar />
 
       {/* Global Grain Texture */}
-      <div className="fixed inset-0 opacity-[0.035] pointer-events-none z-50 mix-blend-multiply" 
-           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
+      <div className="fixed inset-0 opacity-[0.035] pointer-events-none z-50 mix-blend-multiply"
+        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
       </div>
 
       {/* Spacer for fixed navbar */}
       <div className="h-20 lg:h-24"></div>
-      
+
       <main className="flex-1 relative">
         {/* Hero & Intro Sections */}
         <HeroSection />
-        
+
         <div className="relative">
           {/* Ambient Background Gradient for Middle Sections */}
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-radial from-[#1a237e]/5 to-transparent blur-[100px] opacity-60 pointer-events-none -z-10"></div>
@@ -138,18 +138,18 @@ export default function Home() {
         {/* --- PROGRAMS SECTION --- */}
         <section id="courses" className="py-20 md:py-28 relative animate-on-scroll">
           <div className="container px-4 md:px-6 mx-auto">
-            
+
             {/* Section Header */}
             <div className="flex flex-col items-center justify-center space-y-6 text-center mb-16">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#1a237e]/10 bg-white shadow-sm">
                 <GraduationCap className="h-3.5 w-3.5 text-[#1a237e]" />
                 <span className="text-xs font-bold tracking-widest text-[#1a237e] uppercase">Our Programs</span>
               </div>
-              
+
               <div className="max-w-3xl space-y-4">
                 <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-[#1a237e] leading-tight">
-                  Trainings that help you <br/>
-                  <span className="italic text-[#3949ab]">Communicate & Lead.</span>
+                  Training programs that help you <br />
+                  <span className="italic text-[#3949ab]">Communicate and Lead.</span>
                 </h2>
                 <p className="text-gray-500 text-lg md:text-xl font-light leading-relaxed">
                   Discover our comprehensive range of training programs designed to transform lives and careers.
@@ -187,23 +187,23 @@ export default function Home() {
                 { title: "Personality Development", description: "Build confidence and enhance your personal growth through comprehensive self-improvement.", image: "/pdc.jpg", slug: "/courses/personality-development", features: ["Self-confidence", "Communication skills", "Emotional intelligence", "Personal branding"] },
                 { title: "Public Speaking", description: "Master the art of effective communication and captivate any audience with your words.", image: "/public-speaking.jpg", slug: "/courses/public-speaking", features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"] },
                 { title: "English Language Training", description: "Enhance your English skills for better communication.", image: "/elt3.jpg", slug: "/courses/english-language-training", features: ["Grammar", "Vocabulary", "Pronunciation", "Fluency"] },
-                { title: "Childrens Learning Program", description: "Fun and educational programs for kids.", icon: BookOpen, image: "/elt.jpg", slug: "/courses/childrens-learning-program", features: ["Creativity", "Learning skills", "Teamwork", "Confidence"] },
+                { title: "Children's Learning Program", description: "Fun and educational programs for kids.", icon: BookOpen, image: "/elt.jpg", slug: "/courses/childrens-learning-program", features: ["Creativity", "Learning skills", "Teamwork", "Confidence"] },
                 { title: "Voice & Accent", description: "Improve your voice modulation and accent.", image: "/voice-and-accent.jpg", slug: "/courses/voice-and-accent", features: ["Clarity", "Tone", "Accent training", "Expression"] },
                 { title: "Entrepreneurship Development", description: "Build skills to start and grow your business.", image: "/edp-logo.jpg", slug: "/courses/entrepreneurship-development", features: ["Innovation", "Business planning", "Leadership", "Risk management"] },
                 { title: "Teachers Training Program", description: "Empower educators with modern teaching methods.", image: "/teacher2.png", slug: "/courses/teachers-training-program", features: ["Pedagogy", "Classroom management", "Engagement", "Assessment"] },
-                { title: "ARISE - LANGUAGE AND THOUGHTS ENRICHMENT CAMP", description: "A unique camp for personal growth.", image: "/arise-logo.jpg", slug: "/courses/arise-camp", features: ["Mindset", "Language skills", "Critical thinking", "Self-expression"] },
+                { title: "ARISE – Language and Thought Enrichment Camp", description: "A unique camp for personal growth.", image: "/arise-logo.jpg", slug: "/courses/arise-camp", features: ["Mindset", "Language skills", "Critical thinking", "Self-expression"] },
                 { title: "International Workshop", description: "Global learning experiences.", image: "/international.jpg", slug: "/courses/international-workshop", features: ["Cross-cultural skills", "Global trends", "Networking", "Innovation"] },
               ].map((course, index) => (
                 <Link key={index} href={course.slug} legacyBehavior passHref>
                   <a className="group relative flex flex-col rounded-[1.5rem] bg-white border border-gray-100 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.15)] hover:-translate-y-2 block flex-shrink-0 w-[300px] sm:w-[340px] snap-start overflow-hidden h-[480px]">
-                    
+
                     {/* Image Area */}
                     <div className="relative h-56 w-full overflow-hidden">
-                      <Image src={course.image} alt={`${course.title} image`} width={400} height={300} className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110" />
+                      <Image src={course.image} alt={`${course.title} workshop in progress at Aspire Institute`} width={400} height={300} className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#1a237e]/80 via-transparent to-transparent opacity-80"></div>
-                      
-                  
-                      
+
+
+
                       {/* Title Overlay on Image */}
                       <div className="absolute bottom-4 left-4 right-4">
                         <h3 className="font-serif text-xl font-medium text-white leading-tight drop-shadow-md">{course.title}</h3>
@@ -218,7 +218,7 @@ export default function Home() {
                       <div className="w-full pt-4 border-t border-dashed border-gray-200 mb-6 flex-grow">
                         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Focus Areas</p>
                         <ul className="grid grid-cols-1 gap-2">
-                          {course.features.slice(0,3).map((feature, i) => (
+                          {course.features.slice(0, 3).map((feature, i) => (
                             <li key={i} className="flex items-center gap-2 text-xs text-gray-600 font-medium">
                               <CheckCircle className="h-3 w-3 text-[#3949ab]" />
                               {feature}
@@ -245,13 +245,13 @@ export default function Home() {
         {/* --- UPCOMING COURSES SECTION --- */}
         <section id="upcoming-courses" className="py-20 md:py-28 lg:ml-18 animate-on-scroll">
           <div className="container px-4 md:px-6 mx-auto">
-            
+
             <div className="flex flex-col items-center justify-center space-y-6 text-center mb-16">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#1a237e]/10 bg-white shadow-sm">
                 <Calendar className="h-3.5 w-3.5 text-[#1a237e]" />
                 <span className="text-xs font-bold tracking-widest text-[#1a237e] uppercase">Enroll Now</span>
               </div>
-              
+
               <div className="max-w-3xl space-y-4">
                 <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-[#1a237e]">
                   Upcoming Batches
@@ -275,7 +275,7 @@ export default function Home() {
                 <p className="text-gray-400 text-lg font-serif italic">No upcoming courses available at the moment. Check back soon!</p>
               </div>
             ) : (
-<>
+              <>
                 {/* Scroll Controls */}
                 <div className="flex justify-end gap-3 mb-6 px-4 md:px-0">
                   <button
@@ -300,55 +300,55 @@ export default function Home() {
                   ref={upcomingCoursesRef}
                   className="flex flex-row overflow-x-auto gap-6 lg:gap-8 pb-8 -mx-4 px-8 md:mx-0 md:px-0 scrollbar-hide snap-x"
                 >
-                {courses.map((course, index) => {
-                  const programSlug = getProgramSlug(course.courseName);
-                  return (
-                    <div key={index} className="group relative rounded-[1.5rem] bg-white shadow-sm border border-gray-200 transition-all hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.1)] w-[300px] sm:w-[340px] flex-shrink-0 flex flex-col h-full snap-start overflow-hidden">
-                       {/* Top Decorative Stripe */}
-                       <div className="h-1.5 w-full bg-gradient-to-r from-[#1a237e] to-[#3949ab]"></div>
+                  {courses.map((course, index) => {
+                    const programSlug = getProgramSlug(course.courseName);
+                    return (
+                      <div key={index} className="group relative rounded-[1.5rem] bg-white shadow-sm border border-gray-200 transition-all hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.1)] w-[300px] sm:w-[340px] flex-shrink-0 flex flex-col h-full snap-start overflow-hidden">
+                        {/* Top Decorative Stripe */}
+                        <div className="h-1.5 w-full bg-gradient-to-r from-[#1a237e] to-[#3949ab]"></div>
 
-                      <div className="p-8 flex-1 flex flex-col h-full">
-                        <div className="relative flex flex-col items-start space-y-4 flex-1">
-                          
-                         
+                        <div className="p-8 flex-1 flex flex-col h-full">
+                          <div className="relative flex flex-col items-start space-y-4 flex-1">
 
-                          <h3 className="font-serif text-2xl text-[#1a237e] leading-tight group-hover:text-[#3949ab] transition-colors">{course.courseName}</h3>
-                          
-                          {/* Date Info */}
-                          {course.courseDate && (
-                            <div className="flex items-center gap-2 text-sm text-gray-500 font-medium">
-                              <Calendar className="h-4 w-4 text-[#1a237e]" />
-                              <span>Starts: <span className="text-[#1a237e]">{format(new Date(course.courseDate), 'PPP')}</span></span>
-                            </div>
-                          )}
 
-                          <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">{course.description}</p>
 
-                          {course.courseOutline && (
-                            <div className="w-full pt-4 mt-4 border-t border-dashed border-gray-200 flex-1">
-                              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Highlights</p>
-                              <ul className="space-y-2">
-                                {Array.isArray(course.courseOutline) ? course.courseOutline.slice(0, 3).map((item: string, i: number) => (
-                                  <li key={i} className="flex items-start gap-2 text-xs text-gray-600">
-                                    <div className="h-1.5 w-1.5 rounded-full bg-[#3949ab] mt-1.5 flex-shrink-0"></div>
-                                    <span className="line-clamp-1">{item}</span>
-                                  </li>
-                                )) : (
-                                  <li className="flex items-start gap-2 text-xs text-gray-600">
-                                    <div className="h-1.5 w-1.5 rounded-full bg-[#3949ab] mt-1.5 flex-shrink-0"></div>
-                                    <span className="line-clamp-1">{course.courseOutline}</span>
-                                  </li>
-                                )}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
+                            <h3 className="font-serif text-2xl text-[#1a237e] leading-tight group-hover:text-[#3949ab] transition-colors">{course.courseName}</h3>
 
-                        {/* Button Area */}
-                        <div className="mt-8">
-                          {programSlug ? (
+                            {/* Date Info */}
+                            {course.courseDate && (
+                              <div className="flex items-center gap-2 text-sm text-gray-500 font-medium">
+                                <Calendar className="h-4 w-4 text-[#1a237e]" />
+                                <span>Starts: <span className="text-[#1a237e]">{format(new Date(course.courseDate), 'PPP')}</span></span>
+                              </div>
+                            )}
+
+                            <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">{course.description}</p>
+
+                            {course.courseOutline && (
+                              <div className="w-full pt-4 mt-4 border-t border-dashed border-gray-200 flex-1">
+                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Highlights</p>
+                                <ul className="space-y-2">
+                                  {Array.isArray(course.courseOutline) ? course.courseOutline.slice(0, 3).map((item: string, i: number) => (
+                                    <li key={i} className="flex items-start gap-2 text-xs text-gray-600">
+                                      <div className="h-1.5 w-1.5 rounded-full bg-[#3949ab] mt-1.5 flex-shrink-0"></div>
+                                      <span className="line-clamp-1">{item}</span>
+                                    </li>
+                                  )) : (
+                                    <li className="flex items-start gap-2 text-xs text-gray-600">
+                                      <div className="h-1.5 w-1.5 rounded-full bg-[#3949ab] mt-1.5 flex-shrink-0"></div>
+                                      <span className="line-clamp-1">{course.courseOutline}</span>
+                                    </li>
+                                  )}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Button Area */}
+                          <div className="mt-8">
+                            {programSlug ? (
                               <Link href={programSlug}>
-                                <Button 
+                                <Button
                                   className="w-full h-12 rounded-xl bg-[#1a237e] hover:bg-[#0d1642] text-white shadow-lg shadow-[#1a237e]/20 transition-all duration-300 text-sm font-medium hover:scale-[1.02]"
                                   onClick={(e) => e.stopPropagation()}
                                 >
@@ -356,20 +356,20 @@ export default function Home() {
                                   <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                               </Link>
-                          ) : ( 
-                              <Button 
+                            ) : (
+                              <Button
                                 variant="secondary"
                                 className="w-full h-12 rounded-xl bg-gray-100 text-gray-400 cursor-not-allowed"
                                 disabled
                               >
                                 Registration Closed
                               </Button>
-                          )}
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
                 </div>
               </>
             )}
@@ -377,7 +377,7 @@ export default function Home() {
         </section>
       </main>
       <ArticlesSection />
-      
+
       <EnquiryForm />
       <Footer />
 

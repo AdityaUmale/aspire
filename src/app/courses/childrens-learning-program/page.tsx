@@ -2,11 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { CheckCircle, Baby, Clock, Users, BookOpen, Smile, Star, ArrowRight } from 'lucide-react'; 
+import { CheckCircle, Baby, Clock, Users, ArrowRight, Languages, Mic, Heart, Star, Award } from 'lucide-react';
 
 export default function ChildrensLearningProgramPage() {
   const sscComponents = [
-    'English Language For kids',
+    'English Language For Kids',
     'Public Speaking For Kids',
     'Social Skills For Kids',
     'Personality Development For Kids',
@@ -15,185 +15,394 @@ export default function ChildrensLearningProgramPage() {
   const outlineEnglish = [
     'Sentences Formation Activities (SFA)',
     'Language Improvement Games (LIG)',
-    'Vocabulary Building Activities(VBA)',
+    'Vocabulary Building Activities (VBA)',
     'Social English Conversations (SEC)',
-    'Daily Used Phrases, Expressions, Phrasal Verbs And Idioms(PEPI)',
-    'Audio segment (AUS)',
-    'Movie and video Based Learning (MVBL)',
+    'Daily Used Phrases, Expressions, Phrasal Verbs And Idioms (PEPI)',
+    'Audio Segment (AUS)',
+    'Movie and Video Based Learning (MVBL)',
     'Phonics Training (FCT)',
   ];
 
   const outlinePublicSpeaking = [
     'Self Introduction',
-    'Active listening',
+    'Active Listening',
     'Public Speaking Assignments',
     'Stage Fear',
-    'Tips on Body language',
+    'Tips on Body Language',
     'Personal Experience Sharing',
     'Storytelling',
-    'Speech preparation',
-    'Types of speeches',
-    'Body language',
-    'Confidence building',
+    'Speech Preparation',
+    'Types of Speeches',
+    'Body Language',
+    'Confidence Building',
   ];
 
   const outlineSocialSkills = [
     'General Manners',
-    'Sharing and cooperation',
-    'Learn greetings',
+    'Sharing and Cooperation',
+    'Learn Greetings',
     'Group Activities',
-    'Fun and engaging projects',
-    'Group discussion',
-    'Personal hygiene',
-    'Team work',
-    'Initiative taking',
-    'Etiquettes for kids',
-    'Communicating needs',
-    'Social and emotional development',
+    'Fun and Engaging Projects',
+    'Group Discussion',
+    'Personal Hygiene',
+    'Team Work',
+    'Initiative Taking',
+    'Etiquettes for Kids',
+    'Communicating Needs',
+    'Social and Emotional Development',
   ];
-  
-  // Assuming the remaining points fall under Personality Development based on intro
-  // Note: The provided outline didn't explicitly group the last set of points.
-  // If specific points belong elsewhere, please let me know.
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#f8f9fa] via-[#e8eaf6] to-[#c5cae9]">
+    <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
-      {/* Subtle background elements */}
-      <div className="absolute inset-0 bg-[url('/globe.svg')] bg-no-repeat bg-center opacity-[0.02] mix-blend-soft-light -z-10"></div>
-      <div className="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-gradient-radial from-[#3949ab]/10 to-transparent blur-3xl -z-10"></div>
 
-      <main className="flex-1 py-16 md:py-20 lg:py-24">
-        <div className="container mx-auto px-4 max-w-4xl">
-          {/* Themed Content Card */}
-          <div className="bg-white/90 backdrop-blur-md p-6 md:p-10 rounded-2xl shadow-xl border border-gray-200/60">
-            {/* Header Section */}
-            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 mb-8 border-b border-gray-200/80 pb-6">
-              <div className="flex-shrink-0">
-                <Image 
-                  src="/elt.jpg" // Using the specified image
-                  alt="Children's Learning Program" 
-                  width={150} 
-                  height={150} 
-                  className="rounded-lg object-cover shadow-md"
-                />
-              </div>
+      {/* Hero Section */}
+      <section className="relative pt-28 pb-20 md:pt-36 md:pb-28 overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1a237e] via-[#283593] to-[#3949ab]"></div>
+        <div className="absolute inset-0 bg-[url('/globe.svg')] bg-no-repeat bg-center opacity-5"></div>
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-radial from-[#c5cae9]/20 to-transparent blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-radial from-[#c5cae9]/10 to-transparent blur-3xl"></div>
+
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              {/* Left - Text */}
               <div className="text-center md:text-left">
-                {/* Replaced Child with Baby in the component usage */}
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#e8eaf6]/70 text-[#1a237e] rounded-full text-sm font-medium mb-3">
-                  <Baby className="h-4 w-4" /> 
-                  <span>Program for Kids</span>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 mb-6">
+                  <Baby className="h-4 w-4 text-[#c5cae9]" />
+                  <span className="text-white/90 text-sm font-medium">Program for Kids (Ages 8-12)</span>
                 </div>
-                <h1 className="text-3xl md:text-4xl font-bold text-[#1a237e]">Children’s Learning Program (SSC)</h1>
-              </div>
-            </div>
-
-            {/* SSC Details Section */}
-            <div className="mb-10 p-4 bg-indigo-50 border border-indigo-200 rounded-lg">
-              <h3 className="text-lg font-semibold text-[#1a237e] mb-3">Summer Special Course (SSC) Details:</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm text-gray-700">
-                <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4 text-[#3949ab]" />
-                  <span><span className="font-medium">Age Group:</span> 8-12 Years old</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-[#3949ab]" />
-                  <span><span className="font-medium">Duration:</span> 1 Month</span>
-                </div>
-              </div>
-              <h4 className="text-md font-semibold text-[#1a237e] mt-4 mb-2">Core Components:</h4>
-              <ul className="list-disc list-inside space-y-1 text-sm text-gray-700 pl-1">
-                {sscComponents.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Introduction Section */}
-            <div className="mb-10 prose prose-indigo lg:prose-lg max-w-none prose-headings:text-[#1a237e] prose-a:text-[#3949ab] hover:prose-a:text-[#0d1642] prose-strong:text-gray-800">
-              <h2 className="text-2xl font-semibold text-[#1a237e] mb-4">Introduction of SSC</h2>
-              <p>
-                Here after a great research on the developmental needs of kids during the age 8-12, we are presenting Summer Special Course for children. This course mainly focuses over the four unavoidable learning which every child should acquire at early age I.e. English Language, Public Speaking, Social Skills and Personality Development.
-              </p>
-              <p>
-                 We have been teaching English language in India for more than 12 years. Our English language segment gives young learners confidence and skills to get mastery over English language. We have developed an encouraging culture that allows children to commit mistakes and take free efforts when their English is not just up to the mark. Our methodologies help them to discover that, learning English is very easy. For English Language we provide a variety of training according to the level of your child.
-              </p>
-              <p>
-                 Besides, we have a uniquely designed Public Speaking lessons in SSC for your children to make them look Super-Confident. Your child may be an outstanding performer in studies however the fact that can’t be denied is the same child may be left behind just because of not being able to express in public. The prior your child starts the greater and the remarkable results you see. Children might easily overcome public speaking fear by getting the training and lessons on it early in their lives. We aim at making public speaking for children a joy rather than fear.
-              </p>
-              <p>
-                 In addition to English language training and Public speaking we provide Social skills training and personality development for your children. Social skills give children a wide range of benefits. They are linked to greater success in school and better relationships with peers. Social skills are skills that can be learned and strengthened with effort and practice through our SSC. We mainly focus on the skills we use every day to interact and communicate with others.
-              </p>
-              <p>
-                 Ultimately transform your child’s personality through SSC. We believe every child has a unique personality he is born with, but the surroundings the child is raised in also play a major role in shaping the personality. We train them at a young age, to groom them into strong and confident youngsters. Our research says, Children do not pick up values from endless lectures, but from mirroring your behavior. Therefore, we have the best methodology that makes them follow the right lessons at the right age for the everlasting positive change in to their personalities. From methodology to resources we seek the growth of our young learners.
-              </p>
-            </div>
-
-            {/* Course Outline Section - Grouped */}
-            <div className="mb-12 space-y-6"> 
-              <h2 className="text-2xl font-semibold text-[#1a237e] mb-5">Course Outline</h2>
-              
-              {/* English Language Outline */}
-              <div>
-                <h3 className="text-lg font-semibold text-[#3949ab] mb-3 flex items-center gap-2"><BookOpen className="h-5 w-5"/>English Language</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-                  {outlineEnglish.map((item, index) => (
-                    <div key={index} className="flex items-center gap-3 p-3 bg-gray-50/50 rounded-md border border-gray-200/70">
-                      <CheckCircle className="h-5 w-5 text-[#3949ab] flex-shrink-0" />
-                      <span className="text-gray-700 text-sm">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Public Speaking Outline */}
-              <div>
-                <h3 className="text-lg font-semibold text-[#3949ab] mb-3 flex items-center gap-2"><Star className="h-5 w-5"/>Public Speaking</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-                  {outlinePublicSpeaking.map((item, index) => (
-                    <div key={index} className="flex items-center gap-3 p-3 bg-gray-50/50 rounded-md border border-gray-200/70">
-                      <CheckCircle className="h-5 w-5 text-[#3949ab] flex-shrink-0" />
-                      <span className="text-gray-700 text-sm">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Social Skills Outline */}
-              <div>
-                <h3 className="text-lg font-semibold text-[#3949ab] mb-3 flex items-center gap-2"><Smile className="h-5 w-5"/>Social Skills & Personality Development</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-                  {outlineSocialSkills.map((item, index) => (
-                    <div key={index} className="flex items-center gap-3 p-3 bg-gray-50/50 rounded-md border border-gray-200/70">
-                      <CheckCircle className="h-5 w-5 text-[#3949ab] flex-shrink-0" />
-                      <span className="text-gray-700 text-sm">{item}</span>
-                    </div>
-                  ))}
-                  {/* Note: Personality Development points could be added here if separated */}
-                </div>
-              </div>
-
-            </div>
-
-            {/* CTA Section */}
-            <div className="mt-12 pt-8 border-t border-gray-200/80">
-              <div className="text-center">
-                <h3 className="text-xl font-semibold text-[#1a237e] mb-4">Ready to Nurture Your Child?</h3>
-                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                  Give your child the gift of confidence and learning. Contact us to enroll them in our Children&apos;s Learning Program.
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight leading-tight">
+                  Children&apos;s Learning Program
+                </h1>
+                <p className="text-lg md:text-xl text-[#c5cae9] mb-4 leading-relaxed">
+                  Summer Special Course (SSC)
                 </p>
-                <Link href="/#enquiry">
-                  <button className="inline-flex items-center gap-3 px-8 py-4 bg-[#1a237e] hover:bg-[#0d1642] text-white font-medium rounded-xl transition-all duration-300 shadow-lg shadow-[#1a237e]/20 hover:shadow-xl hover:shadow-[#1a237e]/30 hover:-translate-y-1">
-                    <span>Enroll Your Child</span>
-                    <ArrowRight className="h-5 w-5" />
-                  </button>
-                </Link>
+
+                {/* Details */}
+                <div className="flex flex-wrap gap-4 mb-8 justify-center md:justify-start">
+                  <div className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg">
+                    <Users className="h-4 w-4 text-[#c5cae9]" />
+                    <span className="text-white text-sm">Ages 8-12</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg">
+                    <Clock className="h-4 w-4 text-[#c5cae9]" />
+                    <span className="text-white text-sm">1 Month</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                  <Link href="/#enquiry">
+                    <button className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-[#1a237e] font-bold rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 w-full sm:w-auto">
+                      <span>Enroll Your Child</span>
+                      <ArrowRight className="h-5 w-5" />
+                    </button>
+                  </Link>
+                  <Link href="#outline">
+                    <button className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium rounded-xl hover:bg-white/20 transition-all duration-300 w-full sm:w-auto">
+                      <span>View Course Outline</span>
+                    </button>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Right - Image */}
+              <div className="hidden md:block">
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#c5cae9]/30 to-transparent rounded-2xl blur-2xl group-hover:blur-3xl transition-all duration-500"></div>
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                    <Image
+                      src="/clp1.jpg"
+                      alt="Children's Learning Program"
+                      width={600}
+                      height={500}
+                      className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-700"
+                    />
+                    {/* Overlay Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a237e]/40 to-transparent"></div>
+                  </div>
+
+                  {/* Floating Badge */}
+                  <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl border border-[#e8eaf6] flex items-center gap-3">
+                    <div className="h-12 w-12 rounded-full bg-[#e8eaf6] flex items-center justify-center">
+                      <Award className="h-6 w-6 text-[#1a237e]" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 font-medium">17+ Years</p>
+                      <p className="text-[#1a237e] font-bold">Trusted Program</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-
           </div>
         </div>
-      </main>
+
+        {/* Wave separator */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+            <path d="M0 50L48 45.8C96 41.7 192 33.3 288 29.2C384 25 480 25 576 33.3C672 41.7 768 58.3 864 62.5C960 66.7 1056 58.3 1152 50C1248 41.7 1344 33.3 1392 29.2L1440 25V100H1392C1344 100 1248 100 1152 100C1056 100 960 100 864 100C768 100 672 100 576 100C480 100 384 100 288 100C192 100 96 100 48 100H0V50Z" fill="white" />
+          </svg>
+        </div>
+      </section>
+
+      {/* Introduction Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center mb-20">
+            <div>
+              <div className="inline-flex items-center gap-2 mb-4">
+                <span className="h-px w-8 bg-[#1a237e]"></span>
+                <span className="text-[#1a237e] uppercase tracking-wider text-sm font-bold">Introduction</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#1a237e] mb-6 leading-tight">
+                Building Essential Life Skills
+              </h2>
+              <div className="prose prose-lg text-gray-700 leading-relaxed">
+                <p className="mb-6">
+                  Designed after in-depth research on the developmental needs of children aged 8–12, ASPIRE Institute&apos;s Summer Special Course (SSC) builds the four essential life skills every child needs early — English Language, Public Speaking, Social Skills, and Personality Development.
+                </p>
+                <p>
+                  This one-month program lays a strong foundation for confidence, communication, and overall growth.
+                </p>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#e8eaf6] rounded-full blur-xl"></div>
+              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-[#c5cae9] rounded-full blur-xl"></div>
+              <Image
+                src="/clp2.jpg"
+                alt="Children learning together"
+                width={600}
+                height={450}
+                className="relative rounded-2xl shadow-xl w-full object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Feature Section */}
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center mb-20">
+            <div className="order-2 md:order-1 relative">
+              <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform -rotate-2 scale-[1.02]"></div>
+              <Image
+                src="/elt.jpg"
+                alt="Kids in classroom"
+                width={600}
+                height={450}
+                className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:rotate-1 transition-transform duration-500"
+              />
+            </div>
+            <div className="order-1 md:order-2">
+              <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">17+ Years of Expertise</h3>
+              <p className="text-gray-700 leading-relaxed text-lg mb-6">
+                With 17+ years of expertise, ASPIRE follows a natural, stress-free learning approach where children feel safe to make mistakes, practice freely, and enjoy learning.
+              </p>
+              <p className="text-gray-700 leading-relaxed text-lg">
+                English training is level-based and engaging, while public speaking sessions help children overcome stage fear early, express ideas clearly, and speak with confidence.
+              </p>
+            </div>
+          </div>
+
+          {/* Third Section */}
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div>
+              <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Social Intelligence & Personality Growth</h3>
+              <p className="text-gray-700 leading-relaxed text-lg mb-6">
+                SSC also nurtures social intelligence and personality growth, helping children communicate better, build healthy relationships, and develop emotional balance.
+              </p>
+              <p className="text-gray-700 leading-relaxed text-lg">
+                Through guided activities and role-model-based learning, children grow into confident, balanced, and value-driven individuals — creating positive change that lasts well beyond summer.
+              </p>
+            </div>
+            <div className="relative">
+              <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform rotate-2 scale-[1.02]"></div>
+              <Image
+                src="/clp1.jpg"
+                alt="Children developing social skills"
+                width={600}
+                height={450}
+                className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:-rotate-1 transition-transform duration-500"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Four Pillars Section */}
+      {/* Four Pillars Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="relative bg-gradient-to-r from-[#1a237e] via-[#283593] to-[#3949ab] rounded-3xl py-16 md:py-20 px-8 md:px-12 overflow-hidden shadow-2xl">
+              {/* Background Elements */}
+              <div className="absolute inset-0 bg-[url('/globe.svg')] bg-no-repeat bg-center opacity-5"></div>
+              <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-gradient-radial from-[#c5cae9]/15 to-transparent blur-3xl"></div>
+              <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-gradient-radial from-[#c5cae9]/10 to-transparent blur-3xl"></div>
+
+              <div className="relative z-10">
+                <div className="text-center mb-6">
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Four Pillars of Growth</h2>
+                  <p className="text-[#c5cae9] text-base md:text-lg max-w-2xl mx-auto">
+                    A holistic approach to child development covering all essential life skills
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {[
+                    { icon: Languages, title: 'English Language', desc: 'Level-based, engaging training for mastery' },
+                    { icon: Mic, title: 'Public Speaking', desc: 'Overcome stage fear, speak with confidence' },
+                    { icon: Heart, title: 'Social Skills', desc: 'Build healthy relationships & communication' },
+                    { icon: Star, title: 'Personality Development', desc: 'Grow into confident, balanced individuals' },
+                  ].map((pillar, i) => {
+                    const Icon = pillar.icon;
+                    return (
+                      <div
+                        key={i}
+                        className="group relative bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 hover:border-white/40 hover:-translate-y-2 transition-all duration-300 text-center"
+                      >
+
+
+                        <div className="h-14 w-14 rounded-2xl bg-white/20 mb-5 flex items-center justify-center mx-auto group-hover:bg-white/30 transition-colors duration-300">
+                          <Icon className="h-7 w-7 text-white" />
+                        </div>
+                        <h3 className="font-bold text-white text-lg mb-2">{pillar.title}</h3>
+                        <p className="text-[#c5cae9] text-sm leading-relaxed">{pillar.desc}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Course Outlines Section */}
+      <section id="outline" className="py-16 md:py-20 bg-white">
+        <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1a237e] mb-3">Course Outlines</h2>
+            <p className="text-gray-600 text-base max-w-xl mx-auto">Engaging curriculum designed for young minds</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* English Language */}
+            <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-[#e8eaf6]">
+              {/* Top Gradient Accent */}
+              <div className="h-2 bg-gradient-to-r from-[#1a237e] to-[#3949ab]"></div>
+              <div className="p-6">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-[#1a237e] to-[#3949ab] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <Languages className="h-7 w-7 text-white" />
+                  </div>
+                  <h3 className="text-lg font-bold text-[#1a237e]">English Language</h3>
+                </div>
+                <ul className="space-y-3">
+                  {outlineEnglish.map((item, index) => (
+                    <li key={index} className="flex items-start gap-3 text-gray-700 text-sm group/item">
+                      <div className="h-5 w-5 rounded-full bg-[#e8eaf6] flex items-center justify-center flex-shrink-0 mt-0.5 group-hover/item:bg-[#1a237e] transition-colors duration-300">
+                        <CheckCircle className="h-3 w-3 text-[#3949ab] group-hover/item:text-white transition-colors duration-300" />
+                      </div>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Public Speaking */}
+            <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-[#e8eaf6]">
+              {/* Top Gradient Accent */}
+              <div className="h-2 bg-gradient-to-r from-[#3949ab] to-[#5c6bc0]"></div>
+              <div className="p-6">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-[#3949ab] to-[#5c6bc0] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <Mic className="h-7 w-7 text-white" />
+                  </div>
+                  <h3 className="text-lg font-bold text-[#1a237e]">Public Speaking</h3>
+                </div>
+                <ul className="space-y-3">
+                  {outlinePublicSpeaking.map((item, index) => (
+                    <li key={index} className="flex items-start gap-3 text-gray-700 text-sm group/item">
+                      <div className="h-5 w-5 rounded-full bg-[#e8eaf6] flex items-center justify-center flex-shrink-0 mt-0.5 group-hover/item:bg-[#3949ab] transition-colors duration-300">
+                        <CheckCircle className="h-3 w-3 text-[#3949ab] group-hover/item:text-white transition-colors duration-300" />
+                      </div>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Social Skills */}
+            <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-[#e8eaf6]">
+              {/* Top Gradient Accent */}
+              <div className="h-2 bg-gradient-to-r from-[#5c6bc0] to-[#7986cb]"></div>
+              <div className="p-6">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-[#5c6bc0] to-[#7986cb] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <Heart className="h-7 w-7 text-white" />
+                  </div>
+                  <h3 className="text-lg font-bold text-[#1a237e]">Social Skills</h3>
+                </div>
+                <ul className="space-y-3">
+                  {outlineSocialSkills.map((item, index) => (
+                    <li key={index} className="flex items-start gap-3 text-gray-700 text-sm group/item">
+                      <div className="h-5 w-5 rounded-full bg-[#e8eaf6] flex items-center justify-center flex-shrink-0 mt-0.5 group-hover/item:bg-[#5c6bc0] transition-colors duration-300">
+                        <CheckCircle className="h-3 w-3 text-[#3949ab] group-hover/item:text-white transition-colors duration-300" />
+                      </div>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-6xl mx-auto">
+            {/* Rounded Rectangle CTA */}
+            <div className="relative bg-gradient-to-r from-[#1a237e] via-[#283593] to-[#3949ab] rounded-3xl py-16 md:py-20 px-8 md:px-16 lg:px-20 overflow-hidden shadow-2xl">
+              {/* Decorative elements */}
+              <div className="absolute inset-0 bg-[url('/globe.svg')] bg-no-repeat bg-center opacity-5"></div>
+              <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-60 h-60 bg-[#c5cae9]/20 rounded-full blur-3xl"></div>
+              <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-60 h-60 bg-[#c5cae9]/20 rounded-full blur-3xl"></div>
+
+              <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
+                {/* Text Content */}
+                <div className="text-center lg:text-left">
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+                    Give Your Child the Best Start
+                  </h2>
+                  <p className="text-[#c5cae9] text-base md:text-lg max-w-xl">
+                    Watch your child grow into a confident, articulate, and socially aware individual. Enroll in the Summer Special Course today!
+                  </p>
+                </div>
+
+                {/* Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 flex-shrink-0">
+                  <Link href="/#enquiry">
+                    <button className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-[#1a237e] font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 whitespace-nowrap">
+                      <span>Enroll Now</span>
+                      <ArrowRight className="h-5 w-5" />
+                    </button>
+                  </Link>
+                  <Link href="/#courses">
+                    <button className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-medium rounded-xl hover:bg-white/20 transition-all duration-300 whitespace-nowrap">
+                      <span>View All Programs</span>
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
