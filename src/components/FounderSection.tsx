@@ -19,7 +19,7 @@ export default function FounderSection() {
               <div className="relative bg-white p-2 rounded-2xl shadow-2xl">
                 <Image
                   src="/founder3.jpg"
-                  alt="Hon'ble Mr. Sachin Burghate, Founder of Aspire Institute"
+                  alt="Hon&apos;ble Mr. Sachin Burghate, Founder of Aspire Institute"
                   width={500}
                   height={600}
                   className="w-full h-auto object-cover rounded-xl"
@@ -37,7 +37,7 @@ export default function FounderSection() {
 
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-[#1a237e] mb-2">Visionary Leadership, Real Impact.</h2>
-              <p className="text-xl font-semibold text-[#3949ab]">Hon&apos;ble Mr. Sachin Burghate</p>
+              <p className="text-xl font-semibold text-[#3949ab]">Hon&apos;ble Mr. Sachin Burghate, Founder of Aspire Institute</p>
             </div>
 
             <p className="text-gray-600 leading-relaxed text-lg">

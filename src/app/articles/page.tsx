@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import Navbar from '@/components/Navbar';
-import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
 import {
   ArrowRight,
   Feather,
@@ -15,10 +14,6 @@ import {
   PenTool,
   Quote
 } from 'lucide-react';
-
-// Font Configuration
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-serif' });
-const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-sans' });
 
 interface Article {
   _id: string;
@@ -75,7 +70,7 @@ export default function ArticlesPage() {
   };
 
   return (
-    <div className={`flex flex-col min-h-screen bg-[#FAFAFA] ${playfair.variable} ${jakarta.variable} font-sans selection:bg-[#1a237e] selection:text-white`}>
+    <div className={`flex flex-col min-h-screen bg-[#FAFAFA] font-sans selection:bg-[#1a237e] selection:text-white`}>
       <Navbar />
 
       {/* Global Grain Texture */}
@@ -98,10 +93,10 @@ export default function ArticlesPage() {
                 <span className="h-px w-8 bg-[#1a237e]/30"></span>
              </div>
 
-             <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
-               The Founder&apos;s <br/>
-               <span className="italic text-[#3949ab]">Perspectives.</span>
-             </h1>
+<h1 className="font-bold text-5xl md:text-6xl lg:text-7xl text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
+                The Founder&apos;s <br/>
+                <span className="italic text-[#3949ab]">Perspectives.</span>
+              </h1>
              
              <p className="text-xl text-gray-600 leading-relaxed font-light animate-in slide-in-from-bottom-8 duration-700 delay-200 fade-in max-w-2xl mx-auto">
                In-depth insights, visionary leadership principles, and thoughts on human development.
@@ -111,7 +106,7 @@ export default function ArticlesPage() {
           {/* Error State */}
           {error && (
             <div className="mb-12 p-6 bg-red-50 border border-red-100 text-red-900 rounded-2xl shadow-sm text-center max-w-2xl mx-auto animate-in zoom-in-95">
-              <p className="font-serif text-lg">Unable to load articles</p>
+              <p className="font-bold text-lg">Unable to load articles</p>
               <p className="text-sm opacity-80 mt-1">{error}</p>
             </div>
           )}
@@ -140,7 +135,7 @@ export default function ArticlesPage() {
               <div className="p-6 bg-[#f8f9fa] rounded-full mb-6">
                 <Feather className="h-8 w-8 text-[#1a237e] opacity-50" />
               </div>
-              <h3 className="font-serif text-2xl text-[#1a237e] mb-2">No Articles Found</h3>
+              <h3 className="font-bold text-2xl text-[#1a237e] mb-2">No Articles Found</h3>
               <p className="text-gray-500 font-light">Stay tuned for upcoming insights.</p>
             </div>
           ) : (
@@ -167,7 +162,7 @@ export default function ArticlesPage() {
                     </div>
 
                     {/* Title */}
-                    <h3 className="font-serif text-2xl font-medium text-[#1a237e] mb-4 leading-tight group-hover:text-[#3949ab] transition-colors line-clamp-2">
+                    <h3 className="font-bold text-2xl font-medium text-[#1a237e] mb-4 leading-tight group-hover:text-[#3949ab] transition-colors line-clamp-2">
                       {article.title}
                     </h3>
 

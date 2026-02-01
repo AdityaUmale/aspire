@@ -22,11 +22,6 @@ import {
 } from 'lucide-react';
 import RichTextEditor from '@/components/RichTextEditor';
 import Navbar from '@/components/Navbar';
-import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
-
-// Font Configuration
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-serif' });
-const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-sans' });
 
 export default function PublishArticlePage() {
   const router = useRouter();
@@ -89,7 +84,7 @@ export default function PublishArticlePage() {
   };
 
   return (
-    <div className={`flex flex-col min-h-screen bg-[#FAFAFA] ${playfair.variable} ${jakarta.variable} font-sans selection:bg-[#1a237e] selection:text-white`}>
+    <div className={`flex flex-col min-h-screen bg-[#FAFAFA] font-sans selection:bg-[#1a237e] selection:text-white`}>
       <Navbar />
 
       {/* Global Grain Texture */}
@@ -111,7 +106,7 @@ export default function PublishArticlePage() {
               <span className="text-xs font-bold tracking-widest text-[#1a237e] uppercase">The Student Journal</span>
             </div>
             
-            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl text-[#1a237e] leading-[1.1] animate-in fade-in slide-in-from-bottom-5">
+            <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl text-[#1a237e] leading-[1.1] animate-in fade-in slide-in-from-bottom-5">
               Every leader starts with <br/>
               <span className="italic text-[#3949ab]">a story to tell.</span>
             </h1>
@@ -169,7 +164,7 @@ export default function PublishArticlePage() {
                     <div className={`h-14 w-14 mx-auto rounded-full flex items-center justify-center mb-6 ${step.color} shadow-sm group-hover:scale-110 transition-transform`}>
                       <step.icon className="h-6 w-6" />
                     </div>
-                    <h3 className="font-serif text-xl font-medium text-[#1a237e] mb-3">{step.title}</h3>
+                    <h3 className="font-bold text-xl font-medium text-[#1a237e] mb-3">{step.title}</h3>
                     <p className="text-gray-500 text-sm leading-relaxed">{step.desc}</p>
                   </div>
                 ))}
@@ -183,7 +178,7 @@ export default function PublishArticlePage() {
               {error && (
                 <Alert variant="destructive" className="bg-red-50 border-red-100 text-red-900 rounded-xl shadow-sm animate-in zoom-in-95">
                   <Terminal className="h-4 w-4" />
-                  <AlertTitle className="font-bold font-serif">Submission Error</AlertTitle>
+                  <AlertTitle className="font-bold">Submission Error</AlertTitle>
                   <AlertDescription className="text-red-800/80">{error}</AlertDescription>
                 </Alert>
               )}
@@ -191,7 +186,7 @@ export default function PublishArticlePage() {
               {success && (
                 <Alert className="bg-emerald-50 border-emerald-100 text-emerald-900 rounded-xl shadow-sm animate-in zoom-in-95">
                   <BookOpen className="h-4 w-4 text-emerald-600" />
-                  <AlertTitle className="font-bold font-serif text-emerald-800">Story Submitted!</AlertTitle>
+                  <AlertTitle className="font-bold text-emerald-800">Story Submitted!</AlertTitle>
                   <AlertDescription className="text-emerald-800/80">{success}</AlertDescription>
                 </Alert>
               )}
@@ -228,7 +223,7 @@ export default function PublishArticlePage() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="An inspiring title..."
-                    className="border-0 bg-gray-50/50 rounded-xl px-6 py-8 text-3xl md:text-4xl font-serif text-[#1a237e] placeholder:text-gray-300 focus-visible:ring-0 focus-visible:bg-gray-50 transition-all placeholder:font-light placeholder:italic"
+                    className="border-0 bg-gray-50/50 rounded-xl px-6 py-8 text-3xl md:text-4xl font-bold text-[#1a237e] placeholder:text-gray-300 focus-visible:ring-0 focus-visible:bg-gray-50 transition-all placeholder:font-light placeholder:italic"
                     required
                   />
                 </div>

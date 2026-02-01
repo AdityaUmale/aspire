@@ -62,7 +62,7 @@ function PublishJourney() {
                 Your Voice Matters
               </span>
             </div>
-            <h3 className="font-serif text-3xl lg:text-4xl text-[#1a237e] mb-2">Publish Your Story</h3>
+            <h3 className="font-bold text-3xl lg:text-4xl text-[#1a237e] mb-2">Publish Your Story</h3>
             <p className="font-sans text-gray-600 max-w-md">
               Transform your experiences into inspiration for others. Your journey could be the spark someone needs.
             </p>
@@ -189,7 +189,7 @@ function StudentStoriesCard() {
           <span className="text-sm font-sans font-semibold text-white/80 uppercase tracking-wide">Student Voices</span>
         </div>
 
-        <h3 className="font-serif text-3xl lg:text-4xl text-white mb-3">Authentic Stories</h3>
+        <h3 className="font-bold text-3xl lg:text-4xl text-white mb-3">Authentic Stories</h3>
         <p className="font-sans text-white/70 mb-8 max-w-sm leading-relaxed">
           From overcoming challenges to celebrating victories, our students share their most meaningful experiences and lessons learned.
         </p>
@@ -252,7 +252,7 @@ function AspireInsightsCard() {
           <span className="text-sm font-sans font-semibold text-[#1a237e] uppercase tracking-wide">Expert Content</span>
         </div>
 
-        <h3 className="font-serif text-3xl lg:text-4xl text-[#1a237e] mb-3">Aspire Insights</h3>
+        <h3 className="font-bold text-3xl lg:text-4xl text-[#1a237e] mb-3">Aspire Insights</h3>
         <p className="font-sans text-gray-600 mb-8 max-w-sm leading-relaxed">
           Curated knowledge from our team. Deep dives into personal development strategies that actually work.
         </p>
@@ -306,7 +306,7 @@ export default function ArticlesSection() {
               Knowledge Hub
             </span>
           </div>
-          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-[#1a237e] mb-6 text-balance">
+          <h2 className="font-bold text-4xl md:text-5xl lg:text-6xl text-[#1a237e] mb-6 text-balance">
             Articles That <span className="italic">Inspire</span>
           </h2>
           <p className="font-sans text-gray-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed text-pretty">

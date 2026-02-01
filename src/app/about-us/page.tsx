@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Navbar from '@/components/Navbar';
-import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
 import {
   Award,
   Users,
@@ -17,13 +16,9 @@ import {
   ArrowUpRight
 } from 'lucide-react';
 
-// Fonts setup
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-serif' });
-const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-sans' });
-
 export default function AboutUsPage() {
   return (
-    <div className={`flex flex-col min-h-screen bg-[#FAFAFA] ${playfair.variable} ${jakarta.variable} font-sans selection:bg-[#1a237e] selection:text-white`}>
+    <div className={`flex flex-col min-h-screen bg-[#FAFAFA] font-sans selection:bg-[#1a237e] selection:text-white`}>
       <Navbar />
 
       {/* Global Grain Texture */}
@@ -45,7 +40,7 @@ export default function AboutUsPage() {
               <span className="h-px w-12 bg-[#1a237e]/30"></span>
             </div>
 
-            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-medium text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
+            <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl font-medium text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
               Unlocking Potential, <br />
               <span className="italic text-[#3949ab]">Shaping Futures.</span>
             </h1>
@@ -71,7 +66,7 @@ export default function AboutUsPage() {
                         <stat.icon className="h-6 w-6" />
                       </div>
                     </div>
-                    <h3 className="font-serif text-3xl md:text-4xl font-medium text-[#1a237e] mb-1">{stat.value}</h3>
+                    <h3 className="font-bold text-3xl md:text-4xl font-medium text-[#1a237e] mb-1">{stat.value}</h3>
                     <p className="text-xs font-bold uppercase tracking-widest text-gray-400">{stat.label}</p>
                   </div>
                 ))}
@@ -88,9 +83,9 @@ export default function AboutUsPage() {
 
             {/* Text Column */}
             <div className="lg:col-span-5 space-y-8 sticky top-24">
-              <h2 className="font-serif text-4xl md:text-5xl text-[#1a237e] leading-tight">
-                More than just an institute, we are a <span className="italic">movement.</span>
-              </h2>
+<h2 className="font-bold text-4xl md:text-5xl text-[#1a237e] leading-tight">
+              More than just an institute, we are a <span className="italic">movement.</span>
+            </h2>
               <div className="prose prose-lg text-gray-600 leading-relaxed font-light">
                 <p>
                   Aspire - The Institute Of Human Development offers a vibrant curriculum tailored for both young minds and seasoned professionals. We operate on a fundamental truth:
@@ -110,7 +105,7 @@ export default function AboutUsPage() {
               ].map((item, idx) => (
                 <div key={idx} className="bg-white p-8 md:p-10 rounded-[2rem] shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 group">
 
-                  <h3 className="font-serif text-2xl font-medium text-[#1a237e] mb-4">{item.title}</h3>
+                  <h3 className="font-bold text-2xl font-medium text-[#1a237e] mb-4">{item.title}</h3>
                   <p className="text-gray-600 leading-relaxed text-lg">{item.content}</p>
                 </div>
               ))}
@@ -129,7 +124,7 @@ export default function AboutUsPage() {
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div className="max-w-2xl">
               <span className="text-[#9fa8da] font-bold tracking-widest text-xs uppercase mb-3 block">What We Do</span>
-              <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6">Comprehensive Growth Ecosystem</h2>
+              <h2 className="font-bold text-4xl md:text-5xl font-medium mb-6">Comprehensive Growth Ecosystem</h2>
               <p className="text-[#c5cae9] text-lg font-light leading-relaxed">
                 From public speaking to corporate leadership, our R&D-backed modules cover every aspect of human development.
               </p>
@@ -155,7 +150,7 @@ export default function AboutUsPage() {
             ].map((category, idx) => (
               <div key={idx} className="group bg-gradient-to-b from-white/10 to-transparent p-[1px] rounded-3xl">
                 <div className="bg-[#131733] h-full rounded-[23px] p-8 hover:bg-[#181d3d] transition-colors duration-300">
-                  <h3 className="font-serif text-2xl mb-6 text-white group-hover:text-[#9fa8da] transition-colors">{category.title}</h3>
+                  <h3 className="font-bold text-2xl mb-6 text-white group-hover:text-[#9fa8da] transition-colors">{category.title}</h3>
                   <ul className="space-y-4">
                     {category.items.map((item, i) => (
                       <li key={i} className="flex items-start gap-3 text-[#c5cae9] group-hover:text-white transition-colors">
@@ -175,7 +170,7 @@ export default function AboutUsPage() {
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-20">
-            <h2 className="font-serif text-4xl md:text-5xl text-[#1a237e] mb-4">Hall of Recognition</h2>
+            <h2 className="font-bold text-4xl md:text-5xl text-[#1a237e] mb-4">Hall of Recognition</h2>
             <p className="text-gray-500 font-light max-w-2xl mx-auto">
               Our commitment to excellence has been recognized on national and international platforms by esteemed dignitaries.
             </p>
@@ -219,12 +214,12 @@ export default function AboutUsPage() {
                   <div className="p-3 bg-[#e8eaf6] rounded-full text-[#1a237e] group-hover:bg-[#1a237e] group-hover:text-white transition-colors">
                     <Award className="h-6 w-6" />
                   </div>
-                  <span className="font-serif text-4xl text-gray-100 font-bold group-hover:text-[#e8eaf6] transition-colors duration-300">
+                  <span className="font-bold text-4xl text-gray-100 group-hover:text-[#e8eaf6] transition-colors duration-300">
                     {award.year}
                   </span>
                 </div>
 
-                <h3 className="font-serif text-xl font-medium text-[#1a237e] mb-2 leading-tight">
+                <h3 className="font-bold text-xl font-medium text-[#1a237e] mb-2 leading-tight">
                   {award.title}
                 </h3>
                 <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-6">{award.org}</p>
@@ -259,7 +254,7 @@ export default function AboutUsPage() {
                     <Sparkles className="h-4 w-4 text-yellow-300" />
                     <span className="text-xs font-bold tracking-wider uppercase">The Aspire Advantage</span>
                   </div>
-                  <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6">Why Choose Aspire?</h2>
+                  <h2 className="font-bold text-4xl md:text-5xl font-medium mb-6">Why Choose Aspire?</h2>
                   <p className="text-[#c5cae9] text-lg font-light leading-relaxed mb-12">
                     Our brand has a rich history of over 17 years in the industry, establishing a strong presence and credibility. We don&apos;t just teach courses; we build careers and character.
                   </p>

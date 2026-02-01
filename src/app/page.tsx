@@ -18,12 +18,7 @@ import { useEffect, useRef, useState } from "react";
 import { format } from 'date-fns';
 import EnquiryForm from "@/components/EnquiryForm";
 import Footer from "../components/Footer";
-import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
 import ArticlesSection from "@/components/ArticlesSection";
-
-// Font Configuration
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-serif' });
-const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-sans' });
 
 interface Course {
   _id: string;
@@ -113,7 +108,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={`flex flex-col min-h-screen bg-white ${playfair.variable} ${jakarta.variable} font-sans selection:bg-[#1a237e] selection:text-white`}>
+    <div className={`flex flex-col min-h-screen bg-white font-sans selection:bg-[#1a237e] selection:text-white`}>
       <Navbar />
 
       {/* Global Grain Texture */}
@@ -147,7 +142,7 @@ export default function Home() {
               </div>
 
               <div className="max-w-3xl space-y-4">
-                <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-[#1a237e] leading-tight">
+                <h2 className="font-bold text-4xl md:text-5xl lg:text-6xl text-[#1a237e] leading-tight">
                   Training programs that help you <br />
                   <span className="italic text-[#3949ab]">Communicate and Lead.</span>
                 </h2>
@@ -206,7 +201,7 @@ export default function Home() {
 
                       {/* Title Overlay on Image */}
                       <div className="absolute bottom-4 left-4 right-4">
-                        <h3 className="font-serif text-xl font-medium text-white leading-tight drop-shadow-md">{course.title}</h3>
+                        <h3 className="font-bold text-xl font-medium text-white leading-tight drop-shadow-md">{course.title}</h3>
                       </div>
                     </div>
 
@@ -253,9 +248,9 @@ export default function Home() {
               </div>
 
               <div className="max-w-3xl space-y-4">
-                <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-[#1a237e]">
-                  Upcoming Batches
-                </h2>
+<h2 className="font-bold text-4xl md:text-5xl lg:text-6xl text-[#1a237e]">
+                   Upcoming Batches
+                 </h2>
                 <p className="text-gray-500 text-lg font-light">
                   Secure your spot in these transformative learning experiences starting soon.
                 </p>
@@ -272,7 +267,7 @@ export default function Home() {
               </div>
             ) : courses.length === 0 ? (
               <div className="text-center py-16 bg-white rounded-[2rem] border border-gray-200/50">
-                <p className="text-gray-400 text-lg font-serif italic">No upcoming courses available at the moment. Check back soon!</p>
+                <p className="text-gray-400 text-lg font-bold italic">No upcoming courses available at the moment. Check back soon!</p>
               </div>
             ) : (
               <>
@@ -312,7 +307,7 @@ export default function Home() {
 
 
 
-                            <h3 className="font-serif text-2xl text-[#1a237e] leading-tight group-hover:text-[#3949ab] transition-colors">{course.courseName}</h3>
+                            <h3 className="font-bold text-2xl text-[#1a237e] leading-tight group-hover:text-[#3949ab] transition-colors">{course.courseName}</h3>
 
                             {/* Date Info */}
                             {course.courseDate && (

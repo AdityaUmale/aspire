@@ -4,7 +4,6 @@ import React from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
-import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
 import {
   Users,
   Target,
@@ -18,10 +17,6 @@ import {
   Briefcase,
   Search,
 } from 'lucide-react';
-
-// Font Configuration
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-serif' });
-const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-sans' });
 
 export default function TeamPage() {
   const coreValues = [
@@ -55,7 +50,7 @@ export default function TeamPage() {
   ];
 
   return (
-    <div className={`flex flex-col min-h-screen bg-[#FAFAFA] ${playfair.variable} ${jakarta.variable} font-sans selection:bg-[#1a237e] selection:text-white`}>
+    <div className={`flex flex-col min-h-screen bg-[#FAFAFA] font-sans selection:bg-[#1a237e] selection:text-white`}>
       <Navbar />
 
       {/* Grain Overlay */}
@@ -76,7 +71,7 @@ export default function TeamPage() {
               <span className="h-px w-12 bg-[#1a237e]/30"></span>
             </div>
 
-            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-medium text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
+            <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl font-medium text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
               The Architects of <br/>
               <span className="italic text-[#3949ab]">Transformation.</span>
             </h1>
@@ -95,7 +90,7 @@ export default function TeamPage() {
             {/* Editorial Lead Text */}
             <div className="lg:col-span-5 relative">
                <div className="absolute -left-6 top-0 bottom-0 w-1 bg-[#1a237e]/10"></div>
-               <p className="text-lg md:text-xl text-gray-600 leading-relaxed pl-6 font-serif italic">
+               <p className="text-lg md:text-xl text-gray-600 leading-relaxed pl-6 font-bold italic">
                  &quot;Each of our team members is amazing in their own way, but together they are what make ASPIRE such a creative and rewarding place to work.&quot;
                </p>
                <p className="mt-6 pl-6 text-sm font-bold text-[#1a237e] uppercase tracking-widest">
@@ -109,7 +104,7 @@ export default function TeamPage() {
                 {coreValues.map((value, index) => (
                   <div key={index} className="group p-6 rounded-2xl bg-[#FAFAFA] border border-gray-100 hover:border-[#1a237e]/20 hover:bg-white hover:shadow-xl transition-all duration-300">
                     <value.icon className="h-6 w-6 text-[#1a237e] mb-4 group-hover:scale-110 transition-transform" />
-                    <h3 className="font-serif text-lg font-medium text-[#1a237e] mb-2">{value.title}</h3>
+                    <h3 className="font-bold text-lg font-medium text-[#1a237e] mb-2">{value.title}</h3>
                     <p className="text-sm text-gray-500 leading-relaxed">{value.description}</p>
                   </div>
                 ))}
@@ -135,7 +130,7 @@ export default function TeamPage() {
                     <Star className="h-4 w-4 text-[#1a237e] fill-current" />
                     <span className="text-xs font-bold tracking-widest text-gray-400 uppercase">Our Philosophy</span>
                   </div>
-                  <h2 className="font-serif text-4xl md:text-5xl text-[#1a237e] leading-tight">
+                  <h2 className="font-bold text-4xl md:text-5xl text-[#1a237e] leading-tight">
                     United by a <br/> Common Goal
                   </h2>
                 </div>
@@ -152,10 +147,10 @@ export default function TeamPage() {
 
               <div className="flex flex-col justify-center">
                  <div className="bg-[#f8f9fa] p-8 rounded-3xl border border-dashed border-gray-300">
-                    <h3 className="font-serif text-2xl text-[#1a237e] mb-6 flex items-center gap-3">
+<h3 className="font-bold text-2xl text-[#1a237e] mb-6 flex items-center gap-3">
                        <Award className="h-6 w-6" />
                        Our Reputation
-                    </h3>
+                     </h3>
                     <div className="grid gap-4">
                       {["Excellent Leadership", "Great Management", "Punctuality", "Timeliness"].map((item, i) => (
                         <div key={i} className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-all">
@@ -180,7 +175,7 @@ export default function TeamPage() {
                <div className="absolute -top-10 -left-10 w-full h-full bg-[#f0f1fa] rounded-[3rem] -z-10"></div>
                
                <div className="bg-white border border-gray-100 rounded-[2rem] p-8 md:p-10 shadow-lg">
-                  <h3 className="font-serif text-2xl text-[#1a237e] mb-8">The Educator&apos;s Standard</h3>
+                  <h3 className="font-bold text-2xl text-[#1a237e] mb-8">The Educator&apos;s Standard</h3>
                   <div className="grid gap-4">
                     {[
                       "Exceptional classroom management",
@@ -206,7 +201,7 @@ export default function TeamPage() {
                 <GraduationCap className="h-4 w-4" />
                 <span className="text-xs font-bold tracking-wider uppercase">Expert Educators</span>
               </div>
-              <h2 className="font-serif text-4xl md:text-5xl text-[#1a237e] mb-6">Our Trainers</h2>
+              <h2 className="font-bold text-4xl md:text-5xl text-[#1a237e] mb-6">Our Trainers</h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-6 font-light">
                 Our trainers have all been chosen for their exceptional classroom management skills and their commitment to helping our learners achieve the best of their abilities.
               </p>
@@ -229,7 +224,7 @@ export default function TeamPage() {
               <Search className="h-4 w-4 text-[#9fa8da]" />
               <span className="text-xs font-bold tracking-wider uppercase text-[#9fa8da]">Innovation Hub</span>
             </div>
-            <h2 className="font-serif text-4xl md:text-5xl mb-6">Research & Development</h2>
+            <h2 className="font-bold text-4xl md:text-5xl mb-6">Research & Development</h2>
             <p className="text-[#c5cae9] max-w-2xl mx-auto text-lg font-light leading-relaxed">
               At the forefront of understanding and improving the psychology of learners through data-driven methodology.
             </p>
@@ -241,7 +236,7 @@ export default function TeamPage() {
             {rdFocusAreas.map((area, index) => (
               <div key={index} className="group p-6 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
                 <area.icon className="h-8 w-8 text-[#9fa8da] mb-4 group-hover:text-white transition-colors" />
-                <h3 className="font-serif text-xl mb-2">{area.title}</h3>
+                <h3 className="font-bold text-xl mb-2">{area.title}</h3>
                 <p className="text-sm text-[#c5cae9] font-light">{area.description}</p>
               </div>
             ))}
@@ -260,9 +255,9 @@ export default function TeamPage() {
                    </p>
                  </div>
                  <div className="border-l border-white/10 pl-8">
-                    <p className="font-serif text-2xl text-white italic leading-relaxed">
-                      &quot;Enhancing learning experiences through research, customisation, and a commitment to personal growth.&quot;
-                    </p>
+<p className="font-bold text-2xl text-white italic leading-relaxed">
+                       &quot;Enhancing learning experiences through research, customisation, and a commitment to personal growth.&quot;
+                     </p>
                  </div>
               </div>
             </div>
@@ -275,9 +270,9 @@ export default function TeamPage() {
         <div className="container mx-auto px-4 md:px-6">
            <div className="max-w-4xl mx-auto text-center">
              <Briefcase className="h-10 w-10 text-[#1a237e] mx-auto mb-6 opacity-80" />
-             <h2 className="font-serif text-4xl md:text-5xl text-[#1a237e] mb-6">
-               Be Part of Something <span className="italic">Meaningful</span>
-             </h2>
+<h2 className="font-bold text-4xl md:text-5xl text-[#1a237e] mb-6">
+                Be Part of Something <span className="italic">Meaningful</span>
+              </h2>
              <p className="text-gray-600 text-lg mb-10 font-light max-w-2xl mx-auto">
                We&apos;re always looking for passionate individuals who share our vision of transforming lives through education.
              </p>

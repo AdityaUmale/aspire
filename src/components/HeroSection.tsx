@@ -57,7 +57,7 @@ export default function HeroSection() {
               </h1>
               <p className="text-lg font-medium text-[#3949ab] mb-2">Developing People. Creating Leaders.</p>
               <p className="max-w-[600px] text-gray-600 md:text-xl leading-relaxed">
-                Trusted by 1,50,000+ learners, ASPIRE stands as India's leading institute for personal and professional excellence. Real growth. Real results.
+                Join 150,000+ learners who have discovered confidence, clarity, and success with ASPIRE India's leading personal and professional development institute. Because when you grow, everything changes.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row fade-in w-full sm:w-auto" style={{ animationDelay: '0.3s' }}>

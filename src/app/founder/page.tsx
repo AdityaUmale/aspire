@@ -5,12 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
-import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
 import { ArrowLeft, Award, Quote, Globe, Users, Mic, Star } from 'lucide-react';
-
-// Initialize fonts (If you are not using next/font, you can remove this and use standard fonts, but this is key for the aesthetic)
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-serif' });
-const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-sans' });
 
 export default function FounderPage() {
   const achievements = [
@@ -30,7 +25,7 @@ export default function FounderPage() {
   ];
 
   return (
-    <div className={`flex flex-col min-h-screen bg-[#FAFAFA] text-[#1a237e] ${playfair.variable} ${jakarta.variable} font-sans selection:bg-[#1a237e] selection:text-white`}>
+    <div className={`flex flex-col min-h-screen bg-[#FAFAFA] text-[#1a237e] font-sans selection:bg-[#1a237e] selection:text-white`}>
       <Navbar />
 
       {/* GLOBAL BACKGROUND GRAIN TEXTURE */}
@@ -58,7 +53,7 @@ export default function FounderPage() {
                 <span className="text-xs font-bold tracking-[0.2em] text-[#1a237e] uppercase">The Visionary</span>
               </div>
 
-              <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-medium text-[#1a237e] leading-[0.9] mb-8 tracking-tight animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
+              <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-medium text-[#1a237e] leading-[0.9] mb-8 tracking-tight animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
                 Hon&apos;ble <br />
                 <span className="italic opacity-80">Mr. Sachin</span> <br />
                 Burghate
@@ -87,7 +82,7 @@ export default function FounderPage() {
                 <div className="relative bg-gray-200 rounded-tr-[4rem] rounded-bl-[4rem] overflow-hidden shadow-2xl aspect-[4/5]">
                   <Image
                     src="/founder1.jpg"
-                    alt="Hon'ble Mr. Sachin Burghate, Founder of Aspire Institute, speaking at an international conference"
+                    alt="Hon&apos;ble Mr. Sachin Burghate, Founder of Aspire Institute, speaking at an international conference"
                     fill
                     className="object-cover hover:scale-105 transition-transform duration-700 ease-in-out"
                     priority
@@ -101,7 +96,7 @@ export default function FounderPage() {
                       </div>
                       <div>
                         <p className="text-xs uppercase tracking-widest opacity-80">Honored With</p>
-                        <p className="font-serif text-lg">OYP India Award</p>
+                        <p className="font-bold text-lg">OYP India Award</p>
                       </div>
                     </div>
                   </div>
@@ -120,7 +115,7 @@ export default function FounderPage() {
             {achievements.map((stat, index) => (
               <div key={index} className="text-center group px-4">
                 <stat.icon className="h-6 w-6 mx-auto mb-4 text-[#7986cb] group-hover:text-white transition-colors duration-300" />
-                <h3 className="font-serif text-3xl md:text-4xl font-medium mb-1 group-hover:scale-110 transition-transform duration-300 inline-block">{stat.value}</h3>
+                <h3 className="font-bold text-3xl md:text-4xl font-medium mb-1 group-hover:scale-110 transition-transform duration-300 inline-block">{stat.value}</h3>
                 <p className="text-xs uppercase tracking-widest text-white/60 font-medium">{stat.label}</p>
               </div>
             ))}
@@ -137,7 +132,7 @@ export default function FounderPage() {
               {/* Left Column: Context */}
               <div className="md:w-1/3 space-y-8 sticky top-24 h-fit">
                 <div>
-                  <h2 className="font-serif text-4xl text-[#1a237e] mb-4">A Letter from <br />the Founder</h2>
+                  <h2 className="font-bold text-4xl text-[#1a237e] mb-4">A Letter from <br />the Founder</h2>
                   <div className="h-1 w-20 bg-[#3949ab]"></div>
                 </div>
                 <p className="text-gray-500 text-sm leading-relaxed">
@@ -152,10 +147,10 @@ export default function FounderPage() {
               <div className="md:w-2/3">
                 <div className="relative">
                   {/* Decorative quote mark */}
-                  <span className="absolute -top-6 -left-4 text-8xl font-serif text-[#1a237e]/5 leading-none">&ldquo;</span>
+                  <span className="absolute -top-6 -left-4 text-8xl font-bold text-[#1a237e]/5 leading-none">&ldquo;</span>
 
                   <div className="space-y-6 text-lg text-gray-700 leading-relaxed font-light">
-                    <p className="font-serif text-2xl text-[#1a237e] leading-snug">
+                    <p className="font-bold text-2xl text-[#1a237e] leading-snug">
                       Welcome to Aspire. We are not just an institute; we are a catalyst for the human spirit.
                     </p>
 
@@ -182,7 +177,7 @@ export default function FounderPage() {
                         />
                       </div>
                       <div>
-                        <p className="font-serif text-xl text-[#1a237e] italic">&quot;A bright and wonderful learning experience!&quot;</p>
+                        <p className="font-bold text-xl text-[#1a237e]">— Sachin Burghate</p>
                         <div className="mt-2 text-sm">
                           <span className="font-bold text-[#1a237e] tracking-wider uppercase block">Sachin Burghate</span>
                           <span className="text-gray-400">Founder, Aspire Institute</span>
@@ -203,7 +198,7 @@ export default function FounderPage() {
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
             <div>
               <span className="text-[#3949ab] font-bold tracking-widest text-xs uppercase mb-2 block">Excellence Recognized</span>
-              <h2 className="font-serif text-4xl md:text-5xl text-[#1a237e]">Honours & Accolades</h2>
+              <h2 className="font-bold text-4xl md:text-5xl text-[#1a237e]">Honours & Accolades</h2>
             </div>
             <div className="hidden md:block w-1/3 h-px bg-[#1a237e]/10"></div>
           </div>
@@ -234,7 +229,7 @@ export default function FounderPage() {
             <span className="text-xs font-medium tracking-wider text-[#9fa8da] uppercase">Worldwide Impact</span>
           </div>
 
-          <h2 className="font-serif text-4xl md:text-5xl mb-6">Borders Are Not Barriers.</h2>
+          <h2 className="font-bold text-4xl md:text-5xl mb-6">Borders Are Not Barriers.</h2>
           <p className="text-[#c5cae9] max-w-2xl mx-auto text-lg font-light mb-12">
             Delivering transformative wisdom across continents. From Singapore to Dubai, the message of empowerment resonates globally.
           </p>
@@ -260,7 +255,7 @@ export default function FounderPage() {
 
             <div className="relative z-10 max-w-3xl mx-auto">
 
-              <h2 className="font-serif text-4xl md:text-5xl font-medium text-[#1a237e] mb-6">
+              <h2 className="font-bold text-4xl md:text-5xl font-medium text-[#1a237e] mb-6">
                 Ready to Transform Your Life?
               </h2>
               <p className="text-gray-600 text-lg mb-10 font-light">

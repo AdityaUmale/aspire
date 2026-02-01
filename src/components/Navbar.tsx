@@ -59,7 +59,7 @@ export default function Navbar() {
               />
 
 
-              <span className="font-serif text-lg lg:text-xl font-bold text-[#1a237e] tracking-tight group-hover:text-[#3949ab] transition-colors">
+              <span className="font-bold text-lg lg:text-xl text-[#1a237e] tracking-tight group-hover:text-[#3949ab] transition-colors">
                 Aspire Institute
               </span>
             </Link>

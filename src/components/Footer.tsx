@@ -39,7 +39,7 @@ export default function Footer() {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-serif text-xl font-bold text-[#1a237e] leading-tight tracking-tight">
+                  <span className="font-bold text-xl text-[#1a237e] leading-tight tracking-tight">
                     Aspire - The Institute of Human Development
                   </span>
                 </div>
@@ -73,7 +73,7 @@ export default function Footer() {
 
           {/* --- Navigation Columns --- */}
           <div className="lg:col-span-3 lg:pl-8">
-            <h3 className="font-serif text-xl font-semibold text-[#1a237e] mb-6">Explore</h3>
+            <h3 className="font-bold text-xl text-[#1a237e] mb-6">Explore</h3>
             <ul className="space-y-4 font-sans">
               {[
                 { name: "Our Founder", href: "/founder" },
@@ -97,7 +97,7 @@ export default function Footer() {
 
           {/* --- Contact Column --- */}
           <div className="lg:col-span-4">
-            <h3 className="font-serif text-xl font-semibold text-[#1a237e] mb-6">Contact Us</h3>
+            <h3 className="font-bold text-xl text-[#1a237e] mb-6">Contact Us</h3>
             <ul className="space-y-6 font-sans">
               <li className="flex items-start gap-4 group">
                 <div className="mt-1 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#f0f1fa] text-[#1a237e] group-hover:bg-[#1a237e] group-hover:text-white transition-all duration-300">

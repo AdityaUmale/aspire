@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
 import {
   Mail,
   Phone,
@@ -15,10 +14,6 @@ import {
   Loader2,
   Calendar
 } from "lucide-react";
-
-// Fonts setup
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-serif' });
-const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-sans' });
 
 interface FormData {
   name: string;
@@ -86,7 +81,7 @@ export default function EnquiryForm() {
   };
 
   return (
-    <section id="enquiry" className={`py-24 relative bg-white border-t border-gray-100 ${playfair.variable} ${jakarta.variable} font-sans`}>
+    <section id="enquiry" className={`py-24 relative bg-white border-t border-gray-100 font-sans`}>
       {/* Background Texture */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply" 
            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
@@ -102,7 +97,7 @@ export default function EnquiryForm() {
           </div>
           
           <div className="max-w-2xl space-y-4">
-            <h2 className="font-serif text-4xl md:text-5xl text-[#1a237e] leading-tight">
+            <h2 className="font-bold text-4xl md:text-5xl text-[#1a237e] leading-tight">
               Start Your <span className="italic text-[#3949ab]">Transformation.</span>
             </h2>
             <p className="text-gray-500 text-lg font-light">

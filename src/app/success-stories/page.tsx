@@ -5,18 +5,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
-import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
 import {
   Quote,
   ArrowRight,
   Star,
   Heart,
   MessageCircle,
+  Sparkles,
+  TrendingUp,
+  Award,
 } from 'lucide-react';
-
-// Fonts setup
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-serif' });
-const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-sans' });
 
 type SuccessStory = {
   name: string;
@@ -220,7 +218,7 @@ function accentColorFromName(name: string) {
 
 export default function SuccessStoriesPage() {
   return (
-    <div className={`min-h-screen bg-[#fbfbff] ${playfair.variable} ${jakarta.variable} font-sans selection:bg-[#1a237e] selection:text-white`}>
+    <div className="min-h-screen bg-[#fbfbff] font-sans selection:bg-[#1a237e] selection:text-white">
       <Navbar />
 
       {/* Ambient paper grain for editorial feel (subtle) */}
@@ -236,7 +234,7 @@ export default function SuccessStoriesPage() {
             <Star className="h-4 w-4 text-[#1a237e] fill-[#1a237e]" />
           </div>
 
-          <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-medium text-[#1a237e] mb-8 tracking-tight leading-[1.1] max-w-4xl mx-auto">
+          <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl font-medium text-[#1a237e] mb-8 tracking-tight leading-[1.1] max-w-4xl mx-auto">
             Where Aspirations <br /> Become <span className="italic text-[#3949ab]">Achievements</span>
           </h1>
 
@@ -277,14 +275,14 @@ export default function SuccessStoriesPage() {
                 <div className="flex-1">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <h3 className="font-serif text-xl text-[#0f1337] mb-1">{s.name}</h3>
+                      <h3 className="font-bold text-xl text-[#0f1337] mb-1">{s.name}</h3>
                       <div className="text-xs uppercase tracking-wider text-gray-400">{s.role}</div>
                     </div>
 
 
                   </div>
 
-                  <h4 className="mt-4 font-serif text-2xl text-[#1a237e] leading-tight">“{s.headline}”</h4>
+                  <h4 className="mt-4 font-bold text-2xl text-[#1a237e] leading-tight">“{s.headline}”</h4>
 
                   <div className="mt-4 text-gray-600 leading-relaxed space-y-3 text-sm md:text-base">
                     {s.story.map((p, i) => (
@@ -324,7 +322,7 @@ export default function SuccessStoriesPage() {
                 <span className="text-[#c5cae9] text-sm font-medium tracking-wide">Join 150,000+ Success Stories</span>
               </div>
 
-              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-8">
+              <h2 className="font-bold text-4xl md:text-5xl lg:text-6xl text-white mb-8">
                 Your success story <br /> begins with <span className="italic opacity-80">one step.</span>
               </h2>
 
@@ -357,7 +355,7 @@ export default function SuccessStoriesPage() {
           line-height: 1;
           padding-right: 8px;
           color: var(--tw-color-primary, #1a237e);
-          font-family: var(--font-serif);
+          font-weight: 700;
         }
         /* ensure accent bar doesn't overlap content on small screens */
         @media (max-width: 768px) {

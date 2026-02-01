@@ -5,17 +5,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
-import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
 import {
   Quote,
   ArrowRight,
   Award,
   Scroll
 } from 'lucide-react';
-
-// Font Configuration
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-serif' });
-const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-sans' });
 
 type SpiritStory = {
   name: string;
@@ -66,7 +61,7 @@ const stories: SpiritStory[] = [
 
 export default function SaluteLearningSpiritPage() {
   return (
-    <div className={`flex flex-col min-h-screen bg-[#FDFDFD] ${playfair.variable} ${jakarta.variable} font-sans selection:bg-[#1a237e] selection:text-white`}>
+    <div className={`flex flex-col min-h-screen bg-[#FDFDFD] font-sans selection:bg-[#1a237e] selection:text-white`}>
       <Navbar />
 
       {/* Global Grain Texture for "Archival" feel */}
@@ -90,7 +85,7 @@ export default function SaluteLearningSpiritPage() {
             <div className="h-px w-8 bg-[#1a237e]/40"></div>
           </div>
 
-          <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-medium text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
+          <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl font-medium text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
             Lifelong Learners, <br />
             <span className="italic text-[#3949ab] relative">
               Limitless Spirit.
@@ -136,7 +131,7 @@ export default function SaluteLearningSpiritPage() {
                       <Award className="h-3 w-3" />
                       Spirit Awardee
                     </div>
-                    <h3 className="font-serif text-2xl font-bold text-[#1a237e] mb-2 leading-tight group-hover:text-[#3949ab] transition-colors">
+                    <h3 className="font-bold text-2xl font-bold text-[#1a237e] mb-2 leading-tight group-hover:text-[#3949ab] transition-colors">
                       {story.name}
                     </h3>
                     <p className="text-xs font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100 pb-4">
@@ -147,7 +142,7 @@ export default function SaluteLearningSpiritPage() {
                   {/* The Hook Quote */}
                   <div className="relative mb-8">
                     <Quote className="absolute -top-3 -left-2 h-8 w-8 text-[#1a237e]/10 -z-10" />
-                    <h4 className="font-serif text-xl italic text-gray-800 leading-snug">
+                    <h4 className="font-bold text-xl italic text-gray-800 leading-snug">
                       &ldquo;{story.headline}&rdquo;
                     </h4>
                   </div>
@@ -155,7 +150,7 @@ export default function SaluteLearningSpiritPage() {
                   {/* Story Content */}
                   <div className="space-y-4 text-sm text-gray-600 leading-relaxed font-light flex-grow">
                     {story.story.map((paragraph, i) => (
-                      <p key={i} className={i === 0 ? "first-letter:text-2xl first-letter:font-serif first-letter:text-[#1a237e]" : ""}>
+                      <p key={i} className={i === 0 ? "first-letter:text-2xl first-letter:font-bold first-letter:text-[#1a237e]" : ""}>
                         {paragraph}
                       </p>
                     ))}
@@ -187,7 +182,7 @@ export default function SaluteLearningSpiritPage() {
           <div className="max-w-4xl mx-auto text-center">
 
 
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight">
+            <h2 className="font-bold text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight">
               Ready to write your <br />
               <span className="italic opacity-80">own story?</span>
             </h2>
