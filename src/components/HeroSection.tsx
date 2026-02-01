@@ -7,10 +7,11 @@ import { ChevronRight, ArrowRight } from "lucide-react";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full py-12 md:py-16 lg:py-24 xl:py-32 overflow-hidden px-4 md:px-6 lg:pl-14 mt-4 md:mt-8">
+    <section className="relative w-full py-6 md:py-16 lg:py-24 xl:py-32 overflow-hidden px-4 md:px-6 lg:pl-14 mt-0 md:mt-8">
       {/* Background Video */}
       {/* Background Video - Right Aligned */}
-      <div className="absolute top-0 right-0 w-[55%] lg:w-[60%] h-full overflow-hidden rounded-bl-[80px] md:rounded-bl-[120px] pointer-events-none">
+      {/* Background Video - Responsive: Bottom half on mobile, Right side on desktop */}
+      <div className="absolute bottom-0 right-0 w-full h-[50vh] md:top-0 md:w-[55%] lg:w-[60%] md:h-full overflow-hidden md:rounded-bl-[120px] pointer-events-none z-0">
         <video
           autoPlay
           loop
@@ -21,23 +22,24 @@ export default function HeroSection() {
           <source src="/building-video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        {/* Inner overlay for contrast within the video shape - darker for brand alignment */}
+        {/* Inner overlay for contrast */}
         <div className="absolute inset-0 bg-[#1a237e]/20 mix-blend-multiply"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent"></div>
-        {/* Top fade to merge with header - stronger gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/60 to-transparent h-40"></div>
+
+        {/* Fade to merge with content above (Mobile: Top of video container, Desktop: Top of page) */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white via-white/90 to-transparent"></div>
       </div>
 
-      {/* Main page gradient overlays - Adjusted to fade into the video from the left */}
-      <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none w-[65%]"></div>
+      {/* Main page gradient overlays - Desktop only to blend video left edge */}
+      <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none w-[65%] hidden md:block z-0"></div>
 
       {/* Decorative elements - Keeping the glow effect but ensuring it's behind content */}
       <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#1a237e]/5 blur-3xl -z-10 pulse"></div>
 
 
-      <div className="container px-4 md:px-6 relative">
+      <div className="container px-4 md:px-6 relative z-10 pb-[40vh] md:pb-0">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-          <div className="flex flex-col justify-center space-y-6">
+          <div className="flex flex-col justify-center space-y-6 pt-2 md:pt-0">
             <div className="flex flex-wrap gap-3 fade-in" style={{ animationDelay: '0.1s' }}>
               <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm">
                 <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2"></span>

@@ -245,12 +245,12 @@ export default function SuccessStoriesPage() {
       <main id="stories" className="container mx-auto px-5 pb-20 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {successStories.map((s) => (
-            <article key={s.name} className="relative bg-white rounded-3xl p-8 shadow-[0_10px_30px_rgba(16,24,40,0.06)] border border-black/[0.03] overflow-hidden group">
+            <article key={s.name} className="relative bg-white rounded-3xl p-6 md:p-8 shadow-[0_10px_30px_rgba(16,24,40,0.06)] border border-black/[0.03] overflow-hidden group">
 
               {/* left accent */}
               <div className="absolute left-0 top-6 bottom-6 w-1 rounded-tr-lg rounded-br-lg" style={{ background: accentColorFromName(s.name), transform: 'translateX(-50%)' }} />
 
-              <div className="flex items-start gap-4">
+              <div className="flex flex-col sm:flex-row items-start gap-6">
                 <div className="flex-shrink-0">
                   {s.image ? (
                     <div className="h-20 w-20 rounded-xl overflow-hidden shadow-md">

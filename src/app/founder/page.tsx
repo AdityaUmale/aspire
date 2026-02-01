@@ -130,7 +130,7 @@ export default function FounderPage() {
             <div className="flex flex-col md:flex-row gap-12 lg:gap-20">
 
               {/* Left Column: Context */}
-              <div className="md:w-1/3 space-y-8 sticky top-24 h-fit">
+              <div className="md:w-1/3 space-y-8 relative md:sticky md:top-24 h-fit">
                 <div>
                   <h2 className="font-bold text-4xl text-[#1a237e] mb-4">A Letter from <br />the Founder</h2>
                   <div className="h-1 w-20 bg-[#3949ab]"></div>

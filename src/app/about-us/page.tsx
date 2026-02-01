@@ -82,7 +82,7 @@ export default function AboutUsPage() {
           <div className="grid lg:grid-cols-12 gap-12 items-start">
 
             {/* Text Column */}
-            <div className="lg:col-span-5 space-y-8 sticky top-24">
+            <div className="lg:col-span-5 space-y-8 relative md:sticky md:top-24">
               <h2 className="font-bold text-4xl md:text-5xl text-[#1a237e] leading-tight">
                 More than just an institute, we are a <span>movement.</span>
               </h2>
