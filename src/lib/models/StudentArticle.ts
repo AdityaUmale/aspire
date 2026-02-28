@@ -16,7 +16,8 @@ const StudentArticleSchema = new mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Admin",
-    required: true,
+    required: false,
+    default: null,
   },
   writerName: {
     type: String,

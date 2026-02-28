@@ -6,16 +6,17 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Terminal, User, ChevronLeft } from 'lucide-react';
 import Navbar from '@/components/Navbar';
+import { sanitizeRichTextHtml } from '@/lib/sanitize';
 
 interface StudentArticle {
   _id: string;
   title: string;
   description: string;
   content: string;
-  author: {
+  author?: {
     name: string;
     email: string;
-  };
+  } | null;
   writerName?: string;
   isPublished: boolean;
   createdAt?: string; // Assuming there might be a date, if not we can omit
@@ -198,7 +199,7 @@ export default function StudentArticleDetailPage() {
               prose-strong:font-bold prose-strong:text-gray-900
               prose-img:rounded-xl prose-img:shadow-lg
             ">
-               <div dangerouslySetInnerHTML={{ __html: article.content }} />
+               <div dangerouslySetInnerHTML={{ __html: sanitizeRichTextHtml(article.content) }} />
             </div>
 
             {/* Footer / End of Article */}

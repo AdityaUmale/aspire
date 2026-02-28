@@ -1,32 +1,55 @@
 import connectDB from "@/lib/db";
 import Course from "@/lib/models/Course";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/auth";
+import { MAX_LENGTHS, normalizeString } from "@/lib/validation";
+import mongoose from "mongoose";
 
 // Add this GET handler to fetch courses
 export async function GET() {
     try {
-        console.log("Attempting to connect to DB..."); // Added log
         await connectDB();
-        console.log("DB connected. Fetching courses..."); // Added log
         const courses = await Course.find({}).sort({ _id: -1 }); // Get all courses, newest first
-        console.log(`Found ${courses.length} courses.`); // Added log
         return NextResponse.json({ courses }, { status: 200 });
-    } catch (error) {
-        console.error("Error fetching courses:", error); // Changed to console.error for better visibility
-        // Ensure the error object itself is serializable or extract message
-        const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-        return NextResponse.json({ error: "Failed to fetch courses", details: errorMessage }, { status: 500 });
+    } catch {
+        console.error("Error fetching courses");
+        return NextResponse.json({ error: "Failed to fetch courses" }, { status: 500 });
     }
 }
 
-export async function POST(req: Request){
+export async function POST(req: NextRequest){
     try {
+        const auth = await requireAdmin(req);
+        if (!auth.ok) {
+            return auth.response;
+        }
+
         await connectDB();
-        const { courseName, description, courseOutline, courseDate } = await req.json(); // Add courseDate
+        const body = await req.json();
+        const courseName = normalizeString(body?.courseName);
+        const description = normalizeString(body?.description);
+        const courseOutlineRaw = Array.isArray(body?.courseOutline) ? body.courseOutline : [];
+        const courseDate = body?.courseDate;
+        const courseOutline = courseOutlineRaw
+            .map((item: unknown) => normalizeString(item))
+            .filter((item: string) => item.length > 0);
         
         // Basic check if date is received (optional, Mongoose validation handles it)
-        if (!courseDate) {
-          return NextResponse.json({ error: "Course date is missing in the request body." }, { status: 400 });
+        if (
+            !courseName ||
+            !description ||
+            courseOutline.length === 0 ||
+            !courseDate
+        ) {
+          return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
+        }
+
+        if (
+            courseName.length > MAX_LENGTHS.courseName ||
+            description.length > MAX_LENGTHS.description ||
+            courseOutline.some((item: string) => item.length > MAX_LENGTHS.courseOutlineItem)
+        ) {
+            return NextResponse.json({ error: "Input exceeds allowed length limits." }, { status: 400 });
         }
 
         const newCourse = new Course({
@@ -37,8 +60,8 @@ export async function POST(req: Request){
         });
         const savedCourse = await newCourse.save();
         return NextResponse.json({ message: "Course created successfully", course: savedCourse }, { status: 201 });
-    } catch (error: unknown) { // Catch any error
-        console.error("Error creating course:", error); // Log the full error for debugging
+    } catch (error: unknown) {
+        console.error("Error creating course");
 
         // Check if it's a Mongoose validation error
         if (error && typeof error === 'object' && 'name' in error && error.name === 'ValidationError' && 'errors' in error) {
@@ -51,20 +74,27 @@ export async function POST(req: Request){
             return NextResponse.json({ error: "Validation failed", details: errors }, { status: 400 });
         }
 
-        // Generic error for other issues
-        const errorMessage = error instanceof Error ? error.message : "Something went wrong";
-        return NextResponse.json({ error: "Failed to create course", details: errorMessage }, { status: 500 });
+        return NextResponse.json({ error: "Failed to create course" }, { status: 500 });
     }
 }
 
-export async function DELETE(req: Request) {
+export async function DELETE(req: NextRequest) {
     try {
+        const auth = await requireAdmin(req);
+        if (!auth.ok) {
+            return auth.response;
+        }
+
         await connectDB();
         const { searchParams } = new URL(req.url);
         const courseId = searchParams.get('id');
 
         if (!courseId) {
             return NextResponse.json({ error: "Course ID is required" }, { status: 400 });
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(courseId)) {
+            return NextResponse.json({ error: "Invalid course ID format" }, { status: 400 });
         }
 
         const deletedCourse = await Course.findByIdAndDelete(courseId);
@@ -74,9 +104,8 @@ export async function DELETE(req: Request) {
         }
 
         return NextResponse.json({ message: "Course deleted successfully", course: deletedCourse }, { status: 200 });
-    } catch (error: unknown) {
-        console.error("Error deleting course:", error);
-        const errorMessage = error instanceof Error ? error.message : "Something went wrong";
-        return NextResponse.json({ error: "Failed to delete course", details: errorMessage }, { status: 500 });
+    } catch {
+        console.error("Error deleting course");
+        return NextResponse.json({ error: "Failed to delete course" }, { status: 500 });
     }
 }

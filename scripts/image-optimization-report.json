@@ -1,0 +1,420 @@
+{
+  "summary": {
+    "mode": "write",
+    "referencedAssetCount": 58,
+    "processedCount": 57,
+    "skippedCount": 1,
+    "bytesBefore": 12206327,
+    "bytesAfter": 12041672,
+    "bytesSaved": 164655,
+    "reductionPercent": 1.35
+  },
+  "details": [
+    {
+      "asset": "/Excellent institute of creating leaders & discovering the potential in student in india.jpg",
+      "status": "optimized",
+      "before": 274735,
+      "after": 268665,
+      "saved": 6070
+    },
+    {
+      "asset": "/the most innovative istitute of human development training in india.jpg",
+      "status": "optimized",
+      "before": 317393,
+      "after": 315173,
+      "saved": 2220
+    },
+    {
+      "asset": "/SOCIAL IMPACT AWARD 2018-19 FOR EMPOWERING SOCIETY THROUGH HUMAN DEVELOPMENT TRAINING PROGRAM.jpg",
+      "status": "optimized",
+      "before": 154242,
+      "after": 153600,
+      "saved": 642
+    },
+    {
+      "asset": "/best institute of human development training in india.jpg",
+      "status": "unchanged",
+      "before": 82578,
+      "after": 82578,
+      "saved": 0
+    },
+    {
+      "asset": "/NATIONAL ACHIEVERS AWARD FOR EDUCATION EXCELLENCE.jpg",
+      "status": "optimized",
+      "before": 137112,
+      "after": 136166,
+      "saved": 946
+    },
+    {
+      "asset": "/globe.svg",
+      "status": "skipped",
+      "reason": "unsupported format (.svg)",
+      "before": 1035,
+      "after": 1035
+    },
+    {
+      "asset": "/arise1.jpg",
+      "status": "optimized",
+      "before": 259834,
+      "after": 257785,
+      "saved": 2049
+    },
+    {
+      "asset": "/ac1.jpg",
+      "status": "optimized",
+      "before": 215667,
+      "after": 214189,
+      "saved": 1478
+    },
+    {
+      "asset": "/ac2.jpg",
+      "status": "optimized",
+      "before": 261480,
+      "after": 259748,
+      "saved": 1732
+    },
+    {
+      "asset": "/clp1.jpg",
+      "status": "optimized",
+      "before": 215594,
+      "after": 214273,
+      "saved": 1321
+    },
+    {
+      "asset": "/clp3.jpg",
+      "status": "optimized",
+      "before": 233875,
+      "after": 232192,
+      "saved": 1683
+    },
+    {
+      "asset": "/clp2.jpg",
+      "status": "optimized",
+      "before": 181958,
+      "after": 181723,
+      "saved": 235
+    },
+    {
+      "asset": "/elt7.jpg",
+      "status": "optimized",
+      "before": 242670,
+      "after": 240383,
+      "saved": 2287
+    },
+    {
+      "asset": "/elt1.jpg",
+      "status": "optimized",
+      "before": 247485,
+      "after": 245845,
+      "saved": 1640
+    },
+    {
+      "asset": "/elt9.jpg",
+      "status": "optimized",
+      "before": 276721,
+      "after": 274281,
+      "saved": 2440
+    },
+    {
+      "asset": "/edp.jpg",
+      "status": "optimized",
+      "before": 197366,
+      "after": 196586,
+      "saved": 780
+    },
+    {
+      "asset": "/edp1.jpg",
+      "status": "optimized",
+      "before": 196678,
+      "after": 195955,
+      "saved": 723
+    },
+    {
+      "asset": "/edp-logo.jpg",
+      "status": "optimized",
+      "before": 229454,
+      "after": 227900,
+      "saved": 1554
+    },
+    {
+      "asset": "/iw.jpg",
+      "status": "optimized",
+      "before": 283445,
+      "after": 280466,
+      "saved": 2979
+    },
+    {
+      "asset": "/iw1.jpg",
+      "status": "optimized",
+      "before": 269927,
+      "after": 267022,
+      "saved": 2905
+    },
+    {
+      "asset": "/iw2.jpg",
+      "status": "optimized",
+      "before": 195050,
+      "after": 194219,
+      "saved": 831
+    },
+    {
+      "asset": "/ist.jpg",
+      "status": "optimized",
+      "before": 238467,
+      "after": 236997,
+      "saved": 1470
+    },
+    {
+      "asset": "/ist1.jpg",
+      "status": "optimized",
+      "before": 219271,
+      "after": 218374,
+      "saved": 897
+    },
+    {
+      "asset": "/ist2.jpg",
+      "status": "optimized",
+      "before": 217561,
+      "after": 216448,
+      "saved": 1113
+    },
+    {
+      "asset": "/ldp4.jpg",
+      "status": "optimized",
+      "before": 208011,
+      "after": 206999,
+      "saved": 1012
+    },
+    {
+      "asset": "/ldp3.jpg",
+      "status": "optimized",
+      "before": 133031,
+      "after": 132406,
+      "saved": 625
+    },
+    {
+      "asset": "/ldp1.jpg",
+      "status": "optimized",
+      "before": 229454,
+      "after": 227900,
+      "saved": 1554
+    },
+    {
+      "asset": "/pdc4.jpg",
+      "status": "optimized",
+      "before": 203201,
+      "after": 201964,
+      "saved": 1237
+    },
+    {
+      "asset": "/pdc5.jpg",
+      "status": "optimized",
+      "before": 217073,
+      "after": 215874,
+      "saved": 1199
+    },
+    {
+      "asset": "/pdc6.jpg",
+      "status": "optimized",
+      "before": 203201,
+      "after": 201964,
+      "saved": 1237
+    },
+    {
+      "asset": "/psc3.jpg",
+      "status": "optimized",
+      "before": 123164,
+      "after": 122813,
+      "saved": 351
+    },
+    {
+      "asset": "/psc2.jpg",
+      "status": "optimized",
+      "before": 190257,
+      "after": 189309,
+      "saved": 948
+    },
+    {
+      "asset": "/psc.jpg",
+      "status": "optimized",
+      "before": 209399,
+      "after": 208774,
+      "saved": 625
+    },
+    {
+      "asset": "/ttp4.jpg",
+      "status": "optimized",
+      "before": 236190,
+      "after": 234083,
+      "saved": 2107
+    },
+    {
+      "asset": "/ttp1.jpg",
+      "status": "optimized",
+      "before": 216641,
+      "after": 215972,
+      "saved": 669
+    },
+    {
+      "asset": "/ttp2.jpg",
+      "status": "optimized",
+      "before": 187050,
+      "after": 186444,
+      "saved": 606
+    },
+    {
+      "asset": "/ttp3.jpg",
+      "status": "optimized",
+      "before": 204347,
+      "after": 203210,
+      "saved": 1137
+    },
+    {
+      "asset": "/vaa2.jpg",
+      "status": "optimized",
+      "before": 194367,
+      "after": 193312,
+      "saved": 1055
+    },
+    {
+      "asset": "/vaa1.jpg",
+      "status": "optimized",
+      "before": 213060,
+      "after": 211615,
+      "saved": 1445
+    },
+    {
+      "asset": "/voice-and-accent.jpg",
+      "status": "optimized",
+      "before": 253431,
+      "after": 250758,
+      "saved": 2673
+    },
+    {
+      "asset": "/founder1.jpg",
+      "status": "unchanged",
+      "before": 41571,
+      "after": 41571,
+      "saved": 0
+    },
+    {
+      "asset": "/founder3.jpg",
+      "status": "optimized",
+      "before": 120196,
+      "after": 119883,
+      "saved": 313
+    },
+    {
+      "asset": "/ldp.jpg",
+      "status": "optimized",
+      "before": 233420,
+      "after": 231361,
+      "saved": 2059
+    },
+    {
+      "asset": "/pdc.jpg",
+      "status": "optimized",
+      "before": 241643,
+      "after": 240293,
+      "saved": 1350
+    },
+    {
+      "asset": "/public-speaking.jpg",
+      "status": "optimized",
+      "before": 201847,
+      "after": 200473,
+      "saved": 1374
+    },
+    {
+      "asset": "/elt8.jpg",
+      "status": "optimized",
+      "before": 259053,
+      "after": 256440,
+      "saved": 2613
+    },
+    {
+      "asset": "/elt.jpg",
+      "status": "optimized",
+      "before": 297385,
+      "after": 293545,
+      "saved": 3840
+    },
+    {
+      "asset": "/teacher2.png",
+      "status": "optimized",
+      "before": 590942,
+      "after": 560101,
+      "saved": 30841
+    },
+    {
+      "asset": "/arise-logo.jpg",
+      "status": "optimized",
+      "before": 454133,
+      "after": 450820,
+      "saved": 3313
+    },
+    {
+      "asset": "/international.jpg",
+      "status": "optimized",
+      "before": 195050,
+      "after": 194219,
+      "saved": 831
+    },
+    {
+      "asset": "/ashwini pathak.jpg",
+      "status": "optimized",
+      "before": 199682,
+      "after": 199144,
+      "saved": 538
+    },
+    {
+      "asset": "/Aditya Umale.jpg",
+      "status": "optimized",
+      "before": 48640,
+      "after": 48574,
+      "saved": 66
+    },
+    {
+      "asset": "/Rohit Chaudhari.jpg",
+      "status": "optimized",
+      "before": 263041,
+      "after": 262499,
+      "saved": 542
+    },
+    {
+      "asset": "/shubham marhe.jpg",
+      "status": "optimized",
+      "before": 91799,
+      "after": 91714,
+      "saved": 85
+    },
+    {
+      "asset": "/gopal hagwane.jpg",
+      "status": "optimized",
+      "before": 86027,
+      "after": 85972,
+      "saved": 55
+    },
+    {
+      "asset": "/Pratiksha Nirale.jpg",
+      "status": "optimized",
+      "before": 210337,
+      "after": 208686,
+      "saved": 1651
+    },
+    {
+      "asset": "/logo1.png",
+      "status": "optimized",
+      "before": 196312,
+      "after": 156586,
+      "saved": 39726
+    },
+    {
+      "asset": "/logo2.png",
+      "status": "optimized",
+      "before": 103774,
+      "after": 84791,
+      "saved": 18983
+    }
+  ]
+}

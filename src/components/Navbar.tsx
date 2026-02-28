@@ -68,6 +68,7 @@ export default function Navbar() {
                   alt="Aspire Logo"
                   width={72}
                   height={72}
+                  sizes="72px"
                   className="h-9 w-auto object-contain"
                   priority
                 />

@@ -15,10 +15,10 @@ interface StudentArticle {
   title: string;
   description: string;
   content: string;
-  author: {
+  author?: {
     name: string;
     email: string;
-  };
+  } | null;
   writerName?: string;
   isPublished: boolean;
 }

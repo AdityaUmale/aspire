@@ -237,6 +237,7 @@ export default function SuccessStoriesPage() {
                           alt={s.name}
                           width={112}
                           height={112}
+                          sizes="(max-width: 640px) 96px, 112px"
                           className={`w-full h-full object-cover ${s.imageScale || ''} ${s.imagePosition || 'object-center'}`}
                         />
                       </div>

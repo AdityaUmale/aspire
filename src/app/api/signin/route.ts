@@ -3,19 +3,41 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import connectDB from "@/lib/db";
 import Admin from "@/lib/models/Admin";
-
-// Ensure database connection is established
-connectDB();
+import { checkRateLimit } from "@/lib/rate-limit";
+import { MAX_LENGTHS, normalizeString } from "@/lib/validation";
 
 export async function POST(request: NextRequest) {
     try {
+        const forwardedFor = request.headers.get("x-forwarded-for");
+        const ip = forwardedFor?.split(",")[0]?.trim() || "unknown";
+
         const reqBody = await request.json();
-        const { email, password } = reqBody;
+        const email = normalizeString(reqBody?.email).toLowerCase();
+        const password = normalizeString(reqBody?.password);
 
         // Basic validation
-        if (!email || !password) {
+        if (!email || !password || email.length > MAX_LENGTHS.email || password.length > 256) {
             return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
         }
+
+        const rateLimit = checkRateLimit({
+            key: `signin:${ip}:${email}`,
+            limit: 10,
+            windowMs: 10 * 60 * 1000,
+        });
+        if (!rateLimit.allowed) {
+            return NextResponse.json(
+                { error: "Too many login attempts. Please try again later." },
+                {
+                    status: 429,
+                    headers: {
+                        "Retry-After": String(rateLimit.retryAfterSeconds),
+                    },
+                }
+            );
+        }
+
+        await connectDB();
 
         // Check if admin exists
         const admin = await Admin.findOne({ email });
@@ -37,8 +59,10 @@ export async function POST(request: NextRequest) {
         };
 
         // Create token
-        // IMPORTANT: Store your JWT_SECRET in environment variables for security
-        const jwtSecret = process.env.JWT_SECRET || "YOUR_DEFAULT_SECRET_KEY"; // Replace with your actual secret or env variable
+        const jwtSecret = process.env.JWT_SECRET;
+        if (!jwtSecret) {
+            throw new Error("JWT_SECRET environment variable is not set");
+        }
         const token = jwt.sign(tokenData, jwtSecret, {
             expiresIn: "1d", // Token expires in 1 day
         });
@@ -60,8 +84,8 @@ export async function POST(request: NextRequest) {
 
         return response;
 
-    } catch (error: Error | unknown) {
-        console.error("Sign-in error:", error);
+    } catch {
+        console.error("Sign-in error");
         return NextResponse.json({ error: "An internal server error occurred" }, { status: 500 });
     }
 }

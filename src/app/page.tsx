@@ -204,7 +204,7 @@ export default function Home() {
 
                     {/* Image Area */}
                     <div className="relative h-56 w-full overflow-hidden">
-                      <Image src={course.image} alt={`${course.title} workshop in progress at Aspire Institute`} width={400} height={300} className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110" />
+                      <Image src={course.image} alt={`${course.title} workshop in progress at Aspire Institute`} width={400} height={300} sizes="(max-width: 640px) 300px, (max-width: 1024px) 340px, 340px" className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#1a237e]/80 via-transparent to-transparent opacity-80"></div>
 
 

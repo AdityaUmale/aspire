@@ -40,7 +40,6 @@ export default function AddArticlesPage() {
           title,
           description,
           content,
-          author: '64f5f1c1b7c5d9e8a3b2a1d0' // Replace with a valid MongoDB ObjectId for testing
         }),
       });
 

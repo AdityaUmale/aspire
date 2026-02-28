@@ -33,8 +33,6 @@ export default function PublishArticlePage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const hardcodedAuthorId = '60d5ec49f5d7a438e8f8d6a5';
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -52,7 +50,6 @@ export default function PublishArticlePage() {
         title,
         description,
         content,
-        author: hardcodedAuthorId,
         writerName,
       };
 

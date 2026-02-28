@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Terminal, ChevronLeft, Feather } from 'lucide-react';
 import Navbar from '@/components/Navbar';
+import { sanitizeRichTextHtml } from '@/lib/sanitize';
 
 interface Article {
   _id: string;
@@ -191,7 +192,7 @@ export default function ArticleDetailPage() {
               prose-li:text-gray-700 prose-li:marker:text-[#1a237e]
               prose-img:rounded-2xl prose-img:shadow-xl prose-img:border prose-img:border-gray-100
             ">
-               <div dangerouslySetInnerHTML={{ __html: article.content }} />
+               <div dangerouslySetInnerHTML={{ __html: sanitizeRichTextHtml(article.content) }} />
             </div>
 
             {/* Article Footer */}

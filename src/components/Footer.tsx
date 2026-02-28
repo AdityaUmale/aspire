@@ -22,6 +22,7 @@ export default function Footer() {
                     alt="Aspire Institute Logo"
                     width={56}
                     height={56}
+                    sizes="56px"
                     className="h-full w-full object-contain"
                   />
                 </div>

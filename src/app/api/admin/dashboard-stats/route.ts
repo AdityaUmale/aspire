@@ -1,9 +1,16 @@
 import { NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import connectDB from '@/lib/db';
 import Enquiry from '@/lib/models/Enquiry';
 import StudentArticle from '@/lib/models/StudentArticle';
+import { requireAdmin } from '@/lib/auth';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const auth = await requireAdmin(request);
+  if (!auth.ok) {
+    return auth.response;
+  }
+
   try {
     await connectDB();
 
@@ -31,8 +38,8 @@ export async function GET() {
         publishedArticles
       }
     }, { status: 200 });
-  } catch (error) {
-    console.error('Error fetching dashboard stats:', error);
+  } catch {
+    console.error('Error fetching dashboard stats');
     return NextResponse.json({ 
       success: false,
       message: 'Failed to fetch dashboard statistics' 

@@ -1,16 +1,51 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Enquiry from '@/lib/models/Enquiry';
+import { requireAdmin } from '@/lib/auth';
+import { checkRateLimit } from '@/lib/rate-limit';
+import { MAX_LENGTHS, normalizeString } from '@/lib/validation';
 
 export async function POST(req: NextRequest) {
   try {
+    const forwardedFor = req.headers.get("x-forwarded-for");
+    const ip = forwardedFor?.split(",")[0]?.trim() || "unknown";
+    const rateLimit = checkRateLimit({
+      key: `enquiry:${ip}`,
+      limit: 20,
+      windowMs: 10 * 60 * 1000,
+    });
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { message: "Too many requests. Please try again later." },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(rateLimit.retryAfterSeconds),
+          },
+        }
+      );
+    }
+
     await connectDB(); // Moved inside the try block
 
     const body = await req.json();
-    const { name, email, phone, age, enquiry } = body;
+    const name = normalizeString(body?.name);
+    const email = normalizeString(body?.email).toLowerCase();
+    const phone = normalizeString(body?.phone);
+    const enquiry = normalizeString(body?.enquiry);
+    const age = body?.age;
 
     if (!name || !email || !phone || typeof age === 'undefined' || !enquiry) {
       return NextResponse.json({ message: 'All fields are required' }, { status: 400 });
+    }
+
+    if (
+      name.length > MAX_LENGTHS.name ||
+      email.length > MAX_LENGTHS.email ||
+      phone.length > MAX_LENGTHS.phone ||
+      enquiry.length > MAX_LENGTHS.enquiry
+    ) {
+      return NextResponse.json({ message: 'Input exceeds allowed length limits' }, { status: 400 });
     }
 
     const parsedAge = Number(age);
@@ -30,7 +65,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ message: 'Enquiry submitted successfully', data: newEnquiry }, { status: 201 });
   } catch (error) {
-    console.error('Error submitting enquiry:', error);
+    console.error('Error submitting enquiry');
     // Check if the error is a Mongoose validation error
     if (error && typeof error === 'object' && 'name' in error && error.name === 'ValidationError' && 'errors' in error) {
       const validationError = error as { errors: { [key: string]: { message: string } } };
@@ -42,6 +77,11 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+    const auth = await requireAdmin(req);
+    if (!auth.ok) {
+      return auth.response;
+    }
+
     await connectDB();
 
     const { searchParams } = new URL(req.url);
@@ -60,7 +100,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ message: 'Enquiries fetched successfully', data: enquiries }, { status: 200 });
     }
   } catch (error: unknown) {
-    console.error('Error fetching enquiry/enquiries:', error);
+    console.error('Error fetching enquiry/enquiries');
     if (error && typeof error === 'object' && 'name' in error && error.name === 'CastError') { // Handle invalid MongoDB ObjectId format
         return NextResponse.json({ message: 'Invalid enquiry ID format' }, { status: 400 });
     }
@@ -71,6 +111,11 @@ export async function GET(req: NextRequest) {
 // Add this new PATCH endpoint
 export async function PATCH(req: NextRequest) {
   try {
+    const auth = await requireAdmin(req);
+    if (!auth.ok) {
+      return auth.response;
+    }
+
     await connectDB();
     
     const { searchParams } = new URL(req.url);
@@ -102,7 +147,7 @@ export async function PATCH(req: NextRequest) {
       data: updatedEnquiry
     }, { status: 200 });
   } catch (error: unknown) {
-    console.error('Error updating enquiry:', error);
+    console.error('Error updating enquiry');
     if (error && typeof error === 'object' && 'name' in error && error.name === 'CastError') {
       return NextResponse.json({ message: 'Invalid enquiry ID format' }, { status: 400 });
     }

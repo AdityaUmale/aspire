@@ -1,0 +1,169 @@
+{
+  "mode": "archive",
+  "totalPublicFiles": 98,
+  "referencedCount": 68,
+  "unusedCount": 40,
+  "unusedSizeBytes": 130450607,
+  "unusedAssets": [
+    {
+      "assetPath": "/building-video.mov",
+      "sizeBytes": 11403951
+    },
+    {
+      "assetPath": "/ldp5.jpg",
+      "sizeBytes": 10049527
+    },
+    {
+      "assetPath": "/psc1.jpg",
+      "sizeBytes": 9303287
+    },
+    {
+      "assetPath": "/arise2.jpg",
+      "sizeBytes": 8671422
+    },
+    {
+      "assetPath": "/elt5.jpg",
+      "sizeBytes": 8555595
+    },
+    {
+      "assetPath": "/elt4.jpg",
+      "sizeBytes": 7810580
+    },
+    {
+      "assetPath": "/pdc3.jpg",
+      "sizeBytes": 7805187
+    },
+    {
+      "assetPath": "/building-pic.jpg",
+      "sizeBytes": 7788020
+    },
+    {
+      "assetPath": "/sls/kirtesh.jpg",
+      "sizeBytes": 7715901
+    },
+    {
+      "assetPath": "/elt6.jpg",
+      "sizeBytes": 7029390
+    },
+    {
+      "assetPath": "/arise.jpg",
+      "sizeBytes": 6921768
+    },
+    {
+      "assetPath": "/elt2.jpg",
+      "sizeBytes": 6921768
+    },
+    {
+      "assetPath": "/elt3.jpg",
+      "sizeBytes": 6921768
+    },
+    {
+      "assetPath": "/sls/Shubham.jpg",
+      "sizeBytes": 5963886
+    },
+    {
+      "assetPath": "/ist3.jpg",
+      "sizeBytes": 3940958
+    },
+    {
+      "assetPath": "/building-video.mp4",
+      "sizeBytes": 3748938
+    },
+    {
+      "assetPath": "/lpd2.jpg",
+      "sizeBytes": 3301950
+    },
+    {
+      "assetPath": "/founder2.jpg",
+      "sizeBytes": 1632718
+    },
+    {
+      "assetPath": "/sls/devesh.jpg",
+      "sizeBytes": 1437376
+    },
+    {
+      "assetPath": "/vishal tale.JPG.jpg",
+      "sizeBytes": 817900
+    },
+    {
+      "assetPath": "/sls/tejas.jpg",
+      "sizeBytes": 651185
+    },
+    {
+      "assetPath": "/sls/pranjali.jpg",
+      "sizeBytes": 483463
+    },
+    {
+      "assetPath": "/teacher.jpeg",
+      "sizeBytes": 343543
+    },
+    {
+      "assetPath": "/pdc1.jpg",
+      "sizeBytes": 308935
+    },
+    {
+      "assetPath": "/sls/pratiksha.jpg",
+      "sizeBytes": 231314
+    },
+    {
+      "assetPath": "/ttp.jpg",
+      "sizeBytes": 198903
+    },
+    {
+      "assetPath": "/sls/Shradda.jpg",
+      "sizeBytes": 189028
+    },
+    {
+      "assetPath": "/sls/renuka.jpg",
+      "sizeBytes": 100313
+    },
+    {
+      "assetPath": "/sls/gopal.jpg",
+      "sizeBytes": 53816
+    },
+    {
+      "assetPath": "/sls/sharayu.jpg",
+      "sizeBytes": 52934
+    },
+    {
+      "assetPath": "/sls/ankit.jpg",
+      "sizeBytes": 47145
+    },
+    {
+      "assetPath": "/sls/ramkrushn.jpg",
+      "sizeBytes": 30484
+    },
+    {
+      "assetPath": "/sls/sahil.jpg",
+      "sizeBytes": 5069
+    },
+    {
+      "assetPath": "/sls/gauri.jpg",
+      "sizeBytes": 4895
+    },
+    {
+      "assetPath": "/sls/mudita.jpg",
+      "sizeBytes": 4625
+    },
+    {
+      "assetPath": "/next.svg",
+      "sizeBytes": 1375
+    },
+    {
+      "assetPath": "/sls/Sachin.jpg",
+      "sizeBytes": 786
+    },
+    {
+      "assetPath": "/file.svg",
+      "sizeBytes": 391
+    },
+    {
+      "assetPath": "/window.svg",
+      "sizeBytes": 385
+    },
+    {
+      "assetPath": "/vercel.svg",
+      "sizeBytes": 128
+    }
+  ]
+}

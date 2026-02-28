@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal, CheckCircle, XCircle, ArrowLeft, FileText } from 'lucide-react';
+import { sanitizeRichTextHtml } from '@/lib/sanitize';
 
 // Interface matching the StudentArticle model
 interface StudentArticle {
@@ -14,10 +15,10 @@ interface StudentArticle {
   title: string;
   description: string;
   content: string;
-  author: {
+  author?: {
     name: string;
     email: string;
-  };
+  } | null;
   writerName?: string;
   isPublished: boolean;
 }
@@ -214,7 +215,7 @@ export default function ArticleReviewDetailPage() {
       
       <div className="prose lg:prose-xl max-w-none border-t border-b py-6 my-6 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-gray-200/60">
         {/* Replace the <p> tag with this div to render HTML */}
-        <div dangerouslySetInnerHTML={{ __html: article.content }} />
+        <div dangerouslySetInnerHTML={{ __html: sanitizeRichTextHtml(article.content) }} />
       </div>
 
       {actionError && (

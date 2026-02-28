@@ -8,7 +8,13 @@
     "start": "next start",
     "lint": "next lint",
     "create-admin": "node scripts/createAdmin.js",
-    "analyze": "cross-env ANALYZE=true next build"
+    "analyze": "cross-env ANALYZE=true next build",
+    "optimize-images": "node scripts/optimize-images.mjs --write",
+    "optimize-images:dry": "node scripts/optimize-images.mjs",
+    "unused-assets:dry": "node scripts/find-unused-public-assets.mjs",
+    "unused-assets:archive": "node scripts/find-unused-public-assets.mjs --archive",
+    "optimize-video:dry": "node scripts/optimize-video.mjs",
+    "optimize-video": "node scripts/optimize-video.mjs --write"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.4",
@@ -56,6 +62,7 @@
     "dotenv": "^16.5.0",
     "eslint": "^9",
     "eslint-config-next": "15.2.3",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "typescript": "^5"
