@@ -20,8 +20,8 @@ export default function HeroSection() {
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
           <div className="flex flex-col justify-center space-y-6 pt-2 md:pt-0">
             <div className="flex flex-wrap gap-3 fade-in" style={{ animationDelay: '0.1s' }}>
-              <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm">
-                <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2"></span>
+              <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-[11px] sm:text-sm text-[#1a237e] shadow-sm">
+                <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2 shrink-0"></span>
                 India&apos;s leading personal and professional development institute since 2009.
               </div>
             </div>
