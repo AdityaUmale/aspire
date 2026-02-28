@@ -114,14 +114,14 @@ export default function PublicSpeakingPage() {
                 <span className="text-[#1a237e] uppercase tracking-wider text-sm font-bold">Introduction</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-[#1a237e] mb-6 leading-tight">
-                Master Public Speaking
+                Public Speaking Course
               </h2>
               <div className="prose prose-lg text-gray-700 leading-relaxed">
                 <p className="mb-6">
-                  Public Speaking is the finest course designed by Aspire which helps you master public speaking with a practical approach that makes you look super-confident.
+                  Most adults struggle with fear, nervousness, or self-doubt when asked to speak in front of others whether at work, in meetings, or on stage. Aspire’s Public Speaking for Adults program is designed to transform that fear into confidence and clarity.
                 </p>
-                <p>
-                  It gives you an ability to stand fearlessly on the stage and to voice your ideas to influence people. Everyone with this course can easily overcome public speaking fear by getting the training and lessons on it. We aim at making public speaking a joy rather than fear.
+                <p className="mb-6">
+                  Through our practical, hands-on approach, you’ll learn how to organize your thoughts, engage your audience, and communicate with impact.
                 </p>
               </div>
             </div>
@@ -138,51 +138,30 @@ export default function PublicSpeakingPage() {
             </div>
           </div>
 
-          {/* Feature Sections */}
-          <div className="space-y-20">
-            {/* Block 1 */}
-            <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <div className="order-2 md:order-1 relative">
-                <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform -rotate-2 scale-[1.02]"></div>
-                <Image
-                  src="/psc.jpg"
-                  alt="Speaking confidently"
-                  width={600}
-                  height={450}
-                  className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:rotate-1 transition-transform duration-500"
-                />
-              </div>
-              <div className="order-1 md:order-2">
-                <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Discover the Speaker in You</h3>
-                <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                  It enables you to improve the quality of your thoughts and presentations. The lessons of public speaking help you speak effectively and discover an impressive speaker in yourself.
-                </p>
-                <p className="text-gray-700 leading-relaxed text-lg">
-                  This program will train you to lead a team, a meeting, a conference or a class. It trains you to overcome nervousness and perform exceptionally well.
-                </p>
-              </div>
+          {/* Feature Section */}
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="order-2 md:order-1 relative">
+              <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform -rotate-2 scale-[1.02]"></div>
+              <Image
+                src="/psc.jpg"
+                alt="Confident public speaker"
+                width={600}
+                height={450}
+                className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:rotate-1 transition-transform duration-500"
+              />
             </div>
-
-            {/* Block 2 */}
-            <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <div>
-                <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Advance Your Career</h3>
-                <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                  This course mainly focuses on individual growth. It makes you able to represent your company or an organization in an effective way.
+            <div className="order-1 md:order-2">
+              <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Master the Stage</h3>
+              <div className="prose prose-lg text-gray-700 leading-relaxed">
+                <p className="mb-6">
+                  The training covers everything from voice culture, storytelling, and body language to stage presence and audience connection, helping you become a natural, confident, and influential speaker. Whether you’re a professional, teacher, entrepreneur, or homemaker, this course will help you express your ideas fearlessly, represent yourself and your organization effectively, and inspire others every time you speak.
                 </p>
-                <p className="text-gray-700 leading-relaxed text-lg">
-                  This course will advance your career and create countless opportunities. You&apos;ll develop the confidence and skills to captivate any audience.
+                <p className="mb-6">
+                  Backed by Aspire’s proven expertise and empowering methods, you won’t just learn to speak you’ll learn to connect, influence, and lead with your words.
                 </p>
-              </div>
-              <div className="relative">
-                <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform rotate-2 scale-[1.02]"></div>
-                <Image
-                  src="/psc1.jpg"
-                  alt="Career growth through speaking"
-                  width={600}
-                  height={450}
-                  className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:-rotate-1 transition-transform duration-500"
-                />
+                <p className="font-bold text-[#1a237e] text-xl">
+                  Turn stage fear into stage power.
+                </p>
               </div>
             </div>
           </div>

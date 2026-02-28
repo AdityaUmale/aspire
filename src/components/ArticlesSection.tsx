@@ -36,8 +36,8 @@ function PublishJourney() {
     {
       icon: Eye,
       title: "Team Reviews",
-      description: "Our editorial team carefully reviews your submission for quality and relevance.",
-      status: "Under review",
+      description: "Our editorial team carefully reviews each submission within 7–10 working days.",
+      status: "In Review",
     },
     {
       icon: CheckCircle,
@@ -139,13 +139,18 @@ function PublishJourney() {
 
         {/* CTA */}
         <div className="mt-8 pt-6 border-t border-[#e8eaf6]">
-          <Link
-            href="/publish-article"
-            className="inline-flex items-center gap-3 px-6 py-3.5 bg-gradient-to-r from-[#1a237e] to-[#3949ab] text-white font-sans font-semibold rounded-xl hover:shadow-lg hover:shadow-[#1a237e]/25 transition-all duration-300 group"
-          >
-            <span>Start Writing Today</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-          </Link>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <Link
+              href="/publish-article"
+              className="inline-flex items-center gap-3 px-6 py-3.5 bg-gradient-to-r from-[#1a237e] to-[#3949ab] text-white font-sans font-semibold rounded-xl hover:shadow-lg hover:shadow-[#1a237e]/25 transition-all duration-300 group w-fit"
+            >
+              <span>Start Writing Today</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+            </Link>
+            <p className="text-sm text-gray-500 font-medium">
+              Hundreds of students have published their stories on Aspire’s platform.
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -290,7 +295,7 @@ function AspireInsightsCard() {
 
 export default function ArticlesSection() {
   return (
-    <section className="relative py-20 md:py-28 overflow-hidden">
+    <section className="relative py-20 md:py-28 overflow-hidden z-10">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-0 w-96 h-96 rounded-full blur-3xl opacity-40" />

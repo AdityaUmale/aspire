@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Award, Quote, Globe, Users, Mic, Star } from 'lucide-react';
 
@@ -19,13 +20,18 @@ export default function FounderPage() {
     "Singapore", "Thailand", "Malaysia", "Dubai", "Vietnam", "Qatar", "Egypt", "India"
   ];
 
-  const awards = [
-    "Outstanding Young Person (OYP) of India Award – JCI, 2014",
-    "Social Impact Award for Empowering Society",
-  ];
-
   return (
     <div className={`flex flex-col min-h-screen bg-[#FAFAFA] text-[#1a237e] font-sans selection:bg-[#1a237e] selection:text-white`}>
+
+      {/* ────────────────────────────────────────────────
+        GLOBAL GRADIENT BACKGROUND — fixed, spans entire page
+       ──────────────────────────────────────────────── */}
+      <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+        <div className="absolute top-[20%] right-[-10%] w-[350px] md:w-[500px] h-[350px] md:h-[500px] rounded-full bg-gradient-to-br from-[#7c4dff]/20 md:from-[#7c4dff]/25 via-[#536dfe]/15 md:via-[#536dfe]/20 to-transparent blur-[60px] md:blur-[80px]"></div>
+        <div className="absolute top-[55%] left-[-8%] w-[300px] md:w-[400px] h-[300px] md:h-[400px] rounded-full bg-gradient-to-tr from-[#448aff]/15 md:from-[#448aff]/20 via-[#7c4dff]/10 md:via-[#7c4dff]/15 to-transparent blur-[50px] md:blur-[60px]"></div>
+        <div className="absolute bottom-[10%] right-[5%] w-[250px] md:w-[350px] h-[250px] md:h-[350px] rounded-full bg-gradient-to-tl from-[#e040fb]/10 md:from-[#e040fb]/15 via-[#7c4dff]/10 md:via-[#7c4dff]/10 to-transparent blur-[40px] md:blur-[60px]"></div>
+      </div>
+
       <Navbar />
 
       {/* GLOBAL BACKGROUND GRAIN TEXTURE */}
@@ -35,10 +41,6 @@ export default function FounderPage() {
 
       {/* HERO SECTION - Editorial Style */}
       <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden">
-        {/* Abstract shapes for depth */}
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-b from-[#1a237e]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-t from-[#3949ab]/5 to-transparent rounded-full blur-3xl translate-y-1/2 -translate-x-1/4" />
-
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <Link href="/" className="inline-flex items-center gap-2 text-[#1a237e]/60 hover:text-[#1a237e] mb-12 transition-all group font-medium tracking-wide text-sm uppercase">
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
@@ -124,7 +126,7 @@ export default function FounderPage() {
       </section>
 
       {/* MESSAGE SECTION - The Manuscript Look */}
-      <section className="py-20 bg-white relative">
+      <section className="py-20 relative z-10">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-5xl mx-auto">
             <div className="flex flex-col md:flex-row gap-12 lg:gap-20">
@@ -192,53 +194,25 @@ export default function FounderPage() {
         </div>
       </section>
 
-      {/* AWARDS SECTION - Bento Grid Style */}
-      <section className="py-24 bg-[#f4f5f7]">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
-            <div>
-              <span className="text-[#3949ab] font-bold tracking-widest text-xs uppercase mb-2 block">Excellence Recognized</span>
-              <h2 className="font-bold text-4xl md:text-5xl text-[#1a237e]">Honours & Accolades</h2>
-            </div>
-            <div className="hidden md:block w-1/3 h-px bg-[#1a237e]/10"></div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {awards.map((award, index) => (
-              <div key={index} className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-transparent hover:border-[#1a237e]/10 relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-1 h-0 bg-[#1a237e] group-hover:h-full transition-all duration-500 ease-out"></div>
-                <div className="mb-6 inline-flex p-3 rounded-xl bg-[#e8eaf6] text-[#1a237e] group-hover:bg-[#1a237e] group-hover:text-white transition-colors">
-                  <Award className="h-5 w-5" />
-                </div>
-                <h3 className="text-gray-800 font-medium text-lg leading-snug group-hover:text-[#1a237e] transition-colors">{award}</h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* GLOBAL PRESENCE - Dark Modern Map Vibe */}
-      <section className="py-24 bg-[#0d1642] text-white relative overflow-hidden">
-        {/* Radial Gradients pretending to be map lights */}
-        <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-[#3949ab] rounded-full blur-[128px] opacity-40"></div>
-        <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-[#1a237e] rounded-full blur-[128px] opacity-60"></div>
-
+      {/* GLOBAL PRESENCE - Light Professional Vibe */}
+      <section className="py-24 relative overflow-hidden border-t border-gray-100 z-10">
         <div className="container mx-auto px-4 md:px-6 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-6">
-            <Globe className="h-4 w-4 text-[#9fa8da]" />
-            <span className="text-xs font-medium tracking-wider text-[#9fa8da] uppercase">Worldwide Impact</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#1a237e]/10 bg-[#f8f9fa] shadow-sm mb-6">
+            <Globe className="h-4 w-4 text-[#1a237e]" />
+            <span className="text-xs font-bold tracking-[0.15em] text-[#1a237e] uppercase">Worldwide Impact</span>
           </div>
 
-          <h2 className="font-bold text-4xl md:text-5xl mb-6">Borders Are Not Barriers.</h2>
-          <p className="text-[#c5cae9] max-w-2xl mx-auto text-lg font-light mb-12">
+          <h2 className="font-bold text-4xl md:text-5xl lg:text-6xl text-[#1a237e] mb-6 tracking-tight">Borders Are Not Barriers.</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto text-lg md:text-xl font-light mb-12 leading-relaxed">
             Delivering transformative wisdom across continents. From Singapore to Dubai, the message of empowerment resonates globally.
           </p>
 
-          <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
             {countries.map((country, index) => (
-              <div key={index} className="group cursor-default flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 rounded-full transition-all duration-300">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#3949ab] group-hover:bg-[#4ade80] transition-colors"></div>
-                <span className="text-sm font-medium tracking-wide">{country}</span>
+              <div key={index} className="group cursor-default flex items-center gap-3 px-6 py-3 bg-white hover:bg-[#f8f9fa] border border-gray-200 shadow-sm hover:shadow-md rounded-2xl transition-all duration-300 hover:-translate-y-1">
+                <div className="w-2 h-2 rounded-full bg-[#1a237e]/20 group-hover:bg-[#3949ab] transition-colors duration-300"></div>
+                <span className="text-sm md:text-base font-semibold text-gray-700 group-hover:text-[#1a237e] transition-colors">{country}</span>
               </div>
             ))}
           </div>
@@ -246,7 +220,7 @@ export default function FounderPage() {
       </section>
 
       {/* CTA SECTION - Clean Minimalist */}
-      <section className="py-24 bg-white border-t border-gray-100">
+      <section className="py-24 relative z-10 border-t border-gray-100">
         <div className="container mx-auto px-4 md:px-6">
           <div className="bg-[#f8f9fa] rounded-[3rem] p-10 md:p-20 text-center relative overflow-hidden">
             {/* Decorative circles */}
@@ -277,6 +251,8 @@ export default function FounderPage() {
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }

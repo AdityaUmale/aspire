@@ -19,6 +19,7 @@ import { format } from 'date-fns';
 import EnquiryForm from "@/components/EnquiryForm";
 import Footer from "../components/Footer";
 import ArticlesSection from "@/components/ArticlesSection";
+import FAQSection from "@/components/FAQSection";
 
 interface Course {
   _id: string;
@@ -41,6 +42,7 @@ const getProgramSlug = (courseName: string): string | null => {
     "Teachers Training Program": "/courses/teachers-training-program",
     "ARISE – Language and Thought Enrichment Camp": "/courses/arise-camp",
     "International Workshop": "/courses/international-workshop",
+    "Interview Skills & Techniques": "/courses/interview-skills-techniques",
   };
 
   return courseSlugMap[courseName] || null;
@@ -108,7 +110,17 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={`flex flex-col min-h-screen bg-white font-sans selection:bg-[#1a237e] selection:text-white`}>
+    <div className={`flex flex-col min-h-screen bg-transparent font-sans selection:bg-[#1a237e] selection:text-white`}>
+
+      {/* ────────────────────────────────────────────────
+        GLOBAL GRADIENT BACKGROUND — fixed, spans entire page
+       ──────────────────────────────────────────────── */}
+      <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+        <div className="absolute top-[20%] right-[-10%] w-[350px] md:w-[500px] h-[350px] md:h-[500px] rounded-full bg-gradient-to-br from-[#7c4dff]/20 md:from-[#7c4dff]/25 via-[#536dfe]/15 md:via-[#536dfe]/20 to-transparent blur-[60px] md:blur-[80px]"></div>
+        <div className="absolute top-[55%] left-[-8%] w-[300px] md:w-[400px] h-[300px] md:h-[400px] rounded-full bg-gradient-to-tr from-[#448aff]/15 md:from-[#448aff]/20 via-[#7c4dff]/10 md:via-[#7c4dff]/15 to-transparent blur-[50px] md:blur-[60px]"></div>
+        <div className="absolute bottom-[10%] right-[5%] w-[250px] md:w-[350px] h-[250px] md:h-[350px] rounded-full bg-gradient-to-tl from-[#e040fb]/10 md:from-[#e040fb]/15 via-[#7c4dff]/10 md:via-[#7c4dff]/10 to-transparent blur-[40px] md:blur-[60px]"></div>
+      </div>
+
       <Navbar />
 
       {/* Global Grain Texture */}
@@ -123,20 +135,17 @@ export default function Home() {
         {/* Hero & Intro Sections */}
         <HeroSection />
 
-        <div className="relative">
-          {/* Ambient Background Gradient for Middle Sections */}
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-radial from-[#1a237e]/5 to-transparent blur-[100px] opacity-60 pointer-events-none -z-10"></div>
+        <div className="relative z-10">
           <FounderSection />
-          {/* <VisionMissionSection /> */}
         </div>
 
         {/* --- PROGRAMS SECTION --- */}
-        <section id="courses" className="py-20 md:py-28 relative animate-on-scroll">
+        <section id="courses" className="py-20 md:py-28 relative z-10 animate-on-scroll">
           <div className="container px-4 md:px-6 mx-auto">
 
             {/* Section Header */}
             <div className="flex flex-col items-center justify-center space-y-6 text-center mb-16">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#1a237e]/10 bg-white shadow-sm">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#1a237e]/10 bg-white/50 backdrop-blur-sm shadow-sm">
                 <GraduationCap className="h-3.5 w-3.5 text-[#1a237e]" />
                 <span className="text-xs font-bold tracking-widest text-[#1a237e] uppercase">Our Programs</span>
               </div>
@@ -175,22 +184,23 @@ export default function Home() {
             {/* Horizontal Scroll Container */}
             <div
               ref={programsRef}
-              className="flex flex-row overflow-x-auto gap-6 lg:gap-8 pb-8 -mx-4 px-8 md:mx-0 md:px-0 scrollbar-hide snap-x"
+              className="flex flex-row overflow-x-auto gap-4 lg:gap-5 pb-8 -mx-4 px-8 md:mx-0 md:px-0 scrollbar-hide snap-x"
             >
               {[
-                { title: "Leadership Development", description: "Develop essential leadership skills for the modern workplace and learn to inspire teams.", image: "/ldp.jpg", slug: "/courses/leadership-development", features: ["Strategic thinking", "Team management", "Decision making", "Conflict resolution"] },
-                { title: "Personality Development", description: "Build confidence and enhance your personal growth through comprehensive self-improvement.", image: "/pdc.jpg", slug: "/courses/personality-development", features: ["Self-confidence", "Communication skills", "Emotional intelligence", "Personal branding"] },
-                { title: "Public Speaking", description: "Master the art of effective communication and captivate any audience with your words.", image: "/public-speaking.jpg", slug: "/courses/public-speaking", features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"] },
-                { title: "English Language Training", description: "Enhance your English skills for better communication.", image: "/elt3.jpg", slug: "/courses/english-language-training", features: ["Grammar", "Vocabulary", "Pronunciation", "Fluency"] },
-                { title: "Children's Learning Program", description: "Fun and educational programs for kids.", icon: BookOpen, image: "/elt.jpg", slug: "/courses/childrens-learning-program", features: ["Creativity", "Learning skills", "Teamwork", "Confidence"] },
-                { title: "Voice & Accent", description: "Improve your voice modulation and accent.", image: "/voice-and-accent.jpg", slug: "/courses/voice-and-accent", features: ["Clarity", "Tone", "Accent training", "Expression"] },
-                { title: "Entrepreneurship Development", description: "Build skills to start and grow your business.", image: "/edp-logo.jpg", slug: "/courses/entrepreneurship-development", features: ["Innovation", "Business planning", "Leadership", "Risk management"] },
-                { title: "Teachers Training Program", description: "Empower educators with modern teaching methods.", image: "/teacher2.png", slug: "/courses/teachers-training-program", features: ["Pedagogy", "Classroom management", "Engagement", "Assessment"] },
-                { title: "ARISE – Language and Thought Enrichment Camp", description: "A unique camp for personal growth.", image: "/arise-logo.jpg", slug: "/courses/arise-camp", features: ["Mindset", "Language skills", "Critical thinking", "Self-expression"] },
-                { title: "International Workshop", description: "Global learning experiences.", image: "/international.jpg", slug: "/courses/international-workshop", features: ["Cross-cultural skills", "Global trends", "Networking", "Innovation"] },
+                { title: "Leadership Development", tag: "For Professionals", description: "Develop essential leadership skills for the modern workplace and learn to inspire teams.", image: "/ldp.jpg", slug: "/courses/leadership-development", features: ["Strategic thinking", "Team management", "Decision making", "Conflict resolution"] },
+                { title: "Personality Development", tag: "For Everyone", description: "Build confidence and enhance your personal growth through comprehensive self-improvement.", image: "/pdc.jpg", slug: "/courses/personality-development", features: ["Self-confidence", "Communication skills", "Emotional intelligence", "Personal branding"] },
+                { title: "Public Speaking", tag: "For Everyone", description: "Master the art of effective communication and captivate any audience with your words.", image: "/public-speaking.jpg", slug: "/courses/public-speaking", features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"] },
+                { title: "English Language Training", tag: "For Adults & Students", description: "Enhance your English skills for better communication.", image: "/elt8.jpg", slug: "/courses/english-language-training", features: ["Grammar", "Vocabulary", "Pronunciation", "Fluency"] },
+                { title: "Children's Learning Program", tag: "For Children", description: "Fun, structured programs that build confidence and curiosity in children.", icon: BookOpen, image: "/elt.jpg", slug: "/courses/childrens-learning-program", features: ["Creativity", "Learning skills", "Teamwork", "Confidence"] },
+                { title: "Voice & Accent", tag: "For Professionals", description: "Improve your voice modulation and accent.", image: "/voice-and-accent.jpg", slug: "/courses/voice-and-accent", features: ["Clarity", "Tone", "Accent training", "Expression"] },
+                { title: "Entrepreneurship Development", tag: "For Entrepreneurs", description: "Build skills to start and grow your business.", image: "/edp-logo.jpg", slug: "/courses/entrepreneurship-development", features: ["Innovation", "Business planning", "Leadership", "Risk management"] },
+                { title: "Teachers Training Program", tag: "For Educators", description: "Empower educators with modern teaching methods.", image: "/teacher2.png", slug: "/courses/teachers-training-program", features: ["Pedagogy", "Classroom management", "Engagement", "Assessment"] },
+                { title: "ARISE – Language and Thought Enrichment Camp", tag: "For Students", description: "A unique camp for personal growth.", image: "/arise-logo.jpg", slug: "/courses/arise-camp", features: ["Mindset", "Language skills", "Critical thinking", "Self-expression"] },
+                { title: "International Workshop", tag: "For Global Learners", description: "Immersive global learning experiences that expand perspective and networks.", image: "/international.jpg", slug: "/courses/international-workshop", features: ["Cross-cultural skills", "Global trends", "Networking", "Innovation"] },
+                { title: "Interview Skills & Techniques", tag: "For Professionals & Students", description: "A powerful 10-day transformation program designed to help learners prepare for interviews and corporate interactions.", image: "/ist2.jpg", slug: "/courses/interview-skills-techniques", features: ["Interview Prep", "Group Discussion", "Mindset Shift", "Placement Readiness"] },
               ].map((course, index) => (
                 <Link key={index} href={course.slug} legacyBehavior passHref>
-                  <a className="group relative flex flex-col rounded-[1.5rem] bg-white border border-gray-100 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.15)] hover:-translate-y-2 block flex-shrink-0 w-[300px] sm:w-[340px] snap-start overflow-hidden h-[480px]">
+                  <a className="group relative flex flex-col rounded-[1.5rem] bg-white border border-gray-200 shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.25)] hover:border-[#1a237e]/30 hover:-translate-y-2 block flex-shrink-0 w-[300px] sm:w-[340px] snap-start overflow-hidden h-[480px]">
 
                     {/* Image Area */}
                     <div className="relative h-56 w-full overflow-hidden">
@@ -238,11 +248,11 @@ export default function Home() {
         </section>
 
         {/* --- UPCOMING COURSES SECTION --- */}
-        <section id="upcoming-courses" className="py-20 md:py-28 lg:ml-18 animate-on-scroll">
+        <section id="upcoming-courses" className="py-20 md:py-28 lg:ml-18 relative z-10 animate-on-scroll">
           <div className="container px-4 md:px-6 mx-auto">
 
             <div className="flex flex-col items-center justify-center space-y-6 text-center mb-16">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#1a237e]/10 bg-white shadow-sm">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#1a237e]/10 bg-white/50 backdrop-blur-sm shadow-sm">
                 <Calendar className="h-3.5 w-3.5 text-[#1a237e]" />
                 <span className="text-xs font-bold tracking-widest text-[#1a237e] uppercase">Enroll Now</span>
               </div>
@@ -266,8 +276,22 @@ export default function Home() {
                 <p className="text-red-600">{error}</p>
               </div>
             ) : courses.length === 0 ? (
-              <div className="text-center py-16 bg-white rounded-[2rem] border border-gray-200/50">
-                <p className="text-gray-400 text-lg font-bold">No upcoming courses available at the moment. Check back soon!</p>
+              <div className="text-center py-16 px-6 bg-[#FAFAFA] rounded-[2rem] border border-gray-200/50 shadow-sm">
+                <div className="flex justify-center mb-6">
+                  <div className="h-16 w-16 rounded-full bg-[#e8eaf6] flex items-center justify-center">
+                    <Calendar className="h-8 w-8 text-[#1a237e]" />
+                  </div>
+                </div>
+                <h3 className="text-2xl font-bold text-[#1a237e] mb-3">Next Cohort Starting Soon</h3>
+                <p className="text-gray-500 text-lg mb-8 max-w-lg mx-auto">
+                  Join the next cohort – share your interest and we’ll notify you when dates are announced.
+                </p>
+                <Link href="#enquiry">
+                  <Button className="h-12 px-8 rounded-full bg-[#1a237e] text-white hover:bg-[#10164f] shadow-lg transition-all duration-300 hover:-translate-y-0.5 group">
+                    Notify Me
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </Button>
+                </Link>
               </div>
             ) : (
               <>
@@ -293,12 +317,12 @@ export default function Home() {
 
                 <div
                   ref={upcomingCoursesRef}
-                  className="flex flex-row overflow-x-auto gap-6 lg:gap-8 pb-8 -mx-4 px-8 md:mx-0 md:px-0 scrollbar-hide snap-x"
+                  className="flex flex-row overflow-x-auto gap-4 lg:gap-5 pb-8 -mx-4 px-8 md:mx-0 md:px-0 scrollbar-hide snap-x"
                 >
                   {courses.map((course, index) => {
                     const programSlug = getProgramSlug(course.courseName);
                     return (
-                      <div key={index} className="group relative rounded-[1.5rem] bg-white shadow-sm border border-gray-200 transition-all hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.1)] w-[300px] sm:w-[340px] flex-shrink-0 flex flex-col h-full snap-start overflow-hidden">
+                      <div key={index} className="group relative rounded-[1.5rem] bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200 transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.25)] hover:border-[#1a237e]/30 hover:-translate-y-2 w-[300px] sm:w-[340px] flex-shrink-0 flex flex-col h-full snap-start overflow-hidden">
                         {/* Top Decorative Stripe */}
                         <div className="h-1.5 w-full bg-gradient-to-r from-[#1a237e] to-[#3949ab]"></div>
 
@@ -372,7 +396,7 @@ export default function Home() {
         </section>
       </main>
       <ArticlesSection />
-
+      <FAQSection />
       <EnquiryForm />
       <Footer />
 

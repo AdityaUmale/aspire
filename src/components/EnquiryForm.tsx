@@ -12,7 +12,9 @@ import {
   Send,
   MessageSquare,
   Loader2,
-  Calendar
+  Calendar,
+  CheckCircle2,
+  AlertCircle
 } from "lucide-react";
 
 interface FormData {
@@ -46,7 +48,7 @@ export default function EnquiryForm() {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitMessage(null);
-    
+
     try {
       const response = await fetch('/api/submit-enquiry', {
         method: 'POST',
@@ -70,7 +72,7 @@ export default function EnquiryForm() {
         }
       }
       setSubmitMessage('Enquiry submitted successfully! We will get back to you soon.');
-      setFormData({ name: '', email: '', phone: '', age: '', enquiry: '' }); 
+      setFormData({ name: '', email: '', phone: '', age: '', enquiry: '' });
     } catch (error: unknown) {
       console.error('Enquiry submission error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to submit enquiry. Please try again later.';
@@ -81,167 +83,190 @@ export default function EnquiryForm() {
   };
 
   return (
-    <section id="enquiry" className={`py-24 relative bg-white border-t border-gray-100 font-sans`}>
-      {/* Background Texture */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply" 
-           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
-      </div>
+    <section id="enquiry" className="py-24 lg:py-32 relative z-10 border-t border-gray-50 font-sans selection:bg-[#1a237e] selection:text-white">
 
-      <div className="container px-4 md:px-6 mx-auto relative z-10">
-        
-        {/* Header Section */}
-        <div className="flex flex-col items-center justify-center space-y-6 text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#1a237e]/10 bg-white shadow-sm">
-            <Mail className="h-3.5 w-3.5 text-[#1a237e]" />
-            <span className="text-xs font-bold tracking-widest text-[#1a237e] uppercase">Contact Us</span>
-          </div>
-          
-          <div className="max-w-2xl space-y-4">
-            <h2 className="font-bold text-4xl md:text-5xl text-[#1a237e] leading-tight">
-              Start Your <span className="text-[#3949ab]">Transformation.</span>
+      <div className="container px-4 md:px-6 mx-auto max-w-7xl relative z-10">
+
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+
+          {/* Left Column: Context & Copy */}
+          <div className="lg:col-span-5 space-y-8">
+            <div className="inline-flex items-center gap-3">
+              <span className="h-[2px] w-8 bg-[#3949ab]/40 rounded-full" />
+              <span className="text-sm font-bold tracking-[0.2em] text-[#1a237e] uppercase">
+                Contact Us
+              </span>
+            </div>
+
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#1a237e] leading-[1.1] tracking-tight text-balance">
+              Start Your <br />
+              <span className="text-[#3949ab] bg-clip-text text-transparent bg-gradient-to-r from-[#1a237e] to-[#3949ab]">
+                Transformation.
+              </span>
             </h2>
-            <p className="text-gray-500 text-lg font-light">
+
+            <p className="text-gray-600 text-lg md:text-xl font-light leading-relaxed text-balance">
               Have questions about our programs? Fill out the form below and our admissions team will guide you on the right path.
             </p>
+
+
           </div>
-        </div>
 
-        {/* Form Container */}
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] border border-gray-100 relative overflow-hidden">
-            {/* Top Accent Line */}
-            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#1a237e] via-[#3949ab] to-[#1a237e]"></div>
+          {/* Right Column: Form Container */}
+          <div className="lg:col-span-7">
+            <div className="bg-white p-8 sm:p-10 lg:p-12 rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl shadow-[#1a237e]/5 border border-gray-100 relative overflow-hidden group/form-container">
 
-            <form onSubmit={handleSubmitEnquiry} className="space-y-8">
-              
-              <div className="grid md:grid-cols-2 gap-8">
-                {/* Name */}
+              {/* Dynamic Top Accent Line */}
+              <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#1a237e]/20 to-transparent group-focus-within/form-container:via-[#1a237e] transition-all duration-700 ease-in-out" />
+
+              <form onSubmit={handleSubmitEnquiry} className="space-y-6">
+
+                <div className="grid sm:grid-cols-2 gap-6">
+                  {/* Name Input */}
+                  <div className="space-y-2">
+                    <Label htmlFor="name" className="text-xs font-bold text-gray-500 uppercase tracking-widest pl-1">Full Name</Label>
+                    <div className="relative group/input">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <User className="h-[18px] w-[18px] text-gray-400 group-focus-within/input:text-[#1a237e] transition-colors duration-300" />
+                      </div>
+                      <Input
+                        type="text"
+                        name="name"
+                        id="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="Your Name"
+                        required
+                        className="h-14 pl-11 w-full border-gray-200 bg-[#FAFAFA] rounded-2xl focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all duration-300 text-base placeholder:text-gray-400"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email Input */}
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-xs font-bold text-gray-500 uppercase tracking-widest pl-1">Email Address</Label>
+                    <div className="relative group/input">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <Mail className="h-[18px] w-[18px] text-gray-400 group-focus-within/input:text-[#1a237e] transition-colors duration-300" />
+                      </div>
+                      <Input
+                        type="email"
+                        name="email"
+                        id="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="you@example.com"
+                        required
+                        className="h-14 pl-11 w-full border-gray-200 bg-[#FAFAFA] rounded-2xl focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all duration-300 text-base placeholder:text-gray-400"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-6">
+                  {/* Phone Input */}
+                  <div className="space-y-2">
+                    <Label htmlFor="phone" className="text-xs font-bold text-gray-500 uppercase tracking-widest pl-1">Phone Number</Label>
+                    <div className="relative group/input">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <Phone className="h-[18px] w-[18px] text-gray-400 group-focus-within/input:text-[#1a237e] transition-colors duration-300" />
+                      </div>
+                      <Input
+                        type="tel"
+                        name="phone"
+                        id="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        placeholder="+91 98765 43210"
+                        required
+                        className="h-14 pl-11 w-full border-gray-200 bg-[#FAFAFA] rounded-2xl focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all duration-300 text-base placeholder:text-gray-400"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Age Input */}
+                  <div className="space-y-2">
+                    <Label htmlFor="age" className="text-xs font-bold text-gray-500 uppercase tracking-widest pl-1">Age</Label>
+                    <div className="relative group/input">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <Calendar className="h-[18px] w-[18px] text-gray-400 group-focus-within/input:text-[#1a237e] transition-colors duration-300" />
+                      </div>
+                      <Input
+                        type="number"
+                        name="age"
+                        id="age"
+                        value={formData.age}
+                        onChange={handleInputChange}
+                        placeholder="18"
+                        min={5}
+                        max={120}
+                        required
+                        className="h-14 pl-11 w-full border-gray-200 bg-[#FAFAFA] rounded-2xl focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all duration-300 text-base placeholder:text-gray-400"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Enquiry Textarea */}
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-xs font-bold text-[#1a237e] uppercase tracking-widest">Full Name</Label>
-                  <div className="relative group">
-                    <User className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-[#1a237e] transition-colors duration-300" />
-                    <Input 
-                      type="text" 
-                      name="name" 
-                      id="name" 
-                      value={formData.name} 
-                      onChange={handleInputChange} 
-                      placeholder="Your Name" 
-                      required 
-                      className="h-12 pl-12 w-full border-gray-200 bg-gray-50/30 rounded-xl focus:ring-2 focus:ring-[#1a237e]/10 focus:border-[#1a237e] transition-all" 
+                  <Label htmlFor="enquiry" className="text-xs font-bold text-gray-500 uppercase tracking-widest pl-1">Your Message</Label>
+                  <div className="relative group/input">
+                    <div className="absolute top-4 left-0 pl-4 pointer-events-none">
+                      <MessageSquare className="h-[18px] w-[18px] text-gray-400 group-focus-within/input:text-[#1a237e] transition-colors duration-300" />
+                    </div>
+                    <Textarea
+                      name="enquiry"
+                      id="enquiry"
+                      rows={4}
+                      value={formData.enquiry}
+                      onChange={handleInputChange}
+                      placeholder="Tell us which program you’re interested in or share any questions you have..."
+                      required
+                      className="min-h-[140px] pl-11 py-4 w-full border-gray-200 bg-[#FAFAFA] rounded-2xl focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all duration-300 text-base placeholder:text-gray-400 resize-none"
                     />
                   </div>
                 </div>
 
-                {/* Email */}
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-xs font-bold text-[#1a237e] uppercase tracking-widest">Email Address</Label>
-                  <div className="relative group">
-                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-[#1a237e] transition-colors duration-300" />
-                    <Input 
-                      type="email" 
-                      name="email" 
-                      id="email" 
-                      value={formData.email} 
-                      onChange={handleInputChange} 
-                      placeholder="you@example.com" 
-                      required 
-                      className="h-12 pl-12 w-full border-gray-200 bg-gray-50/30 rounded-xl focus:ring-2 focus:ring-[#1a237e]/10 focus:border-[#1a237e] transition-all" 
-                    />
+                {/* Status Messages - Repositioned above button for better flow */}
+                {submitMessage && (
+                  <div className={`flex items-start gap-3 p-4 rounded-xl text-sm font-medium animate-in fade-in slide-in-from-bottom-2 ${submitMessage.includes('successfully')
+                    ? 'bg-emerald-50/80 text-emerald-800 border border-emerald-100'
+                    : 'bg-red-50/80 text-red-800 border border-red-100'
+                    }`}>
+                    {submitMessage.includes('successfully') ? (
+                      <CheckCircle2 className="h-5 w-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    ) : (
+                      <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                    )}
+                    <span className="leading-relaxed">{submitMessage}</span>
                   </div>
+                )}
+
+                {/* Submit Button */}
+                <div className="pt-2">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full h-14 rounded-2xl bg-[#1a237e] hover:bg-[#10164f] text-white text-base font-semibold shadow-[0_4px_14px_0_rgba(26,35,126,0.39)] hover:shadow-[0_6px_20px_rgba(26,35,126,0.23)] transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 disabled:shadow-none outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#1a237e]"
+                  >
+                    {isSubmitting ? (
+                      <span className="flex items-center">
+                        <Loader2 className="animate-spin -ml-1 mr-3 h-5 w-5" />
+                        Sending Message...
+                      </span>
+                    ) : (
+                      <span className="flex items-center">
+                        Send Enquiry
+                        <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                      </span>
+                    )}
+                  </Button>
                 </div>
-              </div>
 
-              <div className="grid md:grid-cols-2 gap-8">
-                {/* Phone */}
-                <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-xs font-bold text-[#1a237e] uppercase tracking-widest">Phone Number</Label>
-                  <div className="relative group">
-                    <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-[#1a237e] transition-colors duration-300" />
-                    <Input 
-                      type="tel" 
-                      name="phone" 
-                      id="phone" 
-                      value={formData.phone} 
-                      onChange={handleInputChange} 
-                      placeholder="+91 98765 43210"
-                      required 
-                      className="h-12 pl-12 w-full border-gray-200 bg-gray-50/30 rounded-xl focus:ring-2 focus:ring-[#1a237e]/10 focus:border-[#1a237e] transition-all" 
-                    />
-                  </div>
-                </div>
-
-                {/* Age */}
-                <div className="space-y-2">
-                  <Label htmlFor="age" className="text-xs font-bold text-[#1a237e] uppercase tracking-widest">Age</Label>
-                  <div className="relative group">
-                    <Calendar className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-[#1a237e] transition-colors duration-300" />
-                    <Input 
-                      type="number" 
-                      name="age" 
-                      id="age" 
-                      value={formData.age} 
-                      onChange={handleInputChange} 
-                      placeholder="18"
-                      min={5}
-                      max={120}
-                      required 
-                      className="h-12 pl-12 w-full border-gray-200 bg-gray-50/30 rounded-xl focus:ring-2 focus:ring-[#1a237e]/10 focus:border-[#1a237e] transition-all" 
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Enquiry */}
-              <div className="space-y-2">
-                <Label htmlFor="enquiry" className="text-xs font-bold text-[#1a237e] uppercase tracking-widest">Your Message</Label>
-                <div className="relative group">
-                  <MessageSquare className="absolute left-4 top-4 h-5 w-5 text-gray-400 group-focus-within:text-[#1a237e] transition-colors duration-300" />
-                  <Textarea 
-                    name="enquiry" 
-                    id="enquiry" 
-                    rows={4} 
-                    value={formData.enquiry} 
-                    onChange={handleInputChange} 
-                    placeholder="Tell us which course you are interested in or ask any questions..." 
-                    required 
-                    className="min-h-[120px] pl-12 py-4 w-full border-gray-200 bg-gray-50/30 rounded-xl focus:ring-2 focus:ring-[#1a237e]/10 focus:border-[#1a237e] transition-all resize-none" 
-                  />
-                </div>
-              </div>
-
-              {/* Submit Button */}
-              <div>
-                <Button 
-                  type="submit" 
-                  disabled={isSubmitting}
-                  className="w-full h-14 rounded-full bg-[#1a237e] hover:bg-[#0d1642] text-white text-lg font-medium shadow-lg shadow-[#1a237e]/20 transition-all duration-300 hover:shadow-xl hover:scale-[1.01] flex items-center justify-center disabled:opacity-70 disabled:hover:scale-100"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      Send Enquiry <Send className="ml-2 h-4 w-4" />
-                    </>
-                  )}
-                </Button>
-              </div>
-            </form>
-
-            {/* Status Messages */}
-            {submitMessage && (
-              <div className={`mt-6 p-4 rounded-xl text-center text-sm font-medium animate-in fade-in slide-in-from-bottom-2 ${
-                submitMessage.includes('successfully') 
-                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' 
-                  : 'bg-red-50 text-red-700 border border-red-100'
-              }`}>
-                {submitMessage}
-              </div>
-            )}
+              </form>
+            </div>
           </div>
+
         </div>
       </div>
     </section>

@@ -74,7 +74,7 @@ export default function EnglishLanguageTrainingPage() {
                   <div className="absolute inset-0 bg-gradient-to-br from-[#c5cae9]/30 to-transparent rounded-2xl blur-2xl group-hover:blur-3xl transition-all duration-500"></div>
                   <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                     <Image
-                      src="/elt4.jpg"
+                      src="/elt7.jpg"
                       alt="English Language Training"
                       width={600}
                       height={500}
@@ -118,14 +118,14 @@ export default function EnglishLanguageTrainingPage() {
                 <span className="text-[#1a237e] uppercase tracking-wider text-sm font-bold">Introduction</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-[#1a237e] mb-6 leading-tight">
-                Master English with Confidence
+                English Language Courses
               </h2>
               <div className="prose prose-lg text-gray-700 leading-relaxed">
                 <p className="mb-6">
-                  We have been teaching English language in India for more than 17 years. These English language courses give language learners confidence and skills to get mastery over English language.
+                  English today is the language that connects the world from Australia and the United Kingdom to India and beyond. It’s the most widely learned second language, opening doors to education, careers, travel, and global opportunities.
                 </p>
-                <p>
-                  We train language learners using a natural way of teaching language. We have developed an encouraging culture that allows learners to commit mistakes and take free efforts when their English is just average.
+                <p className="mb-6">
+                  At Aspire Institute, we’ve been empowering learners across India for over 17 years to speak, understand, and live the English language with confidence. Our English Language Courses, from Pre-Basic to Proficient, are designed for real people with real challenges fear of speaking, lack of vocabulary, hesitation, or mother-tongue influence.
                 </p>
               </div>
             </div>
@@ -142,51 +142,30 @@ export default function EnglishLanguageTrainingPage() {
             </div>
           </div>
 
-          {/* Feature Sections */}
-          <div className="space-y-20">
-            {/* Block 1 */}
-            <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <div className="order-2 md:order-1 relative">
-                <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform -rotate-2 scale-[1.02]"></div>
-                <Image
-                  src="/elt5.jpg"
-                  alt="Interactive learning activities"
-                  width={600}
-                  height={450}
-                  className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:rotate-1 transition-transform duration-500"
-                />
-              </div>
-              <div className="order-1 md:order-2">
-                <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Interactive Learning Approach</h3>
-                <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                  Our methodologies help learners to discover that learning English is very easy. We have a range of courses to suit your language learning needs.
-                </p>
-                <p className="text-gray-700 leading-relaxed text-lg">
-                  No matter you come from any age group and any profession, it&apos;s the right unit of English language courses to unleash your love for English language.
-                </p>
-              </div>
+          {/* Feature Section */}
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="order-2 md:order-1 relative">
+              <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform -rotate-2 scale-[1.02]"></div>
+              <Image
+                src="/elt9.jpg"
+                alt="Interactive English learning"
+                width={600}
+                height={450}
+                className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:rotate-1 transition-transform duration-500"
+              />
             </div>
-
-            {/* Block 2 */}
-            <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <div>
-                <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Courses for All Ages</h3>
-                <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                  We provide a variety of training according to the levels. From methodology to resources we seek the growth of our learners.
+            <div className="order-1 md:order-2">
+              <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Communicate Fearlessly</h3>
+              <div className="prose prose-lg text-gray-700 leading-relaxed">
+                <p className="mb-6">
+                  Through our interactive, activity-based training, we make English simple, enjoyable, and practical for everyday life, work, and study. With stories, conversations, games, and media-based lessons, we help learners rise above barriers, think in English, and express themselves naturally.
                 </p>
-                <p className="text-gray-700 leading-relaxed text-lg">
-                  The syllabus includes activities, stories, audios, videos and games to improve English. Perfect for kids aged 8-12, professionals, and adults alike.
+                <p className="mb-6">
+                  Aspire’s English programs don’t just teach English—they help you communicate fearlessly, connect globally, and grow personally and professionally.
                 </p>
-              </div>
-              <div className="relative">
-                <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform rotate-2 scale-[1.02]"></div>
-                <Image
-                  src="/elt6.jpg"
-                  alt="Students of all ages learning English"
-                  width={600}
-                  height={450}
-                  className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:-rotate-1 transition-transform duration-500"
-                />
+                <p className="font-bold text-[#1a237e] text-xl">
+                  Aspire Helps to Connect globally, express freely, and grow personally and professionally with the power of English.
+                </p>
               </div>
             </div>
           </div>

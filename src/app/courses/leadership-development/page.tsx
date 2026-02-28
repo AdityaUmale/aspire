@@ -115,14 +115,14 @@ export default function LeadershipDevelopmentPage() {
                 <span className="text-[#1a237e] uppercase tracking-wider text-sm font-bold">Introduction</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-[#1a237e] mb-6 leading-tight">
-                Awaken the Leader Within
+                Leadership Development Program (LDP)
               </h2>
               <div className="prose prose-lg text-gray-700 leading-relaxed">
                 <p className="mb-6">
-                  At ASPIRE Institute, leadership development is about awakening the leader within and empowering individuals to lead with clarity, confidence, and purpose at work and in life.
+                  In today’s fast-changing world, many professionals struggle with uncertainty, lack of clarity, low team motivation, and the constant pressure to perform yet what truly makes a difference is leadership that inspires trust and drives results. At Aspire Institute of Human Development, we help individuals go beyond titles and discover the leader within.
                 </p>
-                <p>
-                  In today&apos;s fast-changing world, leadership matters more than ever. Our Leadership Development Program (LDP) is built on deep research and real-world practice, designed to give the right direction to careers and lasting impact to lives.
+                <p className="mb-6">
+                  Our Leadership Development Program (LDP) is designed to solve real challenges leaders face from poor communication and team conflicts to decision paralysis and low morale.
                 </p>
               </div>
             </div>
@@ -139,49 +139,30 @@ export default function LeadershipDevelopmentPage() {
             </div>
           </div>
 
-          {/* Feature Sections */}
-          <div className="space-y-20">
-            {/* Block 1: Expand Capacity */}
-            <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <div className="order-2 md:order-1 relative">
-                <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform -rotate-2 scale-[1.02]"></div>
-                <Image
-                  src="/ldp1.jpg"
-                  alt="Professional development"
-                  width={600}
-                  height={450}
-                  className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:rotate-1 transition-transform duration-500"
-                />
-              </div>
-              <div className="order-1 md:order-2">
-
-                <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Expand Your Capacity</h3>
-                <p className="text-gray-700 leading-relaxed text-lg">
-                  This program expands your capacity to lead whether you are an emerging professional, a team leader, or a senior executive. We focus on strengthening functional expertise, strategic thinking, and people leadership, enabling participants to perform effectively at every level of an organization from frontline roles to top leadership.
-                </p>
-              </div>
+          {/* Feature Section */}
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="order-2 md:order-1 relative">
+              <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform -rotate-2 scale-[1.02]"></div>
+              <Image
+                src="/ldp1.jpg"
+                alt="Professional development in LDP"
+                width={600}
+                height={450}
+                className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:rotate-1 transition-transform duration-500"
+              />
             </div>
-
-            {/* Block 2: Interactive & Practical */}
-            <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <div>
-                <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Interactive & Practical</h3>
-                <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                  Our LDP is highly interactive, topical, and practical, tailored to the unique environment and needs of individuals and organizations. It is designed for long-term leadership growth, creating leaders who not only perform but also inspire, influence, and build strong cultures.
+            <div className="order-1 md:order-2">
+              <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Transform Potential into Performance</h3>
+              <div className="prose prose-lg text-gray-700 leading-relaxed">
+                <p className="mb-6">
+                  Through practical strategies, reflection-based learning, and hands-on exercises, you’ll learn how to lead with confidence, handle complexity with calm, and influence people with purpose. Whether you’re an emerging professional, a manager, or an entrepreneur, LDP equips you to build high-performing teams, make smart decisions, and turn challenges into opportunities.
                 </p>
-                <p className="text-gray-700 leading-relaxed text-lg">
-                  Through this journey, participants gain deep self-awareness, powerful tools, and actionable skills to lead themselves, their teams, and their organizations with impact and integrity.
+                <p className="mb-6">
+                  With over 17 years of proven impact across India, Aspire’s Leadership Development Program transforms potential into performance creating leaders who not only achieve goals but elevate others along the way.
                 </p>
-              </div>
-              <div className="relative">
-                <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform rotate-2 scale-[1.02]"></div>
-                <Image
-                  src="/ldp5.jpg"
-                  alt="Interactive learning environment"
-                  width={600}
-                  height={450}
-                  className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:-rotate-1 transition-transform duration-500"
-                />
+                <p className="font-bold text-[#1a237e] italic text-xl">
+                  “Discover the leader within and make leadership your strength.”
+                </p>
               </div>
             </div>
           </div>

@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
     const token = tokenCookie?.value;
 
     // Define static public paths that don't require authentication
-    const staticPublicPaths = ['/signin', '/api/signin', '/', '/success-stories', '/founder', '/team', '/about-us', '/salute-learning-spirit'];
+    const staticPublicPaths = ['/signin', '/api/signin', '/', '/success-stories', '/founder', '/team', '/about-us', '/salute-learning-spirit', '/careers'];
 
     // Allow requests to static public paths
     if (staticPublicPaths.some(path => pathname === path)) {

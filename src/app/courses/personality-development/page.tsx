@@ -112,14 +112,14 @@ export default function PersonalityDevelopmentPage() {
                 <span className="text-[#1a237e] uppercase tracking-wider text-sm font-bold">Introduction</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-[#1a237e] mb-6 leading-tight">
-                Discover Your True Self
+                Self Improvement Training Program (SITP)
               </h2>
               <div className="prose prose-lg text-gray-700 leading-relaxed">
                 <p className="mb-6">
-                  Knowing and exploring about oneself is personality development. We believe it is not just about one&apos;s outer appearance which is visible; it is more about the inner self.
+                  In today’s world, true personality goes beyond looks, it’s about confidence, mindset, behaviour, and emotional strength. Aspire Institute’s Personality Development Course helps learners explore and transform their inner self through deep self-awareness, positive thinking, and real-life behavioural growth.
                 </p>
-                <p>
-                  It&apos;s about thoughts, feelings and behaviors that differentiate individuals from one another. It is real development of the mind and behavior. You&apos;ll learn to do introspection and self development for everlasting change as the lessons reverberate confidence, enthusiasm, and serenity.
+                <p className="mb-6">
+                  This program empowers participants to overcome fear, anxiety, and self-doubt while unlocking hidden potential, purpose, and passion.
                 </p>
               </div>
             </div>
@@ -142,20 +142,25 @@ export default function PersonalityDevelopmentPage() {
               <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform -rotate-2 scale-[1.02]"></div>
               <Image
                 src="/pdc6.jpg"
-                alt="Professional development"
+                alt="Professional development growth"
                 width={600}
                 height={450}
                 className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:rotate-1 transition-transform duration-500"
               />
             </div>
             <div className="order-1 md:order-2">
-              <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Unlock Your Potential</h3>
-              <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                Personality Development Course is one of the highly sought courses of Aspire. It enables participants to enrich and develop the quality of thoughts which eventually leads to successful life.
-              </p>
-              <p className="text-gray-700 leading-relaxed text-lg">
-                This course mainly focuses on empowering participants to overcome obstacles, to face the fears, to inculcate the positive thoughts while eradicating the negative ones, to chase the greater goals and to learn social skills.
-              </p>
+              <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Transform Your Life</h3>
+              <div className="prose prose-lg text-gray-700 leading-relaxed">
+                <p className="mb-6">
+                  Through introspective sessions, goal-setting exercises, and life-skill training, learners develop a confident attitude, strong interpersonal skills, and a calm, positive outlook. Designed for students, professionals, homemakers, and anyone seeking meaningful change, the PDC shapes individuals who think clearly, communicate effectively, and lead gracefully in personal and professional life.
+                </p>
+                <p className="mb-6">
+                  With Aspire, self-improvement becomes not just a course—but a way of living.
+                </p>
+                <p className="font-bold text-[#1a237e] text-xl">
+                  Because personal growth is the first step toward professional success.
+                </p>
+              </div>
             </div>
           </div>
         </div>

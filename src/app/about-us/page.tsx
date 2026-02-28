@@ -1,73 +1,80 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import {
-  Award,
-  Users,
-  BookOpen,
-  Target,
-  Globe,
-  Zap,
   Microscope,
-  Heart,
   CheckCircle,
-  Sparkles,
-  ArrowUpRight
+  ArrowUpRight,
+  Milestone
 } from 'lucide-react';
 
 export default function AboutUsPage() {
   return (
-    <div className={`flex flex-col min-h-screen bg-[#FAFAFA] font-sans selection:bg-[#1a237e] selection:text-white`}>
-      <Navbar />
+    <div className={`flex flex-col min-h-screen bg-white font-sans selection:bg-[#1a237e] selection:text-white`}>
 
-      {/* Global Grain Texture */}
-      <div className="fixed inset-0 opacity-[0.035] pointer-events-none z-50 mix-blend-multiply"
-        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
+      {/* ────────────────────────────────────────────────
+        GLOBAL GRADIENT BACKGROUND — fixed, spans entire page
+       ──────────────────────────────────────────────── */}
+      <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+        <div className="absolute top-[20%] right-[-10%] w-[350px] md:w-[700px] h-[350px] md:h-[700px] rounded-full bg-gradient-to-br from-[#7c4dff]/20 md:from-[#7c4dff]/25 via-[#536dfe]/15 md:via-[#536dfe]/20 to-transparent blur-[60px] md:blur-[120px]"></div>
+        <div className="absolute top-[55%] left-[-8%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] rounded-full bg-gradient-to-tr from-[#448aff]/15 md:from-[#448aff]/20 via-[#7c4dff]/10 md:via-[#7c4dff]/15 to-transparent blur-[50px] md:blur-[100px]"></div>
+        <div className="absolute bottom-[10%] right-[5%] w-[250px] md:w-[500px] h-[250px] md:h-[500px] rounded-full bg-gradient-to-tl from-[#e040fb]/10 md:from-[#e040fb]/15 via-[#7c4dff]/10 md:via-[#7c4dff]/10 to-transparent blur-[40px] md:blur-[100px]"></div>
       </div>
 
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white">
-        {/* Subtle Background Elements */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-radial from-[#1a237e]/5 to-transparent blur-3xl opacity-60"></div>
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-radial from-[#3949ab]/5 to-transparent blur-3xl opacity-60"></div>
+      <Navbar />
 
+      {/* ════════════════════════════════════════════════
+          HERO SECTION — Clean, editorial
+         ════════════════════════════════════════════════ */}
+      <section className="relative pt-36 pb-20 lg:pt-52 lg:pb-28 z-10 overflow-hidden">
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-5xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 mb-8 animate-in slide-in-from-bottom-4 duration-700 fade-in">
+            <div className="inline-flex items-center gap-2 mb-8">
               <span className="h-px w-12 bg-[#1a237e]/30"></span>
               <span className="text-sm font-bold tracking-[0.2em] text-[#1a237e] uppercase">Since 2009</span>
               <span className="h-px w-12 bg-[#1a237e]/30"></span>
             </div>
 
-            <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl font-medium text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-black tracking-tight leading-[1.1] mb-8">
               Unlocking Potential, <br />
               <span className="text-[#3949ab]">Shaping Futures.</span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-3xl mx-auto font-light animate-in slide-in-from-bottom-8 duration-700 delay-200 fade-in">
+            <p className="text-xl md:text-2xl text-gray-500 leading-relaxed font-light max-w-3xl mx-auto mb-16">
               We are India&apos;s premier institute for personal and professional development, dedicated to the belief that every individual holds the power to transform.
             </p>
-          </div>
 
-          {/* Hero Stats - Floating Bar Style */}
-          <div className="mt-20 max-w-6xl mx-auto animate-in slide-in-from-bottom-10 duration-700 delay-300 fade-in">
-            <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 p-8 md:p-12">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x-0 md:divide-x divide-gray-100">
+            {/* Unique Architectural Stats Grid */}
+            <div className="max-w-6xl mx-auto">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-8 md:gap-x-16 text-center md:text-left">
                 {[
-                  { label: "Active Learners", value: "150K+", icon: Users },
-                  { label: "Global Reach", value: "3M+", icon: Globe },
-                  { label: "Years Legacy", value: "15+", icon: Award },
-                  { label: "Programs Delivered", value: "5000+", icon: BookOpen },
+                  { label: "Active Learners", value: "150K+", sub: "Across India" },
+                  { label: "Global Reach", value: "3M+", sub: "Digital Footprint" },
+                  { label: "Years Legacy", value: "15+", sub: "Since 2009" },
+                  { label: "Programs", value: "5000+", sub: "Success Stories" },
                 ].map((stat, index) => (
-                  <div key={index} className="text-center group">
-                    <div className="flex justify-center mb-4">
-                      <div className="p-3 bg-[#f5f6fa] rounded-full text-[#1a237e] group-hover:scale-110 group-hover:bg-[#1a237e] group-hover:text-white transition-all duration-300">
-                        <stat.icon className="h-6 w-6" />
+                  <div key={index} className="group relative pt-10">
+                    {/* Minimalist Top Accent */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 w-[80%] md:w-full h-[1px] bg-gray-100 group-hover:bg-[#1a237e]/20 transition-colors duration-500">
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 w-8 h-[2px] bg-[#1a237e] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center md:origin-left"></div>
+                    </div>
+
+                    <div className="space-y-1 text-center md:text-left">
+                      <h3 className="font-black text-4xl md:text-5xl text-[#1a237e] tracking-tighter group-hover:-translate-y-1 transition-transform duration-500">
+                        {stat.value}
+                      </h3>
+                      <div>
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0f1337] mb-1">
+                          {stat.label}
+                        </p>
+                        <p className="text-[10px] font-medium text-gray-400 italic">
+                          {stat.sub}
+                        </p>
                       </div>
                     </div>
-                    <h3 className="font-bold text-3xl md:text-4xl font-medium text-[#1a237e] mb-1">{stat.value}</h3>
-                    <p className="text-xs font-bold uppercase tracking-widest text-gray-400">{stat.label}</p>
                   </div>
                 ))}
               </div>
@@ -76,37 +83,120 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* Narrative Section */}
-      <section className="py-24 bg-[#f8f9fa] relative border-y border-gray-200">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid lg:grid-cols-12 gap-12 items-start">
+      {/* ════════════════════════════════════════════════
+          NARRATIVE — Editorial Manifesto Layout
+         ════════════════════════════════════════════════ */}
+      <section className="py-24 md:py-32 relative z-10">
+        <div className="container mx-auto px-4 md:px-6 max-w-6xl">
 
-            {/* Text Column */}
-            <div className="lg:col-span-5 space-y-8 relative md:sticky md:top-24">
-              <h2 className="font-bold text-4xl md:text-5xl text-[#1a237e] leading-tight">
-                More than just an institute, we are a <span>movement.</span>
+          {/* Intro */}
+          <div className="max-w-3xl mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-8">
+              More than just an institute, we are a <span className="text-[#1a237e]">movement.</span>
+            </h2>
+            <p className="text-gray-500 text-lg leading-relaxed font-light">
+              Aspire offers a vibrant curriculum tailored for both young minds and seasoned professionals. We operate on a fundamental truth:
+              <strong className="text-[#1a237e] font-medium"> everyone has the potential to become an incredible version of themselves.</strong>
+            </p>
+          </div>
+
+          {/* Mission */}
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start pb-16 md:pb-20 border-b border-gray-100">
+            <div className="lg:col-span-4">
+              <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none block mb-4">01</span>
+              <h3 className="text-2xl md:text-3xl font-bold text-[#0f1337] tracking-tight">Our Mission</h3>
+            </div>
+            <div className="lg:col-span-8 lg:pt-6">
+              <p className="text-xl md:text-2xl text-gray-600 leading-relaxed font-light">
+                Our mission is to provide an extensive variety of life-transforming programs to create effective <strong className="text-[#0f1337] font-semibold">Communicators</strong>, <strong className="text-[#0f1337] font-semibold">Self-believers</strong>, <strong className="text-[#0f1337] font-semibold">Engaging leaders</strong>, <strong className="text-[#0f1337] font-semibold">Aspiring professionals</strong> and <strong className="text-[#0f1337] font-semibold">Visionary entrepreneurs</strong>.
+              </p>
+            </div>
+          </div>
+
+          {/* Vision */}
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start pt-16 md:pt-20">
+            <div className="lg:col-span-4">
+              <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none block mb-4">02</span>
+              <h3 className="text-2xl md:text-3xl font-bold text-[#0f1337] tracking-tight">Our Vision</h3>
+            </div>
+            <div className="lg:col-span-8 lg:pt-6">
+              <p className="text-xl md:text-2xl text-gray-600 leading-relaxed font-light">
+                Aspire envisions a world where people <strong className="text-[#0f1337] font-semibold">believe in themselves</strong> and live their true potential to make this world a <strong className="text-[#0f1337] font-semibold">better place to live</strong>.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════
+          OFFERINGS — Light Glassmorphic Layout (matches Careers Core Values)
+         ════════════════════════════════════════════════ */}
+      <section className="relative py-24 md:py-36 z-10">
+        <div className="container mx-auto px-4 md:px-6 max-w-6xl relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-start">
+
+            {/* Left — Sticky Heading */}
+            <div className="lg:sticky lg:top-40">
+              <div className="inline-flex items-center gap-3 mb-6">
+                <span className="h-px w-8 bg-[#1a237e]/20"></span>
+                <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">What We Do</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-bold text-[#0f1337] leading-tight mb-6">
+                Comprehensive Growth Ecosystem
               </h2>
-              <div className="prose prose-lg text-gray-600 leading-relaxed font-light">
-                <p>
-                  Aspire - The Institute Of Human Development offers a vibrant curriculum tailored for both young minds and seasoned professionals. We operate on a fundamental truth:
-                  <strong className="text-[#1a237e] font-medium"> everyone has the potential to become an incredible version of themselves.</strong>
-                </p>
-                <p>
-                  Through our meticulously crafted programs, we provide the tools, knowledge, and environment needed to unlock that potential. We don&apos;t just teach; we transform. We cultivate a positive shift that empowers learners to live confidently and successfully.
-                </p>
+              <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-md mb-8">
+                From public speaking to corporate leadership, our R&D-backed modules cover every aspect of human development.
+              </p>
+
+              {/* R&D Badge */}
+              <div className="flex items-center gap-4 bg-[#f8f9fc] px-6 py-5 rounded-[2rem] border border-gray-100 shrink-0">
+                <div className="p-3 bg-[#f5f6fa] rounded-full text-[#1a237e]">
+                  <Microscope className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="font-bold text-[#0f1337] text-base tracking-tight">Research Backed R&D</p>
+                  <p className="text-xs text-gray-400 font-medium mt-0.5">Methodology updated quarterly</p>
+                </div>
               </div>
             </div>
 
-            {/* Cards Column */}
-            <div className="lg:col-span-7 grid gap-6">
-              {[
-                { title: "Our Mission", content: "Our mission is to provide an extensive variety of life-transforming programs to create effective Communicators, Self-believers, Engaging leaders, Aspiring professionals and Visionary entrepreneurs.", icon: Target, color: "bg-blue-50" },
-                { title: "Our Vision", content: "Aspire The Institute Of Human Development envisions the world where people believe in themselves & live their true potential to make this world a better place to live.", icon: Zap, color: "bg-indigo-50" },
-              ].map((item, idx) => (
-                <div key={idx} className="bg-white p-8 md:p-10 rounded-[2rem] shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+            {/* Right — Stacked glassmorphism cards */}
+            <div className="space-y-5 relative">
+              {/* Colorful blobs behind the cards */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#7c4dff] to-[#e040fb] rounded-full blur-[80px] opacity-30 -z-10 mix-blend-multiply"></div>
+              <div className="absolute bottom-10 left-0 w-48 h-48 bg-gradient-to-tr from-[#448aff] to-[#536dfe] rounded-full blur-[60px] opacity-30 -z-10 mix-blend-multiply"></div>
 
-                  <h3 className="font-bold text-2xl font-medium text-[#1a237e] mb-4">{item.title}</h3>
-                  <p className="text-gray-600 leading-relaxed text-lg">{item.content}</p>
+              {[
+                { title: "Training Programs", items: ["Leadership Development", "Entrepreneurship", "Personality Development", "Public Speaking", "Teachers Training", "Corporate Training"] },
+                { title: "Event Formats", items: ["Seminars & Keynotes", "Interactive Webinars", "Global Conferences", "Symposiums", "Residential Camps", "Hands-on Workshops"] },
+                { title: "Delivery Modes", items: ["Live Online Training", "In-Person Classroom", "Hybrid Learning Models", "Group Discussions", "Practical Assignments", "Lifetime Access"] },
+              ].map((category, idx) => (
+                <div
+                  key={idx}
+                  className="group relative overflow-hidden bg-white/10 backdrop-blur-xl border border-white/30 rounded-[2rem] p-6 md:p-8 hover:bg-white/20 hover:border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] hover:shadow-[0_20px_48px_0_rgba(26,35,126,0.1)] transition-all duration-500 hover:-translate-y-1"
+                >
+                  {/* Glass sheen */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/5 to-transparent pointer-events-none"></div>
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none"></div>
+                  <div className="absolute -right-10 -top-10 w-32 h-32 bg-[#1a237e]/5 rounded-full blur-2xl group-hover:bg-[#1a237e]/10 transition-colors duration-500 pointer-events-none"></div>
+
+                  <h3 className="relative z-10 font-bold text-xl text-gray-900 mb-6 pb-4 border-b border-gray-100 group-hover:text-[#1a237e] transition-colors duration-300">
+                    {category.title}
+                  </h3>
+
+                  <ul className="relative z-10 space-y-4">
+                    {category.items.map((item, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <div className="mt-0.5 flex items-center justify-center h-5 w-5 rounded-full border border-[#1a237e]/20 text-[#3949ab] shrink-0 group-hover:bg-[#1a237e] group-hover:border-[#1a237e] group-hover:text-white transition-all duration-300">
+                          <CheckCircle className="h-3 w-3" />
+                        </div>
+                        <span className="text-gray-600 font-medium leading-relaxed group-hover:text-gray-900 transition-colors duration-300">
+                          {item}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               ))}
             </div>
@@ -115,164 +205,110 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* Offerings - The "Dark Mode" Section */}
-      <section className="py-24 bg-[#0F1229] text-white relative overflow-hidden">
-        {/* Abstract Glows */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#1a237e] rounded-full blur-[120px] opacity-20"></div>
-
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <div className="max-w-2xl">
-              <span className="text-[#9fa8da] font-bold tracking-widest text-xs uppercase mb-3 block">What We Do</span>
-              <h2 className="font-bold text-4xl md:text-5xl font-medium mb-6">Comprehensive Growth Ecosystem</h2>
-              <p className="text-[#c5cae9] text-lg font-light leading-relaxed">
-                From public speaking to corporate leadership, our R&D-backed modules cover every aspect of human development.
-              </p>
-            </div>
-
-            {/* R&D Badge */}
-            <div className="hidden md:flex items-center gap-4 bg-white/5 backdrop-blur-md px-6 py-4 rounded-2xl border border-white/10">
-              <div className="bg-[#3949ab] p-3 rounded-full animate-pulse">
-                <Microscope className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <p className="font-bold text-sm">Research Backed R&D</p>
-                <p className="text-xs text-gray-400">Methodology updated quarterly</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { title: "Training Programs", items: ["Leadership Development", "Entrepreneurship", "Personality Development", "Public Speaking", "Teachers Training", "Corporate Training"] },
-              { title: "Event Formats", items: ["Seminars & Keynotes", "Interactive Webinars", "Global Conferences", "Symposiums", "Residential Camps", "Hands-on Workshops"] },
-              { title: "Delivery Modes", items: ["Live Online Training", "In-Person Classroom", "Hybrid Learning Models", "Group Discussions", "Practical Assignments", "Lifetime Access"] },
-            ].map((category, idx) => (
-              <div key={idx} className="group bg-gradient-to-b from-white/10 to-transparent p-[1px] rounded-3xl">
-                <div className="bg-[#131733] h-full rounded-[23px] p-8 hover:bg-[#181d3d] transition-colors duration-300">
-                  <h3 className="font-bold text-2xl mb-6 text-white group-hover:text-[#9fa8da] transition-colors">{category.title}</h3>
-                  <ul className="space-y-4">
-                    {category.items.map((item, i) => (
-                      <li key={i} className="flex items-start gap-3 text-[#c5cae9] group-hover:text-white transition-colors">
-                        <CheckCircle className="h-5 w-5 text-[#3949ab] shrink-0 mt-[2px]" />
-                        <span className="font-light tracking-wide">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Honours & Awards - Gallery Style */}
-      <section className="py-24 bg-white">
+      {/* ════════════════════════════════════════════════
+          HALL OF RECOGNITION — Preserved as-is
+         ════════════════════════════════════════════════ */}
+      <section className="py-24 relative z-10">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-20">
-            <h2 className="font-bold text-4xl md:text-5xl text-[#1a237e] mb-4">Hall of Recognition</h2>
-            <p className="text-gray-500 font-light max-w-2xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="font-bold text-4xl md:text-5xl text-gray-900 mb-6 tracking-tight">Hall of Recognition</h2>
+            <p className="text-gray-500 text-lg font-light max-w-2xl mx-auto">
               Our commitment to excellence has been recognized on national and international platforms by esteemed dignitaries.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Best Institute for Creating Leaders",
-                year: "2019",
-                org: "World Education Summit",
-                guests: ["Hon'ble Sayed Shahnawaz Hussain", "Hon'ble Tarun Chugh"]
-              },
-              {
-                title: "Most Innovative Institute",
-                year: "2019",
-                org: "Human Development Awards",
-                guests: ["Hon'ble Murli Manoharji Joshi", "Padmashree Bajrangji Punia"]
-              },
-              {
-                title: "Social Impact Award",
-                year: "2018",
-                org: "Pratigya Foundation",
-                guests: ["Hon'ble Kiran Kher", "Hon'ble Laxmi Agarwal"]
-              },
-              {
-                title: "Best Institute in Maharashtra",
-                year: "2018",
-                org: "Education Excellence",
-                guests: ["Padmshri Sharmila Tagore", "Hon'ble Parshottam Rupala"]
-              },
-              {
-                title: "National Achievers Award",
-                year: "2018",
-                org: "Education Excellence",
-                guests: ["Hon'ble Ram Niwas Goel", "Hon'ble Atishi Marlena"]
-              }
-            ].map((award, index) => (
-              <div key={index} className="flex flex-col bg-white p-8 rounded-xl border border-gray-100 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_-15px_rgba(26,35,126,0.15)] transition-all duration-300 group hover:-translate-y-1">
-                <div className="flex justify-between items-start mb-6">
-                  <div className="p-3 bg-[#e8eaf6] rounded-full text-[#1a237e] group-hover:bg-[#1a237e] group-hover:text-white transition-colors">
-                    <Award className="h-6 w-6" />
-                  </div>
-                  <span className="font-bold text-4xl text-gray-100 group-hover:text-[#e8eaf6] transition-colors duration-300">
-                    {award.year}
-                  </span>
-                </div>
+          {/* Timeline Structure */}
+          <div className="max-w-5xl mx-auto relative">
+            {/* Center Line (Hidden on mobile, visible on md) */}
+            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#1a237e]/0 via-[#1a237e]/20 to-[#1a237e]/0 -translate-x-1/2" />
 
-                <h3 className="font-bold text-xl font-medium text-[#1a237e] mb-2 leading-tight">
-                  {award.title}
-                </h3>
-                <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-6">{award.org}</p>
+            <div className="space-y-12 md:space-y-0 relative">
+              {[
+                { title: "Best Institute for Creating Leaders", year: "2019", org: "World Education Summit", guests: ["Hon'ble Sayed Shahnawaz Hussain", "Hon'ble Tarun Chugh"], image: "/Excellent institute of creating leaders & discovering the potential in student in india.jpg" },
+                { title: "Most Innovative Institute", year: "2019", org: "Human Development Awards", guests: ["Hon'ble Murli Manoharji Joshi", "Padmashree Bajrangji Punia"], image: "/the most innovative istitute of human development training in india.jpg" },
+                { title: "Social Impact Award", year: "2018", org: "Pratigya Foundation", guests: ["Hon'ble Kiran Kher", "Hon'ble Laxmi Agarwal"], image: "/SOCIAL IMPACT AWARD 2018-19 FOR EMPOWERING SOCIETY THROUGH HUMAN DEVELOPMENT TRAINING PROGRAM.jpg" },
+                { title: "Best Institute in Maharashtra", year: "2018", org: "Education Excellence", guests: ["Padmshri Sharmila Tagore", "Hon'ble Parshottam Rupala"], image: "/best institute of human development training in india.jpg" },
+                { title: "National Achievers Award", year: "2018", org: "Education Excellence", guests: ["Hon'ble Ram Niwas Goel", "Hon'ble Atishi Marlena"], image: "/NATIONAL ACHIEVERS AWARD FOR EDUCATION EXCELLENCE.jpg" }
+              ].map((award, index) => (
+                <div key={index} className={`relative flex flex-col md:flex-row items-center justify-between ${index % 2 === 0 ? 'md:flex-row-reverse' : ''} group`}>
 
-                <div className="mt-auto pt-6 border-t border-dashed border-gray-200">
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Honoured By</p>
-                  <div className="flex flex-wrap gap-2">
-                    {award.guests.map((guest, i) => (
-                      <span key={i} className="text-xs text-gray-600 bg-gray-50 px-2 py-1 rounded border border-gray-100">
-                        {guest}
-                      </span>
-                    ))}
+                  {/* Timeline Dot */}
+                  <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-10 h-10 bg-white border border-gray-200 rounded-full items-center justify-center z-10 group-hover:border-[#1a237e] transition-colors shadow-sm">
+                    <Milestone className="h-4 w-4 text-[#3949ab]" />
                   </div>
+
+                  {/* Empty space for alternating layout */}
+                  <div className="hidden md:block md:w-[48%]" />
+
+                  {/* Card Content — Compact Horizontal */}
+                  <div className="w-full md:w-[48%] bg-white rounded-[2rem] border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(26,35,126,0.12)] hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-row group/card">
+
+                    {/* Award Image — Left Side, Square */}
+                    <div className="relative w-40 shrink-0 overflow-hidden bg-gray-100">
+                      <Image
+                        src={award.image}
+                        alt={award.title}
+                        fill
+                        className="object-cover group-hover/card:scale-105 transition-transform duration-700 ease-out"
+                      />
+                      {/* Year badge bottom of image */}
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1a237e]/80 to-transparent px-3 py-3">
+                        <span className="font-black text-xs text-white tracking-wider">{award.year}</span>
+                      </div>
+                    </div>
+
+                    {/* Text Content — Right Side */}
+                    <div className="p-6 flex flex-col justify-between flex-1 min-w-0">
+                      <div>
+                        <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[#3949ab] mb-2">{award.org}</p>
+                        <h3 className="font-bold text-base text-gray-900 leading-snug group-hover/card:text-[#1a237e] transition-colors duration-300">
+                          {award.title}
+                        </h3>
+                      </div>
+
+                      <div className="mt-4 pt-4 border-t border-gray-100">
+                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-2">Honoured By</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {award.guests.map((guest, i) => (
+                            <span key={i} className="text-[10px] font-semibold text-gray-600 bg-gray-50 px-2.5 py-1 rounded-full border border-gray-100 whitespace-nowrap">
+                              {guest}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Why Aspire - Final Call */}
-      <section className="py-24 bg-[#F5F7FA]">
+      {/* ════════════════════════════════════════════════
+          WHY CHOOSE ASPIRE — Clean editorial CTA
+         ════════════════════════════════════════════════ */}
+      <section className="py-24 relative z-10 border-t border-gray-100">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="bg-white rounded-[3rem] shadow-xl overflow-hidden border border-gray-100">
-            <div className="grid lg:grid-cols-2">
-              <div className="p-12 md:p-20 bg-[#1a237e] text-white flex flex-col justify-center relative overflow-hidden">
-                {/* Decorative Texture */}
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-12 gap-16 items-start">
 
-                <div className="relative z-10">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/20 bg-white/10 mb-6">
-                    <Sparkles className="h-4 w-4 text-yellow-300" />
-                    <span className="text-xs font-bold tracking-wider uppercase">The Aspire Advantage</span>
-                  </div>
-                  <h2 className="font-bold text-4xl md:text-5xl font-medium mb-6">Why Choose Aspire?</h2>
-                  <p className="text-[#c5cae9] text-lg font-light leading-relaxed mb-12">
-                    Our brand has a rich history of over 17 years in the industry, establishing a strong presence and credibility. We don&apos;t just teach courses; we build careers and character.
-                  </p>
-
-                  <div className="flex items-center gap-4 p-4 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/10">
-                    <div className="h-12 w-12 bg-white text-[#1a237e] rounded-full flex items-center justify-center">
-                      <Heart className="h-6 w-6 fill-current" />
-                    </div>
-                    <div>
-                      <p className="font-bold text-lg">Trusted by Millions</p>
-                      <p className="text-white/60 text-sm">Consistent positive impact across the globe</p>
-                    </div>
-                  </div>
-                </div>
+              {/* Left — Heading */}
+              <div className="lg:col-span-5 lg:sticky lg:top-32">
+                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight leading-[1.1] mb-6">
+                  Why Choose <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a237e] to-[#3949ab]">Aspire?</span>
+                </h2>
+                <p className="text-gray-500 text-lg font-light leading-relaxed">
+                  Our brand has a rich history of over 17 years in the industry, establishing a strong presence and credibility. We don&apos;t just teach courses; we build careers and character.
+                </p>
               </div>
 
-              <div className="p-12 md:p-20 flex flex-col justify-center">
-                <ul className="space-y-6">
+              {/* Right — List */}
+              <div className="lg:col-span-7">
+                <div className="space-y-4">
                   {[
                     "Largest personal & professional development institute in India",
                     "Meticulously designed courses by skilled R&D Department",
@@ -281,20 +317,25 @@ export default function AboutUsPage() {
                     "Unique methodology with a pragmatic approach",
                     "Flexible Online & In-Person training models"
                   ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-4 group">
-                      <div className="mt-1 h-6 w-6 rounded-full border border-[#1a237e]/20 flex items-center justify-center text-[#1a237e] group-hover:bg-[#1a237e] group-hover:text-white transition-colors duration-300">
-                        <ArrowUpRight className="h-3.5 w-3.5" />
+                    <div key={i} className="group relative flex items-start gap-6 p-6 rounded-2xl border border-gray-100 shadow-[0_2px_12px_rgb(0,0,0,0.04)] hover:border-[#1a237e]/15 hover:shadow-[0_8px_30px_rgb(26,35,126,0.06)] transition-all duration-500 overflow-hidden">
+                      {/* Hover accent */}
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#1a237e] to-[#3949ab] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-l-2xl"></div>
+
+                      <div className="mt-0.5 h-8 w-8 rounded-full border border-[#1a237e]/20 flex items-center justify-center text-[#1a237e] group-hover:bg-[#1a237e] group-hover:text-white transition-all duration-300 flex-shrink-0">
+                        <ArrowUpRight className="h-4 w-4" />
                       </div>
-                      <span className="text-gray-700 text-lg group-hover:text-[#1a237e] transition-colors duration-300">{item}</span>
-                    </li>
+                      <span className="text-gray-600 text-lg group-hover:text-[#1a237e] transition-colors duration-300">{item}</span>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
+
             </div>
           </div>
         </div>
       </section>
 
+      <Footer />
     </div>
   );
 }

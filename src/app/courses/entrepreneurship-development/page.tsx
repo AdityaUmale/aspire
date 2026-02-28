@@ -112,14 +112,14 @@ export default function EntrepreneurshipDevelopmentPage() {
                 <span className="text-[#1a237e] uppercase tracking-wider text-sm font-bold">Introduction</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-[#1a237e] mb-6 leading-tight">
-                Build Your Future
+                Entrepreneurship Development Program (EDP)
               </h2>
               <div className="prose prose-lg text-gray-700 leading-relaxed">
                 <p className="mb-6">
-                  Entrepreneurship development at Aspire is all about enhancing the knowledge and skill of entrepreneurs through several classroom training and programs. We look for strengthening the youth in order to increase the number of entrepreneurs in India.
+                  The Entrepreneurship Development Program at Aspire Institute is a unique training program modeled to assist those looking forward to taking the entrepreneurial plunge.
                 </p>
-                <p>
-                  We believe an entrepreneur is an individual with a <span className="font-bold text-[#1a237e]">creative idea</span> to initiate and establish a new venture. We develop the entrepreneurial abilities in this course, focusing on individuals who want to start or possibly expand a business.
+                <p className="mb-6">
+                  The program intends to nourish future leaders capable of starting businesses that have potential to grow manifold. It is designed to inspire individuals to create new successful ventures.
                 </p>
               </div>
             </div>
@@ -137,11 +137,30 @@ export default function EntrepreneurshipDevelopmentPage() {
           </div>
 
           {/* Feature Section */}
-          <div className="space-y-20">
-            <div className="bg-gradient-to-br from-[#f8f9fa] to-[#e8eaf6]/50 rounded-2xl p-8 md:p-10 border border-[#e8eaf6] shadow-sm">
-              <p className="text-gray-700 leading-relaxed text-lg">
-                Entrepreneurship development focuses on enhancing the ideas and potential of an entrepreneur. We provide an easy yet detailed methodology that will help entrepreneurs improve in the short and long-run. You will learn to successfully exploit the local market. In this training program, explore the process of designing, launching and running a business.
-              </p>
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="order-2 md:order-1 relative">
+              <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform -rotate-2 scale-[1.02]"></div>
+              <Image
+                src="/edp-logo.jpg"
+                alt="Business planning workshop"
+                width={600}
+                height={450}
+                className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:rotate-1 transition-transform duration-500"
+              />
+            </div>
+            <div className="order-1 md:order-2">
+              <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Master Your Venture</h3>
+              <div className="prose prose-lg text-gray-700 leading-relaxed">
+                <p className="mb-6">
+                  The Entrepreneurship Development Program has been designed keeping varying levels of understanding among participants in perspective. The pedagogy involves interactive interactions with participants to improve theoretical concepts and knowledge in a practical way. Real-life case studies form an integral part of learning throughout the program, with emphasis on practical knowledge.
+                </p>
+                <p className="mb-6">
+                  Overall, the goal of the program is to provide potential entrepreneurs with an understanding of foundational principles necessary to create long-term successful businesses.
+                </p>
+                <p className="font-bold text-[#1a237e] text-xl">
+                  We believe an entrepreneur is an individual with a creative idea to initiate and establish a new venture. We develop the entrepreneurial abilities in this course, focusing on individuals who want to start or possibly expand a business.
+                </p>
+              </div>
             </div>
           </div>
         </div>

@@ -115,14 +115,14 @@ export default function InternationalWorkshopPage() {
                 <span className="text-[#1a237e] uppercase tracking-wider text-sm font-bold">Introduction</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-[#1a237e] mb-6 leading-tight">
-                A Journey Within
+                International Workshop
               </h2>
               <div className="prose prose-lg text-gray-700 leading-relaxed">
                 <p className="mb-6">
-                  Traveling is NOT just a journey where you visit places, learn new language, see different cultures and update your social media. When it comes to Meet Yourself, traveling is indeed a <span className="font-bold text-[#1a237e]">journey right within</span>, where you learn about yourself.
+                  Traveling is NOT just a journey where you visit places, capture memories, and buy souvenirs; it is a profound journey of self-discovery where you break boundaries, conquer fears, dive into new cultures, learn languages, and above all, find a new perspective on life.
                 </p>
-                <p>
-                  The moments of self-reflection help you to understand yourself better, and find a better version of yourself. You&apos;ll meet the real you, hidden somewhere on the roads you would travel.
+                <p className="mb-6">
+                  The Aspire International Workshop is more than just an educational tour; it is a blend of learning, exploration, and endless fun. It brings together Aspire Institute students and participants who want to step out of their comfort zones, experience a new country, and grow individually.
                 </p>
               </div>
             </div>
@@ -139,27 +139,26 @@ export default function InternationalWorkshopPage() {
             </div>
           </div>
 
-          {/* Feature Sections */}
-          <div className="space-y-20">
-            {/* Block 1 */}
-            <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <div className="order-2 md:order-1 relative">
-                <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform -rotate-2 scale-[1.02]"></div>
-                <Image
-                  src="/iw2.jpg"
-                  alt="Meet Yourself workshop abroad"
-                  width={600}
-                  height={450}
-                  className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:rotate-1 transition-transform duration-500"
-                />
-              </div>
-              <div className="order-1 md:order-2">
-                <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Global Experience</h3>
-                <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                  Here is an overseas program &ldquo;Meet Yourself&rdquo; to gain the excellent global experience. Since 2013 Aspire has been hosting this training program in different countries like <span className="font-bold text-[#1a237e]">Singapore, Malaysia, Thailand, Dubai and Qatar</span>.
+          {/* Feature Section */}
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="order-2 md:order-1 relative">
+              <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform -rotate-2 scale-[1.02]"></div>
+              <Image
+                src="/iw2.jpg"
+                alt="Global exploration and learning"
+                width={600}
+                height={450}
+                className="relative rounded-2xl shadow-lg w-full object-cover transform rotate-0 hover:rotate-1 transition-transform duration-500"
+              />
+            </div>
+            <div className="order-1 md:order-2">
+              <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">A Journey Within</h3>
+              <div className="prose prose-lg text-gray-700 leading-relaxed">
+                <p className="mb-6">
+                  We have successfully organized international workshops in global destinations like Dubai, Bali, Malaysia, Singapore, and Thailand. During these journeys, participants do not just see new places—they learn to manage themselves independently and understand the world from a completely different perspective. The participants are taught leadership, values, confidence-building, and special sessions by the experts of the institute and by our international faculty members to explore English and foreign culture.
                 </p>
-                <p className="text-gray-700 leading-relaxed text-lg">
-                  Through Meet Yourself, ASPIRE provides a platform for students to seize opportunities. This is a well-designed course for change seekers that helps participants reveal opinions about themselves and create a positive self-image.
+                <p className="font-bold text-[#1a237e] text-xl">
+                  The moments of self-reflection help you to understand yourself better, and find a better version of yourself. You&apos;ll meet the real you, hidden somewhere on the roads you would travel.
                 </p>
               </div>
             </div>

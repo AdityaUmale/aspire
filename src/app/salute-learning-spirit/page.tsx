@@ -8,8 +8,7 @@ import { Button } from '@/components/ui/button';
 import {
   Quote,
   ArrowRight,
-  Award,
-  Scroll
+  Award
 } from 'lucide-react';
 
 type SpiritStory = {
@@ -19,6 +18,8 @@ type SpiritStory = {
   quote: string;
   story: string[];
   image?: string;
+  imagePosition?: string;
+  imageScale?: string;
 };
 
 const stories: SpiritStory[] = [
@@ -28,8 +29,8 @@ const stories: SpiritStory[] = [
     headline: 'Learning has no age limit—and she proved it.',
     quote: 'Learning never retires and neither should our dreams.',
     story: [
-      'Inspired by her granddaughter, she joined Aspire not as a spectator but as a determined learner—walking into every session with curiosity, discipline, and a desire to improve her communication.',
-      'Her dedication became an inspiration for learners across all ages. Watching her participate, practise, and progress reminded everyone that learning isn’t bound by time—it’s powered by spirit.',
+      'Inspired by her granddaughter, she joined Aspire not as a spectator but as a determined learner, walking into every session with curiosity, discipline, and a desire to improve her communication.',
+      'Her dedication became an inspiration for learners across all ages. Watching her participate, practise, and progress reminded everyone that learning isn’t bound by time, it’s powered by spirit.',
       'At our 17th Annual Function, she received the “We Salute Your Learning Spirit Award,” earning a heartfelt standing ovation for her courage and lifelong commitment to growth.',
     ],
     image: '/sls/Shradda.jpg',
@@ -41,10 +42,11 @@ const stories: SpiritStory[] = [
     quote: 'When the mind stays open, life keeps teaching.',
     story: [
       'Even after retirement, his dedication to improving himself brought him to Aspire with the same curiosity and discipline as our youngest learners.',
-      'His enthusiasm to learn, ask questions, and embrace new knowledge inspired everyone around him. He showed us that personal development has no timeline—only a willing heart.',
+      'His enthusiasm to learn, ask questions, and embrace new knowledge inspired everyone around him. He showed us that personal development has no timeline, only a willing heart.',
       'We proudly honoured him with the “We Salute Your Learning Spirit Award” for his remarkable determination and example of lifelong learning.',
     ],
     image: '/sls/ramkrushn.jpg',
+    imagePosition: 'object-[center_20%]',
   },
   {
     name: 'Smt. Ashwini Pathak',
@@ -52,157 +54,189 @@ const stories: SpiritStory[] = [
     headline: '"Before you expire, join Aspire."',
     quote: 'Growth belongs to anyone brave enough to begin again.',
     story: [
-      'With wisdom and warmth, she returned to the classroom to upgrade herself—balancing responsibilities while staying curious and courageous.',
+      'With wisdom and warmth, she returned to the classroom to upgrade herself, balancing responsibilities while staying curious and courageous.',
       'Her openness to new ideas and joyful energy inspired learners across all age groups. She reminded us that growth isn’t reserved for the young.',
       'In recognition of her commitment to self-improvement, we honoured her with the “We Salute Your Learning Spirit Award.” Her journey shows that learning keeps us alive in mind, spirit, and purpose.',
     ],
+    image: '/ashwini pathak.jpg',
+    imagePosition: 'object-[center_10%]',
   },
 ];
 
+function initials(name: string) {
+  return name
+    .split(' ')
+    .filter(p => !p.includes('.')) // skip titles like Smt.
+    .map((p) => p[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+}
+
+function accentColorFromName(name: string) {
+  const palette = ['#1a237e', '#2c3e50', '#8e44ad', '#c0392b', '#d35400', '#16a085'];
+  let code = 0;
+  for (let i = 0; i < name.length; i++) code = (code * 31 + name.charCodeAt(i)) % palette.length;
+  return palette[code];
+}
+
 export default function SaluteLearningSpiritPage() {
   return (
-    <div className={`flex flex-col min-h-screen bg-[#FDFDFD] font-sans selection:bg-[#1a237e] selection:text-white`}>
+    // The background is a warm, soft linen/paper white to simulate a noticeboard
+    <div className="min-h-screen bg-[#f4f3ef] font-sans selection:bg-[#1a237e] selection:text-white">
       <Navbar />
 
-      {/* Global Grain Texture for "Archival" feel */}
-      <div className="fixed inset-0 opacity-[0.03] pointer-events-none z-50 mix-blend-multiply"
-        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
-      </div>
+      {/* Subtle paper/cork texture overlay */}
+      <div className="fixed inset-0 pointer-events-none opacity-[0.4] z-0" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
 
-      {/* Hero Section - Dignified & Elegant */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white">
-        {/* Abstract Background Decoration */}
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-radial from-[#1a237e]/5 to-transparent blur-[100px] opacity-60 pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-radial from-[#3949ab]/5 to-transparent blur-[100px] opacity-40 pointer-events-none"></div>
-
-        <div className="container mx-auto px-4 md:px-6 relative z-10 text-center">
-          <div className="inline-flex items-center gap-3 mb-8 animate-in slide-in-from-bottom-4 duration-700 fade-in">
-            <div className="h-px w-8 bg-[#1a237e]/40"></div>
-            <div className="flex items-center gap-2 text-[#1a237e] uppercase tracking-[0.2em] text-xs font-bold">
-              <Award className="h-4 w-4" />
-              <span>The Spirit Award</span>
-            </div>
-            <div className="h-px w-8 bg-[#1a237e]/40"></div>
+      {/* HEADER */}
+      <header className="relative pt-32 pb-16 lg:pt-40 lg:pb-20 z-10 text-center">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="inline-flex items-center gap-2 mb-6 border-b border-[#1a237e]/20 pb-2">
+            <Award className="h-4 w-4 text-[#1a237e]" />
+            <span className="text-sm font-semibold tracking-[0.2em] text-[#1a237e] uppercase">The Spirit Award</span>
+            <Award className="h-4 w-4 text-[#1a237e]" />
           </div>
 
-          <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl font-medium text-[#1a237e] mb-8 tracking-tight leading-[1.1] animate-in slide-in-from-bottom-6 duration-700 delay-100 fade-in">
+          <h1 className="font-bold text-4xl md:text-5xl lg:text-6xl text-[#111827] mb-6 tracking-tight max-w-4xl mx-auto">
             Lifelong Learners, <br />
-            <span className="text-[#3949ab] relative">
-              Limitless Spirit.
-              <span className="absolute -bottom-2 left-0 right-0 h-1 bg-[#3949ab]/10 rounded-full w-full"></span>
-            </span>
+            <span className="text-[#1a237e] font-serif font-bold">Limitless Spirit.</span>
           </h1>
 
-          <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto font-light animate-in slide-in-from-bottom-8 duration-700 delay-200 fade-in">
+          <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
             Honouring the remarkable individuals who prove that growth has no age limit. Courage, curiosity, and commitment have no expiration date.
           </p>
-
-
         </div>
-      </section>
+      </header>
 
-      {/* Stories Section - "Hall of Fame" Layout */}
-      <section className="py-20 bg-[#f8f9fa] border-t border-gray-100 relative">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid gap-12 lg:grid-cols-3 md:gap-8">
-            {stories.map((story) => (
-              <div
+      {/* TRADITIONAL PINBOARD GRID */}
+      <main id="stories" className="container mx-auto px-4 md:px-6 pb-24 relative z-10">
+        {/* Using CSS columns for a masonry look, like real pinned notes */}
+        <div className="columns-1 lg:columns-3 gap-6 lg:gap-8 space-y-6 lg:space-y-8">
+          {stories.map((story, index) => {
+            // Very subtle organic rotations
+            const rotation = index % 4 === 0 ? '-rotate-1' : index % 3 === 0 ? 'rotate-1' : index % 2 === 0 ? '-rotate-[0.5deg]' : 'rotate-[0.5deg]';
+
+            return (
+              <article
                 key={story.name}
-                className="group relative flex flex-col bg-white rounded-[20px] shadow-[0_2px_20px_-5px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.15)] border border-gray-100 transition-all duration-500 hover:-translate-y-2 overflow-hidden"
+                className={`break-inside-avoid relative bg-[#fffdf8] rounded-[3px] p-6 md:p-8 shadow-[2px_4px_16px_rgba(0,0,0,0.08),_0_0_2px_rgba(0,0,0,0.02)] border border-[#e8e6df] transition-all duration-300 hover:shadow-[4px_12px_28px_rgba(0,0,0,0.1)] hover:-translate-y-1 hover:rotate-0 group ${rotation}`}
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' opacity='0.04' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+                }}
               >
-                {/* Top Accent Line */}
-                <div className="h-1.5 w-full bg-[#1a237e] group-hover:bg-[#3949ab] transition-colors"></div>
+                {/* REALISTIC PUSH PIN */}
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-4 h-4 z-20">
+                  {/* Pin Head */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#283593] to-[#1a237e] rounded-full shadow-[inset_-2px_-2px_4px_rgba(0,0,0,0.4),_inset_1.5px_1.5px_3px_rgba(255,255,255,0.4),_0_4px_6px_rgba(0,0,0,0.3)] border border-[#0f1337]"></div>
+                  {/* Pin Highlight */}
+                  <div className="absolute top-1 left-1.5 w-1 h-1 bg-white/60 rounded-full blur-[0.5px]"></div>
+                  {/* Pin Shadow/Hole Depth */}
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-black/40 rounded-full blur-[1.5px]"></div>
+                </div>
 
-                <div className="p-8 md:p-10 flex flex-col h-full">
-                  {/* Header */}
-                  <div className="mb-6">
-                    {story.image && (
-                      <div className="mb-4 w-20 h-20 rounded-xl overflow-hidden shadow-md">
+                <div className="mt-4 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-5 mb-6 relative z-[2]">
+                  <div className="flex-shrink-0">
+                    {story.image ? (
+                      <div className="h-24 w-24 sm:h-28 sm:w-28 rounded-xl overflow-hidden shadow-md border-2 border-white ring-1 ring-black/5">
                         <Image
                           src={story.image}
                           alt={story.name}
-                          width={80}
-                          height={80}
-                          className="w-full h-full object-cover"
+                          width={112}
+                          height={112}
+                          className={`w-full h-full object-cover ${story.imageScale || ''} ${story.imagePosition || 'object-center'}`}
                         />
                       </div>
+                    ) : (
+                      <div
+                        className="h-24 w-24 sm:h-28 sm:w-28 rounded-xl flex items-center justify-center text-white font-medium text-3xl shadow-md border-2 border-white ring-1 ring-black/5"
+                        style={{ background: accentColorFromName(story.name) }}
+                      >
+                        {initials(story.name)}
+                      </div>
                     )}
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#f0f1fa] text-[#1a237e] text-[10px] font-bold uppercase tracking-widest rounded-full mb-4">
-                      <Award className="h-3 w-3" />
-                      Spirit Awardee
-                    </div>
-                    <h3 className="font-bold text-2xl font-bold text-[#1a237e] mb-2 leading-tight group-hover:text-[#3949ab] transition-colors">
-                      {story.name}
-                    </h3>
-                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100 pb-4">
+                  </div>
+
+                  <div className="sm:pt-2">
+                    <h3 className="font-bold text-2xl text-gray-900 leading-tight">{story.name}</h3>
+                    <div className="text-xs font-bold uppercase tracking-widest text-[#1a237e] mt-1.5 bg-[#1a237e]/5 inline-block px-2 py-0.5 rounded-sm">
                       {story.title}
-                    </p>
-                  </div>
-
-                  {/* The Hook Quote */}
-                  <div className="relative mb-8">
-                    <Quote className="absolute -top-3 -left-2 h-8 w-8 text-[#1a237e]/10 -z-10" />
-                    <h4 className="font-bold text-xl text-gray-800 leading-snug">
-                      &ldquo;{story.headline}&rdquo;
-                    </h4>
-                  </div>
-
-                  {/* Story Content */}
-                  <div className="space-y-4 text-sm text-gray-600 leading-relaxed font-light flex-grow">
-                    {story.story.map((paragraph, i) => (
-                      <p key={i} className={i === 0 ? "first-letter:text-2xl first-letter:font-bold first-letter:text-[#1a237e]" : ""}>
-                        {paragraph}
-                      </p>
-                    ))}
-                  </div>
-
-                  {/* Footer Quote */}
-                  <div className="mt-8 pt-6 border-t border-gray-100 bg-gray-50 -mx-10 -mb-10 p-10 group-hover:bg-[#f8f9ff] transition-colors">
-                    <div className="flex gap-3 items-center">
-                      <Scroll className="h-5 w-5 text-[#1a237e] shrink-0" />
-                      <p className="text-sm font-medium text-[#1a237e]">
-                        {story.quote}
-                      </p>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+
+                <h4 className="font-serif font-medium text-xl text-[#1a237e] leading-snug mb-5 relative z-[2]">
+                  “{story.headline}”
+                </h4>
+
+                <div className="space-y-3 text-gray-700 leading-relaxed text-sm md:text-base mb-6 relative z-[2]">
+                  {story.story.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                </div>
+
+                {/* Quote Box - Styled like a stamped/highlighted section */}
+                <div className="bg-[#f4efe3]/60 border-l-[3px] border-[#1a237e]/40 px-4 py-3 rounded-r-sm relative z-[2] mt-auto">
+                  <p className="text-gray-800 font-medium italic text-sm flex items-start gap-2">
+                    <Quote className="h-4 w-4 text-[#1a237e]/30 shrink-0 mt-0.5" />
+                    {story.quote}
+                  </p>
+                </div>
+
+                {/* Realistic paper fold effect at the bottom corner */}
+                <div
+                  className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-[#e4dfd1] to-[#fdfcf7] shadow-[-2px_-2px_6px_rgba(0,0,0,0.06)] rounded-tl-sm transition-all duration-300 origin-bottom-right group-hover:w-10 group-hover:h-10 z-10"
+                  style={{ clipPath: 'polygon(100% 0, 0 100%, 100% 100%)' }}
+                ></div>
+                {/* Background mask for the fold */}
+                <div
+                  className="absolute bottom-0 right-0 w-8 h-8 bg-[#f4f3ef] transition-all duration-300 origin-bottom-right group-hover:w-10 group-hover:h-10 z-0 pointer-events-none"
+                  style={{ clipPath: 'polygon(100% 0, 0 100%, 100% 100%)', transform: 'scale(1.05) translate(1px, 1px)' }}
+                ></div>
+              </article>
+            );
+          })}
         </div>
-      </section>
+      </main>
 
-      {/* Emotional CTA */}
-      <section className="py-24 bg-[#1a237e] text-white relative overflow-hidden">
-        {/* Background Patterns */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-white opacity-[0.03] rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#3949ab] opacity-30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+      {/* Premium CTA SECTION */}
+      <section className="py-16 md:py-24 relative z-10">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-6xl mx-auto">
+            {/* Rounded Rectangle CTA */}
+            <div className="relative bg-gradient-to-r from-[#1a237e] via-[#283593] to-[#3949ab] rounded-[2.5rem] md:rounded-[3rem] py-16 md:py-20 px-8 md:px-16 lg:px-20 overflow-hidden shadow-2xl">
+              {/* Decorative elements */}
+              <div className="absolute inset-0 bg-[url('/globe.svg')] bg-no-repeat bg-center opacity-5"></div>
+              <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-60 h-60 bg-[#c5cae9]/20 rounded-full blur-3xl"></div>
+              <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-60 h-60 bg-[#c5cae9]/20 rounded-full blur-3xl"></div>
 
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
+              <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
+                {/* Text Content */}
+                <div className="text-center lg:text-left">
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+                    Ready to write your <br className="hidden lg:block" />
+                    <span className="text-white font-serif font-medium opacity-90">own story?</span>
+                  </h2>
+                  <p className="text-[#c5cae9] text-base md:text-lg max-w-xl mx-auto lg:mx-0">
+                    Join a community where every learner, at every age, is celebrated for their courage to grow.
+                  </p>
+                </div>
 
-
-            <h2 className="font-bold text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight">
-              Ready to write your <br />
-              <span className="opacity-80">own story?</span>
-            </h2>
-
-            <p className="text-[#c5cae9] text-lg md:text-xl font-light mb-12 max-w-2xl mx-auto leading-relaxed">
-              Join a community where every learner, at every age, is celebrated for their courage to grow.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-5 justify-center">
-              <Link href="/#enquiry">
-                <Button className="h-14 px-10 rounded-full bg-white text-[#1a237e] hover:bg-gray-100 text-base font-bold tracking-wide shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
-                  Begin Your Journey
-                </Button>
-              </Link>
-              <Link href="/success-stories">
-                <Button variant="outline" className="h-14 px-10 rounded-full border-white/20 bg-transparent text-white hover:bg-white/10 text-base font-medium transition-all duration-300">
-                  Read More Stories
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
-              </Link>
+                {/* Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 flex-shrink-0 w-full lg:w-auto">
+                  <Link href="/#enquiry" className="w-full sm:w-auto">
+                    <Button className="w-full sm:w-auto h-14 px-8 bg-white text-[#1a237e] hover:bg-white/90 text-base font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                      Begin Your Journey
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
+                  <Link href="/success-stories" className="w-full sm:w-auto">
+                    <Button className="w-full sm:w-auto h-14 px-8 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white/20 text-base font-medium rounded-xl transition-all duration-300">
+                      View More Noticeboards
+                    </Button>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -127,3 +127,12 @@
     -moz-osx-font-smoothing: grayscale;
   }
 }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+@keyframes shine {
+  0% { transform: translateX(-100%) skewX(-15deg); }
+  50% { transform: translateX(200%) skewX(-15deg); }
+  100% { transform: translateX(200%) skewX(-15deg); }
+}
