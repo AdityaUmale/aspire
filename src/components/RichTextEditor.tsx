@@ -64,19 +64,40 @@ const normalizeImageAlign = (value?: string | null): ImageAlign => {
 };
 
 const buildImageStyle = (width: string, align: ImageAlign): string => {
-  const styleParts = [
-    `width: ${width}`,
-    'max-width: 100%',
-    'height: auto',
-    'display: block',
-  ];
+  const styleParts = [`width: ${width}`, 'max-width: 100%', 'height: auto'];
 
   if (align === 'left') {
-    styleParts.push('margin-left: 0', 'margin-right: auto');
+    // Float left so following text can wrap alongside the image.
+    styleParts.push(
+      'float: left',
+      'display: block',
+      'clear: none',
+      'margin-top: 0',
+      'margin-right: 16px',
+      'margin-bottom: 12px',
+      'margin-left: 0'
+    );
   } else if (align === 'right') {
-    styleParts.push('margin-left: auto', 'margin-right: 0');
+    styleParts.push(
+      'float: right',
+      'display: block',
+      'clear: none',
+      'margin-top: 0',
+      'margin-right: 0',
+      'margin-bottom: 12px',
+      'margin-left: 16px'
+    );
   } else {
-    styleParts.push('margin-left: auto', 'margin-right: auto');
+    // Center image as standalone block and clear any previous wrapped flow.
+    styleParts.push(
+      'float: none',
+      'display: block',
+      'clear: both',
+      'margin-top: 24px',
+      'margin-right: auto',
+      'margin-bottom: 24px',
+      'margin-left: auto'
+    );
   }
 
   return styleParts.join('; ');
@@ -96,6 +117,11 @@ const ArticleImage = Image.extend({
           const dataAlign = element.getAttribute('data-align');
           if (dataAlign === 'left' || dataAlign === 'right' || dataAlign === 'center') {
             return dataAlign;
+          }
+
+          const floatValue = element.style.float;
+          if (floatValue === 'left' || floatValue === 'right') {
+            return floatValue;
           }
 
           const marginLeft = element.style.marginLeft;
@@ -175,6 +201,32 @@ const moveSelectedImage = (editor: Editor, direction: 'up' | 'down') => {
 
   tr.insert(insertPos, current.node);
   tr.setSelection(NodeSelection.create(tr.doc, insertPos));
+  view.dispatch(tr.scrollIntoView());
+  view.focus();
+};
+
+const focusTextBesideSelectedImage = (editor: Editor) => {
+  const { state, view } = editor;
+  const selection = state.selection;
+
+  if (!(selection instanceof NodeSelection) || selection.node.type.name !== 'image') {
+    return;
+  }
+
+  const paragraphType = state.schema.nodes.paragraph;
+  if (!paragraphType) {
+    return;
+  }
+
+  const imageEndPosition = selection.from + selection.node.nodeSize;
+  let tr = state.tr;
+  const nodeAfterImage = tr.doc.nodeAt(imageEndPosition);
+
+  if (!nodeAfterImage || nodeAfterImage.type !== paragraphType) {
+    tr = tr.insert(imageEndPosition, paragraphType.create());
+  }
+
+  tr = tr.setSelection(TextSelection.near(tr.doc.resolve(imageEndPosition + 1), 1));
   view.dispatch(tr.scrollIntoView());
   view.focus();
 };
@@ -270,7 +322,7 @@ export default function RichTextEditor({
         inline: false,
         allowBase64: false,
         HTMLAttributes: {
-          class: 'my-6 rounded-lg border border-gray-200 shadow-sm',
+          class: 'my-6 rounded-lg border border-gray-200 shadow-sm clear-none',
         },
       }),
       Link.configure({
@@ -293,7 +345,7 @@ export default function RichTextEditor({
     content,
     editorProps: {
       attributes: {
-        class: 'rich-text-editor prose prose-indigo lg:prose-lg max-w-none prose-headings:text-[#1a237e] prose-a:text-[#3949ab] hover:prose-a:text-[#0d1642] prose-strong:text-gray-800 focus:outline-none',
+        class: 'rich-text-editor prose prose-indigo lg:prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-600 prose-a:text-[#1a237e] hover:prose-a:text-[#0d1642] prose-strong:text-gray-800 focus:outline-none min-h-[150px] cursor-text',
         style: 'outline: none;',
       },
       handlePaste: (view, event) => {
@@ -448,7 +500,7 @@ export default function RichTextEditor({
   };
 
   return (
-    <div className="border border-[#1a237e]/20 rounded-lg shadow-sm bg-white">
+    <div className="w-full relative group">
       <input
         ref={fileInputRef}
         type="file"
@@ -460,19 +512,19 @@ export default function RichTextEditor({
 
       <div
         className={cn(
-          "border-b border-[#1a237e]/20 p-2 bg-[#f8f9fa]/95 backdrop-blur supports-[backdrop-filter]:bg-[#f8f9fa]/85",
+          "p-2 md:p-1.5 bg-white/95 backdrop-blur-md rounded-xl border border-gray-200 shadow-sm mx-auto mb-6 w-max max-w-full transition-all duration-300 relative z-10 supports-[backdrop-filter]:bg-white/80",
           stickyToolbar && "sticky z-40"
         )}
         style={stickyToolbar ? { top: `${toolbarOffsetPx}px` } : undefined}
       >
-        <div className="flex flex-wrap gap-1 mb-2 overflow-x-auto">
-          <div className="flex items-center mr-2 border-r pr-2 border-[#1a237e]/20">
+        <div className="flex flex-wrap items-center gap-1 overflow-x-auto px-1">
+          <div className="flex items-center mr-2 border-r pr-2 border-gray-100">
             <Button
               type="button"
               variant="ghost"
               size="sm"
               onClick={() => editor?.chain().focus().toggleBold().run()}
-              className={`p-1 h-8 w-8 ${editor?.isActive('bold') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
+              className={`p-1 h-8 w-8 ${editor?.isActive('bold') ? 'bg-gray-100 text-gray-900 rounded-md' : 'rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}
               title="Bold"
             >
               <Bold className="h-4 w-4" />
@@ -482,14 +534,14 @@ export default function RichTextEditor({
               variant="ghost"
               size="sm"
               onClick={() => editor?.chain().focus().toggleItalic().run()}
-              className={`p-1 h-8 w-8 ${editor?.isActive('italic') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
+              className={`p-1 h-8 w-8 ${editor?.isActive('italic') ? 'bg-gray-100 text-gray-900 rounded-md' : 'rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}
               title="Italic"
             >
               <Italic className="h-4 w-4" />
             </Button>
           </div>
 
-          <div className="flex items-center mr-2 border-r pr-2 border-[#1a237e]/20">
+          <div className="flex items-center mr-2 border-r pr-2 border-gray-100">
             <div className="relative inline-block">
               <select
                 value={currentFontSize}
@@ -507,7 +559,7 @@ export default function RichTextEditor({
 
                   editor.chain().focus().setFontSize(size).run();
                 }}
-                className="h-8 px-2 pr-6 text-sm border border-[#1a237e]/20 rounded bg-white text-[#1a237e] hover:bg-[#e8eaf6]/70 focus:outline-none focus:ring-1 focus:ring-[#1a237e]/50 appearance-none cursor-pointer"
+                className="h-8 px-2 pr-6 text-sm border border-gray-200 rounded-md bg-white text-gray-600 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-300 font-medium appearance-none cursor-pointer"
                 title="Font Size"
               >
                 <option value="normal">Normal</option>
@@ -515,11 +567,11 @@ export default function RichTextEditor({
                 <option value="24px">XL</option>
                 <option value="32px">XXL</option>
               </select>
-              <Type className="absolute right-1 top-1/2 -translate-y-1/2 h-3 w-3 text-[#1a237e] pointer-events-none" />
+              <Type className="absolute right-1.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400 pointer-events-none" />
             </div>
           </div>
 
-          <div className="flex items-center mr-2 border-r pr-2 border-[#1a237e]/20">
+          <div className="flex items-center mr-2 border-r pr-2 border-gray-100">
             <Button
               type="button"
               variant="ghost"
@@ -528,7 +580,7 @@ export default function RichTextEditor({
                 event.preventDefault();
                 editor?.chain().focus().toggleBulletList().run();
               }}
-              className={`p-1 h-8 w-8 ${editor?.isActive('bulletList') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
+              className={`p-1 h-8 w-8 ${editor?.isActive('bulletList') ? 'bg-gray-100 text-gray-900 rounded-md' : 'rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}
               title="Bullet List"
             >
               <List className="h-4 w-4" />
@@ -541,20 +593,20 @@ export default function RichTextEditor({
                 event.preventDefault();
                 editor?.chain().focus().toggleOrderedList().run();
               }}
-              className={`p-1 h-8 w-8 ${editor?.isActive('orderedList') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
+              className={`p-1 h-8 w-8 ${editor?.isActive('orderedList') ? 'bg-gray-100 text-gray-900 rounded-md' : 'rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}
               title="Numbered List"
             >
               <ListOrdered className="h-4 w-4" />
             </Button>
           </div>
 
-          <div className="flex items-center mr-2 border-r pr-2 border-[#1a237e]/20">
+          <div className="flex items-center mr-2 border-r pr-2 border-gray-100">
             <Button
               type="button"
               variant="ghost"
               size="sm"
               onClick={() => editor?.chain().focus().setTextAlign('left').run()}
-              className={`p-1 h-8 w-8 ${editor?.isActive('textAlign', 'left') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
+              className={`p-1 h-8 w-8 ${editor?.isActive('textAlign', 'left') ? 'bg-gray-100 text-gray-900 rounded-md' : 'rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}
               title="Align Left"
             >
               <AlignLeft className="h-4 w-4" />
@@ -564,7 +616,7 @@ export default function RichTextEditor({
               variant="ghost"
               size="sm"
               onClick={() => editor?.chain().focus().setTextAlign('center').run()}
-              className={`p-1 h-8 w-8 ${editor?.isActive('textAlign', 'center') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
+              className={`p-1 h-8 w-8 ${editor?.isActive('textAlign', 'center') ? 'bg-gray-100 text-gray-900 rounded-md' : 'rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}
               title="Align Center"
             >
               <AlignCenter className="h-4 w-4" />
@@ -574,7 +626,7 @@ export default function RichTextEditor({
               variant="ghost"
               size="sm"
               onClick={() => editor?.chain().focus().setTextAlign('right').run()}
-              className={`p-1 h-8 w-8 ${editor?.isActive('textAlign', 'right') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
+              className={`p-1 h-8 w-8 ${editor?.isActive('textAlign', 'right') ? 'bg-gray-100 text-gray-900 rounded-md' : 'rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}
               title="Align Right"
             >
               <AlignRight className="h-4 w-4" />
@@ -584,20 +636,20 @@ export default function RichTextEditor({
               variant="ghost"
               size="sm"
               onClick={() => editor?.chain().focus().setTextAlign('justify').run()}
-              className={`p-1 h-8 w-8 ${editor?.isActive('textAlign', 'justify') ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
+              className={`p-1 h-8 w-8 ${editor?.isActive('textAlign', 'justify') ? 'bg-gray-100 text-gray-900 rounded-md' : 'rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}
               title="Justify"
             >
               <AlignJustify className="h-4 w-4" />
             </Button>
           </div>
 
-          <div className="flex items-center mr-2 border-r pr-2 border-[#1a237e]/20">
+          <div className="flex items-center mr-2 border-r pr-2 border-gray-100">
             <Button
               type="button"
               variant="ghost"
               size="sm"
               onClick={() => fileInputRef.current?.click()}
-              className="p-1 h-8 px-2 text-[#1a237e] hover:bg-[#e8eaf6]/70"
+              className="p-1 h-8 px-2 rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900"
               title="Upload Image"
             >
               <ImagePlus className="h-4 w-4 mr-1" />
@@ -608,7 +660,7 @@ export default function RichTextEditor({
               variant="ghost"
               size="sm"
               onClick={insertImageFromUrl}
-              className="p-1 h-8 w-8 text-[#1a237e] hover:bg-[#e8eaf6]/70"
+              className="p-1 h-8 w-8 rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900"
               title="Insert Image URL"
             >
               <Link2 className="h-4 w-4" />
@@ -621,7 +673,7 @@ export default function RichTextEditor({
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="p-1 h-8 w-8 flex items-center justify-center text-[#1a237e] hover:bg-[#e8eaf6]/70"
+                className="p-1 h-8 w-8 flex items-center justify-center rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900"
                 title="Text Color"
               >
                 <Palette className="h-4 w-4" />
@@ -657,13 +709,13 @@ export default function RichTextEditor({
               <span className="text-xs text-[#1a237e] min-w-[42px]">{selectedImage.width}%</span>
             </div>
 
-            <div className="flex items-center border-l border-[#1a237e]/20 pl-2 gap-1">
+            <div className="flex items-center border-l border-gray-100 pl-2 gap-1">
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
                 onClick={() => editor?.chain().focus().updateAttributes('image', { align: 'left' }).run()}
-                className={`p-1 h-8 w-8 ${selectedImage.align === 'left' ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
+                className={`p-1 h-8 w-8 ${selectedImage.align === 'left' ? 'bg-gray-100 text-gray-900 rounded-md' : 'rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}
                 title="Image Left"
               >
                 <AlignLeft className="h-4 w-4" />
@@ -673,7 +725,7 @@ export default function RichTextEditor({
                 variant="ghost"
                 size="sm"
                 onClick={() => editor?.chain().focus().updateAttributes('image', { align: 'center' }).run()}
-                className={`p-1 h-8 w-8 ${selectedImage.align === 'center' ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
+                className={`p-1 h-8 w-8 ${selectedImage.align === 'center' ? 'bg-gray-100 text-gray-900 rounded-md' : 'rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}
                 title="Image Center"
               >
                 <AlignCenter className="h-4 w-4" />
@@ -683,20 +735,20 @@ export default function RichTextEditor({
                 variant="ghost"
                 size="sm"
                 onClick={() => editor?.chain().focus().updateAttributes('image', { align: 'right' }).run()}
-                className={`p-1 h-8 w-8 ${selectedImage.align === 'right' ? 'bg-[#e8eaf6]' : ''} text-[#1a237e] hover:bg-[#e8eaf6]/70`}
+                className={`p-1 h-8 w-8 ${selectedImage.align === 'right' ? 'bg-gray-100 text-gray-900 rounded-md' : 'rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}
                 title="Image Right"
               >
                 <AlignRight className="h-4 w-4" />
               </Button>
             </div>
 
-            <div className="flex items-center border-l border-[#1a237e]/20 pl-2 gap-1">
+            <div className="flex items-center border-l border-gray-100 pl-2 gap-1">
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
                 onClick={() => editor && moveSelectedImage(editor, 'up')}
-                className="p-1 h-8 w-8 text-[#1a237e] hover:bg-[#e8eaf6]/70"
+                className="p-1 h-8 w-8 rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900"
                 title="Move Image Up"
               >
                 <MoveUp className="h-4 w-4" />
@@ -706,14 +758,27 @@ export default function RichTextEditor({
                 variant="ghost"
                 size="sm"
                 onClick={() => editor && moveSelectedImage(editor, 'down')}
-                className="p-1 h-8 w-8 text-[#1a237e] hover:bg-[#e8eaf6]/70"
+                className="p-1 h-8 w-8 rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900"
                 title="Move Image Down"
               >
                 <MoveDown className="h-4 w-4" />
               </Button>
             </div>
 
-            <div className="flex items-center border-l border-[#1a237e]/20 pl-2">
+            <div className="flex items-center border-l border-gray-100 pl-2">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => editor && focusTextBesideSelectedImage(editor)}
+                className="p-1 h-8 px-2 rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                title="Place cursor beside image for wrapped text"
+              >
+                <span className="text-xs font-medium">Type beside</span>
+              </Button>
+            </div>
+
+            <div className="flex items-center border-l border-gray-100 pl-2">
               <Button
                 type="button"
                 variant="ghost"
@@ -733,14 +798,14 @@ export default function RichTextEditor({
                     alt: altText.trim(),
                   }).run();
                 }}
-                className="p-1 h-8 px-2 text-[#1a237e] hover:bg-[#e8eaf6]/70"
+                className="p-1 h-8 px-2 rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-900"
                 title="Edit Alt Text"
               >
                 <span className="text-xs font-medium">Alt</span>
               </Button>
             </div>
 
-            <div className="flex items-center border-l border-[#1a237e]/20 pl-2">
+            <div className="flex items-center border-l border-gray-100 pl-2">
               <Button
                 type="button"
                 variant="ghost"
@@ -763,7 +828,7 @@ export default function RichTextEditor({
       </div>
 
       {isUploadingImage && (
-        <div className="border-b border-[#1a237e]/20 bg-[#eef2ff] text-[#1a237e] px-3 py-2 text-xs flex items-center gap-2">
+        <div className="rounded-lg mb-4 bg-gray-50 border border-gray-100 text-gray-600 px-3 py-2 text-xs flex items-center gap-2">
           <LoaderCircle className="h-3.5 w-3.5 animate-spin" />
           Uploading image...
         </div>
@@ -775,10 +840,19 @@ export default function RichTextEditor({
         </div>
       )}
 
-      <EditorContent
-        editor={editor}
-        className="min-h-[250px] lg:min-h-[350px] p-4 focus:outline-none bg-white"
-      />
+      <div
+        className="bg-transparent pb-[40vh] cursor-text"
+        onClick={(e) => {
+          if (editor && e.target === e.currentTarget) {
+            editor.chain().focus('end').run();
+          }
+        }}
+      >
+        <EditorContent
+          editor={editor}
+          className="focus:outline-none"
+        />
+      </div>
     </div>
   );
 }

@@ -4,14 +4,13 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { FloatingToast } from '@/components/ui/floating-toast';
 import {
   Terminal,
   PenTool,
-  Type,
   User,
   Sparkles,
   Send,
@@ -190,75 +189,57 @@ export default function PublishArticlePage() {
               )}
             </div>
 
-            {/* The Form Paper */}
-            <div className="bg-white rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 relative">
-              <div className="h-1.5 w-full bg-gradient-to-r from-[#1a237e] via-[#3949ab] to-[#1a237e]"></div>
-
-              <form onSubmit={handleSubmit} className="p-8 md:p-12 lg:p-16 space-y-10">
+            {/* The Form Canvas */}
+            <div className="bg-transparent relative">
+              <form onSubmit={handleSubmit} className="space-y-6">
 
                 {/* Writer Name */}
-                <div className="relative group">
-                  <Label htmlFor="writerName" className="text-xs font-bold text-[#1a237e] uppercase tracking-widest pl-1">The Author</Label>
-                  <div className="relative mt-2">
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#1a237e] transition-colors">
-                      <User className="h-5 w-5" />
-                    </div>
-                    <Input
-                      id="writerName"
-                      value={writerName}
-                      onChange={(e) => setWriterName(e.target.value)}
-                      placeholder="Your Name"
-                      className="pl-8 border-0 border-b border-gray-200 rounded-none bg-transparent py-2 text-lg font-medium text-gray-700 placeholder:text-gray-300 focus-visible:ring-0 focus-visible:border-[#1a237e] transition-colors w-full"
-                    />
+                <div className="flex items-center gap-3 text-lg font-medium text-gray-700 pb-8 border-b border-gray-100/50 mb-8">
+                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500">
+                    <User className="h-5 w-5" />
                   </div>
+                  <Input
+                    id="writerName"
+                    value={writerName}
+                    onChange={(e) => setWriterName(e.target.value)}
+                    placeholder="Author Name"
+                    className="border-0 bg-transparent p-0 h-auto text-lg font-medium text-gray-700 placeholder:text-gray-400 focus-visible:ring-0 shadow-none w-full max-w-sm"
+                  />
                 </div>
 
                 {/* Title */}
-                <div className="space-y-2">
-                  <Label htmlFor="title" className="text-xs font-bold text-[#1a237e] uppercase tracking-widest pl-1">The Headline</Label>
+                <div>
                   <Input
                     id="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="An inspiring title..."
-                    className="border-0 bg-gray-50/50 rounded-xl px-6 py-8 text-3xl md:text-4xl font-bold text-[#1a237e] placeholder:text-gray-300 focus-visible:ring-0 focus-visible:bg-gray-50 transition-all placeholder:font-light placeholder:italic"
+                    placeholder="Title"
+                    className="border-0 bg-transparent p-0 h-auto text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 placeholder:text-gray-200 focus-visible:ring-0 shadow-none -ml-[2px] transition-all"
                     required
                   />
                 </div>
 
                 {/* Description */}
-                <div className="space-y-3">
-                  <Label htmlFor="description" className="flex items-center gap-2 text-sm font-medium text-gray-600 pl-1">
-                    <Type className="h-4 w-4" />
-                    The Hook (Summary)
-                  </Label>
+                <div>
                   <Textarea
                     id="description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="In a few sentences, what is this story about? This will be the first thing readers see."
-                    className="min-h-[100px] border-gray-200 rounded-xl bg-white text-base text-gray-600 focus-visible:ring-[#1a237e]/20 focus-visible:border-[#1a237e] resize-none"
+                    placeholder="Tell your story's hook..."
+                    className="border-0 bg-transparent p-0 min-h-[60px] text-xl lg:text-2xl font-light text-gray-500 placeholder:text-gray-300 focus-visible:ring-0 shadow-none resize-none leading-relaxed"
                     required
                   />
                 </div>
 
                 {/* Editor */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between pl-1">
-                    <Label htmlFor="content" className="flex items-center gap-2 text-sm font-medium text-gray-600">
-                      <PenTool className="h-4 w-4" />
-                      The Story
-                    </Label>
-                    <span className="text-xs text-gray-400">Rich text supported</span>
-                  </div>
-
-                  <div className="prose prose-lg max-w-none rounded-2xl border border-gray-200 bg-white focus-within:ring-2 focus-within:ring-[#1a237e]/10 focus-within:border-[#1a237e] transition-all shadow-sm min-h-[400px]">
+                <div className="pt-6 relative z-10">
+                  <div className="prose prose-lg max-w-none text-gray-800">
                     <RichTextEditor
                       content={content}
                       onChange={setContent}
                       placeholder="Share your wisdom..."
                       stickyToolbar
-                      toolbarOffsetPx={108}
+                      toolbarOffsetPx={100}
                     />
                   </div>
                 </div>

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { FloatingToast } from '@/components/ui/floating-toast';
@@ -80,9 +80,9 @@ export default function AddArticlesPage() {
         <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2"></span>
         Create New Article
       </div>
-      
+
       <h1 className="text-2xl lg:text-3xl font-bold text-[#1a237e] mb-6">Add an Article</h1>
-      
+
       {error && (
         <Alert variant="destructive" className="mb-6 bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
           <Terminal className="h-4 w-4" />
@@ -90,38 +90,34 @@ export default function AddArticlesPage() {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-      
-      <div className="bg-white/90 backdrop-blur-md p-4 lg:p-6 rounded-2xl shadow-xl border border-gray-200/60">
-        <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-5">
+
+      <div className="bg-transparent relative max-w-4xl mx-auto mt-8">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Label htmlFor="title" className="text-[#1a237e] font-medium">Title</Label>
             <Input
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter article title"
-              className="mt-1 border-[#1a237e]/20 focus:border-[#1a237e] focus:ring-[#1a237e]/20"
+              placeholder="Title"
+              className="border-0 bg-transparent p-0 h-auto text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 placeholder:text-gray-200 focus-visible:ring-0 shadow-none -ml-[2px] transition-all"
               required
             />
           </div>
-          
+
           <div>
-            <Label htmlFor="description" className="text-[#1a237e] font-medium">Description</Label>
             <Textarea
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter a brief description"
-              className="mt-1 border-[#1a237e]/20 focus:border-[#1a237e] focus:ring-[#1a237e]/20"
-              rows={3}
+              placeholder="Tell your story's hook..."
+              className="border-0 bg-transparent p-0 min-h-[60px] text-xl lg:text-2xl font-light text-gray-500 placeholder:text-gray-300 focus-visible:ring-0 shadow-none resize-none leading-relaxed"
               required
             />
           </div>
-          
-          <div>
-            <Label htmlFor="content" className="text-[#1a237e] font-medium">Content</Label>
-            <div className="mt-1">
-              <RichTextEditor 
+
+          <div className="pt-6 relative z-10">
+            <div className="prose prose-lg max-w-none text-gray-800">
+              <RichTextEditor
                 content={content}
                 onChange={setContent}
                 placeholder="Start writing your article content here..."
@@ -129,17 +125,18 @@ export default function AddArticlesPage() {
                 toolbarOffsetPx={16}
               />
             </div>
-            <p className="mt-1 text-xs text-gray-500">Use the toolbar above to format your content.</p>
           </div>
-          
-          <Button 
-            type="submit" 
-            className="w-full bg-gradient-to-r from-[#1a237e] to-[#3949ab] hover:from-[#0d1642] hover:to-[#1a237e] text-white py-2.5 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
-            disabled={isSubmitting}
-          >
-            <PenLine className="h-4 w-4" />
-            {isSubmitting ? 'Creating Article...' : 'Create Article'}
-          </Button>
+
+          <div className="pt-8">
+            <Button
+              type="submit"
+              className="w-full sm:w-auto sm:min-w-[200px] h-12 bg-[#1a237e] hover:bg-[#0d1642] text-white rounded-full transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2 text-base font-medium"
+              disabled={isSubmitting}
+            >
+              <PenLine className="h-4 w-4" />
+              {isSubmitting ? 'Publishing...' : 'Publish Article'}
+            </Button>
+          </div>
         </form>
       </div>
     </div>

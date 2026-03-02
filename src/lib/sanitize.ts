@@ -60,6 +60,10 @@ const SAFE_STYLE_PROPERTIES = new Set([
   "max-width",
   "height",
   "display",
+  "float",
+  "clear",
+  "margin-top",
+  "margin-bottom",
   "margin-left",
   "margin-right",
 ]);
@@ -67,16 +71,37 @@ const SAFE_STYLE_PROPERTIES = new Set([
 const isSafeStyleValue = (property: string, value: string): boolean => {
   const normalizedValue = value.trim().toLowerCase();
 
+  const isSafeSpacingValue = (input: string) =>
+    input === "auto" || input === "0" || /^(\d+(\.\d+)?)(px|%)$/.test(input);
+
   if (property === "display") {
     return normalizedValue === "block" || normalizedValue === "inline-block";
   }
 
-  if (property === "height") {
-    return normalizedValue === "auto" || /^(\d+(\.\d+)?)(px|%)$/.test(normalizedValue);
+  if (property === "float") {
+    return normalizedValue === "left" || normalizedValue === "right" || normalizedValue === "none";
   }
 
-  if (property === "margin-left" || property === "margin-right") {
-    return normalizedValue === "auto" || /^(\d+(\.\d+)?)(px|%)$/.test(normalizedValue) || normalizedValue === "0";
+  if (property === "clear") {
+    return (
+      normalizedValue === "none" ||
+      normalizedValue === "both" ||
+      normalizedValue === "left" ||
+      normalizedValue === "right"
+    );
+  }
+
+  if (property === "height") {
+    return normalizedValue === "auto" || isSafeSpacingValue(normalizedValue);
+  }
+
+  if (
+    property === "margin-left" ||
+    property === "margin-right" ||
+    property === "margin-top" ||
+    property === "margin-bottom"
+  ) {
+    return isSafeSpacingValue(normalizedValue);
   }
 
   if (property === "width" || property === "max-width") {

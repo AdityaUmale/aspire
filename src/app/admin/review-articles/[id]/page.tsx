@@ -36,14 +36,14 @@ export default function ArticleReviewDetailPage() {
   const [actionSuccess, setActionSuccess] = useState<string | null>(null); // Add success state
 
   useEffect(() => {
-    if (!id) return; 
+    if (!id) return;
 
     const fetchArticle = async () => {
       setLoading(true);
       setError(null); // Reset error on new fetch
       try {
         const response = await fetch(`/api/student-article?id=${id}`);
-        
+
         if (!response.ok) {
           if (response.status === 404) {
             throw new Error('Student article not found');
@@ -51,7 +51,7 @@ export default function ArticleReviewDetailPage() {
             throw new Error('Failed to fetch student article');
           }
         }
-        
+
         const data = await response.json();
         setArticle(data.article);
       } catch (err: unknown) {
@@ -103,7 +103,7 @@ export default function ArticleReviewDetailPage() {
     if (!article) return;
     // Optional: Add a confirmation dialog
     if (!window.confirm('Are you sure you want to reject and delete this article? This action cannot be undone.')) {
-        return;
+      return;
     }
 
     setIsProcessing(true);
@@ -116,8 +116,8 @@ export default function ArticleReviewDetailPage() {
 
       // Check if response is ok OR if it's a 204 No Content
       if (!response.ok && response.status !== 204) {
-         const data = await response.json().catch(() => ({})); // Try to parse error, default to empty obj
-         throw new Error(data.error || 'Failed to reject article');
+        const data = await response.json().catch(() => ({})); // Try to parse error, default to empty obj
+        throw new Error(data.error || 'Failed to reject article');
       }
 
       setActionSuccess('Article rejected and deleted successfully!');
@@ -165,8 +165,8 @@ export default function ArticleReviewDetailPage() {
           <AlertTitle>Error Fetching Article</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
-        <Button 
-          onClick={() => router.push('/admin/review-articles')} 
+        <Button
+          onClick={() => router.push('/admin/review-articles')}
           className="mt-4 bg-gradient-to-r from-[#1a237e] to-[#3949ab] hover:from-[#0d1642] hover:to-[#1a237e] text-white py-2 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
         >
           <ArrowLeft className="h-4 w-4" /> Back to Articles
@@ -182,8 +182,8 @@ export default function ArticleReviewDetailPage() {
           <FileText className="h-12 w-12 text-[#1a237e]/40 mx-auto mb-4" />
           <p className="text-gray-500 text-lg">Article data could not be loaded.</p>
         </div>
-        <Button 
-          onClick={() => router.push('/admin/review-articles')} 
+        <Button
+          onClick={() => router.push('/admin/review-articles')}
           className="mt-4 bg-gradient-to-r from-[#1a237e] to-[#3949ab] hover:from-[#0d1642] hover:to-[#1a237e] text-white py-2 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
         >
           <ArrowLeft className="h-4 w-4" /> Back to Articles
@@ -198,22 +198,22 @@ export default function ArticleReviewDetailPage() {
         <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2"></span>
         <ArrowLeft className="h-3.5 w-3.5 mr-1" /> Back to Articles
       </div>
-      
+
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold text-[#1a237e]">{article.title}</h1>
-        <Badge 
-          variant={article.isPublished ? "default" : "secondary"} 
-          className={article.isPublished ? 
-            "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700" : 
+        <Badge
+          variant={article.isPublished ? "default" : "secondary"}
+          className={article.isPublished ?
+            "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700" :
             "bg-gradient-to-r from-[#1a237e]/70 to-[#3949ab]/70 hover:from-[#1a237e] hover:to-[#3949ab]"}
         >
           {article.isPublished ? 'Published' : 'Pending Review'}
         </Badge>
       </div>
-      
+
       <p className="text-sm text-gray-500 mb-6">By {article.writerName || 'Anonymous Student'} {article.author?.email && <span>({article.author.email})</span>}</p>
-      
-      <div className="prose lg:prose-xl max-w-none border-t border-b py-6 my-6 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-gray-200/60">
+
+      <div className="prose lg:prose-xl max-w-none border-t border-b py-6 my-6 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-gray-200/60 break-words overflow-hidden">
         {/* Replace the <p> tag with this div to render HTML */}
         <div dangerouslySetInnerHTML={{ __html: sanitizeRichTextHtml(article.content) }} />
       </div>
@@ -225,10 +225,10 @@ export default function ArticleReviewDetailPage() {
           <AlertDescription>{actionError}</AlertDescription>
         </Alert>
       )}
-      
+
       {actionSuccess && (
         <Alert variant="default" className="mb-6 bg-green-100/50 border-green-300/50 text-green-800 rounded-lg shadow-sm">
-           <CheckCircle className="h-4 w-4" />
+          <CheckCircle className="h-4 w-4" />
           <AlertTitle>Success</AlertTitle>
           <AlertDescription>{actionSuccess}</AlertDescription>
         </Alert>
@@ -237,16 +237,16 @@ export default function ArticleReviewDetailPage() {
       {/* Action Buttons - Disable if an action was successful and redirecting */}
       <div className="flex space-x-4">
         {!article.isPublished && (
-          <Button 
-            onClick={handlePublish} 
+          <Button
+            onClick={handlePublish}
             disabled={isProcessing || !!actionSuccess} // Disable if processing or success
             className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-2 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
           >
             <CheckCircle className="mr-2 h-4 w-4" /> {isProcessing ? 'Publishing...' : 'Publish'}
           </Button>
         )}
-        <Button 
-          onClick={handleReject} 
+        <Button
+          onClick={handleReject}
           disabled={isProcessing || !!actionSuccess} // Disable if processing or success
           className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-2 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
         >

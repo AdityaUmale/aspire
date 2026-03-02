@@ -150,6 +150,48 @@
     outline: 3px solid rgba(57, 73, 171, 0.35);
     outline-offset: 2px;
   }
+
+  .rich-text-editor .ProseMirror img[data-align="left"] + p,
+  .rich-text-editor .ProseMirror img[data-align="right"] + p {
+    margin-top: 0 !important;
+  }
+
+  /* Reader-page fallback: enforce alignment from data-align even if inline style was stripped earlier. */
+  .prose img[data-align="left"] {
+    float: left;
+    display: block;
+    clear: none;
+    margin-top: 0;
+    margin-right: 16px;
+    margin-bottom: 12px;
+    margin-left: 0;
+  }
+
+  .prose img[data-align="right"] {
+    float: right;
+    display: block;
+    clear: none;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 12px;
+    margin-left: 16px;
+  }
+
+  .prose img[data-align="center"] {
+    float: none;
+    display: block;
+    clear: both;
+    margin-top: 24px;
+    margin-right: auto;
+    margin-bottom: 24px;
+    margin-left: auto;
+  }
+
+  .prose::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 }
 
 @keyframes float {
