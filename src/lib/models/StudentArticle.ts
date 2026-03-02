@@ -27,9 +27,10 @@ const StudentArticleSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   }
-}, { 
+}, {
   strict: true,
-  versionKey: false 
+  versionKey: false,
+  timestamps: true,
 });
 
 // Delete the model if it exists to force re-compilation

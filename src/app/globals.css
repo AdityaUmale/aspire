@@ -127,6 +127,31 @@
     -moz-osx-font-smoothing: grayscale;
   }
 }
+
+@layer components {
+  .rich-text-editor .ProseMirror {
+    min-height: 16rem;
+  }
+
+  .rich-text-editor .ProseMirror p.is-empty:first-child::before {
+    color: rgba(26, 35, 126, 0.35);
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+
+  .rich-text-editor .ProseMirror img {
+    cursor: grab;
+    user-select: none;
+  }
+
+  .rich-text-editor .ProseMirror img.ProseMirror-selectednode {
+    outline: 3px solid rgba(57, 73, 171, 0.35);
+    outline-offset: 2px;
+  }
+}
+
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-15px); }

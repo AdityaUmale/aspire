@@ -18,7 +18,14 @@ const ArticleSchema = new mongoose.Schema({
     ref: "Admin",
     required: true,
   },
+}, {
+  timestamps: true,
 });
 
-const Article = mongoose.models.Article || mongoose.model("Article", ArticleSchema);
+// Force re-compilation when schema changes
+if (mongoose.models.Article) {
+  delete mongoose.models.Article;
+}
+
+const Article = mongoose.model("Article", ArticleSchema);
 export default Article;

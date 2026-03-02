@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { Terminal, ChevronLeft, Feather } from 'lucide-react';
+import { Terminal, ArrowLeft } from 'lucide-react';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import { sanitizeRichTextHtml } from '@/lib/sanitize';
 
 interface Article {
@@ -17,7 +18,7 @@ interface Article {
     name: string;
     email: string;
   };
-  createdAt?: string; // Optional: handy if your API returns a date
+  createdAt?: string;
 }
 
 export default function ArticleDetailPage() {
@@ -28,6 +29,7 @@ export default function ArticleDetailPage() {
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     if (!id) return;
@@ -36,7 +38,7 @@ export default function ArticleDetailPage() {
       setLoading(true);
       try {
         const response = await fetch(`/api/article?id=${id}`);
-        
+
         if (!response.ok) {
           if (response.status === 404) {
             throw new Error('Article not found');
@@ -44,12 +46,11 @@ export default function ArticleDetailPage() {
             throw new Error('Failed to fetch article');
           }
         }
-        
+
         const data = await response.json();
         setArticle(data.article);
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : 'An error occurred');
-        console.error('Error fetching article:', err);
       } finally {
         setLoading(false);
       }
@@ -58,34 +59,55 @@ export default function ArticleDetailPage() {
     fetchArticle();
   }, [id]);
 
-  // Loading State - Editorial Wireframe
+  // Reading progress bar
+  const handleScroll = useCallback(() => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (docHeight > 0) {
+      setProgress(Math.min((scrollTop / docHeight) * 100, 100));
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return '';
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  };
+
+  const getReadingTime = (content: string) => {
+    const text = content.replace(/<[^>]*>/g, '');
+    const words = text.split(/\s+/).filter(Boolean).length;
+    return Math.max(1, Math.ceil(words / 200));
+  };
+
+  // Loading State
   if (loading) {
     return (
-      <div className={`flex flex-col min-h-screen bg-[#FAFAFA] font-sans`}>
+      <div className="flex flex-col min-h-screen bg-white font-sans">
         <Navbar />
-        <main className="flex-1 pt-32 pb-20">
-          <div className="container mx-auto px-4 max-w-3xl">
-             <Skeleton className="h-4 w-32 mb-8 bg-gray-200" /> {/* Breadcrumb/Tag */}
-             <Skeleton className="h-16 w-full mb-4 bg-gray-200" /> {/* Title Line 1 */}
-             <Skeleton className="h-16 w-3/4 mb-8 bg-gray-200" /> {/* Title Line 2 */}
-             
-             {/* Author Block Skeleton */}
-             <div className="flex items-center gap-4 mb-12 border-y border-gray-100 py-6">
-                <Skeleton className="h-12 w-12 rounded-full bg-gray-200" />
-                <div className="space-y-2">
-                   <Skeleton className="h-3 w-40 bg-gray-200" />
-                   <Skeleton className="h-3 w-24 bg-gray-200" />
-                </div>
-             </div>
-             
-             {/* Content Skeleton */}
-             <div className="space-y-4">
-               <Skeleton className="h-4 w-full bg-gray-200" />
-               <Skeleton className="h-4 w-full bg-gray-200" />
-               <Skeleton className="h-4 w-5/6 bg-gray-200" />
-               <Skeleton className="h-4 w-full bg-gray-200 mt-8" />
-               <Skeleton className="h-4 w-full bg-gray-200" />
-             </div>
+        <main className="flex-1 pt-28 pb-20">
+          <div className="max-w-[680px] mx-auto px-5 md:px-6">
+            <Skeleton className="h-3 w-24 mb-8 bg-gray-100" />
+            <Skeleton className="h-10 w-full mb-3 bg-gray-100" />
+            <Skeleton className="h-10 w-3/4 mb-8 bg-gray-100" />
+            <Skeleton className="h-5 w-full mb-2 bg-gray-50" />
+            <Skeleton className="h-5 w-5/6 mb-10 bg-gray-50" />
+            <Skeleton className="h-px w-full mb-10 bg-gray-100" />
+            <div className="space-y-4">
+              <Skeleton className="h-4 w-full bg-gray-50" />
+              <Skeleton className="h-4 w-full bg-gray-50" />
+              <Skeleton className="h-4 w-5/6 bg-gray-50" />
+              <Skeleton className="h-4 w-full bg-gray-50" />
+              <Skeleton className="h-4 w-4/6 bg-gray-50" />
+            </div>
           </div>
         </main>
       </div>
@@ -95,18 +117,18 @@ export default function ArticleDetailPage() {
   // Error State
   if (error) {
     return (
-      <div className={`flex flex-col min-h-screen bg-[#FAFAFA] font-sans`}>
+      <div className="flex flex-col min-h-screen bg-white font-sans">
         <Navbar />
         <main className="flex-1 flex items-center justify-center pt-20">
-          <div className="bg-red-50 border border-red-100 p-8 rounded-2xl text-center max-w-md mx-4">
-             <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">
-                <Terminal className="h-6 w-6" />
-             </div>
-             <h3 className="font-bold text-xl text-red-900 mb-2">System Error</h3>
-             <p className="text-red-700/80 mb-6">{error}</p>
-             <Button onClick={() => router.back()} variant="outline" className="border-red-200 text-red-700 hover:bg-red-100">
-                Return Previous Page
-             </Button>
+          <div className="bg-red-50 border border-red-100 p-8 rounded-xl text-center max-w-md mx-4">
+            <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">
+              <Terminal className="h-5 w-5" />
+            </div>
+            <h3 className="font-semibold text-lg text-red-900 mb-2">Something went wrong</h3>
+            <p className="text-red-700/80 text-sm mb-6">{error}</p>
+            <Button onClick={() => router.back()} variant="outline" className="border-red-200 text-red-700 hover:bg-red-100 rounded-lg">
+              Go back
+            </Button>
           </div>
         </main>
       </div>
@@ -116,100 +138,89 @@ export default function ArticleDetailPage() {
   if (!article) return null;
 
   return (
-    <div className={`flex flex-col min-h-screen bg-[#FAFAFA] font-sans selection:bg-[#1a237e] selection:text-white`}>
+    <div className="flex flex-col min-h-screen bg-white font-sans selection:bg-[#1a237e]/10 selection:text-[#1a237e]">
+      {/* Reading Progress Bar */}
+      <div
+        className="fixed top-0 left-0 h-[2px] bg-[#1a237e] z-[60] transition-none"
+        style={{ width: `${progress}%` }}
+      />
+
       <Navbar />
-      
-      {/* Global Grain Texture */}
-      <div className="fixed inset-0 opacity-[0.035] pointer-events-none z-50 mix-blend-multiply" 
-           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
-      </div>
 
-      <main className="flex-1 relative pt-32 pb-24">
-         {/* Background Ambience */}
-         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-[600px] bg-gradient-radial from-[#1a237e]/5 to-transparent blur-[100px] opacity-60 pointer-events-none"></div>
+      <main className="flex-1 pt-28 pb-20 lg:pt-36">
+        <article className="max-w-[680px] mx-auto px-5 md:px-6">
 
-         <article className="container mx-auto px-4 md:px-6 relative z-10 max-w-3xl">
-            
-            {/* Navigation */}
-            <div className="mb-8">
-              <Button 
-                variant="ghost" 
-                onClick={() => router.back()}
-                className="group pl-0 text-gray-500 hover:text-[#1a237e] hover:bg-transparent transition-colors"
+          {/* Back Button */}
+          <button
+            onClick={() => router.push('/articles')}
+            className="inline-flex items-center gap-1.5 text-[13px] text-gray-400 hover:text-gray-600 transition-colors mb-10 group"
+          >
+            <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
+            All articles
+          </button>
+
+          {/* Article Header */}
+          <header className="mb-10">
+            {/* Meta */}
+            <div className="flex items-center gap-3 mb-5 text-[13px] text-gray-400">
+              {article.createdAt && (
+                <time>{formatDate(article.createdAt)}</time>
+              )}
+              <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
+              <span>{getReadingTime(article.content)} min read</span>
+            </div>
+
+            {/* Title */}
+            <h1 className="text-[32px] md:text-[40px] lg:text-[44px] font-bold text-gray-900 leading-[1.15] tracking-tight mb-6">
+              {article.title}
+            </h1>
+
+            {/* Lead / Description */}
+            <p className="text-xl text-gray-500 leading-[1.6] font-normal">
+              {article.description}
+            </p>
+          </header>
+
+          {/* Separator */}
+          <hr className="border-gray-100 mb-10" />
+
+          {/* Content Body — Optimized for Reading */}
+          <div className="
+            prose prose-lg max-w-none
+            prose-headings:font-bold prose-headings:text-gray-900 prose-headings:tracking-tight
+            prose-h1:text-[28px] prose-h1:mt-12 prose-h1:mb-4
+            prose-h2:text-[24px] prose-h2:mt-10 prose-h2:mb-4
+            prose-h3:text-[20px] prose-h3:mt-8 prose-h3:mb-3
+            prose-p:text-[18px] prose-p:text-gray-700 prose-p:leading-[1.8] prose-p:mb-6
+            prose-a:text-[#1a237e] prose-a:font-medium prose-a:no-underline prose-a:border-b prose-a:border-[#1a237e]/25 hover:prose-a:border-[#1a237e]/60
+            prose-blockquote:border-l-2 prose-blockquote:border-gray-200 prose-blockquote:pl-5 prose-blockquote:py-1 prose-blockquote:not-italic prose-blockquote:text-gray-600
+            prose-strong:font-semibold prose-strong:text-gray-900
+            prose-code:text-[15px] prose-code:bg-gray-50 prose-code:text-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-normal prose-code:before:content-none prose-code:after:content-none
+            prose-pre:bg-gray-50 prose-pre:border prose-pre:border-gray-100 prose-pre:rounded-lg
+            prose-li:text-[18px] prose-li:text-gray-700 prose-li:leading-[1.7] prose-li:marker:text-gray-300
+            prose-img:rounded-lg prose-img:shadow-sm prose-img:border prose-img:border-gray-100
+            prose-ul:my-4 prose-ol:my-4
+          ">
+            <div dangerouslySetInnerHTML={{ __html: sanitizeRichTextHtml(article.content) }} />
+          </div>
+
+          {/* Article End */}
+          <div className="mt-16 pt-8 border-t border-gray-100">
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => router.push('/articles')}
+                className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors group"
               >
-                <ChevronLeft className="h-4 w-4 mr-1 transition-transform group-hover:-translate-x-1" />
-                Back to Perspectives
-              </Button>
+                <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
+                Back to all articles
+              </button>
             </div>
+          </div>
 
-            {/* Article Header */}
-            <header className="mb-12">
-               {/* Tag */}
-               <div className="mb-6 inline-flex items-center gap-2">
-                 <span className="h-px w-8 bg-[#1a237e]/30"></span>
-                 <span className="text-xs font-bold tracking-[0.2em] text-[#1a237e] uppercase">
-                   Founder&apos;s Insight
-                 </span>
-               </div>
-
-               {/* Title */}
-<h1 className="font-bold text-4xl md:text-5xl lg:text-6xl font-medium text-[#1a237e] leading-[1.1] mb-8">
-                  {article.title}
-                </h1>
-
-               {/* Lead / Description */}
-               <p className="text-xl md:text-2xl text-gray-500 font-light leading-relaxed  mb-10 border-l-4 border-[#1a237e]/20 pl-6">
-                 {article.description}
-               </p>
-
-               {/* Author Bar */}
-               <div className="flex flex-col sm:flex-row sm:items-center justify-between py-6 border-y border-gray-200 gap-6">
-                  <div className="flex items-center gap-4">
-                     <div className="h-12 w-12 rounded-full bg-[#1a237e] flex items-center justify-center text-white shadow-lg shadow-[#1a237e]/20">
-                        <Feather className="h-5 w-5" />
-                     </div>
-                     <div>
-                        <p className="text-sm font-bold text-[#1a237e] tracking-wide">
-                           {article.author?.name}
-                        </p>
-                        <div className="flex items-center gap-2 text-xs text-gray-500 font-medium">
-                           <span>Author & Founder</span>
-                        </div>
-                     </div>
-                  </div>
-                  
-                  
-               </div>
-            </header>
-
-            {/* Content Body - Themed Typography */}
-            <div className="prose prose-lg md:prose-xl max-w-none 
-              prose-headings:font-bold prose-headings:text-[#1a237e] 
-              prose-p:text-gray-700 prose-p:leading-[1.8] prose-p:font-light
-              prose-a:text-[#1a237e] prose-a:font-medium prose-a:no-underline prose-a:border-b prose-a:border-[#1a237e]/30 hover:prose-a:border-[#1a237e]
-              prose-blockquote:border-l-[#1a237e] prose-blockquote:bg-[#f8f9fa] prose-blockquote:py-4 prose-blockquote:px-8 prose-blockquote:rounded-r-xl prose-blockquote:font-bold prose-blockquote:text-gray-700
-              prose-strong:font-bold prose-strong:text-[#1a237e]
-              prose-li:text-gray-700 prose-li:marker:text-[#1a237e]
-              prose-img:rounded-2xl prose-img:shadow-xl prose-img:border prose-img:border-gray-100
-            ">
-               <div dangerouslySetInnerHTML={{ __html: sanitizeRichTextHtml(article.content) }} />
-            </div>
-
-            {/* Article Footer */}
-            <div className="mt-24 pt-10 border-t border-gray-200 text-center">
-               <div className="inline-flex items-center justify-center p-3 bg-[#f8f9fa] rounded-full mb-6">
-                  <Feather className="h-6 w-6 text-[#1a237e] opacity-50" />
-               </div>
-               <h4 className="font-bold text-2xl text-[#1a237e] mb-2">Thank you for reading</h4>
-               <p className="text-gray-500 font-light mb-8">Continue exploring more insights from the institute.</p>
-               
-               <Button onClick={() => router.push('/articles')} variant="outline" className="border-[#1a237e] text-[#1a237e] hover:bg-[#1a237e] hover:text-white rounded-full px-8 h-12">
-                  Browse All Perspectives
-               </Button>
-            </div>
-
-         </article>
+        </article>
       </main>
+
+      <Footer />
     </div>
   );
 }

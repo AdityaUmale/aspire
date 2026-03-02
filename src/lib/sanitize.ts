@@ -24,7 +24,7 @@ const ALLOWED_TAGS = new Set([
 
 const ALLOWED_ATTRS: Record<string, Set<string>> = {
   a: new Set(["href", "target", "rel", "title", "class"]),
-  img: new Set(["src", "alt", "title", "width", "height", "class"]),
+  img: new Set(["src", "alt", "title", "width", "height", "class", "style", "data-align"]),
   span: new Set(["class", "style"]),
   p: new Set(["class", "style"]),
   h1: new Set(["class"]),
@@ -56,8 +56,35 @@ const SAFE_STYLE_PROPERTIES = new Set([
   "font-weight",
   "font-style",
   "text-decoration",
+  "width",
+  "max-width",
+  "height",
+  "display",
   "margin-left",
+  "margin-right",
 ]);
+
+const isSafeStyleValue = (property: string, value: string): boolean => {
+  const normalizedValue = value.trim().toLowerCase();
+
+  if (property === "display") {
+    return normalizedValue === "block" || normalizedValue === "inline-block";
+  }
+
+  if (property === "height") {
+    return normalizedValue === "auto" || /^(\d+(\.\d+)?)(px|%)$/.test(normalizedValue);
+  }
+
+  if (property === "margin-left" || property === "margin-right") {
+    return normalizedValue === "auto" || /^(\d+(\.\d+)?)(px|%)$/.test(normalizedValue) || normalizedValue === "0";
+  }
+
+  if (property === "width" || property === "max-width") {
+    return /^(\d+(\.\d+)?)(px|%)$/.test(normalizedValue);
+  }
+
+  return true;
+};
 
 const escapeAttributeValue = (value: string) =>
   value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
@@ -92,7 +119,7 @@ const sanitizeStyle = (styleValue: string): string | null => {
     const value = declaration.slice(separatorIndex + 1).trim();
 
     const unsafeValue = /url\s*\(|expression\s*\(|javascript:|@import/i.test(value);
-    if (!SAFE_STYLE_PROPERTIES.has(property) || unsafeValue) {
+    if (!SAFE_STYLE_PROPERTIES.has(property) || unsafeValue || !isSafeStyleValue(property, value)) {
       continue;
     }
 

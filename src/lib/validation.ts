@@ -1,6 +1,6 @@
 export const MAX_LENGTHS = {
   title: 160,
-  description: 500,
+  description: 2000,
   content: 100000,
   writerName: 120,
   enquiry: 4000,

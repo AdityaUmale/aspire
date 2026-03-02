@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { Terminal, User, ChevronLeft } from 'lucide-react';
+import { Terminal, ArrowLeft, User } from 'lucide-react';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import { sanitizeRichTextHtml } from '@/lib/sanitize';
 
 interface StudentArticle {
@@ -19,7 +20,7 @@ interface StudentArticle {
   } | null;
   writerName?: string;
   isPublished: boolean;
-  createdAt?: string; // Assuming there might be a date, if not we can omit
+  createdAt?: string;
 }
 
 export default function StudentArticleDetailPage() {
@@ -30,16 +31,17 @@ export default function StudentArticleDetailPage() {
   const [article, setArticle] = useState<StudentArticle | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    if (!id) return; 
+    if (!id) return;
 
     const fetchArticle = async () => {
       setLoading(true);
-      setError(null); 
+      setError(null);
       try {
-        const response = await fetch(`/api/student-article/${id}`); 
-        
+        const response = await fetch(`/api/student-article/${id}`);
+
         if (!response.ok) {
           if (response.status === 404) {
             throw new Error('Article not found or not published.');
@@ -47,17 +49,16 @@ export default function StudentArticleDetailPage() {
             throw new Error('Failed to fetch student article');
           }
         }
-        
+
         const data = await response.json();
 
         if (!data.article || !data.article.isPublished) {
-             throw new Error('Article not found or not published.');
+          throw new Error('Article not found or not published.');
         }
 
         setArticle(data.article);
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : 'An error occurred');
-        console.error('Error fetching student article:', err);
       } finally {
         setLoading(false);
       }
@@ -66,29 +67,60 @@ export default function StudentArticleDetailPage() {
     fetchArticle();
   }, [id]);
 
-  // Loading State - Editorial Skeleton
+  // Reading progress bar
+  const handleScroll = useCallback(() => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (docHeight > 0) {
+      setProgress(Math.min((scrollTop / docHeight) * 100, 100));
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return '';
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  };
+
+  const getReadingTime = (content: string) => {
+    const text = content.replace(/<[^>]*>/g, '');
+    const words = text.split(/\s+/).filter(Boolean).length;
+    return Math.max(1, Math.ceil(words / 200));
+  };
+
+  // Loading State
   if (loading) {
     return (
-      <div className={`flex flex-col min-h-screen bg-[#FAFAFA] font-sans`}>
+      <div className="flex flex-col min-h-screen bg-white font-sans">
         <Navbar />
-        <main className="flex-1 pt-32 pb-20">
-          <div className="container mx-auto px-4 max-w-3xl">
-             <Skeleton className="h-4 w-24 mb-6 bg-gray-200" />
-             <Skeleton className="h-12 w-full mb-4 bg-gray-200" />
-             <Skeleton className="h-12 w-3/4 mb-8 bg-gray-200" />
-             <div className="flex items-center gap-4 mb-12 border-y border-gray-100 py-6">
-                <Skeleton className="h-10 w-10 rounded-full bg-gray-200" />
-                <div className="space-y-2">
-                   <Skeleton className="h-3 w-32 bg-gray-200" />
-                   <Skeleton className="h-3 w-24 bg-gray-200" />
-                </div>
-             </div>
-             <div className="space-y-4">
-               <Skeleton className="h-4 w-full bg-gray-200" />
-               <Skeleton className="h-4 w-full bg-gray-200" />
-               <Skeleton className="h-4 w-5/6 bg-gray-200" />
-               <Skeleton className="h-4 w-full bg-gray-200 mt-8" />
-             </div>
+        <main className="flex-1 pt-28 pb-20">
+          <div className="max-w-[680px] mx-auto px-5 md:px-6">
+            <Skeleton className="h-3 w-24 mb-8 bg-gray-100" />
+            <Skeleton className="h-10 w-full mb-3 bg-gray-100" />
+            <Skeleton className="h-10 w-3/4 mb-8 bg-gray-100" />
+            <Skeleton className="h-5 w-full mb-2 bg-gray-50" />
+            <Skeleton className="h-5 w-5/6 mb-10 bg-gray-50" />
+            <div className="flex items-center gap-3 py-5 border-y border-gray-100 mb-10">
+              <Skeleton className="h-10 w-10 rounded-full bg-gray-100" />
+              <div className="space-y-2">
+                <Skeleton className="h-3 w-28 bg-gray-100" />
+                <Skeleton className="h-3 w-20 bg-gray-50" />
+              </div>
+            </div>
+            <div className="space-y-4">
+              <Skeleton className="h-4 w-full bg-gray-50" />
+              <Skeleton className="h-4 w-full bg-gray-50" />
+              <Skeleton className="h-4 w-5/6 bg-gray-50" />
+              <Skeleton className="h-4 w-full bg-gray-50" />
+            </div>
           </div>
         </main>
       </div>
@@ -98,18 +130,18 @@ export default function StudentArticleDetailPage() {
   // Error State
   if (error) {
     return (
-      <div className={`flex flex-col min-h-screen bg-[#FAFAFA] font-sans`}>
+      <div className="flex flex-col min-h-screen bg-white font-sans">
         <Navbar />
         <main className="flex-1 flex items-center justify-center pt-20">
-          <div className="bg-red-50 border border-red-100 p-8 rounded-2xl text-center max-w-md mx-4">
-             <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">
-                <Terminal className="h-6 w-6" />
-             </div>
-             <h3 className="font-bold text-xl text-red-900 mb-2">Error Loading Article</h3>
-             <p className="text-red-700/80 mb-6">{error}</p>
-             <Button onClick={() => router.back()} variant="outline" className="border-red-200 text-red-700 hover:bg-red-100">
-                Go Back
-             </Button>
+          <div className="bg-red-50 border border-red-100 p-8 rounded-xl text-center max-w-md mx-4">
+            <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">
+              <Terminal className="h-5 w-5" />
+            </div>
+            <h3 className="font-semibold text-lg text-red-900 mb-2">Something went wrong</h3>
+            <p className="text-red-700/80 text-sm mb-6">{error}</p>
+            <Button onClick={() => router.back()} variant="outline" className="border-red-200 text-red-700 hover:bg-red-100 rounded-lg">
+              Go back
+            </Button>
           </div>
         </main>
       </div>
@@ -118,105 +150,100 @@ export default function StudentArticleDetailPage() {
 
   if (!article) return null;
 
+  const authorName = article.writerName || 'Anonymous Student';
+
   return (
-    <div className={`flex flex-col min-h-screen bg-[#FAFAFA] font-sans selection:bg-[#1a237e] selection:text-white`}>
+    <div className="flex flex-col min-h-screen bg-white font-sans selection:bg-[#1a237e]/10 selection:text-[#1a237e]">
+      {/* Reading Progress Bar */}
+      <div
+        className="fixed top-0 left-0 h-[2px] bg-[#1a237e] z-[60] transition-none"
+        style={{ width: `${progress}%` }}
+      />
+
       <Navbar />
-      
-      {/* Global Grain Texture */}
-      <div className="fixed inset-0 opacity-[0.035] pointer-events-none z-50 mix-blend-multiply" 
-           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
-      </div>
 
-      {/* Progress Bar (Optional nice-to-have visual) */}
-      <div className="fixed top-0 left-0 h-1 bg-gradient-to-r from-[#1a237e] to-[#3949ab] w-full z-50 origin-left scale-x-0 animate-progress"></div>
+      <main className="flex-1 pt-28 pb-20 lg:pt-36">
+        <article className="max-w-[680px] mx-auto px-5 md:px-6">
 
-      <main className="flex-1 relative pt-32 pb-24">
-         {/* Background Ambience */}
-         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-[500px] bg-gradient-radial from-[#1a237e]/5 to-transparent blur-[100px] opacity-60 pointer-events-none"></div>
+          {/* Back Button */}
+          <button
+            onClick={() => router.push('/student-articles')}
+            className="inline-flex items-center gap-1.5 text-[13px] text-gray-400 hover:text-gray-600 transition-colors mb-10 group"
+          >
+            <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
+            All student articles
+          </button>
 
-         <article className="container mx-auto px-4 md:px-6 relative z-10 max-w-3xl">
-            
-            {/* Back Navigation */}
-            <div className="mb-8">
-              <Button 
-                variant="ghost" 
-                onClick={() => router.back()}
-                className="group pl-0 text-gray-500 hover:text-[#1a237e] hover:bg-transparent"
+          {/* Article Header */}
+          <header className="mb-10">
+            {/* Meta */}
+            <div className="flex items-center gap-3 mb-5 text-[13px] text-gray-400">
+              {article.createdAt && (
+                <time>{formatDate(article.createdAt)}</time>
+              )}
+              <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
+              <span>{getReadingTime(article.content)} min read</span>
+            </div>
+
+            {/* Title */}
+            <h1 className="text-[32px] md:text-[40px] lg:text-[44px] font-bold text-gray-900 leading-[1.15] tracking-tight mb-6">
+              {article.title}
+            </h1>
+
+            {/* Lead / Description */}
+            <p className="text-xl text-gray-500 leading-[1.6] font-normal mb-8">
+              {article.description}
+            </p>
+
+            {/* Author Bar */}
+            <div className="flex items-center gap-3 py-5 border-y border-gray-100">
+              <div className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-100 text-gray-500">
+                <User className="h-4.5 w-4.5" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-gray-800">{authorName}</p>
+                <p className="text-xs text-gray-400">Student Contributor</p>
+              </div>
+            </div>
+          </header>
+
+          {/* Content Body — Optimized for Reading */}
+          <div className="
+            prose prose-lg max-w-none
+            prose-headings:font-bold prose-headings:text-gray-900 prose-headings:tracking-tight
+            prose-h1:text-[28px] prose-h1:mt-12 prose-h1:mb-4
+            prose-h2:text-[24px] prose-h2:mt-10 prose-h2:mb-4
+            prose-h3:text-[20px] prose-h3:mt-8 prose-h3:mb-3
+            prose-p:text-[18px] prose-p:text-gray-700 prose-p:leading-[1.8] prose-p:mb-6
+            prose-a:text-[#1a237e] prose-a:font-medium prose-a:no-underline prose-a:border-b prose-a:border-[#1a237e]/25 hover:prose-a:border-[#1a237e]/60
+            prose-blockquote:border-l-2 prose-blockquote:border-gray-200 prose-blockquote:pl-5 prose-blockquote:py-1 prose-blockquote:not-italic prose-blockquote:text-gray-600
+            prose-strong:font-semibold prose-strong:text-gray-900
+            prose-code:text-[15px] prose-code:bg-gray-50 prose-code:text-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-normal prose-code:before:content-none prose-code:after:content-none
+            prose-pre:bg-gray-50 prose-pre:border prose-pre:border-gray-100 prose-pre:rounded-lg
+            prose-li:text-[18px] prose-li:text-gray-700 prose-li:leading-[1.7] prose-li:marker:text-gray-300
+            prose-img:rounded-lg prose-img:shadow-sm prose-img:border prose-img:border-gray-100
+            prose-ul:my-4 prose-ol:my-4
+          ">
+            <div dangerouslySetInnerHTML={{ __html: sanitizeRichTextHtml(article.content) }} />
+          </div>
+
+          {/* Article End */}
+          <div className="mt-16 pt-8 border-t border-gray-100">
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => router.push('/student-articles')}
+                className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors group"
               >
-                <ChevronLeft className="h-4 w-4 mr-1 transition-transform group-hover:-translate-x-1" />
-                Back to Articles
-              </Button>
+                <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
+                Back to all stories
+              </button>
             </div>
+          </div>
 
-            {/* Header Section */}
-            <header className="mb-12">
-               {/* Category Tag */}
-               <div className="mb-6 inline-block">
-                 <span className="px-3 py-1 rounded-full bg-[#e8eaf6] text-[#1a237e] text-xs font-bold tracking-widest uppercase">
-                   Student Voice
-                 </span>
-               </div>
-
-               {/* Title */}
-<h1 className="font-bold text-4xl md:text-5xl lg:text-6xl font-medium text-[#1a237e] leading-[1.15] mb-6">
-                  {article.title}
-                </h1>
-
-               {/* Subtitle / Description */}
-               <p className="text-xl text-gray-500 font-light leading-relaxed mb-8">
-                 {article.description}
-               </p>
-
-               {/* Author Meta Bar */}
-               <div className="flex flex-col sm:flex-row sm:items-center justify-between py-6 border-y border-gray-200 gap-6">
-                  <div className="flex items-center gap-4">
-                     <div className="h-12 w-12 rounded-full bg-[#f0f1fa] flex items-center justify-center border border-gray-200 text-[#1a237e]">
-                        <User className="h-6 w-6" />
-                     </div>
-                     <div>
-                        <p className="text-sm font-bold text-[#1a237e]">
-                           {article.writerName || 'Anonymous Student'}
-                        </p>
-                        <div className="flex items-center gap-2 text-xs text-gray-500">
-                           <span>Student Contributor</span>
-                           {/* Add date here if available in your schema */}
-                           {/* <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-                           <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> Oct 24, 2023</span> */}
-                        </div>
-                     </div>
-                  </div>
-                  
-                 
-               </div>
-            </header>
-
-            {/* Content Body */}
-            <div className="prose prose-lg md:prose-xl max-w-none 
-              prose-headings:font-bold prose-headings:text-[#1a237e] 
-              prose-p:text-gray-700 prose-p:leading-[1.8] prose-p:font-light
-              prose-a:text-[#1a237e] prose-a:no-underline prose-a:border-b prose-a:border-[#1a237e]/30 hover:prose-a:border-[#1a237e]
-              prose-blockquote:border-l-[#1a237e] prose-blockquote:bg-[#f8f9fa] prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic
-              prose-strong:font-bold prose-strong:text-gray-900
-              prose-img:rounded-xl prose-img:shadow-lg
-            ">
-               <div dangerouslySetInnerHTML={{ __html: sanitizeRichTextHtml(article.content) }} />
-            </div>
-
-            {/* Footer / End of Article */}
-            <div className="mt-20 pt-10 border-t border-gray-200 text-center">
-               <div className="inline-flex items-center gap-2 text-gray-400 mb-4">
-                  <span className="h-px w-12 bg-gray-200"></span>
-                  <span className="text-xs uppercase tracking-widest">End of Article</span>
-                  <span className="h-px w-12 bg-gray-200"></span>
-               </div>
-               <h4 className="font-bold text-2xl text-[#1a237e] mb-6">Enjoyed this read?</h4>
-               <Button onClick={() => router.push('/student-articles')} className="bg-[#1a237e] hover:bg-[#0d1642] text-white rounded-full px-8">
-                  Read More Stories
-               </Button>
-            </div>
-
-         </article>
+        </article>
       </main>
+
+      <Footer />
     </div>
   );
 }

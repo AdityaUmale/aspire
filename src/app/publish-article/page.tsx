@@ -39,7 +39,7 @@ export default function PublishArticlePage() {
     setError(null);
     setSuccess(null);
 
-    if (!title.trim() || !description.trim() || !content.trim() || content === '<p></p>') {
+    if (!title.trim() || !description.trim() || !content.trim() || content.replace(/<[^>]*>/g, '').trim().length === 0) {
       setError('Title, Description, and Content are required.');
       setIsSubmitting(false);
       return;
