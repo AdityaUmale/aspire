@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { FloatingToast } from '@/components/ui/floating-toast';
 import {
   Terminal,
   PenTool,
@@ -16,7 +17,6 @@ import {
   Send,
   Feather,
   ArrowRight,
-  BookOpen,
   CheckCircle2,
   Globe
 } from 'lucide-react';
@@ -83,6 +83,15 @@ export default function PublishArticlePage() {
   return (
     <div className={`flex flex-col min-h-screen bg-[#FAFAFA] font-sans selection:bg-[#1a237e] selection:text-white`}>
       <Navbar />
+      <FloatingToast
+        open={Boolean(success)}
+        onClose={() => setSuccess(null)}
+        variant="success"
+        title="Story submitted for review"
+        description={success || ''}
+        actionLabel="Explore student stories"
+        onAction={() => router.push('/student-articles')}
+      />
 
       {/* Global Grain Texture */}
       <div className="fixed inset-0 opacity-[0.035] pointer-events-none z-50 mix-blend-multiply"
@@ -179,18 +188,10 @@ export default function PublishArticlePage() {
                   <AlertDescription className="text-red-800/80">{error}</AlertDescription>
                 </Alert>
               )}
-
-              {success && (
-                <Alert className="bg-emerald-50 border-emerald-100 text-emerald-900 rounded-xl shadow-sm animate-in zoom-in-95">
-                  <BookOpen className="h-4 w-4 text-emerald-600" />
-                  <AlertTitle className="font-bold text-emerald-800">Story Submitted!</AlertTitle>
-                  <AlertDescription className="text-emerald-800/80">{success}</AlertDescription>
-                </Alert>
-              )}
             </div>
 
             {/* The Form Paper */}
-            <div className="bg-white rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 relative overflow-hidden">
+            <div className="bg-white rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 relative">
               <div className="h-1.5 w-full bg-gradient-to-r from-[#1a237e] via-[#3949ab] to-[#1a237e]"></div>
 
               <form onSubmit={handleSubmit} className="p-8 md:p-12 lg:p-16 space-y-10">
@@ -251,11 +252,13 @@ export default function PublishArticlePage() {
                     <span className="text-xs text-gray-400">Rich text supported</span>
                   </div>
 
-                  <div className="prose prose-lg max-w-none rounded-2xl border border-gray-200 bg-white focus-within:ring-2 focus-within:ring-[#1a237e]/10 focus-within:border-[#1a237e] transition-all shadow-sm min-h-[400px] overflow-hidden">
+                  <div className="prose prose-lg max-w-none rounded-2xl border border-gray-200 bg-white focus-within:ring-2 focus-within:ring-[#1a237e]/10 focus-within:border-[#1a237e] transition-all shadow-sm min-h-[400px]">
                     <RichTextEditor
                       content={content}
                       onChange={setContent}
                       placeholder="Share your wisdom..."
+                      stickyToolbar
+                      toolbarOffsetPx={108}
                     />
                   </div>
                 </div>

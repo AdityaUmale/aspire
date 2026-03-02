@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, CheckCircle, PenLine } from 'lucide-react';
+import { FloatingToast } from '@/components/ui/floating-toast';
+import { Terminal, PenLine } from 'lucide-react';
 import RichTextEditor from '@/components/RichTextEditor';
 
 export default function AddArticlesPage() {
@@ -65,6 +66,16 @@ export default function AddArticlesPage() {
 
   return (
     <div>
+      <FloatingToast
+        open={Boolean(success)}
+        onClose={() => setSuccess(null)}
+        variant="success"
+        title="Founder article created"
+        description={success || ''}
+        durationMs={4500}
+        className="top-6 md:top-6"
+      />
+
       <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm mb-6">
         <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2"></span>
         Create New Article
@@ -77,14 +88,6 @@ export default function AddArticlesPage() {
           <Terminal className="h-4 w-4" />
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
-      
-      {success && (
-        <Alert className="mb-6 bg-green-100/50 border-green-300/50 text-green-800 rounded-lg shadow-sm">
-          <CheckCircle className="h-4 w-4" />
-          <AlertTitle>Success</AlertTitle>
-          <AlertDescription>{success}</AlertDescription>
         </Alert>
       )}
       
@@ -122,6 +125,8 @@ export default function AddArticlesPage() {
                 content={content}
                 onChange={setContent}
                 placeholder="Start writing your article content here..."
+                stickyToolbar
+                toolbarOffsetPx={16}
               />
             </div>
             <p className="mt-1 text-xs text-gray-500">Use the toolbar above to format your content.</p>

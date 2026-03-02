@@ -161,3 +161,8 @@
   50% { transform: translateX(200%) skewX(-15deg); }
   100% { transform: translateX(200%) skewX(-15deg); }
 }
+
+@keyframes toast-shrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}

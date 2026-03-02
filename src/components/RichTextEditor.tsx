@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from "@/components/ui/button";
+import { cn } from '@/lib/utils';
 import { mergeAttributes } from '@tiptap/core';
 import { useEditor, EditorContent, Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -26,6 +27,8 @@ interface RichTextEditorProps {
   content: string;
   onChange: (html: string) => void;
   placeholder?: string;
+  stickyToolbar?: boolean;
+  toolbarOffsetPx?: number;
 }
 
 type ImageAlign = 'left' | 'center' | 'right';
@@ -176,7 +179,13 @@ const moveSelectedImage = (editor: Editor, direction: 'up' | 'down') => {
   view.focus();
 };
 
-export default function RichTextEditor({ content, onChange, placeholder = 'Start writing...' }: RichTextEditorProps) {
+export default function RichTextEditor({
+  content,
+  onChange,
+  placeholder = 'Start writing...',
+  stickyToolbar = true,
+  toolbarOffsetPx = 96,
+}: RichTextEditorProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [currentFontSize, setCurrentFontSize] = useState('normal');
   const [isUploadingImage, setIsUploadingImage] = useState(false);
@@ -367,6 +376,23 @@ export default function RichTextEditor({ content, onChange, placeholder = 'Start
     };
   })();
 
+  const hasImageNode = (() => {
+    if (!editor) {
+      return false;
+    }
+
+    let found = false;
+    editor.state.doc.descendants((node) => {
+      if (node.type.name === 'image') {
+        found = true;
+        return false;
+      }
+      return true;
+    });
+
+    return found;
+  })();
+
   const insertImageFromUrl = () => {
     if (!editor) {
       return;
@@ -422,7 +448,7 @@ export default function RichTextEditor({ content, onChange, placeholder = 'Start
   };
 
   return (
-    <div className="border border-[#1a237e]/20 rounded-lg overflow-hidden shadow-sm">
+    <div className="border border-[#1a237e]/20 rounded-lg shadow-sm bg-white">
       <input
         ref={fileInputRef}
         type="file"
@@ -432,7 +458,13 @@ export default function RichTextEditor({ content, onChange, placeholder = 'Start
         onChange={handleImageFileSelect}
       />
 
-      <div className="border-b border-[#1a237e]/20 p-2 bg-[#f8f9fa]">
+      <div
+        className={cn(
+          "border-b border-[#1a237e]/20 p-2 bg-[#f8f9fa]/95 backdrop-blur supports-[backdrop-filter]:bg-[#f8f9fa]/85",
+          stickyToolbar && "sticky z-40"
+        )}
+        style={stickyToolbar ? { top: `${toolbarOffsetPx}px` } : undefined}
+      >
         <div className="flex flex-wrap gap-1 mb-2 overflow-x-auto">
           <div className="flex items-center mr-2 border-r pr-2 border-[#1a237e]/20">
             <Button
@@ -686,6 +718,33 @@ export default function RichTextEditor({ content, onChange, placeholder = 'Start
                 type="button"
                 variant="ghost"
                 size="sm"
+                onClick={() => {
+                  if (!editor) {
+                    return;
+                  }
+
+                  const attrs = editor.getAttributes('image') as { alt?: string };
+                  const altText = window.prompt('Edit image alt text', attrs.alt || '');
+                  if (altText === null) {
+                    return;
+                  }
+
+                  editor.chain().focus().updateAttributes('image', {
+                    alt: altText.trim(),
+                  }).run();
+                }}
+                className="p-1 h-8 px-2 text-[#1a237e] hover:bg-[#e8eaf6]/70"
+                title="Edit Alt Text"
+              >
+                <span className="text-xs font-medium">Alt</span>
+              </Button>
+            </div>
+
+            <div className="flex items-center border-l border-[#1a237e]/20 pl-2">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
                 onClick={() => editor?.chain().focus().deleteSelection().run()}
                 className="p-1 h-8 w-8 text-red-600 hover:bg-red-50"
                 title="Remove Image"
@@ -693,6 +752,12 @@ export default function RichTextEditor({ content, onChange, placeholder = 'Start
                 <Trash2 className="h-4 w-4" />
               </Button>
             </div>
+          </div>
+        )}
+
+        {hasImageNode && !selectedImage && (
+          <div className="mt-1 rounded-md border border-dashed border-[#1a237e]/20 bg-white px-2 py-1.5 text-[11px] text-[#1a237e]/75">
+            Click any image to open resize, alignment, alt text, move, and remove controls.
           </div>
         )}
       </div>
