@@ -2,19 +2,19 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { Mic, ArrowRight, Award } from 'lucide-react';
+import { Mic, ArrowRight, Award, Activity, Globe, Volume2, Waves, Repeat, Sparkles, BookOpen, Map } from 'lucide-react';
 
 export default function VoiceAndAccentPage() {
-  const voiceAccentOutline = [
-    'Articulation Exercises',
-    'MTI (Mother Tongue Influence)',
-    'Sounds',
-    'Voice Clarity',
-    'Sound Drills',
-    'Tone of Voice',
-    'International Phonetic Alphabet',
-    'Intonation',
-    'English Accents around the World',
+  const voiceAccentModules = [
+    { title: 'Articulation Exercises', icon: Activity, desc: 'Master physical movements for clear speech and pronunciation.' },
+    { title: 'MTI (Mother Tongue Influence)', icon: Globe, desc: 'Techniques to neutralize regional accents and speak globally.' },
+    { title: 'Sounds', icon: Volume2, desc: 'Perfect your vowel and consonant sounds for accurate speaking.' },
+    { title: 'Voice Clarity', icon: Waves, desc: 'Develop a crisp, audible, and clear speaking voice.' },
+    { title: 'Sound Drills', icon: Repeat, desc: 'Repetitive practice exercises for speech muscle memory.' },
+    { title: 'Tone of Voice', icon: Sparkles, desc: 'Express the right emotion, confidence, and professionalism.' },
+    { title: 'International Phonetic Alphabet', icon: BookOpen, desc: 'Learn IPA for independent and accurate word pronunciation.' },
+    { title: 'Intonation', icon: Mic, desc: 'Master the music, pitch, and rhythm of the English language.' },
+    { title: 'English Accents around the World', icon: Map, desc: 'Understand various global English accents for better comprehension.' },
   ];
 
   return (
@@ -164,85 +164,75 @@ export default function VoiceAndAccentPage() {
       </section>
 
       {/* Course Outlines Section */}
-      <section id="outline" className="py-24 md:py-32 bg-white relative overflow-hidden">
-        {/* Decorative elements for glassmorphism */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#1a237e]/5 blur-[100px] rounded-full pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#3949ab]/5 blur-[100px] translate-y-1/3 -translate-x-1/3 rounded-full pointer-events-none"></div>
-        <div className="absolute top-1/2 left-1/2 w-[800px] h-[800px] bg-[#c5cae9]/30 blur-[120px] -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"></div>
+      <section id="outline" className="relative py-20 md:py-28 z-10 bg-white">
+        <div className="container mx-auto px-4 md:px-6 max-w-6xl">
 
-        <div className="container mx-auto px-6 max-w-7xl relative z-10">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
 
-          {/* Minimalist Section Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 md:mb-24">
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white/60 backdrop-blur-md rounded-full border border-white/50 shadow-sm">
+            {/* Left — Sticky heading */}
+            <div className="lg:col-span-4 lg:sticky lg:top-32">
+              <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-zinc-50 rounded-full border border-zinc-200">
                 <span className="w-2 h-2 rounded-full bg-[#3949ab]"></span>
                 <span className="text-[10px] font-bold tracking-[0.2em] text-[#1a237e] uppercase">
                   Curriculum Structure
                 </span>
               </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter text-zinc-900 leading-[1.05]">
-                Comprehensive modules for <br className="hidden md:block" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a237e] to-[#6074F9]">
-                  professional excellence.
-                </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-5">
+                Comprehensive modules for<br />
+                <span className="text-[#1a237e]">Professional Excellence</span>
               </h2>
+              <p className="text-gray-500 text-base leading-relaxed mb-8">
+                A meticulously crafted roadmap designed to unlock confidence, clarity, and connection.
+              </p>
+              
+              {/* Closing quote style */}
+              <div className="border-l-2 border-[#1a237e] pl-4 space-y-2">
+                  <p className="text-base font-semibold text-gray-900">
+                      Learn the techniques, <span className="text-[#1a237e]">master the speech.</span>
+                  </p>
+                  <p className="text-base font-semibold text-gray-900">
+                      Speak with clarity, <span className="text-[#1a237e]">command the room.</span>
+                  </p>
+              </div>
             </div>
 
-            <p className="text-lg text-zinc-600 font-medium max-w-sm leading-relaxed mb-2">
-              A meticulously crafted roadmap designed to unlock confidence, clarity, and connection.
-            </p>
-          </div>
-
-          {/* Sleek 2-Column Grid */}
-          <div className="grid md:grid-cols-1 gap-6 md:gap-8 group/grid relative z-10 max-w-3xl mx-auto">
-
-            {[
-              {
-                title: "Voice & Accent Training",
-                outline: voiceAccentOutline,
-                accent: "group-hover:border-[#1a237e]/30 group-hover:shadow-[0_16px_48px_rgba(26,35,126,0.1)] group-hover:bg-white/60"
-              }
-            ].map((course, idx) => (
-              <div
-                key={idx}
-                className={`group relative bg-white/40 backdrop-blur-xl rounded-[2.5rem] border border-white/80 p-8 md:p-10 transition-all duration-500 hover:-translate-y-2 lg:hover:!opacity-100 lg:group-hover/grid:opacity-60 shadow-[0_8px_32px_rgba(0,0,0,0.03)] overflow-hidden ${course.accent}`}
-              >
-                {/* Detailed glassmorphic internal glow & reflections */}
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-80 z-0"></div>
-
-                <div className="relative z-10">
-                  {/* Header Area */}
-                  <div className="flex flex-col gap-6 mb-10 pb-10 border-b border-zinc-200/50">
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-2">Module 0{idx + 1}</p>
-                      <h3 className="text-2xl lg:text-3xl font-bold tracking-tight text-zinc-900 group-hover:text-[#1a237e] transition-colors duration-300">
-                        {course.title}
-                      </h3>
+            {/* Right — Numbered typographic list */}
+            <div className="lg:col-span-8">
+              <div className="border-t border-gray-200">
+                {voiceAccentModules.map((module, index) => {
+                  return (
+                    <div
+                        key={index}
+                        className="group flex flex-col md:flex-row md:items-start gap-4 md:gap-8 py-7 border-b border-gray-200 hover:bg-zinc-50 transition-colors px-4 -mx-4 rounded-xl"
+                    >
+                        <span className="text-3xl md:text-4xl font-bold text-gray-200 group-hover:text-[#c5cae9] transition-colors duration-300 flex-shrink-0 leading-none mt-1 select-none hidden md:block">
+                            {String(index + 1).padStart(2, '0')}
+                        </span>
+                        
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                             <div className="md:hidden text-2xl font-bold text-gray-300">
+                               {String(index + 1).padStart(2, '0')}
+                             </div>
+                             <h3 className="text-xl md:text-2xl font-semibold text-gray-800 leading-snug group-hover:text-[#1a237e] transition-colors duration-300">
+                                 {module.title}
+                             </h3>
+                          </div>
+                          
+                          <p className="text-gray-600 text-base md:text-lg leading-relaxed md:ml-0">
+                              {module.desc}
+                          </p>
+                        </div>
                     </div>
-                  </div>
-
-                  {/* Syllabus List */}
-                  <ul className="space-y-5">
-                    {course.outline.map((item, index) => (
-                      <li key={index} className="flex items-start gap-4 group/item cursor-default">
-                        {/* Monospace Indexing (01, 02, etc.) */}
-                        <span className="mt-0.5 text-xs font-mono font-medium text-zinc-400 group-hover/item:text-[#3949ab] transition-colors duration-300 select-none">
-                          {String(index + 1).padStart(2, '0')}
-                        </span>
-
-                        {/* Content */}
-                        <span className="text-sm md:text-base font-medium text-zinc-600 leading-relaxed group-hover/item:text-zinc-900 transition-colors duration-300">
-                          {item}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
+                  );
+                })}
               </div>
-            ))}
 
+              {/* Closing paragraph */}
+              <p className="text-gray-500 text-sm md:text-base leading-relaxed mt-8 max-w-2xl">
+                  This Voice and Accent training is designed to address individual challenges, helping you overcome MTI and speak neutral English with confidence.
+              </p>
+            </div>
           </div>
         </div>
       </section>

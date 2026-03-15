@@ -48,10 +48,7 @@ export default function TeamPage() {
       <section className="pt-32 pb-20 md:pt-48 md:pb-28 relative z-10">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-5xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1a237e]/5 border border-[#1a237e]/10 text-[#1a237e] font-semibold text-xs tracking-[0.15em] uppercase mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#1a237e]"></span>
-              Team Aspire
-            </div>
+            
 
             <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-gray-900 tracking-tight leading-[1.05] mb-8">
               The People Behind
@@ -73,11 +70,7 @@ export default function TeamPage() {
               </p>
             </div>
 
-            <div className="max-w-3xl mx-auto mt-14 border-l-2 border-[#1a237e]/20 pl-8 md:pl-10 text-left">
-              <p className="text-lg md:text-xl text-[#1a237e] leading-relaxed font-semibold">
-                Together, We Can Do So Much.
-              </p>
-            </div>
+            
           </div>
         </div>
       </section>
