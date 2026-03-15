@@ -20,14 +20,14 @@ export default function HeroSection() {
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
           <div className="flex flex-col justify-center space-y-6 pt-2 md:pt-0">
             <div className="flex flex-wrap gap-3 fade-in" style={{ animationDelay: '0.1s' }}>
-              <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-[11px] sm:text-sm text-[#1a237e] shadow-sm">
+              {/* <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-[11px] sm:text-sm text-[#1a237e] shadow-sm">
                 <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2 shrink-0"></span>
-                India&apos;s leading personal and professional development institute since 2009.
-              </div>
+                Build Confidence. Master Communication. Lead Your Future.
+              </div> */}
             </div>
             <div className="space-y-4 fade-in" style={{ animationDelay: '0.2s' }}>
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-[#1a237e]">
-                Unlock Your{" "}
+                Unlock Your{' '}
                 <span className="relative inline-block">
                   Potential.
                   <span className="absolute bottom-2 left-0 w-full h-3 bg-[#c5cae9]/50 -z-10"></span>
@@ -36,19 +36,19 @@ export default function HeroSection() {
                 <span className="text-[#3949ab] text-3xl sm:text-4xl xl:text-5xl mt-2 block">Lead With Confidence.</span>
               </h1>
               <p className="max-w-[600px] text-gray-600 md:text-xl leading-relaxed mt-4">
-                Join 150,000+ learners who have discovered confidence, clarity, and success with Aspire, India&apos;s leading personal and professional development institute.
+                Join 150,000+ learners who have transformed their communication skills, leadership abilities, and personal growth with Aspire, The Institute Of Human Development, India&apos;s Leading Personal And Professional Training Institute since 2009.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row fade-in w-full sm:w-auto" style={{ animationDelay: '0.3s' }}>
-              <Link href="#courses" className="w-full sm:w-auto">
+              <Link href="/#enquiry" className="w-full sm:w-auto">
                 <Button className="bg-[#1a237e] hover:bg-[#0d1642] shadow-md transition-all duration-300 hover:shadow-lg w-full sm:w-auto">
-                  Explore Our Programs
+                  Start Your Growth Journey
                   <ChevronRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="/about-us" className="w-full sm:w-auto">
+              <Link href="#courses" className="w-full sm:w-auto">
                 <Button variant="outline" className="text-[#1a237e] border-[#1a237e] hover:bg-[#e8eaf6] transition-all duration-300 w-full sm:w-auto">
-                  Learn More
+                  Explore Programs
                 </Button>
               </Link>
             </div>

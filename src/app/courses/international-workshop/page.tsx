@@ -119,7 +119,7 @@ export default function InternationalWorkshopPage() {
               </h2>
               <div className="prose prose-lg text-gray-700 leading-relaxed">
                 <p className="mb-6">
-                  Traveling is NOT just a journey where you visit places, capture memories, and buy souvenirs; it is a profound journey of self-discovery where you break boundaries, conquer fears, dive into new cultures, learn languages, and above all, find a new perspective on life.
+                  Travelling is NOT just a journey where you visit places, capture memories, and buy souvenirs; it is a profound journey of self-discovery where you break boundaries, conquer fears, dive into new cultures, learn languages, and above all, find a new perspective on life.
                 </p>
                 <p className="mb-6">
                   The Aspire International Workshop is more than just an educational tour; it is a blend of learning, exploration, and endless fun. It brings together Aspire Institute students and participants who want to step out of their comfort zones, experience a new country, and grow individually.
@@ -155,10 +155,10 @@ export default function InternationalWorkshopPage() {
               <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">A Journey Within</h3>
               <div className="prose prose-lg text-gray-700 leading-relaxed">
                 <p className="mb-6">
-                  We have successfully organized international workshops in global destinations like Dubai, Bali, Malaysia, Singapore, and Thailand. During these journeys, participants do not just see new places—they learn to manage themselves independently and understand the world from a completely different perspective. The participants are taught leadership, values, confidence-building, and special sessions by the experts of the institute and by our international faculty members to explore English and foreign culture.
+                  We have successfully organised international workshops in global destinations like Dubai, Bali, Malaysia, Singapore, and Thailand. During these journeys, participants do not just see new places; they learn to manage themselves independently and understand the world from a completely different perspective. The participants are taught leadership, values, confidence-building, and special sessions by the experts of the institute and by our international faculty members to explore English and foreign culture.
                 </p>
                 <p className="font-bold text-[#1a237e] text-xl">
-                  The moments of self-reflection help you to understand yourself better, and find a better version of yourself. You&apos;ll meet the real you, hidden somewhere on the roads you would travel.
+                  The moments of self-reflection help you to understand yourself better and find a better version of yourself. You&apos;ll meet the real you, hidden somewhere on the roads you would travel.
                 </p>
               </div>
             </div>

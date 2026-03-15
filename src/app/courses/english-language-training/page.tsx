@@ -125,7 +125,7 @@ export default function EnglishLanguageTrainingPage() {
                   English today is the language that connects the world from Australia and the United Kingdom to India and beyond. It’s the most widely learned second language, opening doors to education, careers, travel, and global opportunities.
                 </p>
                 <p className="mb-6">
-                  At Aspire Institute, we’ve been empowering learners across India for over 17 years to speak, understand, and live the English language with confidence. Our English Language Courses, from Pre-Basic to Proficient, are designed for real people with real challenges fear of speaking, lack of vocabulary, hesitation, or mother-tongue influence.
+                  At Aspire Institute, we’ve been empowering learners across India for over 17 years to speak, understand, and live the English language with confidence. Our English Language Courses, from Pre-Basic to Proficient, are designed for real people with real challenges, such as fear of speaking, a lack of vocabulary, hesitation, or mother-tongue influence.
                 </p>
               </div>
             </div>
@@ -161,10 +161,10 @@ export default function EnglishLanguageTrainingPage() {
                   Through our interactive, activity-based training, we make English simple, enjoyable, and practical for everyday life, work, and study. With stories, conversations, games, and media-based lessons, we help learners rise above barriers, think in English, and express themselves naturally.
                 </p>
                 <p className="mb-6">
-                  Aspire’s English programs don’t just teach English—they help you communicate fearlessly, connect globally, and grow personally and professionally.
+                  Aspire&apos;s English programs don&apos;t just teach English. They help you communicate fearlessly, connect globally, and grow personally and professionally.
                 </p>
                 <p className="font-bold text-[#1a237e] text-xl">
-                  Aspire Helps to Connect globally, express freely, and grow personally and professionally with the power of English.
+                  Aspire helps to connect globally, express freely, and grow personally and professionally with the power of English.
                 </p>
               </div>
             </div>

@@ -118,10 +118,10 @@ export default function PublicSpeakingPage() {
               </h2>
               <div className="prose prose-lg text-gray-700 leading-relaxed">
                 <p className="mb-6">
-                  Most adults struggle with fear, nervousness, or self-doubt when asked to speak in front of others whether at work, in meetings, or on stage. Aspire’s Public Speaking for Adults program is designed to transform that fear into confidence and clarity.
+                  Most adults struggle with fear, nervousness, or self-doubt when asked to speak in front of others, whether at work, in meetings, or on stage. Aspire’s Public Speaking for Adults program is designed to transform that fear into confidence and clarity.
                 </p>
                 <p className="mb-6">
-                  Through our practical, hands-on approach, you’ll learn how to organize your thoughts, engage your audience, and communicate with impact.
+                  Through our practical, hands-on approach, you’ll learn how to organise your thoughts, engage your audience, and communicate with impact.
                 </p>
               </div>
             </div>
@@ -157,7 +157,7 @@ export default function PublicSpeakingPage() {
                   The training covers everything from voice culture, storytelling, and body language to stage presence and audience connection, helping you become a natural, confident, and influential speaker. Whether you’re a professional, teacher, entrepreneur, or homemaker, this course will help you express your ideas fearlessly, represent yourself and your organization effectively, and inspire others every time you speak.
                 </p>
                 <p className="mb-6">
-                  Backed by Aspire’s proven expertise and empowering methods, you won’t just learn to speak you’ll learn to connect, influence, and lead with your words.
+                  Backed by Aspire’s proven expertise and empowering methods, you won’t just learn to speak; you’ll learn to connect, influence, and lead with your words.
                 </p>
                 <p className="font-bold text-[#1a237e] text-xl">
                   Turn stage fear into stage power.

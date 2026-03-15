@@ -33,7 +33,7 @@ const values = [
         icon: Shield,
         title: 'Trust & Accountability',
         description:
-            'Every team member is trusted with something valuable — the growth of learners and the strength of the institution.',
+            'Every team member is trusted with something valuable, the growth of learners and the strength of the institution.',
     },
     {
         icon: Users,
@@ -78,7 +78,7 @@ const roles = [
         ],
         note: 'At Aspire, internship is not treated lightly. You are given exposure, mentorship and responsibility that shape your thinking and work ethic.',
         closing:
-            'It is a valuable opportunity — one that demands seriousness, but rewards you with clarity, confidence and direction.',
+            'It is a valuable opportunity, one that demands seriousness, but rewards you with clarity, confidence and direction.',
     },
     {
         id: 'project-trainee',
@@ -101,7 +101,7 @@ const roles = [
         ],
         note: 'This program builds discipline and professional maturity.',
         closing:
-            'Being trusted with institutional responsibilities at this stage is not ordinary — it is an opportunity to prove your capability and strengthen your foundation.',
+            'Being trusted with institutional responsibilities at this stage is not ordinary, it is an opportunity to prove your capability and strengthen your foundation.',
     },
     {
         id: 'trainer',
@@ -147,7 +147,7 @@ const roles = [
         ],
         note: 'This role may not always be visible, but it is deeply valuable.',
         closing:
-            'Being trusted with institutional systems reflects the confidence Aspire places in you — and that trust is something to hold with gratitude.',
+            'Being trusted with institutional systems reflects the confidence Aspire places in you, and that trust is something to hold with gratitude.',
     },
     {
         id: 'counsellor',
@@ -171,7 +171,7 @@ const roles = [
         ],
         note: 'To guide a student\u2019s direction in life is not a small responsibility.',
         closing:
-            'It is a meaningful opportunity to create impact — one conversation at a time.',
+            'It is a meaningful opportunity to create impact, one conversation at a time.',
     },
 ];
 
@@ -378,7 +378,7 @@ export default function CareersPage() {
                             </h2>
                             <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-md">
                                 Aspire Institute is built on a foundation of values that inspire
-                                everything we do — from training sessions to team culture.
+                                everything we do, from training sessions to team culture.
                             </p>
                         </div>
 
@@ -498,10 +498,10 @@ export default function CareersPage() {
                             {/* Closing quote */}
                             <div className="border-l-2 border-[#1a237e] pl-4 space-y-2">
                                 <p className="text-base font-semibold text-gray-900">
-                                    Those who recognise its value — <span className="text-[#1a237e]">grow.</span>
+                                    Those who recognise its value, <span className="text-[#1a237e]">grow.</span>
                                 </p>
                                 <p className="text-base font-semibold text-gray-900">
-                                    Those who commit to it — <span className="text-[#1a237e]">transform.</span>
+                                    Those who commit to it, <span className="text-[#1a237e]">transform.</span>
                                 </p>
                             </div>
                         </div>
@@ -528,7 +528,7 @@ export default function CareersPage() {
                             <p className="text-gray-500 text-sm md:text-base leading-relaxed mt-8 max-w-2xl">
                                 Being a part of Team Aspire, the leading personal and professional
                                 development training institute&apos;s team, is a valuable
-                                opportunity — one that should be approached with gratitude,
+                                opportunity, one that should be approached with gratitude,
                                 commitment and integrity.
                             </p>
                         </div>

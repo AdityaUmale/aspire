@@ -17,21 +17,6 @@ export default function VoiceAndAccentPage() {
     'English Accents around the World',
   ];
 
-  const corporateTopics = [
-    'Sales Training',
-    'Customer Dealing and Handling',
-    'Time Management and Productivity',
-    'Business Ethics',
-    'Corporate Manners and Etiquettes',
-    'Conflict Management',
-    'Team Work',
-    'Team Communication',
-    'Work-Life Balance',
-    'Stress Management',
-    'Leadership Development',
-    'Coaching Skills for Leaders',
-  ];
-
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
@@ -161,13 +146,13 @@ export default function VoiceAndAccentPage() {
               />
             </div>
             <div className="order-1 md:order-2">
-              <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Neutralize Your Accent</h3>
+              <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Neutralise Your Accent</h3>
               <div className="prose prose-lg text-gray-700 leading-relaxed">
                 <p className="mb-6">
-                  Our training focuses on neutralization of accent, vowel and consonant sounds, phonetics, and speech rhythm through intensive practice and specialized coaching. We help you master intonation, modulation, and correct word stress, ensuring your English is clear, professional, and easy to understand for everyone.
+                  Our training focuses on neutralisation of accent, vowel and consonant sounds, phonetics, and speech rhythm through intensive practice and specialised coaching. We help you master intonation, modulation, and correct word stress, ensuring your English is clear, professional, and easy to understand for everyone.
                 </p>
                 <p className="mb-6">
-                  Whether you’re a professional in a corporate field, a call centre employee, or someone who wants to polish their speech, this program provides you with the skills to overcome accent-related hurdles and present your most professional self.
+                  Whether you&apos;re a working professional, a customer-facing employee, or someone who wants to polish their speech, this program provides you with the skills to overcome accent-related hurdles and present your most professional self.
                 </p>
                 <p className="font-bold text-[#1a237e] text-xl">
                   With Aspire, let your voice be your biggest asset.
@@ -210,18 +195,13 @@ export default function VoiceAndAccentPage() {
           </div>
 
           {/* Sleek 2-Column Grid */}
-          <div className="grid md:grid-cols-2 gap-6 md:gap-8 group/grid relative z-10 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-1 gap-6 md:gap-8 group/grid relative z-10 max-w-3xl mx-auto">
 
             {[
               {
                 title: "Voice & Accent Training",
                 outline: voiceAccentOutline,
                 accent: "group-hover:border-[#1a237e]/30 group-hover:shadow-[0_16px_48px_rgba(26,35,126,0.1)] group-hover:bg-white/60"
-              },
-              {
-                title: "Corporate Training",
-                outline: corporateTopics,
-                accent: "group-hover:border-[#3949ab]/30 group-hover:shadow-[0_16px_48px_rgba(57,73,171,0.1)] group-hover:bg-white/60"
               }
             ].map((course, idx) => (
               <div

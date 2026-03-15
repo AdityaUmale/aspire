@@ -10,52 +10,52 @@ type FAQItem = {
 
 const faqs: FAQItem[] = [
     {
-        question: "1. What are the fees for Aspire Institute’s Training Program?",
-        answer: "The Training Program fees vary depending on the program, duration, and level of proficiency. Aspire Institute offers different courses tailored for learners, professionals, and leaders. For a detailed fee structure, learners can contact the office.",
+        question: "What are the most popular/sought-after courses at the institute?",
+        answer: "The most sought-after programs at Aspire Institute are Self Improvement Training Program, Leadership Development Programs, English Language Training, Effective Communication & Public Speaking, Arise Language & Thoughts Enrichment Camp, Personality Development Courses and the International Workshop and conference ‘Meet Yourself’. These programs are popular because they directly impact confidence, career readiness, and real-world performance.",
     },
     {
-        question: "2. What is the duration of the offered Training Program?",
+        question: "What is the duration of the offered Training Program?",
         answer: "Course duration depends on the selected program. Some programs run for a few weeks, while others are structured as 3-month, 6-month, or long-term development programs. A clear timeline is shared at the time of enrolment, regardless of the courses.",
     },
     {
-        question: "3. Are training programs available on the online platform?",
+        question: "Are training programs available on the online platform?",
         answer: "Yes, Aspire Institute offers both offline and online sessions. Online sessions are conducted through structured live classes with interactive learning support.",
     },
     {
-        question: "4. Do you accept various payment methods?",
+        question: "What are the fees for Aspire Institute’s Training Program?",
+        answer: "The Training Program fees vary depending on the program, duration, and level of proficiency. Aspire Institute offers different courses tailored for learners, professionals, and leaders. For a detailed fee structure, learners can contact the office.",
+    },
+    {
+        question: "Do you accept various payment methods?",
         answer: "Yes, Aspire Institute accepts multiple payment modes including UPI, bank transfer, cards and other standard digital payment options. Details are shared during the admission process.",
     },
     {
-        question: "5. How to enrol for the Training Program?",
+        question: "How to enrol for the Training Program?",
         answer: "Learners can enrol by telecalling, visiting the institute office, contacting the admission team, or filling out the registration form provided by Aspire Institute. The counselling team guides learners through course selection and enrolment.",
     },
     {
-        question: "6. What documents do I need to submit for enrollment?",
-        answer: "Basic documents such as identification proof, ‘AADHAR’ Card and recent photographs are required. The admission team provides a clear checklist during registration.",
+        question: "What documents do I need to submit for enrolment?",
+        answer: "Basic documents such as identification proof, AADHAR Card and recent photographs are required. The admission team provides a clear checklist during registration.",
     },
     {
-        question: "7. Will I get a certificate after completion?",
-        answer: "Yes, Learners receive a certificate upon successful completion of the course, subject to attendance and performance criteria.",
+        question: "Will I get a certificate after completion?",
+        answer: "Yes, learners receive a certificate upon successful completion of the course, subject to attendance and performance criteria.",
     },
     {
-        question: "8. What are the office timings?",
-        answer: "Morning 8 am to evening 8 Pm on weekdays, excluding Sundays. The timings may vary slightly on weekends or special days. Learners are encouraged to contact the office directly for updated timings.",
+        question: "What are the office timings?",
+        answer: "Morning 8 am to evening 8 pm on weekdays, excluding Sundays. The timings may vary slightly on weekends or special days. Learners are encouraged to contact the office directly for updated timings.",
     },
     {
-        question: "9. Why was Aspire Institute established in Akola?",
-        answer: "Aspire was established in Akola with a clear mission: to bring world-class human development training to Tier-2 and Tier-3 cities equally. The vision was to create opportunities locally so students wouldn’t have to migrate to metros to access quality personal and professional development.",
-    },
-    {
-        question: "10. Why is it called an Institute of Human Development?",
-        answer: "Because Aspire focuses beyond academics. Known as the University of Life. It works on communication, confidence, leadership, emotional intelligence, public speaking, and professional growth. The goal is not just skill-enrichment, but also personality development.",
-    },
-    {
-        question: "11. What problems do we solve at Aspire Institute for our learners?",
+        question: "What problems do we solve at Aspire Institute for our learners?",
         answer: "Aspire addresses challenges such as lack of confidence, fear of public speaking, weak communication skills, unclear career direction, and limited leadership exposure. The institute provides structured mentorship, practical exposure, and real-world learning experiences to bridge these gaps.",
     },
     {
-        question: "12. What are the most popular/sought-after courses at the institute?",
-        answer: "The most sought-after programs at Aspire Institute are Self Improvement Training Program, Leadership Development Programs, English Language Training, Effective Communication & Public Speaking, Arise Language & Thoughts Enrichment Camp, Personality Development Courses and the International Workshop and conference ‘Meet Yourself’. These programs are popular because they directly impact confidence, career readiness, and real-world performance.",
+        question: "Why was Aspire Institute established in Akola?",
+        answer: "Aspire was established in Akola with a clear mission: to bring world-class human development training to Tier-2 and Tier-3 cities equally. The vision was to create opportunities locally so students would not have to migrate to metros to access quality personal and professional development.",
+    },
+    {
+        question: "Why is it called an Institute of Human Development?",
+        answer: "Because Aspire focuses beyond academics. Known as the University of Life. It works on communication, confidence, leadership, emotional intelligence, public speaking, and professional growth. The goal is not just skill-enrichment, but also personality development.",
     },
 ];
 
@@ -109,7 +109,7 @@ export default function FAQSection() {
                                             className={`font-semibold text-base md:text-lg pr-6 transition-colors duration-300 leading-snug ${isOpen ? "text-[#1a237e]" : "text-gray-800 group-hover:text-[#1a237e]"
                                                 }`}
                                         >
-                                            {faq.question}
+                                            {index + 1}. {faq.question}
                                         </span>
                                         <div
                                             className={`flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center transition-all duration-300 ${isOpen ? "bg-[#1a237e] text-white rotate-180" : "bg-gray-50 text-gray-400 group-hover:bg-[#1a237e]/10 group-hover:text-[#1a237e]"

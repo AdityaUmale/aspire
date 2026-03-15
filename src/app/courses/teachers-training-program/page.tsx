@@ -166,7 +166,7 @@ export default function TeachersTrainingProgramPage() {
               <div>
                 <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Transform Education</h3>
                 <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                  Our program equips you with modern pedagogical approaches, innovative classroom management strategies, and deep insights into student learning behaviors.
+                  Our program equips you with modern pedagogical approaches, innovative classroom management strategies, and deep insights into student learning behaviours.
                 </p>
                 <p className="text-gray-700 leading-relaxed text-lg">
                   Empower yourself with the skills to create an encouraging atmosphere in class and inspire the next generation of learners.

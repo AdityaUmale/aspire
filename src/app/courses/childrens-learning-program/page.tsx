@@ -67,10 +67,10 @@ export default function ChildrensLearningProgramPage() {
                   <span className="text-white/90 text-sm font-medium">Program for Kids (Ages 8-12)</span>
                 </div>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight leading-tight">
-                  Children&apos;s Learning Program
+                  Summer Special Course For Kids
                 </h1>
                 <p className="text-lg md:text-xl text-[#c5cae9] mb-4 leading-relaxed">
-                  Summer Special Course (SSC)
+                  A Fun, Structured Learning Experience For Children
                 </p>
 
                 {/* Details */}
@@ -150,11 +150,11 @@ export default function ChildrensLearningProgramPage() {
                 <span className="text-[#1a237e] uppercase tracking-wider text-sm font-bold">Introduction</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-[#1a237e] mb-6 leading-tight">
-                Children’s Learning Program (SSC)
+                Summer Special Course For Kids
               </h2>
               <div className="prose prose-lg text-gray-700 leading-relaxed">
                 <p className="mb-6">
-                  In a world of screens and digital distractions, children often experience growing gaps in their fundamental life skills. Many parents notice their children struggling with a lack of focus, hesitation in speaking, poor social interaction, and a general lack of confidence. At Aspire Institute, we understand that true education goes beyond textbooks—it’s about nurturing the &quot;Human&quot; in every child.
+                  In a world of screens and digital distractions, children often experience growing gaps in their fundamental life skills. Many parents notice their children struggling with a lack of focus, hesitation in speaking, poor social interaction, and a general lack of confidence. At Aspire Institute, we understand that true education goes beyond textbooks. It&apos;s about nurturing the &quot;Human&quot; in every child.
                 </p>
                 <p className="mb-6">
                   Our Social Intelligence & Personality Growth Program is specifically designed for children aged 8 to 15 to address these modern-day challenges.

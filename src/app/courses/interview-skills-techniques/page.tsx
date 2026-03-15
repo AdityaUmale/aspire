@@ -38,7 +38,7 @@ export default function InterviewSkillsTechniquesPage() {
                                     Interview Skills & Techniques
                                 </h1>
                                 <p className="text-lg md:text-xl text-[#c5cae9] mb-8 leading-relaxed max-w-lg mx-auto md:mx-0">
-                                    Getting selected is not just about answering questions — it’s about showing who you truly are, with confidence, clarity, and conviction.
+                                    Getting selected is not just about answering questions. It&apos;s about showing who you truly are, with confidence, clarity, and conviction.
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                                     <Link href="/#enquiry">
@@ -112,10 +112,10 @@ export default function InterviewSkillsTechniquesPage() {
                                     Interview Skills & Techniques (IST) is a powerful 10-day transformation program designed to help learners prepare for interviews, group discussions, and real corporate interactions with a strong mindset, practical skills, and honest self-expression.
                                 </p>
                                 <p className="mb-6">
-                                    At Aspire Institute, we don’t train people to “fake confidence” or memorize answers. We train them to shift their headspace, build a growth mindset, and present their true skills, knowledge, and talent with courage.
+                                    At Aspire Institute, we don’t train people to “fake confidence” or memorise answers. We train them to shift their headspace, build a growth mindset, and present their true skills, knowledge, and talent with courage.
                                 </p>
                                 <p className="mb-6">
-                                    Our learners deserve more than they expect — and our results speak louder than promises. Many participants have secured jobs and placements immediately after completing IST. The impact is palpable, podium-solid, and life-changing.
+                                    Our learners deserve more than they expect, and our results speak louder than promises. Many participants have secured jobs and placements immediately after completing IST. The impact is palpable, podium-solid, and life-changing.
                                 </p>
                                 <p className="font-bold text-[#1a237e]">
                                     This is not just interview training. This is preparation for real careers and real growth.
@@ -153,7 +153,7 @@ export default function InterviewSkillsTechniquesPage() {
                                 This program focuses on practical interview preparation, group discussion performance, real-time mock interviews, mindset shift from fear to confidence, honest self-awareness and loyal work ethic.
                             </p>
                             <p className="text-gray-700 leading-relaxed text-lg">
-                                Facing interviews bravely and choosing careers based on strength, not pressure. At Aspire Institute, we don’t just prepare you for interviews. We prepare you for opportunities, careers, and growth. Your talent deserves the right platform — IST helps you claim it.
+                                Facing interviews bravely and choosing careers based on strength, not pressure. At Aspire Institute, we don&apos;t just prepare you for interviews. We prepare you for opportunities, careers, and growth. Your talent deserves the right platform, and IST helps you claim it.
                             </p>
                         </div>
                     </div>

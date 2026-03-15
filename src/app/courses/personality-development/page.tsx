@@ -45,7 +45,7 @@ export default function PersonalityDevelopmentPage() {
                   Personality Development Program
                 </h1>
                 <p className="text-lg md:text-xl text-[#c5cae9] mb-8 leading-relaxed max-w-lg mx-auto md:mx-0">
-                  Transform from within. Shape your thoughts, emotions, and behaviors for lasting success.
+                  Transform from within. Shape your thoughts, emotions, and behaviours for lasting success.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                   <Link href="/#enquiry">
@@ -155,10 +155,10 @@ export default function PersonalityDevelopmentPage() {
                   Through introspective sessions, goal-setting exercises, and life-skill training, learners develop a confident attitude, strong interpersonal skills, and a calm, positive outlook. Designed for students, professionals, homemakers, and anyone seeking meaningful change, the PDC shapes individuals who think clearly, communicate effectively, and lead gracefully in personal and professional life.
                 </p>
                 <p className="mb-6">
-                  With Aspire, self-improvement becomes not just a course—but a way of living.
+                  With Aspire, self-improvement becomes not just a course, but a way of living.
                 </p>
                 <p className="font-bold text-[#1a237e] text-xl">
-                  Because personal growth is the first step toward professional success.
+                  Personal growth is the first step toward professional success.
                 </p>
               </div>
             </div>

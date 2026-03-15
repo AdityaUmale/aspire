@@ -36,10 +36,12 @@ const getProgramSlug = (courseName: string): string | null => {
     "Personality Development": "/courses/personality-development",
     "Public Speaking": "/courses/public-speaking",
     "English Language Training": "/courses/english-language-training",
+    "Summer Special Course For Kids": "/courses/childrens-learning-program",
     "Children's Learning Program": "/courses/childrens-learning-program",
     "Voice & Accent": "/courses/voice-and-accent",
     "Entrepreneurship Development": "/courses/entrepreneurship-development",
     "Teachers Training Program": "/courses/teachers-training-program",
+    "ARISE Language And Thought Enrichment Camp": "/courses/arise-camp",
     "ARISE – Language and Thought Enrichment Camp": "/courses/arise-camp",
     "International Workshop": "/courses/international-workshop",
     "Interview Skills & Techniques": "/courses/interview-skills-techniques",
@@ -190,12 +192,12 @@ export default function Home() {
                 { title: "Leadership Development", tag: "For Professionals", description: "Develop essential leadership skills for the modern workplace and learn to inspire teams.", image: "/ldp.jpg", slug: "/courses/leadership-development", features: ["Strategic thinking", "Team management", "Decision making", "Conflict resolution"] },
                 { title: "Personality Development", tag: "For Everyone", description: "Build confidence and enhance your personal growth through comprehensive self-improvement.", image: "/pdc.jpg", slug: "/courses/personality-development", features: ["Self-confidence", "Communication skills", "Emotional intelligence", "Personal branding"] },
                 { title: "Public Speaking", tag: "For Everyone", description: "Master the art of effective communication and captivate any audience with your words.", image: "/public-speaking.jpg", slug: "/courses/public-speaking", features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"] },
-                { title: "English Language Training", tag: "For Adults & Students", description: "Enhance your English skills for better communication.", image: "/elt8.jpg", slug: "/courses/english-language-training", features: ["Grammar", "Vocabulary", "Pronunciation", "Fluency"] },
-                { title: "Children's Learning Program", tag: "For Children", description: "Fun, structured programs that build confidence and curiosity in children.", icon: BookOpen, image: "/elt.jpg", slug: "/courses/childrens-learning-program", features: ["Creativity", "Learning skills", "Teamwork", "Confidence"] },
+                { title: "English Language Training", tag: "For Adults & Students", description: "Enhance your English skills for better communication.", image: "/elt8.jpg", slug: "/courses/english-language-training", features: ["Vocabulary", "Pronunciation", "Fluency", "Confidence"] },
+                { title: "Summer Special Course For Kids", tag: "For Children", description: "Fun, structured programs that build confidence and curiosity in children.", icon: BookOpen, image: "/elt.jpg", slug: "/courses/childrens-learning-program", features: ["Creativity", "Learning Skills", "Teamwork", "Confidence"] },
                 { title: "Voice & Accent", tag: "For Professionals", description: "Improve your voice modulation and accent.", image: "/voice-and-accent.jpg", slug: "/courses/voice-and-accent", features: ["Clarity", "Tone", "Accent training", "Expression"] },
                 { title: "Entrepreneurship Development", tag: "For Entrepreneurs", description: "Build skills to start and grow your business.", image: "/edp-logo.jpg", slug: "/courses/entrepreneurship-development", features: ["Innovation", "Business planning", "Leadership", "Risk management"] },
                 { title: "Teachers Training Program", tag: "For Educators", description: "Empower educators with modern teaching methods.", image: "/teacher2.png", slug: "/courses/teachers-training-program", features: ["Pedagogy", "Classroom management", "Engagement", "Assessment"] },
-                { title: "ARISE – Language and Thought Enrichment Camp", tag: "For Students", description: "A unique camp for personal growth.", image: "/arise-logo.jpg", slug: "/courses/arise-camp", features: ["Mindset", "Language skills", "Critical thinking", "Self-expression"] },
+                { title: "ARISE Language And Thought Enrichment Camp", tag: "For Students", description: "A unique camp for personal growth.", image: "/arise-logo.jpg", slug: "/courses/arise-camp", features: ["Mindset", "Language Skills", "Critical Thinking", "Self-Expression"] },
                 { title: "International Workshop", tag: "For Global Learners", description: "Immersive global learning experiences that expand perspective and networks.", image: "/international.jpg", slug: "/courses/international-workshop", features: ["Cross-cultural skills", "Global trends", "Networking", "Innovation"] },
                 { title: "Interview Skills & Techniques", tag: "For Professionals & Students", description: "A powerful 10-day transformation program designed to help learners prepare for interviews and corporate interactions.", image: "/ist2.jpg", slug: "/courses/interview-skills-techniques", features: ["Interview Prep", "Group Discussion", "Mindset Shift", "Placement Readiness"] },
               ].map((course, index) => (
@@ -284,7 +286,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold text-[#1a237e] mb-3">Next Cohort Starting Soon</h3>
                 <p className="text-gray-500 text-lg mb-8 max-w-lg mx-auto">
-                  Join the next cohort – share your interest and we’ll notify you when dates are announced.
+                  Join the next cohort, share your interest and we&apos;ll notify you when dates are announced.
                 </p>
                 <Link href="#enquiry">
                   <Button className="h-12 px-8 rounded-full bg-[#1a237e] text-white hover:bg-[#10164f] shadow-lg transition-all duration-300 hover:-translate-y-0.5 group">

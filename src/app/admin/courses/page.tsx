@@ -40,13 +40,13 @@ const AVAILABLE_PROGRAMS = [
   {
     title: "English Language Training",
     description: "Enhance your English skills for better communication.",
-    features: ["Grammar", "Vocabulary", "Pronunciation", "Fluency"],
+    features: ["Vocabulary", "Pronunciation", "Fluency", "Confidence"],
     slug: "/courses/english-language-training"
   },
   {
-    title: "Children's Learning Program",
+    title: "Summer Special Course For Kids",
     description: "Fun and educational programs for kids.",
-    features: ["Creativity", "Learning skills", "Teamwork", "Confidence"],
+    features: ["Creativity", "Learning Skills", "Teamwork", "Confidence"],
     slug: "/courses/childrens-learning-program"
   },
   {
@@ -68,9 +68,9 @@ const AVAILABLE_PROGRAMS = [
     slug: "/courses/teachers-training-program"
   },
   {
-    title: "ARISE – Language and Thought Enrichment Camp",
+    title: "ARISE Language And Thought Enrichment Camp",
     description: "A unique camp for personal growth.",
-    features: ["Mindset", "Language skills", "Critical thinking", "Self-expression"],
+    features: ["Mindset", "Language Skills", "Critical Thinking", "Self-Expression"],
     slug: "/courses/arise-camp"
   },
   {

@@ -134,11 +134,11 @@ export default function FounderPage() {
               {/* Left Column: Context */}
               <div className="md:w-1/3 space-y-8 relative md:sticky md:top-24 h-fit">
                 <div>
-                  <h2 className="font-bold text-4xl text-[#1a237e] mb-4">A Letter from <br />the Founder</h2>
+                  <h2 className="font-bold text-4xl text-[#1a237e] mb-4">A Message From <br />The Founder</h2>
                   <div className="h-1 w-20 bg-[#3949ab]"></div>
                 </div>
                 <p className="text-gray-500 text-sm leading-relaxed">
-                  Reflecting on a journey of 20 years, transforming education from a mere academic pursuit into a holistic journey of self-discovery.
+                  Welcome to Aspire, The Institute Of Human Development. Welcome to the University Of Life.
                 </p>
                 <div className="hidden md:block">
                   <Quote className="h-24 w-24 text-[#e8eaf6]" />
@@ -153,19 +153,35 @@ export default function FounderPage() {
 
                   <div className="space-y-6 text-lg text-gray-700 leading-relaxed font-light">
                     <p className="font-bold text-2xl text-[#1a237e] leading-snug">
-                      Welcome to Aspire. We are not just an institute; we are a catalyst for the human spirit.
+                      Welcome to Aspire, The Institute Of Human Development. Welcome to the University Of Life.
                     </p>
 
                     <p>
-                      It&apos;s an honour to welcome you to our institution. Since 2009, we have operated on a simple belief: Studying isn&apos;t just about academics; true development involves honing all areas of personal and professional life.
+                      Some institutions teach subjects. And then some institutions shape people. At Aspire, we have always chosen the latter, and that choice has defined everything we do.
                     </p>
 
                     <p>
-                      At <span className="font-medium text-[#1a237e]">ASPIRE</span>, our philosophy recognizes that learning opportunities are everywhere. As the founder, I strive to contribute to every learner&apos;s overall success. Our unique curriculum provides you with an opportunity to cultivate yourself into a more capable, confident individual, one who is capable of tackling any challenge while overcoming adversity.
+                      Since 2009, Aspire has stood for something larger than conventional education. We were built on the belief that true learning must go beyond textbooks and examinations. Nurturing learners&apos; confidence, sharpening their communication, awakening their leadership, and giving them a deep, grounded sense of purpose are not additions to our curriculum. They are the very heart of it.
                     </p>
 
                     <p>
-                      I am proud of this revolution taking place here and invite you to join us on this journey. We want each person who passes through our doors to leave with not only new knowledge but also newfound confidence.
+                      Over the years, it has been the greatest privilege of my life to witness thousands of learners walk through the doors of Aspire Institute, transformed. Closer to their goals. Clearer in their purpose. More capable and more confident in everything they do. Watching that transformation unfold, again and again, is what fuels everything we build here.
+                    </p>
+
+                    <p>
+                      As the founder of Aspire Institute, I welcome you not just to a programme, but to a place where learning is practical, meaningful, and life-changing. A place where you are seen not merely as a student, but as a person with immense potential waiting to be discovered and directed.
+                    </p>
+
+                    <p>
+                      Our purpose at Aspire Institute has always been simple, and it remains unchanged: to develop capable, confident, and responsible individuals who go on to contribute meaningfully to their families, their professions, and to the world around them.
+                    </p>
+
+                    <p>
+                      You have taken an important step by choosing Aspire Institute. I hope this journey brings you not only knowledge and skill, but a renewed belief in yourself and all that you are capable of achieving.
+                    </p>
+
+                    <p>
+                      I wish you a truly wonderful learning journey and a future as bright as your aspirations.
                     </p>
 
                     <div className="py-6 my-6 border-y border-gray-100 flex items-center gap-6">
@@ -179,10 +195,10 @@ export default function FounderPage() {
                         />
                       </div>
                       <div>
-                        <p className="font-bold text-xl text-[#1a237e]">— Sachin Burghate</p>
+                        <p className="font-bold text-xl text-[#1a237e]">Warm regards,</p>
                         <div className="mt-2 text-sm">
                           <span className="font-bold text-[#1a237e] tracking-wider uppercase block">Sachin Burghate</span>
-                          <span className="text-gray-400">Founder, Aspire Institute</span>
+                          <span className="text-gray-400">Founder, Aspire The Institute Of Human Development</span>
                         </div>
                       </div>
                     </div>

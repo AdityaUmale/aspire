@@ -179,10 +179,10 @@ export default function AriseCampPage() {
               <div className="order-1 md:order-2">
                 <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e] mb-4">Build Self-Awareness</h3>
                 <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                  In addition to language improvement, our thought enrichment training emphasises self-awareness and confidence building through interactive sessions.
+                  In addition to language improvement, our thought enrichment training emphasises self-awareness and confidence-building through interactive sessions.
                 </p>
                 <p className="text-gray-700 leading-relaxed text-lg">
-                  Campers will learn how to identify pessimistic thoughts, barriers to self-growth, as well as be equipped with the necessary tools for a practical action plan towards self-improvement.
+                  Campers will learn how to identify pessimistic thoughts and barriers to self-growth and be equipped with the necessary tools for a practical action plan towards self-improvement.
                 </p>
               </div>
             </div>

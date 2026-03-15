@@ -26,7 +26,7 @@ const stories: SpiritStory[] = [
   {
     name: 'Smt. Shraddha Bhokare',
     title: '79 years young | Salute Your Learning Spirit Award',
-    headline: 'Learning has no age limit—and she proved it.',
+    headline: 'Learning has no age limit, and she proved it.',
     quote: 'Learning never retires and neither should our dreams.',
     story: [
       'Inspired by her granddaughter, she joined Aspire not as a spectator but as a determined learner, walking into every session with curiosity, discipline, and a desire to improve her communication.',
@@ -50,8 +50,8 @@ const stories: SpiritStory[] = [
   },
   {
     name: 'Smt. Ashwini Pathak',
-    title: 'Lifelong Learner & Homemaker',
-    headline: '"Before you expire, join Aspire."',
+    title: '60+ | Accountant',
+    headline: 'Before you expire, join Aspire.',
     quote: 'Growth belongs to anyone brave enough to begin again.',
     story: [
       'With wisdom and warmth, she returned to the classroom to upgrade herself, balancing responsibilities while staying curious and courageous.',

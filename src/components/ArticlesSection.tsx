@@ -36,7 +36,7 @@ function PublishJourney() {
     {
       icon: Eye,
       title: "Team Reviews",
-      description: "Our editorial team carefully reviews each submission within 7–10 working days.",
+      description: "Our editorial team carefully reviews each submission within 7 to 10 working days.",
       status: "In Review",
     },
     {

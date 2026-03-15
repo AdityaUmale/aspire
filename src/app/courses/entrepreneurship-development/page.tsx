@@ -116,10 +116,10 @@ export default function EntrepreneurshipDevelopmentPage() {
               </h2>
               <div className="prose prose-lg text-gray-700 leading-relaxed">
                 <p className="mb-6">
-                  The Entrepreneurship Development Program at Aspire Institute is a unique training program modeled to assist those looking forward to taking the entrepreneurial plunge.
+                  The Entrepreneurship Development Program at Aspire Institute is a unique training program modelled to assist those looking forward to taking the entrepreneurial plunge.
                 </p>
                 <p className="mb-6">
-                  The program intends to nourish future leaders capable of starting businesses that have potential to grow manifold. It is designed to inspire individuals to create new successful ventures.
+                  The program intends to nourish future leaders capable of starting businesses that have the potential to grow manifold. It is designed to inspire individuals to create new, successful ventures.
                 </p>
               </div>
             </div>
@@ -155,7 +155,7 @@ export default function EntrepreneurshipDevelopmentPage() {
                   The Entrepreneurship Development Program has been designed keeping varying levels of understanding among participants in perspective. The pedagogy involves interactive interactions with participants to improve theoretical concepts and knowledge in a practical way. Real-life case studies form an integral part of learning throughout the program, with emphasis on practical knowledge.
                 </p>
                 <p className="mb-6">
-                  Overall, the goal of the program is to provide potential entrepreneurs with an understanding of foundational principles necessary to create long-term successful businesses.
+                  Overall, the goal of the program is to provide potential entrepreneurs with an understanding of the foundational principles necessary to create long-term successful businesses.
                 </p>
                 <p className="font-bold text-[#1a237e] text-xl">
                   We believe an entrepreneur is an individual with a creative idea to initiate and establish a new venture. We develop the entrepreneurial abilities in this course, focusing on individuals who want to start or possibly expand a business.

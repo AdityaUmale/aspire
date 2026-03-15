@@ -71,7 +71,7 @@ export default function LeadershipDevelopmentPage() {
                   <div className="absolute inset-0 bg-gradient-to-br from-[#c5cae9]/30 to-transparent rounded-2xl blur-2xl group-hover:blur-3xl transition-all duration-500"></div>
                   <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                     <Image
-                      src="/ldp4.jpg"
+                      src="/ldp3.jpg"
                       alt="Leadership Development Program"
                       width={600}
                       height={500}
@@ -119,10 +119,10 @@ export default function LeadershipDevelopmentPage() {
               </h2>
               <div className="prose prose-lg text-gray-700 leading-relaxed">
                 <p className="mb-6">
-                  In today’s fast-changing world, many professionals struggle with uncertainty, lack of clarity, low team motivation, and the constant pressure to perform yet what truly makes a difference is leadership that inspires trust and drives results. At Aspire Institute of Human Development, we help individuals go beyond titles and discover the leader within.
+                  In today’s fast-changing world, many professionals struggle with uncertainty, lack of clarity, low team motivation, and the constant pressure to perform, yet what truly makes a difference is leadership that inspires trust and drives results. At Aspire Institute of Human Development, we help individuals go beyond titles and discover the leader within.
                 </p>
                 <p className="mb-6">
-                  Our Leadership Development Program (LDP) is designed to solve real challenges leaders face from poor communication and team conflicts to decision paralysis and low morale.
+                  Our Leadership Development Program (LDP) is designed to solve real challenges leaders face, from poor communication and team conflicts to decision paralysis and low morale.
                 </p>
               </div>
             </div>
@@ -130,7 +130,7 @@ export default function LeadershipDevelopmentPage() {
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#e8eaf6] rounded-full blur-xl"></div>
               <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-[#c5cae9] rounded-full blur-xl"></div>
               <Image
-                src="/ldp3.jpg"
+                src="/ldp4.jpg"
                 alt="Leadership training session at Aspire Institute"
                 width={600}
                 height={450}
@@ -158,7 +158,7 @@ export default function LeadershipDevelopmentPage() {
                   Through practical strategies, reflection-based learning, and hands-on exercises, you’ll learn how to lead with confidence, handle complexity with calm, and influence people with purpose. Whether you’re an emerging professional, a manager, or an entrepreneur, LDP equips you to build high-performing teams, make smart decisions, and turn challenges into opportunities.
                 </p>
                 <p className="mb-6">
-                  With over 17 years of proven impact across India, Aspire’s Leadership Development Program transforms potential into performance creating leaders who not only achieve goals but elevate others along the way.
+                  With over 17 years of proven impact across India, Aspire’s Leadership Development Program transforms potential into performance, creating leaders who not only achieve goals but elevate others along the way.
                 </p>
                 <p className="font-bold text-[#1a237e] italic text-xl">
                   “Discover the leader within and make leadership your strength.”

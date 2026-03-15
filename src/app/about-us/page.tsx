@@ -146,7 +146,7 @@ export default function AboutUsPage() {
                 Comprehensive Growth Ecosystem
               </h2>
               <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-md mb-8">
-                From public speaking to corporate leadership, our R&D-backed modules cover every aspect of human development.
+                From public speaking to leadership development, our R&D-backed modules cover every aspect of human development.
               </p>
 
               {/* R&D Badge */}
@@ -168,9 +168,9 @@ export default function AboutUsPage() {
               <div className="absolute bottom-10 left-0 w-48 h-48 bg-gradient-to-tr from-[#448aff] to-[#536dfe] rounded-full blur-[60px] opacity-30 -z-10 mix-blend-multiply"></div>
 
               {[
-                { title: "Training Programs", items: ["Leadership Development", "Entrepreneurship", "Personality Development", "Public Speaking", "Teachers Training", "Corporate Training"] },
+                { title: "Training Programs", items: ["Leadership Development", "Entrepreneurship Development", "Personality Development", "Public Speaking", "Teachers Training", "Interview Skills & Techniques"] },
                 { title: "Event Formats", items: ["Seminars & Keynotes", "Interactive Webinars", "Global Conferences", "Symposiums", "Residential Camps", "Hands-on Workshops"] },
-                { title: "Delivery Modes", items: ["Live Online Training", "In-Person Classroom", "Hybrid Learning Models", "Group Discussions", "Practical Assignments", "Lifetime Access"] },
+                { title: "Delivery Modes", items: ["Live Online Training", "In-Person Classroom", "Group Discussions", "Practical Assignments", "Lifetime Access"] },
               ].map((category, idx) => (
                 <div
                   key={idx}
@@ -224,11 +224,11 @@ export default function AboutUsPage() {
 
             <div className="space-y-12 md:space-y-0 relative">
               {[
-                { title: "Best Institute for Creating Leaders", year: "2019", org: "World Education Summit", guests: ["Hon'ble Sayed Shahnawaz Hussain", "Hon'ble Tarun Chugh"], image: "/Excellent institute of creating leaders & discovering the potential in student in india.jpg" },
-                { title: "Most Innovative Institute", year: "2019", org: "Human Development Awards", guests: ["Hon'ble Murli Manoharji Joshi", "Padmashree Bajrangji Punia"], image: "/the most innovative istitute of human development training in india.jpg" },
-                { title: "Social Impact Award", year: "2018", org: "Pratigya Foundation", guests: ["Hon'ble Kiran Kher", "Hon'ble Laxmi Agarwal"], image: "/SOCIAL IMPACT AWARD 2018-19 FOR EMPOWERING SOCIETY THROUGH HUMAN DEVELOPMENT TRAINING PROGRAM.jpg" },
-                { title: "Best Institute in Maharashtra", year: "2018", org: "Education Excellence", guests: ["Padmshri Sharmila Tagore", "Hon'ble Parshottam Rupala"], image: "/best institute of human development training in india.jpg" },
-                { title: "National Achievers Award", year: "2018", org: "Education Excellence", guests: ["Hon'ble Ram Niwas Goel", "Hon'ble Atishi Marlena"], image: "/NATIONAL ACHIEVERS AWARD FOR EDUCATION EXCELLENCE.jpg" }
+                { title: "Best Institute for Creating Leaders", year: "2019", org: "World Education Summit", guests: ["Hon'ble Sayed Shahnawaz Hussain", "Hon'ble Tarun Chugh", "Hon'ble Navin Sinha", "Hon'ble Mugdha Godse"], image: "/Excellent institute of creating leaders & discovering the potential in student in india.jpg" },
+                { title: "Most Innovative Institute", year: "2019", org: "Human Development Awards", guests: ["Hon'ble Murli Manohar Joshi", "Hon'ble Adarsh Shastri", "Padma Shri Bajrang Punia", "Hon'ble Alok Mittal", "Hon'ble Gulshan Grover"], image: "/the most innovative istitute of human development training in india.jpg" },
+                { title: "Social Impact Award", year: "2018", org: "Pratigya Foundation", guests: ["Hon'ble Kiran Kher", "Hon'ble Shyam Jaju", "Hon'ble Laxmi Agarwal", "Hon'ble Namrata Goyal", "Hon'ble Poonam Dhillon", "Hon'ble Manoj Tiwari"], image: "/SOCIAL IMPACT AWARD 2018-19 FOR EMPOWERING SOCIETY THROUGH HUMAN DEVELOPMENT TRAINING PROGRAM.jpg" },
+                { title: "Best Institute in Maharashtra", year: "2018", org: "Education Excellence", guests: ["Padma Shri Sharmila Tagore", "Hon'ble Parshottam Rupala", "Hon'ble Dr. C. P. Thakur", "Hon'ble Anka Verma"], image: "/best institute of human development training in india.jpg" },
+                { title: "National Achievers Award", year: "2018", org: "Education Excellence", guests: ["Hon'ble Ram Niwas Goel", "Hon'ble Kanhaiya Lal Ganju", "Hon'ble Atishi Marlena"], image: "/NATIONAL ACHIEVERS AWARD FOR EDUCATION EXCELLENCE.jpg" }
               ].map((award, index) => (
                 <div key={index} className={`relative flex flex-col md:flex-row items-center justify-between ${index % 2 === 0 ? 'md:flex-row-reverse' : ''} group`}>
 
@@ -241,10 +241,10 @@ export default function AboutUsPage() {
                   <div className="hidden md:block md:w-[48%]" />
 
                   {/* Card Content — Compact Horizontal */}
-                  <div className="w-full md:w-[48%] bg-white rounded-[2rem] border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(26,35,126,0.12)] hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-row group/card">
+                  <div className="w-full md:w-[48%] bg-white rounded-[2rem] border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(26,35,126,0.12)] hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col sm:flex-row group/card">
 
                     {/* Award Image — Left Side, Square */}
-                    <div className="relative w-40 shrink-0 overflow-hidden bg-gray-100">
+                    <div className="relative h-44 w-full shrink-0 overflow-hidden bg-gray-100 sm:h-auto sm:w-32 md:w-36">
                       <Image
                         src={award.image}
                         alt={award.title}
@@ -258,7 +258,7 @@ export default function AboutUsPage() {
                     </div>
 
                     {/* Text Content — Right Side */}
-                    <div className="p-6 flex flex-col justify-between flex-1 min-w-0">
+                      <div className="p-5 md:p-6 flex flex-col justify-between flex-1 min-w-0">
                       <div>
                         <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[#3949ab] mb-2">{award.org}</p>
                         <h3 className="font-bold text-base text-gray-900 leading-snug group-hover/card:text-[#1a237e] transition-colors duration-300">
@@ -266,16 +266,16 @@ export default function AboutUsPage() {
                         </h3>
                       </div>
 
-                      <div className="mt-4 pt-4 border-t border-gray-100">
-                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-2">Honoured By</p>
-                        <div className="flex flex-wrap gap-1.5">
-                          {award.guests.map((guest, i) => (
-                            <span key={i} className="text-[10px] font-semibold text-gray-600 bg-gray-50 px-2.5 py-1 rounded-full border border-gray-100 whitespace-nowrap">
-                              {guest}
-                            </span>
-                          ))}
+                        <div className="mt-4 pt-4 border-t border-gray-100">
+                          <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-2">Honoured By</p>
+                          <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+                            {award.guests.map((guest, i) => (
+                              <span key={i} className="min-w-0 text-[10px] leading-tight font-semibold text-gray-600 bg-gray-50 px-2.5 py-1.5 rounded-2xl border border-gray-100 whitespace-normal break-words">
+                                {guest}
+                              </span>
+                            ))}
+                          </div>
                         </div>
-                      </div>
                     </div>
 
                   </div>
@@ -302,7 +302,7 @@ export default function AboutUsPage() {
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a237e] to-[#3949ab]">Aspire?</span>
                 </h2>
                 <p className="text-gray-500 text-lg font-light leading-relaxed">
-                  Our brand has a rich history of over 17 years in the industry, establishing a strong presence and credibility. We don&apos;t just teach courses; we build careers and character.
+                  Our institute carries 17+ years of meaningful work in education, built on consistency, trust and credibility. We do not simply conduct courses; we help individuals unlock their potential.
                 </p>
               </div>
 

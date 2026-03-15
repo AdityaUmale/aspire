@@ -10,7 +10,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Aspire Institute – Personal & Professional Development Training in India Since 2009",
+    default: "Aspire Institute - Personal & Professional Development Training in India Since 2009",
     template: "%s | Aspire Institute"
   },
   description: "India's leading institute for leadership development, public speaking, and personality development. 150,000+ lives transformed across 15+ countries in 17+ years.",
