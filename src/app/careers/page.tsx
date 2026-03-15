@@ -128,28 +128,6 @@ const roles = [
             'This role is both an honour and an opportunity to influence lives positively while growing as a leader yourself.',
     },
     {
-        id: 'office-assistant',
-        title: 'Office Assistant',
-        duration: 'Full-Time',
-        tagline: 'Stability. Order. Accountability.',
-        icon: Briefcase,
-        description: 'Behind every smooth workday is disciplined coordination.',
-        responsibilities: [
-            'Maintains records and documentation',
-            'Coordinates with assigned teams',
-            'Supports daily institutional functioning',
-        ],
-        eligibility: [
-            'Graduates or Postgraduates only',
-            'Organised and punctual',
-            'Clear and respectful communication',
-            'Responsible and trustworthy',
-        ],
-        note: 'This role may not always be visible, but it is deeply valuable.',
-        closing:
-            'Being trusted with institutional systems reflects the confidence Aspire places in you, and that trust is something to hold with gratitude.',
-    },
-    {
         id: 'counsellor',
         title: 'Career Counsellor',
         duration: 'Full-Time',
@@ -172,6 +150,28 @@ const roles = [
         note: 'To guide a student\u2019s direction in life is not a small responsibility.',
         closing:
             'It is a meaningful opportunity to create impact, one conversation at a time.',
+    },
+    {
+        id: 'office-assistant',
+        title: 'Office Assistant',
+        duration: 'Full-Time',
+        tagline: 'Stability. Order. Accountability.',
+        icon: Briefcase,
+        description: 'Behind every smooth workday is disciplined coordination.',
+        responsibilities: [
+            'Maintains records and documentation',
+            'Coordinates with assigned teams',
+            'Supports daily institutional functioning',
+        ],
+        eligibility: [
+            'Graduates or Postgraduates only',
+            'Organised and punctual',
+            'Clear and respectful communication',
+            'Responsible and trustworthy',
+        ],
+        note: 'This role may not always be visible, but it is deeply valuable.',
+        closing:
+            'Being trusted with institutional systems reflects the confidence Aspire places in you, and that trust is something to hold with gratitude.',
     },
 ];
 
