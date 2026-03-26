@@ -2,19 +2,19 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { Mic, ArrowRight, Award, Activity, Globe, Volume2, Waves, Repeat, Sparkles, BookOpen, Map } from 'lucide-react';
+import { Mic, ArrowRight, Award, CheckCircle } from 'lucide-react';
 
 export default function VoiceAndAccentPage() {
   const voiceAccentModules = [
-    { title: 'Articulation Exercises', icon: Activity, desc: 'Master physical movements for clear speech and pronunciation.' },
-    { title: 'MTI (Mother Tongue Influence)', icon: Globe, desc: 'Techniques to neutralize regional accents and speak globally.' },
-    { title: 'Sounds', icon: Volume2, desc: 'Perfect your vowel and consonant sounds for accurate speaking.' },
-    { title: 'Voice Clarity', icon: Waves, desc: 'Develop a crisp, audible, and clear speaking voice.' },
-    { title: 'Sound Drills', icon: Repeat, desc: 'Repetitive practice exercises for speech muscle memory.' },
-    { title: 'Tone of Voice', icon: Sparkles, desc: 'Express the right emotion, confidence, and professionalism.' },
-    { title: 'International Phonetic Alphabet', icon: BookOpen, desc: 'Learn IPA for independent and accurate word pronunciation.' },
-    { title: 'Intonation', icon: Mic, desc: 'Master the music, pitch, and rhythm of the English language.' },
-    { title: 'English Accents around the World', icon: Map, desc: 'Understand various global English accents for better comprehension.' },
+    { title: 'Articulation Exercises', desc: 'Master physical movements for clear speech and pronunciation.' },
+    { title: 'MTI (Mother Tongue Influence)', desc: 'Techniques to neutralize regional accents and speak globally.' },
+    { title: 'Sounds', desc: 'Perfect your vowel and consonant sounds for accurate speaking.' },
+    { title: 'Voice Clarity', desc: 'Develop a crisp, audible, and clear speaking voice.' },
+    { title: 'Sound Drills', desc: 'Repetitive practice exercises for speech muscle memory.' },
+    { title: 'Tone of Voice', desc: 'Express the right emotion, confidence, and professionalism.' },
+    { title: 'International Phonetic Alphabet', desc: 'Learn IPA for independent and accurate word pronunciation.' },
+    { title: 'Intonation', desc: 'Master the music, pitch, and rhythm of the English language.' },
+    { title: 'English Accents around the World', desc: 'Understand various global English accents for better comprehension.' },
   ];
 
   return (
@@ -164,75 +164,36 @@ export default function VoiceAndAccentPage() {
       </section>
 
       {/* Course Outlines Section */}
-      <section id="outline" className="relative py-20 md:py-28 z-10 bg-white">
+      <section id="outline" className="py-20 md:py-28 bg-white">
         <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a237e] mb-4">Curriculum Structure</h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              A meticulously crafted roadmap designed to unlock confidence, clarity, and connection.
+            </p>
+          </div>
 
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-
-            {/* Left — Sticky heading */}
-            <div className="lg:col-span-4 lg:sticky lg:top-32">
-              <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-zinc-50 rounded-full border border-zinc-200">
-                <span className="w-2 h-2 rounded-full bg-[#3949ab]"></span>
-                <span className="text-[10px] font-bold tracking-[0.2em] text-[#1a237e] uppercase">
-                  Curriculum Structure
-                </span>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {voiceAccentModules.map((module, index) => (
+              <div
+                key={index}
+                className="group bg-white rounded-2xl p-5 shadow-md hover:shadow-xl border-l-4 border-[#1a237e] hover:-translate-y-1 transition-all duration-300"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-xl bg-[#e8eaf6] flex items-center justify-center flex-shrink-0 group-hover:bg-[#1a237e] transition-colors duration-300">
+                    <CheckCircle className="h-5 w-5 text-[#1a237e] group-hover:text-white transition-colors duration-300" />
+                  </div>
+                  <div>
+                    <span className="text-gray-700 font-medium leading-snug group-hover:text-[#1a237e] transition-colors duration-300 block mb-1">
+                      {module.title}
+                    </span>
+                    <p className="text-gray-400 text-sm leading-relaxed">
+                      {module.desc}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-5">
-                Comprehensive modules for<br />
-                <span className="text-[#1a237e]">Professional Excellence</span>
-              </h2>
-              <p className="text-gray-500 text-base leading-relaxed mb-8">
-                A meticulously crafted roadmap designed to unlock confidence, clarity, and connection.
-              </p>
-              
-              {/* Closing quote style */}
-              <div className="border-l-2 border-[#1a237e] pl-4 space-y-2">
-                  <p className="text-base font-semibold text-gray-900">
-                      Learn the techniques, <span className="text-[#1a237e]">master the speech.</span>
-                  </p>
-                  <p className="text-base font-semibold text-gray-900">
-                      Speak with clarity, <span className="text-[#1a237e]">command the room.</span>
-                  </p>
-              </div>
-            </div>
-
-            {/* Right — Numbered typographic list */}
-            <div className="lg:col-span-8">
-              <div className="border-t border-gray-200">
-                {voiceAccentModules.map((module, index) => {
-                  return (
-                    <div
-                        key={index}
-                        className="group flex flex-col md:flex-row md:items-start gap-4 md:gap-8 py-7 border-b border-gray-200 hover:bg-zinc-50 transition-colors px-4 -mx-4 rounded-xl"
-                    >
-                        <span className="text-3xl md:text-4xl font-bold text-gray-200 group-hover:text-[#c5cae9] transition-colors duration-300 flex-shrink-0 leading-none mt-1 select-none hidden md:block">
-                            {String(index + 1).padStart(2, '0')}
-                        </span>
-                        
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                             <div className="md:hidden text-2xl font-bold text-gray-300">
-                               {String(index + 1).padStart(2, '0')}
-                             </div>
-                             <h3 className="text-xl md:text-2xl font-semibold text-gray-800 leading-snug group-hover:text-[#1a237e] transition-colors duration-300">
-                                 {module.title}
-                             </h3>
-                          </div>
-                          
-                          <p className="text-gray-600 text-base md:text-lg leading-relaxed md:ml-0">
-                              {module.desc}
-                          </p>
-                        </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Closing paragraph */}
-              <p className="text-gray-500 text-sm md:text-base leading-relaxed mt-8 max-w-2xl">
-                  This Voice and Accent training is designed to address individual challenges, helping you overcome MTI and speak neutral English with confidence.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>

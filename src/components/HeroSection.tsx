@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, ArrowRight } from "lucide-react";
+import { HOME_HERO_TITLE, HOME_METADATA_DESCRIPTION } from "@/lib/site";
 
 export default function HeroSection() {
   return (
@@ -27,16 +28,17 @@ export default function HeroSection() {
             </div>
             <div className="space-y-4 fade-in" style={{ animationDelay: '0.2s' }}>
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-[#1a237e]">
-                Unlock Your{' '}
                 <span className="relative inline-block">
-                  Potential.
+                  {HOME_HERO_TITLE.primary}
                   <span className="absolute bottom-2 left-0 w-full h-3 bg-[#c5cae9]/50 -z-10"></span>
                 </span>
                 <br />
-                <span className="text-[#3949ab] text-3xl sm:text-4xl xl:text-5xl mt-2 block">Lead With Confidence.</span>
+                <span className="relative inline-block">
+                  <span className="text-[#3949ab] text-3xl sm:text-4xl xl:text-5xl mt-2 block">{HOME_HERO_TITLE.accent}</span>
+                </span>
               </h1>
               <p className="max-w-[600px] text-gray-600 md:text-xl leading-relaxed mt-4">
-                Join 150,000+ learners who have transformed their communication skills, leadership abilities, and personal growth with Aspire, The Institute Of Human Development, India&apos;s Leading Personal And Professional Training Institute since 2009.
+                {HOME_METADATA_DESCRIPTION}
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row fade-in w-full sm:w-auto" style={{ animationDelay: '0.3s' }}>

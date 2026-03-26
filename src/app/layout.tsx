@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import {
+  DEFAULT_METADATA_DESCRIPTION,
+  DEFAULT_METADATA_TITLE,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,18 +14,12 @@ const inter = Inter({
   display: "swap",
 });
 
-const siteUrl = "https://www.aspireinstitutein.com";
-const siteName = "Aspire Institute";
-const defaultTitle = "Aspire Institute";
-const defaultDescription =
-  "Transform your Personality and Career with India's Leading Training Institute. Trusted by 150,000+ across 15 countries. Start your journey now.";
-
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",
-  name: siteName,
-  url: siteUrl,
-  logo: `${siteUrl}/logo1.png`,
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: `${SITE_URL}/logo1.png`,
   description:
     "India's leading institute for leadership, public speaking, and personality development.",
   foundingDate: "2009",
@@ -33,15 +33,12 @@ const organizationSchema = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: defaultTitle,
-    template: "%s | Aspire Institute",
+    default: DEFAULT_METADATA_TITLE,
+    template: `%s | ${SITE_NAME}`,
   },
-  description: defaultDescription,
-  alternates: {
-    canonical: "/",
-  },
+  description: DEFAULT_METADATA_DESCRIPTION,
   keywords: [
     "leadership development",
     "public speaking",
@@ -51,15 +48,15 @@ export const metadata: Metadata = {
     "India",
     "Aspire Institute",
   ],
-  authors: [{ name: "Aspire Institute" }],
+  authors: [{ name: SITE_NAME }],
   creator: "Aspire - The Institute of Human Development",
   openGraph: {
-    title: defaultTitle,
-    description: defaultDescription,
-    url: siteUrl,
+    title: DEFAULT_METADATA_TITLE,
+    description: DEFAULT_METADATA_DESCRIPTION,
+    url: SITE_URL,
     type: "website",
     locale: "en_IN",
-    siteName,
+    siteName: SITE_NAME,
     images: [
       {
         url: "/opengraph-image",
@@ -71,8 +68,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: defaultTitle,
-    description: defaultDescription,
+    title: DEFAULT_METADATA_TITLE,
+    description: DEFAULT_METADATA_DESCRIPTION,
     images: ["/opengraph-image"],
   },
   robots: {

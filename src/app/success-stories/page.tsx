@@ -207,7 +207,7 @@ export default function SuccessStoriesPage() {
           <h1 className="font-bold text-4xl md:text-5xl lg:text-6xl text-[#111827] mb-6 tracking-tight max-w-4xl mx-auto">
             Aspirations To Achievements:
             <br />
-            <span className="text-[#1a237e] font-serif font-bold">Unlock Yours</span>
+            <span className="text-[#1a237e] font-bold">Unlock Yours</span>
           </h1>
 
           <div className="space-y-3 max-w-3xl mx-auto">
@@ -282,7 +282,7 @@ export default function SuccessStoriesPage() {
                   </div>
                 </div>
 
-                <h4 className="font-serif font-medium text-xl text-[#1a237e] leading-snug mb-5 relative z-[2]">
+                <h4 className="font-bold text-xl text-[#1a237e] leading-snug mb-5 relative z-[2]">
                   &ldquo;{story.headline}&rdquo;
                 </h4>
 
@@ -323,7 +323,7 @@ export default function SuccessStoriesPage() {
                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
                     Ready To Pin Your Own
                     <br className="hidden lg:block" />
-                    <span className="text-white font-serif font-medium opacity-90">Success Story?</span>
+                    <span className="text-white font-bold opacity-90">Success Story?</span>
                   </h2>
                   <p className="text-[#c5cae9] text-base md:text-lg max-w-xl mx-auto lg:mx-0">
                     Join the learners who walked through our doors with hesitation and walked out with unshakeable confidence.

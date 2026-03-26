@@ -100,7 +100,7 @@ export default function SaluteLearningSpiritPage() {
 
           <h1 className="font-bold text-4xl md:text-5xl lg:text-6xl text-[#111827] mb-6 tracking-tight max-w-4xl mx-auto">
             Lifelong Learners, <br />
-            <span className="text-[#1a237e] font-serif font-bold">Limitless Spirit.</span>
+            <span className="text-[#1a237e] font-bold">Limitless Spirit.</span>
           </h1>
 
           <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
@@ -165,7 +165,7 @@ export default function SaluteLearningSpiritPage() {
                   </div>
                 </div>
 
-                <h4 className="font-serif font-medium text-xl text-[#1a237e] leading-snug mb-5 relative z-[2]">
+                <h4 className="font-bold text-xl text-[#1a237e] leading-snug mb-5 relative z-[2]">
                   “{story.headline}”
                 </h4>
 
@@ -215,7 +215,7 @@ export default function SaluteLearningSpiritPage() {
                 <div className="text-center lg:text-left">
                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
                     Ready to write your <br className="hidden lg:block" />
-                    <span className="text-white font-serif font-medium opacity-90">own story?</span>
+                    <span className="text-white font-bold opacity-90">own story?</span>
                   </h2>
                   <p className="text-[#c5cae9] text-base md:text-lg max-w-xl mx-auto lg:mx-0">
                     Join a community where every learner, at every age, is celebrated for their courage to grow.
