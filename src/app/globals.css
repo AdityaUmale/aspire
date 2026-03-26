@@ -208,3 +208,8 @@
   from { width: 100%; }
   to { width: 0%; }
 }
+
+/* Hide scrollbar for carousel components */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

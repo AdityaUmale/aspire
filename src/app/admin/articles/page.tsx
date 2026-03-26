@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { FloatingToast } from '@/components/ui/floating-toast';
-import { Terminal, PenLine } from 'lucide-react';
+import { Terminal, PenLine, LoaderCircle } from 'lucide-react';
 import RichTextEditor from '@/components/RichTextEditor';
 
 export default function AddArticlesPage() {
@@ -91,50 +91,107 @@ export default function AddArticlesPage() {
         </Alert>
       )}
 
-      <div className="bg-transparent relative max-w-4xl mx-auto mt-8">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <Input
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Title"
-              className="border-0 bg-transparent p-0 h-auto text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 placeholder:text-gray-200 focus-visible:ring-0 shadow-none -ml-[2px] transition-all"
-              required
-            />
+      <div className="bg-transparent relative max-w-5xl mx-auto mt-12 pb-32">
+        <form onSubmit={handleSubmit} className="space-y-10">
+          
+          {/* Section 01: Title */}
+          <div className="space-y-3 group/section transition-all duration-500">
+            <div className="flex items-center gap-3">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1a237e] text-white text-[11px] font-bold shrink-0">
+                01
+              </span>
+              <div>
+                <label htmlFor="title" className="block text-sm font-semibold text-gray-800">
+                  Article Title <span className="text-red-400 text-xs">*</span>
+                </label>
+                <p className="text-xs text-gray-400 mt-0.5">A clear, compelling headline for your article</p>
+              </div>
+            </div>
+            <div className="relative group/input bg-white rounded-2xl border border-gray-200 group-focus-within/section:border-[#1a237e]/40 transition-all duration-300 shadow-sm focus-within:shadow-md px-5 pt-5 pb-4">
+              <Input
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="What is the name of your story?"
+                className="border-0 bg-transparent p-0 pb-1 h-auto text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 placeholder:text-gray-300 focus-visible:ring-0 shadow-none -ml-[2px] transition-all"
+                required
+              />
+              <div className="absolute bottom-0 left-5 right-5 h-0.5 w-0 bg-[#1a237e] transition-all duration-700 group-focus-within/input:w-[calc(100%-40px)] opacity-40 rounded-full"></div>
+            </div>
           </div>
 
-          <div>
-            <Textarea
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Tell your story's hook..."
-              className="border-0 bg-transparent p-0 min-h-[60px] text-xl lg:text-2xl font-light text-gray-500 placeholder:text-gray-300 focus-visible:ring-0 shadow-none resize-none leading-relaxed"
-              required
-            />
+          {/* Section 02: Description */}
+          <div className="space-y-3 group/section transition-all duration-500">
+            <div className="flex items-center gap-3">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1a237e] text-white text-[11px] font-bold shrink-0">
+                02
+              </span>
+              <div>
+                <label htmlFor="description" className="block text-sm font-semibold text-gray-800">
+                  Short Description <span className="text-red-400 text-xs">*</span>
+                </label>
+                <p className="text-xs text-gray-400 mt-0.5">A compelling summary that makes readers want to dive in</p>
+              </div>
+            </div>
+            <div className="bg-white rounded-2xl border border-gray-200 group-focus-within/section:border-[#1a237e]/40 transition-all duration-300 shadow-sm focus-within:shadow-md">
+              <Textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Write a compelling summary that makes readers want to dive in..."
+                className="border-0 bg-transparent p-5 min-h-[100px] text-lg font-light text-gray-700 placeholder:text-gray-300 focus-visible:ring-0 shadow-none resize-none leading-relaxed rounded-2xl"
+                required
+              />
+            </div>
           </div>
 
-          <div className="pt-6 relative z-10">
-            <div className="prose prose-lg max-w-none text-gray-800">
+          {/* Section 03: Content */}
+          <div className="space-y-3 group/section transition-all duration-500 pt-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1a237e] text-white text-[11px] font-bold shrink-0">
+                  03
+                </span>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-800">
+                    Article Content <span className="text-red-400 text-xs">*</span>
+                  </label>
+                  <p className="text-xs text-gray-400 mt-0.5">Write the full article here — use formatting, headings, and images</p>
+                </div>
+              </div>
+              <div className="hidden sm:flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
+                Rich Text Editor
+              </div>
+            </div>
+            <div className="relative group/editor">
               <RichTextEditor
                 content={content}
                 onChange={setContent}
-                placeholder="Start writing your article content here..."
+                placeholder="Share the full depth of your perspective here..."
                 stickyToolbar
                 toolbarOffsetPx={16}
               />
             </div>
           </div>
 
-          <div className="pt-8">
+          <div className="pt-12 flex items-center justify-end">
             <Button
               type="submit"
-              className="w-full sm:w-auto sm:min-w-[200px] h-12 bg-[#1a237e] hover:bg-[#0d1642] text-white rounded-full transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2 text-base font-medium"
+              className="group h-16 px-12 bg-[#1a237e] hover:bg-[#0d1642] text-white rounded-full transition-all shadow-[0_10px_30px_rgba(26,35,126,0.3)] hover:shadow-[0_20px_40px_rgba(26,35,126,0.4)] hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 text-lg font-bold"
               disabled={isSubmitting}
             >
-              <PenLine className="h-4 w-4" />
-              {isSubmitting ? 'Publishing...' : 'Publish Article'}
+              {isSubmitting ? (
+                <>
+                  <LoaderCircle className="h-5 w-5 animate-spin" />
+                  Publishing...
+                </>
+              ) : (
+                <>
+                  Publish Article
+                  <PenLine className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+                </>
+              )}
             </Button>
           </div>
         </form>

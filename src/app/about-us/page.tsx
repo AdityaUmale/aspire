@@ -1,17 +1,130 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import {
   Microscope,
   CheckCircle,
   ArrowUpRight,
-  Milestone
+  Milestone,
+  Camera,
+  ChevronLeft,
+  ChevronRight,
+  Building2,
+  X
 } from 'lucide-react';
 
+/* ──────────────────────────────────────────────
+   Gallery image data
+   ────────────────────────────────────────────── */
+const galleryImages: { src: string; caption: string; tall?: boolean }[] = [
+  { src: '/gallery/Annual Function address.jpg.jpg', caption: 'Annual Function Address', tall: true },
+  { src: '/gallery/Arise Camp.jpg.jpg', caption: 'Arise Camp' },
+  { src: '/gallery/Foundation Day.jpg.jpg', caption: 'Foundation Day', tall: true },
+  { src: '/gallery/Excellect institute for creating leaders award.jpg.jpg', caption: 'Excellence in Creating Leaders Award' },
+  { src: '/gallery/Indo Japan Council Symposium (2).jpg.jpg', caption: 'Indo-Japan Council Symposium' },
+  { src: '/gallery/International Workshop Doha qatar.jpg.jpg', caption: 'International Workshop — Doha, Qatar', tall: true },
+  { src: '/gallery/Annual Function winner applaud news.jpg.jpg', caption: 'Annual Function Winners' },
+  { src: '/gallery/Social Diwali at Pramilatai Oak Hall.jpg.jpg', caption: 'Social Diwali at Pramilatai Oak Hall' },
+  { src: '/gallery/Most innovative institute for human development training award.jpg.jpg', caption: 'Most Innovative Institute Award', tall: true },
+  { src: '/gallery/Social Impact Award 2018.jpg.jpg', caption: 'Social Impact Award 2018' },
+  { src: '/gallery/Nagpur Workshop.jpg.jpg', caption: 'Nagpur Workshop' },
+  { src: '/gallery/International workshop testimonial.jpg.jpg', caption: 'International Workshop Testimonial', tall: true },
+  { src: "/gallery/State commisioner officer aspire institute's guest.jpg.jpg", caption: 'State Commissioner as Guest' },
+  { src: '/gallery/Social Diwali.jpg.jpg', caption: 'Social Diwali Celebration' },
+  { src: "/gallery/India's own University of life.jpg.jpg", caption: "India's Own University of Life", tall: true },
+  { src: '/gallery/Life is an echo.jpg.jpg', caption: 'Life Is an Echo' },
+  { src: '/gallery/DSC03099.jpg', caption: 'Workshop in Action' },
+  { src: '/gallery/IMG_0460.jpg', caption: 'Training Session' },
+  { src: '/gallery/IMG_6678.jpg', caption: 'Interactive Learning', tall: true },
+  { src: '/gallery/IMG_2428.jpg', caption: 'Team Activity' },
+];
+
+const campusImages: { src: string; caption: string }[] = [
+  { src: '/gallery/campus/12x18 == ok print.jpg', caption: 'Campus Entrance' },
+  { src: '/gallery/campus/DSC_1355.jpg', caption: 'Main Building' },
+  { src: '/gallery/campus/DSC_1357.jpg', caption: 'Training Hall' },
+  { src: '/gallery/campus/DSC_1361.jpg', caption: 'Learning Space' },
+  { src: '/gallery/campus/DSC_1362.jpg', caption: 'Seminar Room' },
+  { src: '/gallery/campus/DSC_1363.jpg', caption: 'Conference Area' },
+  { src: '/gallery/campus/DSC_1364.jpg', caption: 'Campus View' },
+  { src: '/gallery/campus/DSC_1365.jpg', caption: 'Study Corner' },
+  { src: '/gallery/campus/DSC_1367.jpg', caption: 'Library Wing' },
+  { src: '/gallery/campus/DSC_1369.jpg', caption: 'Open Space' },
+  { src: '/gallery/campus/DSC_1372.jpg', caption: 'Lobby' },
+  { src: '/gallery/campus/DSC_1373.jpg', caption: 'Reception' },
+  { src: '/gallery/campus/DSC_1375.jpg', caption: 'Auditorium' },
+  { src: '/gallery/campus/DSC_1377.jpg', caption: 'Workshop Room' },
+  { src: '/gallery/campus/DSC_1381.jpg', caption: 'Breakout Area' },
+  { src: '/gallery/campus/DSC_1384.jpg', caption: 'Corridor' },
+  { src: '/gallery/campus/DSC_1397.jpg', caption: 'Garden' },
+  { src: '/gallery/campus/DSC_1399.jpg', caption: 'Exterior View' },
+  { src: '/gallery/campus/DSC_1400.jpg', caption: 'Front Facade' },
+  { src: '/gallery/campus/DSC_1401.jpg', caption: 'Campus Panorama' },
+];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.05, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  }),
+};
+
 export default function AboutUsPage() {
+  const campusScrollRef = useRef<HTMLDivElement>(null);
+  const [selectedImage, setSelectedImage] = useState<{ index: number; type: 'gallery' | 'campus' } | null>(null);
+
+  const scrollCampus = (direction: 'left' | 'right') => {
+    if (!campusScrollRef.current) return;
+    const amount = campusScrollRef.current.clientWidth * 0.8;
+    campusScrollRef.current.scrollBy({
+      left: direction === 'left' ? -amount : amount,
+      behavior: 'smooth',
+    });
+  };
+
+  const openLightbox = (index: number, type: 'gallery' | 'campus') => {
+    setSelectedImage({ index, type });
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeLightbox = useCallback(() => {
+    setSelectedImage(null);
+    document.body.style.overflow = 'unset';
+  }, []);
+
+  const navigateLightbox = useCallback((direction: 'next' | 'prev') => {
+    if (!selectedImage) return;
+    const { index, type } = selectedImage;
+    const list = type === 'gallery' ? galleryImages : campusImages;
+    let newIndex = direction === 'next' ? index + 1 : index - 1;
+
+    if (newIndex >= list.length) newIndex = 0;
+    if (newIndex < 0) newIndex = list.length - 1;
+
+    setSelectedImage({ index: newIndex, type });
+  }, [selectedImage]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!selectedImage) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') navigateLightbox('next');
+      if (e.key === 'ArrowLeft') navigateLightbox('prev');
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedImage, closeLightbox, navigateLightbox]);
+
+  const currentImageData = selectedImage 
+    ? (selectedImage.type === 'gallery' ? galleryImages[selectedImage.index] : campusImages[selectedImage.index])
+    : null;
+
   return (
     <div className={`flex flex-col min-h-screen bg-white font-sans selection:bg-[#1a237e] selection:text-white`}>
 
@@ -288,6 +401,173 @@ export default function AboutUsPage() {
       </section>
 
       {/* ════════════════════════════════════════════════
+          GALLERY — Moments That Define Us
+         ════════════════════════════════════════════════ */}
+      <section className="py-24 md:py-32 relative z-10" id="gallery">
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+
+          {/* Section Header */}
+          <div className="max-w-3xl mb-16">
+            <div className="inline-flex items-center gap-3 mb-6">
+              <span className="h-px w-8 bg-[#1a237e]/20"></span>
+              <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Gallery</span>
+            </div>
+            <div className="flex items-start gap-6">
+              <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">03</span>
+              <div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
+                  Moments That <span className="text-[#1a237e]">Define Us</span>
+                </h2>
+                <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
+                  A visual journey through workshops, awards, international events and celebrations that have shaped the Aspire legacy.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Masonry Grid */}
+          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 md:gap-5 [column-fill:_balance]">
+            {galleryImages.map((img, i) => (
+              <motion.div
+                key={i}
+                custom={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-40px' }}
+                variants={fadeUp}
+                className="break-inside-avoid mb-4 md:mb-5"
+              >
+                <div 
+                  onClick={() => openLightbox(i, 'gallery')}
+                  className="group relative overflow-hidden rounded-2xl md:rounded-[1.5rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 hover:-translate-y-1 cursor-zoom-in"
+                >
+                  {/* Glass top sheen */}
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
+
+                  {/* Image */}
+                  <div className={`relative w-full overflow-hidden ${img.tall ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
+                    <Image
+                      src={img.src}
+                      alt={img.caption}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    />
+
+                    {/* Gradient overlay on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/80 via-[#0f1337]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
+
+                    {/* Caption on hover */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <Camera className="h-3 w-3 text-white/70" />
+                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Aspire Gallery</span>
+                      </div>
+                      <p className="text-white text-sm md:text-base font-semibold leading-snug">{img.caption}</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════
+          CAMPUS — Our Campus
+         ════════════════════════════════════════════════ */}
+      <section className="py-24 md:py-32 relative z-10 overflow-hidden" id="campus">
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+
+          {/* Section Header */}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-3 mb-6">
+                <span className="h-px w-8 bg-[#1a237e]/20"></span>
+                <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Campus</span>
+              </div>
+              <div className="flex items-start gap-6">
+                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">04</span>
+                <div>
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
+                    Our <span className="text-[#1a237e]">Campus</span>
+                  </h2>
+                  <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
+                    A purpose-built environment designed to inspire learning, foster collaboration, and ignite transformation.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Scroll Controls */}
+            <div className="flex items-center gap-3 shrink-0">
+              <button
+                onClick={() => scrollCampus('left')}
+                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={() => scrollCampus('right')}
+                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Horizontal Carousel */}
+          <div
+            ref={campusScrollRef}
+            className="flex gap-4 md:gap-5 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {campusImages.map((img, i) => (
+              <motion.div
+                key={i}
+                custom={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-20px' }}
+                variants={fadeUp}
+                className="snap-start shrink-0 w-[85vw] sm:w-[60vw] md:w-[40vw] lg:w-[30vw]"
+                onClick={() => openLightbox(i, 'campus')}
+              >
+                <div className="group relative overflow-hidden rounded-2xl md:rounded-[1.5rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 cursor-zoom-in">
+                  {/* Glass sheen */}
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
+
+                  <div className="relative w-full aspect-[4/3] overflow-hidden">
+                    <Image
+                      src={img.src}
+                      alt={img.caption}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                      sizes="(max-width: 640px) 85vw, (max-width: 1024px) 40vw, 30vw"
+                    />
+
+                    {/* Bottom vignette */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/70 via-transparent to-transparent z-10"></div>
+
+                    {/* Caption */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-20">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Building2 className="h-3 w-3 text-white/70" />
+                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Campus</span>
+                      </div>
+                      <p className="text-white text-sm md:text-base font-semibold leading-snug">{img.caption}</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════
           WHY CHOOSE ASPIRE — Clean editorial CTA
          ════════════════════════════════════════════════ */}
       <section className="py-24 relative z-10 border-t border-gray-100">
@@ -336,6 +616,78 @@ export default function AboutUsPage() {
       </section>
 
       <Footer />
+
+      {/* ────────────────────────────────────────────────
+          LIGHTBOX MODAL
+         ──────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {selectedImage && currentImageData && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0f1337]/95 backdrop-blur-md p-4 md:p-10"
+            onClick={closeLightbox}
+          >
+            {/* Controls */}
+            <div className="absolute top-6 right-6 z-20">
+              <button
+                onClick={closeLightbox}
+                className="p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <button
+              onClick={(e) => { e.stopPropagation(); navigateLightbox('prev'); }}
+              className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 p-3 md:p-4 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors z-20 hidden sm:block"
+            >
+              <ChevronLeft className="h-8 w-8" />
+            </button>
+
+            <button
+              onClick={(e) => { e.stopPropagation(); navigateLightbox('next'); }}
+              className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 p-3 md:p-4 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors z-20 hidden sm:block"
+            >
+              <ChevronRight className="h-8 w-8" />
+            </button>
+
+            {/* Image Container */}
+            <motion.div
+              layoutId={`modal-image-${selectedImage.type}-${selectedImage.index}`}
+              className="relative max-w-5xl w-full h-full flex flex-col items-center justify-center p-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative w-full h-[70vh] md:h-[80vh]">
+                <Image
+                  src={currentImageData.src}
+                  alt={currentImageData.caption}
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
+              
+              <div className="mt-8 text-center max-w-2xl">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <span className="h-px w-6 bg-[#1a237e]/50"></span>
+                  <span className="text-[#3949ab] font-bold tracking-[0.2em] text-[10px] uppercase">
+                    {selectedImage.type === 'gallery' ? 'Aspire Gallery' : 'Aspire Campus'}
+                  </span>
+                  <span className="h-px w-6 bg-[#1a237e]/50"></span>
+                </div>
+                <h3 className="text-white text-xl md:text-2xl font-bold tracking-tight mb-2">
+                  {currentImageData.caption}
+                </h3>
+                <p className="text-white/50 text-xs md:text-sm font-medium">
+                  Image {selectedImage.index + 1} of {(selectedImage.type === 'gallery' ? galleryImages : campusImages).length}
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

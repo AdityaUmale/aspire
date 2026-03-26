@@ -154,11 +154,11 @@ export default function Home() {
 
               <div className="max-w-3xl space-y-4">
                 <h2 className="font-bold text-4xl md:text-5xl lg:text-6xl text-[#1a237e] leading-tight">
-                  Training programs that help you <br />
-                  <span className="text-[#3949ab]">Communicate and Lead.</span>
+                  Training Programs That Help You <br />
+                  <span className="text-[#3949ab]">Communicate And Lead.</span>
                 </h2>
                 <p className="text-gray-500 text-lg md:text-xl font-light leading-relaxed">
-                  Discover our comprehensive range of training programs designed to transform lives and careers.
+                  Discover Our Comprehensive Range Of Training Programs Designed To Transform Lives And Careers.
                 </p>
               </div>
             </div>
