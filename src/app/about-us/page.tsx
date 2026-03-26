@@ -66,6 +66,22 @@ const campusImages: { src: string; caption: string }[] = [
   { src: '/gallery/campus/DSC_1401.jpg', caption: 'Campus Panorama' },
 ];
 
+const guestImages: { src: string; caption: string }[] = [
+  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.02.10 (1).jpeg', caption: 'Annual Function Special Guest' },
+  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.02.10 (2).jpeg', caption: 'Annual Function Special Guest' },
+  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.02.10 (3).jpeg', caption: 'Annual Function Special Guest' },
+  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.02.10.jpeg', caption: 'Annual Function Special Guest' },
+  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.02.11 (1).jpeg', caption: 'Annual Function Special Guest' },
+  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.02.11.jpeg', caption: 'Annual Function Special Guest' },
+  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.03.34 (1).jpeg', caption: 'Annual Function Special Guest' },
+  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.03.34 (2).jpeg', caption: 'Annual Function Special Guest' },
+  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.03.34 (3).jpeg', caption: 'Annual Function Special Guest' },
+  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.03.34.jpeg', caption: 'Annual Function Special Guest' },
+  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.03.35 (1).jpeg', caption: 'Annual Function Special Guest' },
+  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.03.35.jpeg', caption: 'Annual Function Special Guest' },
+  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.03.36.jpeg', caption: 'Annual Function Special Guest' },
+];
+
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   visible: (i: number) => ({
@@ -77,7 +93,8 @@ const fadeUp = {
 
 export default function AboutUsPage() {
   const campusScrollRef = useRef<HTMLDivElement>(null);
-  const [selectedImage, setSelectedImage] = useState<{ index: number; type: 'gallery' | 'campus' } | null>(null);
+  const guestScrollRef = useRef<HTMLDivElement>(null);
+  const [selectedImage, setSelectedImage] = useState<{ index: number; type: 'gallery' | 'campus' | 'guests' } | null>(null);
 
   const scrollCampus = (direction: 'left' | 'right') => {
     if (!campusScrollRef.current) return;
@@ -88,7 +105,16 @@ export default function AboutUsPage() {
     });
   };
 
-  const openLightbox = (index: number, type: 'gallery' | 'campus') => {
+  const scrollGuest = (direction: 'left' | 'right') => {
+    if (!guestScrollRef.current) return;
+    const amount = guestScrollRef.current.clientWidth * 0.8;
+    guestScrollRef.current.scrollBy({
+      left: direction === 'left' ? -amount : amount,
+      behavior: 'smooth',
+    });
+  };
+
+  const openLightbox = (index: number, type: 'gallery' | 'campus' | 'guests') => {
     setSelectedImage({ index, type });
     document.body.style.overflow = 'hidden';
   };
@@ -101,7 +127,7 @@ export default function AboutUsPage() {
   const navigateLightbox = useCallback((direction: 'next' | 'prev') => {
     if (!selectedImage) return;
     const { index, type } = selectedImage;
-    const list = type === 'gallery' ? galleryImages : campusImages;
+    const list = type === 'gallery' ? galleryImages : (type === 'campus' ? campusImages : guestImages);
     let newIndex = direction === 'next' ? index + 1 : index - 1;
 
     if (newIndex >= list.length) newIndex = 0;
@@ -122,7 +148,7 @@ export default function AboutUsPage() {
   }, [selectedImage, closeLightbox, navigateLightbox]);
 
   const currentImageData = selectedImage 
-    ? (selectedImage.type === 'gallery' ? galleryImages[selectedImage.index] : campusImages[selectedImage.index])
+    ? (selectedImage.type === 'gallery' ? galleryImages[selectedImage.index] : (selectedImage.type === 'campus' ? campusImages[selectedImage.index] : guestImages[selectedImage.index]))
     : null;
 
   return (
@@ -399,6 +425,99 @@ export default function AboutUsPage() {
           </div>
         </div>
       </section>
+      {/* ════════════════════════════════════════════════
+          SPECIAL GUESTS — Annual Function Special Guests
+         ════════════════════════════════════════════════ */}
+      <section className="py-24 md:py-32 relative z-10 overflow-hidden" id="guests">
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+
+          {/* Section Header */}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-3 mb-6">
+                <span className="h-px w-8 bg-[#1a237e]/20"></span>
+                <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Annual Function</span>
+              </div>
+              <div className="flex items-start gap-6">
+                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">03</span>
+                <div>
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
+                    Special <span className="text-[#1a237e]">Guests</span>
+                  </h2>
+                  <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
+                    Moments with distinguished luminaries who have graced our Annual Functions, inspiring our community.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Scroll Controls */}
+            <div className="flex items-center gap-3 shrink-0">
+              <button
+                onClick={() => scrollGuest('left')}
+                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={() => scrollGuest('right')}
+                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Horizontal Carousel */}
+          <div
+            ref={guestScrollRef}
+            className="flex gap-4 md:gap-5 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {guestImages.map((img, i) => (
+              <motion.div
+                key={i}
+                custom={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-20px' }}
+                variants={fadeUp}
+                className="snap-start shrink-0 w-[85vw] sm:w-[60vw] md:w-[40vw] lg:w-[30vw]"
+                onClick={() => openLightbox(i, 'guests')}
+              >
+                <div className="group relative overflow-hidden rounded-2xl md:rounded-[1.5rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 cursor-zoom-in">
+                  {/* Glass sheen */}
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
+
+                  <div className="relative w-full aspect-[4/3] overflow-hidden">
+                    <Image
+                      src={img.src}
+                      alt={img.caption}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                      sizes="(max-width: 640px) 85vw, (max-width: 1024px) 40vw, 30vw"
+                    />
+
+                    {/* Bottom vignette */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/70 via-transparent to-transparent z-10"></div>
+
+                    {/* Caption */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-20">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Camera className="h-3 w-3 text-white/70" />
+                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Special Guests</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
 
       {/* ════════════════════════════════════════════════
           GALLERY — Moments That Define Us
@@ -413,7 +532,7 @@ export default function AboutUsPage() {
               <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Gallery</span>
             </div>
             <div className="flex items-start gap-6">
-              <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">03</span>
+              <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">04</span>
               <div>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
                   Moments That <span className="text-[#1a237e]">Define Us</span>
@@ -463,7 +582,6 @@ export default function AboutUsPage() {
                         <Camera className="h-3 w-3 text-white/70" />
                         <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Aspire Gallery</span>
                       </div>
-                      <p className="text-white text-sm md:text-base font-semibold leading-snug">{img.caption}</p>
                     </div>
                   </div>
                 </div>
@@ -487,7 +605,7 @@ export default function AboutUsPage() {
                 <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Campus</span>
               </div>
               <div className="flex items-start gap-6">
-                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">04</span>
+                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">05</span>
                 <div>
                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
                     Our <span className="text-[#1a237e]">Campus</span>
@@ -557,7 +675,6 @@ export default function AboutUsPage() {
                         <Building2 className="h-3 w-3 text-white/70" />
                         <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Campus</span>
                       </div>
-                      <p className="text-white text-sm md:text-base font-semibold leading-snug">{img.caption}</p>
                     </div>
                   </div>
                 </div>
@@ -671,17 +788,14 @@ export default function AboutUsPage() {
               
               <div className="mt-8 text-center max-w-2xl">
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <span className="h-px w-6 bg-[#1a237e]/50"></span>
-                  <span className="text-[#3949ab] font-bold tracking-[0.2em] text-[10px] uppercase">
-                    {selectedImage.type === 'gallery' ? 'Aspire Gallery' : 'Aspire Campus'}
+                  <span className="h-px w-6 bg-[#1a237e]/10"></span>
+                  <span className="text-[#1a237e]/60 font-medium tracking-[0.2em] text-[10px] uppercase">
+                    {selectedImage.type === 'gallery' ? 'Aspire Gallery' : (selectedImage.type === 'campus' ? 'Aspire Campus' : 'Special Guests')}
                   </span>
-                  <span className="h-px w-6 bg-[#1a237e]/50"></span>
+                  <span className="h-px w-6 bg-[#1a237e]/10"></span>
                 </div>
-                <h3 className="text-white text-xl md:text-2xl font-bold tracking-tight mb-2">
-                  {currentImageData.caption}
-                </h3>
-                <p className="text-white/50 text-xs md:text-sm font-medium">
-                  Image {selectedImage.index + 1} of {(selectedImage.type === 'gallery' ? galleryImages : campusImages).length}
+                <p className="text-white/40 text-[11px] font-bold tracking-widest uppercase">
+                  Image {selectedImage.index + 1} of {(selectedImage.type === 'gallery' ? galleryImages : (selectedImage.type === 'campus' ? campusImages : guestImages)).length}
                 </p>
               </div>
             </motion.div>

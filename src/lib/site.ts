@@ -7,8 +7,3 @@ export const DEFAULT_METADATA_DESCRIPTION =
 
 export const HOME_METADATA_TITLE = `${SITE_NAME} | 1.5L+ Lives Transformed`;
 export const HOME_METADATA_DESCRIPTION = DEFAULT_METADATA_DESCRIPTION;
-
-export const HOME_HERO_TITLE = {
-  primary: SITE_NAME,
-  accent: "1.5L+ Lives Transformed",
-} as const;
