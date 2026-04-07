@@ -4,6 +4,7 @@ import connectDB from '@/lib/db';
 import Enquiry from '@/lib/models/Enquiry';
 import StudentArticle from '@/lib/models/StudentArticle';
 import { requireAdmin } from '@/lib/auth';
+import { getPendingStudentArticleFilter } from '@/lib/student-article-status';
 
 export async function GET(request: NextRequest) {
   const auth = await requireAdmin(request);
@@ -22,8 +23,7 @@ export async function GET(request: NextRequest) {
     // and update your submit-enquiry API to support marking enquiries as reviewed
     const pendingEnquiries = await Enquiry.countDocuments({ reviewed: { $ne: true } });
     
-    // Get pending articles (unpublished)
-    const pendingArticles = await StudentArticle.countDocuments({ isPublished: false });
+    const pendingArticles = await StudentArticle.countDocuments(getPendingStudentArticleFilter());
     
     // Get total published articles
     const publishedArticles = await StudentArticle.countDocuments({ isPublished: true });

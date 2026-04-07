@@ -2,15 +2,20 @@ import connectDB from "@/lib/db";
 import Course from "@/lib/models/Course";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth";
-import { MAX_LENGTHS, normalizeString } from "@/lib/validation";
 import mongoose from "mongoose";
+import { normalizeCoursePayload, sortCoursesForDisplay } from "@/lib/course-utils";
 
-// Add this GET handler to fetch courses
 export async function GET() {
     try {
         await connectDB();
-        const courses = await Course.find({}).sort({ _id: -1 }); // Get all courses, newest first
-        return NextResponse.json({ courses }, { status: 200 });
+        const courses = await Course.find({}).lean();
+        const sortedCourses = sortCoursesForDisplay(
+            courses.map((course) => ({
+                ...course,
+                _id: String(course._id),
+            }))
+        );
+        return NextResponse.json({ courses: sortedCourses }, { status: 200 });
     } catch {
         console.error("Error fetching courses");
         return NextResponse.json({ error: "Failed to fetch courses" }, { status: 500 });
@@ -25,39 +30,20 @@ export async function POST(req: NextRequest){
         }
 
         await connectDB();
-        const body = await req.json();
-        const courseName = normalizeString(body?.courseName);
-        const description = normalizeString(body?.description);
-        const courseOutlineRaw = Array.isArray(body?.courseOutline) ? body.courseOutline : [];
-        const courseDate = body?.courseDate;
-        const courseOutline = courseOutlineRaw
-            .map((item: unknown) => normalizeString(item))
-            .filter((item: string) => item.length > 0);
-        
-        // Basic check if date is received (optional, Mongoose validation handles it)
-        if (
-            !courseName ||
-            !description ||
-            courseOutline.length === 0 ||
-            !courseDate
-        ) {
-          return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
-        }
-
-        if (
-            courseName.length > MAX_LENGTHS.courseName ||
-            description.length > MAX_LENGTHS.description ||
-            courseOutline.some((item: string) => item.length > MAX_LENGTHS.courseOutlineItem)
-        ) {
-            return NextResponse.json({ error: "Input exceeds allowed length limits." }, { status: 400 });
-        }
-
-        const newCourse = new Course({
-            courseName,
-            description,
-            courseOutline,
-            courseDate // Add courseDate
+        const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
+        const normalized = normalizeCoursePayload(body, {
+            requireDescriptionAndOutline: true,
+            defaultCtaMode: "ENQUIRE",
         });
+
+        if (!normalized.value) {
+            return NextResponse.json(
+                { error: normalized.errors.join(" ") || "Invalid course payload." },
+                { status: 400 }
+            );
+        }
+
+        const newCourse = new Course(normalized.value);
         const savedCourse = await newCourse.save();
         return NextResponse.json({ message: "Course created successfully", course: savedCourse }, { status: 201 });
     } catch (error: unknown) {

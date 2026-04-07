@@ -1,93 +1,38 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { jwtVerify } from 'jose'; // Using 'jose' for edge-compatible JWT verification
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { jwtVerify } from "jose";
 
-// Function to get the JWT secret key
 const getJwtSecretKey = () => {
-    const secret = process.env.JWT_SECRET;
-    if (!secret) {
-        throw new Error('JWT_SECRET environment variable is not set');
-    }
-    // Ensure the secret is a Uint8Array
-    return new TextEncoder().encode(secret);
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error("JWT_SECRET environment variable is not set");
+  }
+
+  return new TextEncoder().encode(secret);
 };
 
 export async function middleware(request: NextRequest) {
-    const { pathname } = request.nextUrl;
-    const tokenCookie = request.cookies.get('token');
-    const token = tokenCookie?.value;
+  const token = request.cookies.get("token")?.value;
 
-    // Define static public paths that don't require authentication
-    const staticPublicPaths = ['/signin', '/api/signin', '/', '/success-stories', '/founder', '/team', '/about-us', '/salute-learning-spirit', '/careers'];
+  if (!token) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/signin";
+    return NextResponse.redirect(url);
+  }
 
-    // Allow requests to static public paths
-    if (staticPublicPaths.some(path => pathname === path)) {
-        return NextResponse.next();
-    }
-
-    // Allow requests to specific public pages and their subpaths
-    if (
-        pathname.startsWith('/publish-article') ||
-        pathname.startsWith('/student-articles') ||
-        pathname.startsWith('/articles') ||
-        pathname.startsWith('/courses') ||
-        pathname.startsWith('/success-stories') ||
-        pathname.startsWith('/founder') ||
-        pathname.startsWith('/team') ||
-        pathname.startsWith('/about-us') ||
-        pathname.startsWith('/salute-learning-spirit') // public marketing pages
-    ) {
-        return NextResponse.next();
-    }
-
-    // If trying to access a protected path without a token, redirect to signin
-    if (!token) {
-        // This check might be redundant now but safe to keep
-        if (pathname === '/') {
-            return NextResponse.next();
-        }
-        const url = request.nextUrl.clone();
-        url.pathname = '/signin';
-        // Add redirect query param if needed: url.searchParams.set('redirectedFrom', pathname);
-        return NextResponse.redirect(url);
-    }
-
-    // Verify the token
-    try {
-        const secretKey = getJwtSecretKey();
-        // Verify the JWT using jose, which works in Edge Runtime
-        await jwtVerify(token, secretKey);
-
-        // Token is valid, allow the request to proceed
-        return NextResponse.next();
-    } catch (error) {
-        console.error('JWT Verification Error:', error);
-        // Token is invalid or expired, clear the cookie and redirect to signin
-        const url = request.nextUrl.clone();
-        url.pathname = '/signin';
-        const response = NextResponse.redirect(url);
-        // Clear the invalid token cookie
-        response.cookies.delete('token');
-        return response;
-    }
+  try {
+    await jwtVerify(token, getJwtSecretKey());
+    return NextResponse.next();
+  } catch (error) {
+    console.error("JWT Verification Error:", error);
+    const url = request.nextUrl.clone();
+    url.pathname = "/signin";
+    const response = NextResponse.redirect(url);
+    response.cookies.delete("token");
+    return response;
+  }
 }
 
-// Configure the matcher to specify which routes the middleware should run on
 export const config = {
-    matcher: [
-        /*
-         * Match all request paths except for the ones starting with:
-         * - api routes that shouldn't be protected by default (adjust if needed)
-         * - _next/static (static files)
-         * - _next/image (image optimization files)
-         * - Static assets (images, etc.)
-         * - favicon.ico (favicon file)
-         * - The signin page itself to avoid redirect loops
-         * - The course API route
-         * - The student article API route (including dynamic paths)
-         * - The main article API route (including dynamic paths)
-         * - The enquiry submission API route
-         */
-        '/((?!api/public|api/course|api/student-article|api/article|api/submit-enquiry|_next/static|_next/image|favicon.ico|.*\\.(?:jpg|jpeg|png|gif|svg|ico|webp|mp4)|signin).*)',
-    ],
+  matcher: ["/admin/:path*"],
 };

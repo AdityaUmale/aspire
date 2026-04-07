@@ -130,3 +130,40 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Failed to fetch articles" }, { status: 500 });
   }
 }
+
+// DELETE: Remove a specific article (admin only)
+export async function DELETE(req: NextRequest) {
+  const auth = await requireAdmin(req);
+  if (!auth.ok) {
+    return auth.response;
+  }
+
+  try {
+    await connectDB();
+
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ error: "Article ID is required" }, { status: 400 });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Invalid article ID format" }, { status: 400 });
+    }
+
+    const deletedArticle = await Article.findByIdAndDelete(id).lean();
+
+    if (!deletedArticle) {
+      return NextResponse.json({ error: "Article not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(
+      { message: "Article deleted successfully", article: deletedArticle },
+      { status: 200 }
+    );
+  } catch {
+    console.error("Error deleting article");
+    return NextResponse.json({ error: "Failed to delete article" }, { status: 500 });
+  }
+}

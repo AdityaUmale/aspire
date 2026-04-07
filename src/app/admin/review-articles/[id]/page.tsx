@@ -20,6 +20,9 @@ interface StudentArticle {
     email: string;
   } | null;
   writerName?: string;
+  submitterEmail?: string | null;
+  reviewStatus: 'PENDING' | 'PUBLISHED' | 'REJECTED';
+  reviewedAt?: string | null;
   isPublished: boolean;
 }
 
@@ -33,7 +36,7 @@ export default function ArticleReviewDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
-  const [actionSuccess, setActionSuccess] = useState<string | null>(null); // Add success state
+  const [actionSuccess, setActionSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -77,7 +80,7 @@ export default function ArticleReviewDetailPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ isPublished: true }), // Set isPublished to true
+        body: JSON.stringify({ reviewStatus: 'PUBLISHED' }),
       });
 
       const data = await response.json();
@@ -86,8 +89,12 @@ export default function ArticleReviewDetailPage() {
         throw new Error(data.error || 'Failed to publish article');
       }
 
-      // Update local state to reflect the change immediately
-      setArticle({ ...article, isPublished: true });
+      setArticle({
+        ...article,
+        isPublished: true,
+        reviewStatus: 'PUBLISHED',
+        reviewedAt: new Date().toISOString(),
+      });
       setActionSuccess('Article published successfully!');
 
     } catch (err: unknown) {
@@ -101,8 +108,7 @@ export default function ArticleReviewDetailPage() {
 
   const handleReject = async () => {
     if (!article) return;
-    // Optional: Add a confirmation dialog
-    if (!window.confirm('Are you sure you want to reject and delete this article? This action cannot be undone.')) {
+    if (!window.confirm('Are you sure you want to reject this article? The writer will still be able to see its rejected status.')) {
       return;
     }
 
@@ -111,29 +117,45 @@ export default function ArticleReviewDetailPage() {
     setActionSuccess(null);
     try {
       const response = await fetch(`/api/student-article/${article._id}`, {
-        method: 'DELETE',
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ reviewStatus: 'REJECTED' }),
       });
 
-      // Check if response is ok OR if it's a 204 No Content
-      if (!response.ok && response.status !== 204) {
-        const data = await response.json().catch(() => ({})); // Try to parse error, default to empty obj
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
         throw new Error(data.error || 'Failed to reject article');
       }
 
-      setActionSuccess('Article rejected and deleted successfully!');
-      // Redirect back to the review list after a short delay
-      setTimeout(() => {
-        router.push('/admin/review-articles');
-      }, 1500); // 1.5 second delay
+      setArticle({
+        ...article,
+        isPublished: false,
+        reviewStatus: 'REJECTED',
+        reviewedAt: new Date().toISOString(),
+      });
+      setActionSuccess('Article marked as rejected successfully.');
 
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'An error occurred during rejection';
       setActionError(errorMessage);
-      console.error('Error rejecting article:', err);
+      console.error('Error rejecting student article:', err);
     } finally {
-      // Keep processing true if redirecting, otherwise set to false
-      // setIsProcessing(false); // Only set false if not redirecting immediately
+      setIsProcessing(false);
     }
+  };
+
+  const getStatusClassName = (reviewStatus: StudentArticle['reviewStatus']) => {
+    if (reviewStatus === 'PUBLISHED') {
+      return 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700';
+    }
+
+    if (reviewStatus === 'REJECTED') {
+      return 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700';
+    }
+
+    return 'bg-gradient-to-r from-[#1a237e]/70 to-[#3949ab]/70 hover:from-[#1a237e] hover:to-[#3949ab]';
   };
 
   if (loading) {
@@ -202,16 +224,18 @@ export default function ArticleReviewDetailPage() {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold text-[#1a237e]">{article.title}</h1>
         <Badge
-          variant={article.isPublished ? "default" : "secondary"}
-          className={article.isPublished ?
-            "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700" :
-            "bg-gradient-to-r from-[#1a237e]/70 to-[#3949ab]/70 hover:from-[#1a237e] hover:to-[#3949ab]"}
+          variant={article.reviewStatus === 'PUBLISHED' ? "default" : "secondary"}
+          className={getStatusClassName(article.reviewStatus)}
         >
-          {article.isPublished ? 'Published' : 'Pending Review'}
+          {article.reviewStatus}
         </Badge>
       </div>
 
-      <p className="text-sm text-gray-500 mb-6">By {article.writerName || 'Anonymous Student'} {article.author?.email && <span>({article.author.email})</span>}</p>
+      <div className="text-sm text-gray-500 mb-6 space-y-1">
+        <p>By {article.writerName || 'Anonymous Student'}</p>
+        {article.submitterEmail && <p>Verified email: {article.submitterEmail}</p>}
+        {article.reviewedAt && <p>Reviewed on {new Date(article.reviewedAt).toLocaleString('en-US')}</p>}
+      </div>
 
       <div className="prose lg:prose-xl max-w-none border-t border-b py-6 my-6 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-gray-200/60 break-words overflow-hidden">
         {/* Replace the <p> tag with this div to render HTML */}
@@ -236,7 +260,7 @@ export default function ArticleReviewDetailPage() {
 
       {/* Action Buttons - Disable if an action was successful and redirecting */}
       <div className="flex space-x-4">
-        {!article.isPublished && (
+        {article.reviewStatus !== 'PUBLISHED' && (
           <Button
             onClick={handlePublish}
             disabled={isProcessing || !!actionSuccess} // Disable if processing or success
@@ -250,7 +274,7 @@ export default function ArticleReviewDetailPage() {
           disabled={isProcessing || !!actionSuccess} // Disable if processing or success
           className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-2 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
         >
-          <XCircle className="mr-2 h-4 w-4" /> {isProcessing ? 'Rejecting...' : 'Reject'}
+          <XCircle className="mr-2 h-4 w-4" /> {isProcessing ? 'Updating...' : 'Reject'}
         </Button>
       </div>
     </div>

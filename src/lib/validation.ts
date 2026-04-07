@@ -9,7 +9,13 @@ export const MAX_LENGTHS = {
   phone: 30,
   courseName: 180,
   courseOutlineItem: 220,
+  courseTime: 60,
+  courseDayLabel: 40,
+  sourceMonthLabel: 80,
+  url: 2000,
 };
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const clampPagination = ({
   pageInput,
@@ -42,4 +48,17 @@ export const isValidLength = (value: unknown, maxLength: number) => {
 
 export const normalizeString = (value: unknown) => {
   return typeof value === "string" ? value.trim() : "";
+};
+
+export const normalizeEmail = (value: unknown) => {
+  return normalizeString(value).toLowerCase();
+};
+
+export const isValidEmail = (value: unknown) => {
+  return (
+    typeof value === "string" &&
+    value.length > 0 &&
+    value.length <= MAX_LENGTHS.email &&
+    EMAIL_REGEX.test(value)
+  );
 };

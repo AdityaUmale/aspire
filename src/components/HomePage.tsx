@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import FounderSection from "@/components/FounderSection";
@@ -20,6 +21,7 @@ import EnquiryForm from "@/components/EnquiryForm";
 import Footer from "@/components/Footer";
 import ArticlesSection from "@/components/ArticlesSection";
 import FAQSection from "@/components/FAQSection";
+import { findProgramByCourseName, getCourseSectionLabel } from "@/lib/course-config";
 
 interface Course {
   _id: string;
@@ -27,30 +29,11 @@ interface Course {
   description: string;
   courseDate?: string;
   courseOutline?: string | string[];
+  courseTime?: string;
+  courseDayLabel?: string;
+  section?: string;
+  ctaMode?: string;
 }
-
-// Map course names to program slugs
-const getProgramSlug = (courseName: string): string | null => {
-  const courseSlugMap: { [key: string]: string } = {
-    "Leadership Development": "/courses/leadership-development",
-    "Personality Development": "/courses/personality-development",
-    "Public Speaking": "/courses/public-speaking",
-    "English Language Training": "/courses/english-language-training",
-    "Summer Special Course For Kids": "/courses/childrens-learning-program",
-    "Children's Learning Program": "/courses/childrens-learning-program",
-    "Voice & Accent": "/courses/voice-and-accent",
-    "Entrepreneurship Development": "/courses/entrepreneurship-development",
-    "Teachers Training Program": "/courses/teachers-training-program",
-    "ARISE Language And Thought Enrichment Camp": "/courses/arise-camp",
-    "ARISE Language and Thought Enrichment Camp": "/courses/arise-camp",
-    "ARISE Language and Thoughts Enrichment Camp": "/courses/arise-camp",
-    "ARISE – Language and Thought Enrichment Camp": "/courses/arise-camp",
-    "International Workshop": "/courses/international-workshop",
-    "Interview Skills & Techniques": "/courses/interview-skills-techniques",
-  };
-
-  return courseSlugMap[courseName] || null;
-};
 
 export default function HomePage() {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -319,30 +302,49 @@ export default function HomePage() {
                   className="flex flex-row overflow-x-auto gap-4 lg:gap-5 pb-8 -mx-4 px-8 md:mx-0 md:px-0 scrollbar-hide snap-x"
                 >
                   {courses.map((course, index) => {
-                    const programSlug = getProgramSlug(course.courseName);
+                    const programSlug = findProgramByCourseName(course.courseName)?.slug ?? null;
+                    const courseSectionLabel = getCourseSectionLabel(course.section);
+                    const ctaHref = course.ctaMode === "ENQUIRE" ? "/#enquiry" : programSlug;
+                    const ctaLabel = course.ctaMode === "ENQUIRE" ? "Enquire Now" : "View Details";
                     return (
-                      <div key={index} className="group relative rounded-[1.5rem] bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200 transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.25)] hover:border-[#1a237e]/30 hover:-translate-y-2 w-[300px] sm:w-[340px] flex-shrink-0 flex flex-col h-full snap-start overflow-hidden">
+                      <div key={index} className="group relative rounded-[1.5rem] bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200 transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.25)] hover:border-[#1a237e]/30 hover:-translate-y-2 w-[300px] sm:w-[340px] flex-shrink-0 flex flex-col h-[540px] snap-start overflow-hidden">
                         {/* Top Decorative Stripe */}
                         <div className="h-1.5 w-full bg-gradient-to-r from-[#1a237e] to-[#3949ab]"></div>
 
-                        <div className="p-8 flex-1 flex flex-col h-full">
-                          <div className="relative flex flex-col items-start space-y-4 flex-1">
-                            <h3 className="font-bold text-2xl text-[#1a237e] leading-tight group-hover:text-[#3949ab] transition-colors">{course.courseName}</h3>
+                        <div className="p-6 flex-1 flex flex-col">
+                          <div className="relative flex flex-col items-start space-y-3 flex-1">
+                            {courseSectionLabel && course.section !== "REGULAR" && (
+                              <Badge className="bg-[#eef2ff] text-[#1a237e] hover:bg-[#eef2ff]">
+                                {courseSectionLabel}
+                              </Badge>
+                            )}
+
+                            <h3 className="font-bold text-xl text-[#1a237e] leading-tight group-hover:text-[#3949ab] transition-colors">{course.courseName}</h3>
 
                             {/* Date Info */}
                             {course.courseDate && (
-                              <div className="flex items-center gap-2 text-sm text-gray-500 font-medium">
+                              <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 font-medium">
                                 <Calendar className="h-4 w-4 text-[#1a237e]" />
                                 <span>Starts: <span className="text-[#1a237e]">{format(new Date(course.courseDate), "PPP")}</span></span>
+                                {course.courseTime && (
+                                  <span className="rounded-full bg-[#f5f7ff] px-2.5 py-1 text-xs text-[#1a237e]">
+                                    {course.courseTime}
+                                  </span>
+                                )}
+                                {course.courseDayLabel && (
+                                  <span className="rounded-full bg-[#f8fafc] px-2.5 py-1 text-xs text-gray-600">
+                                    {course.courseDayLabel}
+                                  </span>
+                                )}
                               </div>
                             )}
 
                             <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">{course.description}</p>
 
                             {course.courseOutline && (
-                              <div className="w-full pt-4 mt-4 border-t border-dashed border-gray-200 flex-1">
+                              <div className="w-full pt-3 mt-3 border-t border-dashed border-gray-200 flex-1">
                                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Highlights</p>
-                                <ul className="space-y-2">
+                                <ul className="space-y-1">
                                   {Array.isArray(course.courseOutline) ? course.courseOutline.slice(0, 3).map((item: string, i: number) => (
                                     <li key={i} className="flex items-start gap-2 text-xs text-gray-600">
                                       <div className="h-1.5 w-1.5 rounded-full bg-[#3949ab] mt-1.5 flex-shrink-0"></div>
@@ -360,14 +362,14 @@ export default function HomePage() {
                           </div>
 
                           {/* Button Area */}
-                          <div className="mt-8">
-                            {programSlug ? (
-                              <Link href={programSlug}>
+                          <div className="mt-6">
+                            {ctaHref ? (
+                              <Link href={ctaHref}>
                                 <Button
                                   className="w-full h-12 rounded-xl bg-[#1a237e] hover:bg-[#0d1642] text-white shadow-lg shadow-[#1a237e]/20 transition-all duration-300 text-sm font-medium hover:scale-[1.02]"
                                   onClick={(e) => e.stopPropagation()}
                                 >
-                                  View Details
+                                  {ctaLabel}
                                   <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                               </Link>

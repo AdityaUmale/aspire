@@ -2,9 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal, CheckCircle, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
+import { getCourseSectionLabel } from '@/lib/course-config';
 
 
 interface Course {
@@ -13,6 +15,10 @@ interface Course {
   description: string;
   courseDate?: string;
   courseOutline?: string | string[];
+  courseTime?: string;
+  courseDayLabel?: string;
+  section?: string;
+  sourceMonthLabel?: string;
 }
 
 export default function AdminDashboardPage() {
@@ -200,12 +206,27 @@ export default function AdminDashboardPage() {
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-[#1a237e] mb-2">{course.courseName}</h3>
+                    <div className="mb-2 flex flex-wrap items-center gap-2">
+                      <h3 className="text-lg font-semibold text-[#1a237e]">{course.courseName}</h3>
+                      {course.section && course.section !== 'REGULAR' && (
+                        <Badge className="bg-[#eef2ff] text-[#1a237e] hover:bg-[#eef2ff]">
+                          {getCourseSectionLabel(course.section)}
+                        </Badge>
+                      )}
+                    </div>
                     <p className="text-sm text-gray-600 mb-2">{course.description}</p>
                     {course.courseDate && (
                       <p className="text-xs text-gray-500">
                         Start Date: {format(new Date(course.courseDate), 'PPP')}
                       </p>
+                    )}
+                    {(course.courseTime || course.courseDayLabel) && (
+                      <p className="mt-1 text-xs text-gray-500">
+                        {[course.courseTime, course.courseDayLabel].filter(Boolean).join(' · ')}
+                      </p>
+                    )}
+                    {course.sourceMonthLabel && (
+                      <p className="mt-1 text-xs text-gray-400">Source: {course.sourceMonthLabel}</p>
                     )}
                   </div>
                   <Button

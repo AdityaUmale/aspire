@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, FileText, BookOpen } from 'lucide-react';
+import { Terminal, FileText, BookOpen, Trash2 } from 'lucide-react';
 
 // Interface matching the StudentArticle model
 interface StudentArticle {
@@ -20,6 +20,8 @@ interface StudentArticle {
     email: string;
   } | null;
   writerName?: string;
+  submitterEmail?: string | null;
+  reviewStatus: 'PENDING' | 'PUBLISHED' | 'REJECTED';
   isPublished: boolean;
 }
 
@@ -36,6 +38,7 @@ export default function ReviewArticlesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pagination, setPagination] = useState<PaginationInfo>({ total: 0, page: 1, limit: 10, pages: 0 });
+  const [isDeletingId, setIsDeletingId] = useState<string | null>(null);
 
   // Fetch articles from the student-article API endpoint
   const fetchStudentArticles = async (page = 1) => {
@@ -66,6 +69,51 @@ export default function ReviewArticlesPage() {
 
   const handlePageChange = (newPage: number) => {
     fetchStudentArticles(newPage);
+  };
+
+  const getStatusClassName = (reviewStatus: StudentArticle['reviewStatus']) => {
+    if (reviewStatus === 'PUBLISHED') {
+      return 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700';
+    }
+
+    if (reviewStatus === 'REJECTED') {
+      return 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700';
+    }
+
+    return 'bg-gradient-to-r from-[#1a237e]/70 to-[#3949ab]/70 hover:from-[#1a237e] hover:to-[#3949ab]';
+  };
+
+  const handleDeleteArticle = async (article: StudentArticle) => {
+    const actionLabel = article.isPublished ? 'delete this published article' : 'reject and delete this article';
+    if (!window.confirm(`Are you sure you want to ${actionLabel}? This action cannot be undone.`)) {
+      return;
+    }
+
+    setIsDeletingId(article._id);
+    setError(null);
+
+    try {
+      const response = await fetch(`/api/student-article/${article._id}`, {
+        method: 'DELETE',
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to delete student article');
+      }
+
+      setArticles((currentArticles) => currentArticles.filter((currentArticle) => currentArticle._id !== article._id));
+      setPagination((currentPagination) => ({
+        ...currentPagination,
+        total: Math.max(0, currentPagination.total - 1),
+      }));
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred while deleting the article';
+      setError(errorMessage);
+      console.error('Error deleting student article:', err);
+    } finally {
+      setIsDeletingId(null);
+    }
   };
 
   return (
@@ -116,27 +164,43 @@ export default function ReviewArticlesPage() {
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
                     <CardTitle className="text-base lg:text-lg font-semibold text-[#1a237e]">{article.title}</CardTitle>
                     <Badge 
-                      variant={article.isPublished ? "default" : "secondary"} 
-                      className={`text-xs ${article.isPublished ? "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700" : "bg-gradient-to-r from-[#1a237e]/70 to-[#3949ab]/70 hover:from-[#1a237e] hover:to-[#3949ab]"} self-start`}
+                      variant={article.reviewStatus === 'PUBLISHED' ? "default" : "secondary"} 
+                      className={`text-xs ${getStatusClassName(article.reviewStatus)} self-start`}
                     >
-                      {article.isPublished ? 'Published' : 'Pending'}
+                      {article.reviewStatus}
                     </Badge>
                   </div>
-                  <CardDescription className="text-xs">
-                    By {article.writerName || article.author?.name || 'Anonymous Student'}
+                  <CardDescription className="text-xs space-y-1">
+                    <span className="block">
+                      By {article.writerName || article.author?.name || 'Anonymous Student'}
+                    </span>
+                    {article.submitterEmail && (
+                      <span className="block text-[11px] text-gray-500">
+                        {article.submitterEmail}
+                      </span>
+                    )}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-grow p-4">
                   <p className="text-sm text-gray-600 line-clamp-3">{article.description}</p>
                 </CardContent>
-                <CardFooter className="p-4">
+                <CardFooter className="grid grid-cols-1 gap-2 p-4 sm:grid-cols-2">
                   <Button 
                     variant="outline" 
-                    className="w-full border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e] transition-all duration-300 flex items-center justify-center gap-2 text-sm" 
+                    className="border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e] transition-all duration-300 flex items-center justify-center gap-2 text-sm" 
                     onClick={() => router.push(`/admin/review-articles/${article._id}`)}
                   >
                     <BookOpen className="h-4 w-4" />
-                    Review Article
+                    {article.isPublished ? 'View Article' : 'Review Article'}
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    className="flex items-center justify-center gap-2 text-sm"
+                    onClick={() => handleDeleteArticle(article)}
+                    disabled={isDeletingId === article._id}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    {isDeletingId === article._id ? 'Deleting...' : 'Delete'}
                   </Button>
                 </CardFooter>
               </Card>

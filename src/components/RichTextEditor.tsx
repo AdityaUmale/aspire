@@ -33,6 +33,14 @@ interface RichTextEditorProps {
 
 type ImageAlign = 'left' | 'center' | 'right';
 
+const getEditorCharacterCount = (editor?: Editor | null): number => {
+  if (!editor) {
+    return 0;
+  }
+
+  return Math.max(0, editor.state.doc.content.size - 2);
+};
+
 const parseWidthPercentage = (value?: string | number | null): number => {
   if (typeof value === 'number' && Number.isFinite(value)) {
     return Math.min(100, Math.max(20, Math.round(value)));
@@ -385,6 +393,8 @@ export default function RichTextEditor({
       onChange(editor.getHTML());
     },
   });
+
+  const characterCount = getEditorCharacterCount(editor);
 
   // Sync external content reset (e.g. after form submission) into the editor
   useEffect(() => {
@@ -866,12 +876,12 @@ export default function RichTextEditor({
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]"></div>
                 Live Editor
               </div>
-              <div className="hidden sm:block">Rich Text Enabled</div>
+            <div className="hidden sm:block">Rich Text Enabled</div>
             </div>
             <div className="flex items-center gap-3">
-              <span>{editor?.getCharacterCount() || 0} Characters</span>
+              <span>{characterCount} Characters</span>
               <span className="w-px h-3 bg-gray-200"></span>
-              <span>{editor?.getCharacterCount() ? Math.ceil(editor.getCharacterCount() / 5) : 0} Words</span>
+              <span>{characterCount ? Math.ceil(characterCount / 5) : 0} Words</span>
             </div>
           </div>
         </div>

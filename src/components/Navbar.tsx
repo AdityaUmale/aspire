@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, ChevronRight, PenTool, ChevronDown, FileText, ArrowRight } from "lucide-react";
+import { Menu, X, ChevronRight, PenTool, ChevronDown, FileText, ArrowRight, ShieldCheck } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -108,6 +108,9 @@ export default function Navbar() {
                       <DropdownLink href="/publish-article" icon={PenTool} onClick={() => setArticlesDropdown(false)}>
                         Publish Article
                       </DropdownLink>
+                      <DropdownLink href="/my-articles" icon={ShieldCheck} onClick={() => setArticlesDropdown(false)}>
+                        My Article Status
+                      </DropdownLink>
                       <DropdownLink href="/student-articles" icon={FileText} onClick={() => setArticlesDropdown(false)}>
                         Student Articles
                       </DropdownLink>
@@ -174,6 +177,9 @@ export default function Navbar() {
                   <div className="bg-gray-50/50 rounded-2xl p-2 space-y-1 border border-gray-100">
                     <MobileNavLink href="/publish-article" onClick={() => setIsOpen(false)} nested>
                       Publish Article
+                    </MobileNavLink>
+                    <MobileNavLink href="/my-articles" onClick={() => setIsOpen(false)} nested>
+                      My Article Status
                     </MobileNavLink>
                     <MobileNavLink href="/student-articles" onClick={() => setIsOpen(false)} nested>
                       Student Articles

@@ -1,36 +1,66 @@
 import connectDB from "@/lib/db";
 import StudentArticle from "@/lib/models/StudentArticle";
 import "@/lib/models/Admin";
+import "@/lib/models/Writer";
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { getAdminFromRequest, requireAdmin } from "@/lib/auth";
 import { sanitizeRichTextHtml } from "@/lib/sanitize";
+import {
+  deriveStudentArticleReviewStatus,
+  getPendingStudentArticleFilter,
+  getPublishedStudentArticleFilter,
+  isStudentArticlePublished,
+} from "@/lib/student-article-status";
 import {
   MAX_LENGTHS,
   clampPagination,
   isValidLength,
   normalizeString,
 } from "@/lib/validation";
+import {
+  getOrRefreshWriterSession,
+  setWriterSessionCookie,
+} from "@/lib/writer-auth";
 
-const getAuthorProjection = (isAdmin: boolean) => (isAdmin ? "name email" : "name");
+const getAuthorProjection = (isAdmin: boolean) =>
+  isAdmin ? "name email" : "name";
 
-const sanitizeStudentArticleForResponse = <T extends { content?: string }>(
+const sanitizeStudentArticleForResponse = <
+  T extends {
+    content?: string;
+    reviewStatus?: unknown;
+    isPublished?: boolean;
+  },
+>(
   article: T | null
 ) => {
   if (!article) {
     return article;
   }
+
+  const reviewStatus = deriveStudentArticleReviewStatus(article);
+
   return {
     ...article,
+    reviewStatus,
+    isPublished: reviewStatus === "PUBLISHED",
     content: sanitizeRichTextHtml(article.content ?? ""),
   };
 };
 
-// POST: Create a new student article (public submission)
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
-    const admin = await getAdminFromRequest(req);
+    const writerSession = await getOrRefreshWriterSession(req);
+    const admin = writerSession ? null : await getAdminFromRequest(req);
+
+    if (!admin && !writerSession) {
+      return NextResponse.json(
+        { error: "Email verification is required before submitting an article" },
+        { status: 401 }
+      );
+    }
 
     const body = await req.json();
     const title = normalizeString(body?.title);
@@ -44,13 +74,19 @@ export async function POST(req: NextRequest) {
       !isValidLength(content, MAX_LENGTHS.content)
     ) {
       return NextResponse.json(
-        { error: "Missing or invalid required fields (title, description, content)" },
+        {
+          error:
+            "Missing or invalid required fields (title, description, content)",
+        },
         { status: 400 }
       );
     }
 
     if (writerName && writerName.length > MAX_LENGTHS.writerName) {
-      return NextResponse.json({ error: "Writer name exceeds allowed length" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Writer name exceeds allowed length" },
+        { status: 400 }
+      );
     }
 
     const newStudentArticle = new StudentArticle({
@@ -59,16 +95,29 @@ export async function POST(req: NextRequest) {
       content: sanitizeRichTextHtml(content),
       writerName: writerName || null,
       author: admin?.id ?? null,
+      writer: writerSession?.writer.id ?? null,
+      submitterEmail: writerSession?.writer.email ?? admin?.email ?? null,
+      reviewStatus: "PENDING",
+      isPublished: false,
     });
 
     const savedArticle = await newStudentArticle.save();
 
-    return NextResponse.json(
-      { message: "Student article created successfully", article: sanitizeStudentArticleForResponse(savedArticle.toObject()) },
+    const response = NextResponse.json(
+      {
+        message: "Student article created successfully",
+        article: sanitizeStudentArticleForResponse(savedArticle.toObject()),
+      },
       { status: 201 }
     );
+
+    if (writerSession?.wasRefreshed) {
+      setWriterSessionCookie(response, writerSession.token);
+    }
+
+    return response;
   } catch (error) {
-    console.error("Error creating student article");
+    console.error("Error creating student article", error);
     if (error instanceof mongoose.Error.ValidationError) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
@@ -79,8 +128,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// GET: Retrieve student articles.
-// Public access requires published=true.
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
@@ -110,6 +157,7 @@ export async function GET(req: NextRequest) {
 
       const article = await StudentArticle.findById(id)
         .populate("author", getAuthorProjection(Boolean(admin)))
+        .populate("reviewedBy", "name email")
         .lean();
 
       if (!article) {
@@ -119,8 +167,11 @@ export async function GET(req: NextRequest) {
         );
       }
 
-      if (!admin && !article.isPublished) {
-        return NextResponse.json({ error: "Student article not found" }, { status: 404 });
+      if (!admin && !isStudentArticlePublished(article)) {
+        return NextResponse.json(
+          { error: "Student article not found" },
+          { status: 404 }
+        );
       }
 
       return NextResponse.json(
@@ -136,34 +187,43 @@ export async function GET(req: NextRequest) {
       maxLimit: 20,
     });
 
-    const filter: Record<string, boolean> = {};
-    if (publishedOnly) {
-      filter.isPublished = true;
-    }
+    const filter = publishedOnly
+      ? getPublishedStudentArticleFilter()
+      : {};
 
     const articles = await StudentArticle.find(filter)
       .populate("author", getAuthorProjection(Boolean(admin)))
-      .sort({ _id: -1 })
+      .populate("reviewedBy", "name email")
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .lean();
 
-    const total = await StudentArticle.countDocuments(filter);
+    const total = publishedOnly
+      ? await StudentArticle.countDocuments(getPublishedStudentArticleFilter())
+      : await StudentArticle.countDocuments({});
 
     return NextResponse.json(
       {
-        articles: articles.map((article) => sanitizeStudentArticleForResponse(article)),
+        articles: articles.map((article) =>
+          sanitizeStudentArticleForResponse(article)
+        ),
         pagination: {
           total,
           page,
           limit,
           pages: Math.ceil(total / limit),
         },
+        counts: {
+          pending: admin
+            ? await StudentArticle.countDocuments(getPendingStudentArticleFilter())
+            : undefined,
+        },
       },
       { status: 200 }
     );
-  } catch {
-    console.error("Error fetching student articles");
+  } catch (error) {
+    console.error("Error fetching student articles", error);
     return NextResponse.json(
       { error: "Failed to fetch student articles" },
       { status: 500 }
