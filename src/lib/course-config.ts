@@ -161,6 +161,20 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
     slug: "/courses/interview-skills-techniques",
     matchers: [/interview skills/i, /interview skills\s*&\s*techniques/i],
   },
+  {
+    key: "workshops-keynote-talks",
+    title: "Exclusive Workshops & Keynote Talks",
+    description:
+      "High-impact, focused sessions that cut straight to what matters. Led by Sachin Burghate.",
+    features: [
+      "Mindset & Confidence",
+      "Communication Mastery",
+      "Leadership & Growth",
+      "Customised Topics",
+    ],
+    slug: "/courses/workshops-keynote-talks",
+    matchers: [/exclusive workshops/i, /keynote talks/i, /workshop/i],
+  },
 ];
 
 export const AVAILABLE_PROGRAMS = PROGRAM_CATALOG.map((program) => ({

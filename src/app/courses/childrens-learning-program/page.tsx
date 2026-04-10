@@ -2,47 +2,40 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { Baby, Clock, Users, ArrowRight, Award } from 'lucide-react';
+import { Baby, Clock, Users, ArrowRight, Award, CheckCircle } from 'lucide-react';
 
 export default function ChildrensLearningProgramPage() {
   const outlineEnglish = [
-    'Sentences Formation Activities (SFA)',
-    'Language Improvement Games (LIG)',
-    'Vocabulary Building Activities (VBA)',
-    'Social English Conversations (SEC)',
-    'Daily Used Phrases, Expressions, Phrasal Verbs And Idioms (PEPI)',
-    'Audio Segment (AUS)',
-    'Movie and Video Based Learning (MVBL)',
-    'Phonics Training (FCT)',
+    'Building sentences that actually make sense',
+    'Playing with language to make it stick',
+    'Growing the words you use every day',
+    'Conversations that sound natural, not textbook',
+    'Phrases, idioms and expressions real people use',
+    'Training your ear with audio-based learning',
+    'Learning English through stories and real content',
+    'Getting your pronunciation right from the ground up',
   ];
 
   const outlinePublicSpeaking = [
-    'Self Introduction',
-    'Active Listening',
-    'Public Speaking Assignments',
-    'Stage Fear',
-    'Tips on Body Language',
-    'Personal Experience Sharing',
-    'Storytelling',
-    'Speech Preparation',
-    'Types of Speeches',
-    'Body Language',
-    'Confidence Building',
+    'Introducing yourself with confidence',
+    'The art of listening',
+    'Speaking assignments',
+    'Turning stage fear into stage presence',
+    'Using the right body language',
+    'The craft of telling a story',
+    'Walking in prepared every single time',
+    'Building the confidence to hold any room',
   ];
 
   const outlineSocialSkills = [
-    'General Manners',
-    'Sharing and Cooperation',
-    'Learn Greetings',
-    'Group Activities',
-    'Fun and Engaging Projects',
-    'Group Discussion',
-    'Personal Hygiene',
-    'Team Work',
-    'Initiative Taking',
-    'Etiquettes for Kids',
-    'Communicating Needs',
-    'Social and Emotional Development',
+    'The basics of being social skills',
+    'Learning to give, share and collaborate naturally',
+    'Working well with others in any setting',
+    'Hands-on projects that make learning feel like fun',
+    'Showing up well in every situation',
+    'Being a team player',
+    'Asking for help and helping others',
+    'Emotional Intelligence',
   ];
 
   return (
@@ -204,97 +197,60 @@ export default function ChildrensLearningProgramPage() {
         </div>
       </section>
 
-      {/* Course Outlines Section */}
-      <section id="outline" className="py-24 md:py-32 bg-white relative overflow-hidden">
-        {/* Decorative elements for glassmorphism */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#1a237e]/5 blur-[100px] rounded-full pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#3949ab]/5 blur-[100px] translate-y-1/3 -translate-x-1/3 rounded-full pointer-events-none"></div>
-        <div className="absolute top-1/2 left-1/2 w-[800px] h-[800px] bg-[#c5cae9]/30 blur-[120px] -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"></div>
-
-        <div className="container mx-auto px-6 max-w-7xl relative z-10">
-
-          {/* Minimalist Section Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 md:mb-24">
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white/60 backdrop-blur-md rounded-full border border-white/50 shadow-sm">
-                <span className="w-2 h-2 rounded-full bg-[#3949ab]"></span>
-                <span className="text-[10px] font-bold tracking-[0.2em] text-[#1a237e] uppercase">
-                  Curriculum Structure
-                </span>
-              </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter text-zinc-900 leading-[1.05]">
-                Engaging modules for <br className="hidden md:block" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a237e] to-[#6074F9]">
-                  young minds.
-                </span>
-              </h2>
-            </div>
-
-            <p className="text-lg text-zinc-600 font-medium max-w-sm leading-relaxed mb-2">
+      {/* Course Outline Section */}
+      <section id="outline" className="py-20 md:py-28 bg-white">
+        <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a237e] mb-4">Course Outline</h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
               A meticulously crafted roadmap designed to unlock confidence, clarity, and connection.
             </p>
           </div>
 
-          {/* Sleek 3-Column Grid */}
-          <div className="grid lg:grid-cols-3 gap-6 md:gap-8 group/grid relative z-10">
-
+          <div className="space-y-16">
             {[
               {
                 title: "English Language",
                 outline: outlineEnglish,
-                accent: "group-hover:border-[#1a237e]/30 group-hover:shadow-[0_16px_48px_rgba(26,35,126,0.1)] group-hover:bg-white/60"
               },
               {
                 title: "Public Speaking",
                 outline: outlinePublicSpeaking,
-                accent: "group-hover:border-[#3949ab]/30 group-hover:shadow-[0_16px_48px_rgba(57,73,171,0.1)] group-hover:bg-white/60"
               },
               {
                 title: "Social Skills",
                 outline: outlineSocialSkills,
-                accent: "group-hover:border-[#6074F9]/30 group-hover:shadow-[0_16px_48px_rgba(96,116,249,0.1)] group-hover:bg-white/60"
               }
-            ].map((course, idx) => (
-              <div
-                key={idx}
-                className={`group relative bg-white/40 backdrop-blur-xl rounded-[2.5rem] border border-white/80 p-8 md:p-10 transition-all duration-500 hover:-translate-y-2 lg:hover:!opacity-100 lg:group-hover/grid:opacity-60 shadow-[0_8px_32px_rgba(0,0,0,0.03)] overflow-hidden ${course.accent}`}
-              >
-                {/* Detailed glassmorphic internal glow & reflections */}
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-80 z-0"></div>
-
-                <div className="relative z-10">
-                  {/* Header Area */}
-                  <div className="flex flex-col gap-6 mb-10 pb-10 border-b border-zinc-200/50">
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-2">Module 0{idx + 1}</p>
-                      <h3 className="text-2xl font-bold tracking-tight text-zinc-900 group-hover:text-[#1a237e] transition-colors duration-300">
-                        {course.title}
-                      </h3>
-                    </div>
+            ].map((module, idx) => (
+              <div key={idx}>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="h-10 w-10 rounded-xl bg-[#1a237e] flex items-center justify-center font-bold text-white tracking-widest text-sm">
+                    {String(idx + 1).padStart(2, '0')}
                   </div>
-
-                  {/* Syllabus List */}
-                  <ul className="space-y-5">
-                    {course.outline.map((item, index) => (
-                      <li key={index} className="flex items-start gap-4 group/item cursor-default">
-                        {/* Monospace Indexing (01, 02, etc.) */}
-                        <span className="mt-0.5 text-xs font-mono font-medium text-zinc-400 group-hover/item:text-[#3949ab] transition-colors duration-300 select-none">
-                          {String(index + 1).padStart(2, '0')}
-                        </span>
-
-                        {/* Content */}
-                        <span className="text-sm md:text-base font-medium text-zinc-600 leading-relaxed group-hover/item:text-zinc-900 transition-colors duration-300">
-                          {item}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                  <h3 className="text-2xl md:text-3xl font-bold text-[#1a237e]">{module.title}</h3>
                 </div>
 
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {module.outline.map((item, index) => (
+                    <div
+                      key={index}
+                      className="group bg-white rounded-2xl p-5 shadow-md hover:shadow-xl border-l-4 border-[#1a237e] hover:-translate-y-1 transition-all duration-300"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="h-10 w-10 rounded-xl bg-[#e8eaf6] flex items-center justify-center flex-shrink-0 group-hover:bg-[#1a237e] transition-colors duration-300">
+                          <CheckCircle className="h-5 w-5 text-[#1a237e] group-hover:text-white transition-colors duration-300" />
+                        </div>
+                        <span className="text-gray-700 font-medium leading-snug group-hover:text-[#1a237e] transition-colors duration-300">
+                          {item}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
-
           </div>
+
         </div>
       </section>
 

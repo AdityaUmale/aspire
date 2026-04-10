@@ -312,11 +312,10 @@ export default function ArticlesSection() {
             </span>
           </div>
           <h2 className="font-bold text-4xl md:text-5xl lg:text-6xl text-[#1a237e] mb-6 text-balance">
-            Articles That Inspire
+            Authentic Articles by learners of Aspire
           </h2>
-          <p className="font-sans text-gray-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed text-pretty">
-            Share your story, learn from peers, or dive into expert insights. Our article ecosystem fuels your growth
-            journey.
+          <p className="font-sans text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed text-pretty">
+            Real journey, Real breakthroughs written by students who walked into Aspire Institute and walked out Transformed
           </p>
         </div>
 

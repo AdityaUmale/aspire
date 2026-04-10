@@ -5,16 +5,15 @@ import Navbar from '@/components/Navbar';
 import { Mic, ArrowRight, Award, CheckCircle } from 'lucide-react';
 
 export default function VoiceAndAccentPage() {
-  const voiceAccentModules = [
-    { title: 'Articulation Exercises', desc: 'Master physical movements for clear speech and pronunciation.' },
-    { title: 'MTI (Mother Tongue Influence)', desc: 'Techniques to neutralize regional accents and speak globally.' },
-    { title: 'Sounds', desc: 'Perfect your vowel and consonant sounds for accurate speaking.' },
-    { title: 'Voice Clarity', desc: 'Develop a crisp, audible, and clear speaking voice.' },
-    { title: 'Sound Drills', desc: 'Repetitive practice exercises for speech muscle memory.' },
-    { title: 'Tone of Voice', desc: 'Express the right emotion, confidence, and professionalism.' },
-    { title: 'International Phonetic Alphabet', desc: 'Learn IPA for independent and accurate word pronunciation.' },
-    { title: 'Intonation', desc: 'Master the music, pitch, and rhythm of the English language.' },
-    { title: 'English Accents around the World', desc: 'Understand various global English accents for better comprehension.' },
+  const courseOutline = [
+    'Articulation Exercises',
+    'Pronunciation and Sounds',
+    'Voice Clarity',
+    'Sound Drills',
+    'Tone of Voice',
+    'International Phonetic Alphabet',
+    'Intonation',
+    'English Accents Around the World',
   ];
 
   return (
@@ -163,34 +162,29 @@ export default function VoiceAndAccentPage() {
         </div>
       </section>
 
-      {/* Course Outlines Section */}
+      {/* Course Outline Section */}
       <section id="outline" className="py-20 md:py-28 bg-white">
         <div className="container mx-auto px-4 md:px-6 max-w-6xl">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a237e] mb-4">Curriculum Structure</h2>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a237e] mb-4">Course Outline</h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
               A meticulously crafted roadmap designed to unlock confidence, clarity, and connection.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {voiceAccentModules.map((module, index) => (
+            {courseOutline.map((item, index) => (
               <div
                 key={index}
                 className="group bg-white rounded-2xl p-5 shadow-md hover:shadow-xl border-l-4 border-[#1a237e] hover:-translate-y-1 transition-all duration-300"
               >
-                <div className="flex items-start gap-4">
+                <div className="flex items-center gap-4">
                   <div className="h-10 w-10 rounded-xl bg-[#e8eaf6] flex items-center justify-center flex-shrink-0 group-hover:bg-[#1a237e] transition-colors duration-300">
                     <CheckCircle className="h-5 w-5 text-[#1a237e] group-hover:text-white transition-colors duration-300" />
                   </div>
-                  <div>
-                    <span className="text-gray-700 font-medium leading-snug group-hover:text-[#1a237e] transition-colors duration-300 block mb-1">
-                      {module.title}
-                    </span>
-                    <p className="text-gray-400 text-sm leading-relaxed">
-                      {module.desc}
-                    </p>
-                  </div>
+                  <span className="text-gray-700 font-medium leading-snug group-hover:text-[#1a237e] transition-colors duration-300">
+                    {item}
+                  </span>
                 </div>
               </div>
             ))}

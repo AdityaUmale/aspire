@@ -6,24 +6,17 @@ import { Languages, CheckCircle, ArrowRight, Award } from 'lucide-react';
 
 export default function EnglishLanguageTrainingPage() {
   const courseOutline = [
-    'Sentences Formation Activities (SFA)',
-    'Language Improvement Games (LIG)',
-    'Vocabulary Building Activities (VBA)',
-    'Structured Activities For Language Enhancement (SALE)',
-    'Article/Magazines/Blogs Based Learning (AMB)',
-    'Social English Conversations (SEC)',
-    'Real English Lessons (REL)',
-    'Personal Experience Sharing (PRS)',
-    'Mother Tongue Influence (MTI)',
-    'Daily Used Phrases, Expressions, Phrasal Verbs And Idioms (PEPVI)',
-    'Talk Shows (TSH)',
-    'Role Plays (RPL)',
-    'Story Segment (SSE)',
-    'Audio Segment (AUS)',
-    'Video Based Learning (VBL)',
-    'Group Activities (GAC)',
-    'Sounds And Phonics (SAP)',
-    'Clichés And Hyperbole (CAH)',
+    'Build real-world English skills',
+    'Speak, think, and lead in English',
+    'Structured learning of the English language',
+    'From foundations to fluency',
+    'Modules built around speaking, listening, reading, and real confidence',
+    'Learn Sentence Fabrication',
+    'Learn a structured, practical way of communicating',
+    'Builds language skills to command every room',
+    'Learn English as a second nature',
+    'Structured modules. Real practice',
+    'A curriculum built on every skill English fluency actually demands',
   ];
 
   return (

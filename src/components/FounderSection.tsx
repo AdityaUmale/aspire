@@ -75,9 +75,9 @@ export default function FounderSection() {
             </div>
 
             {/* Bento Stats Grid */}
-            <div className="grid sm:grid-cols-2 gap-4 max-w-2xl">
-              <div className="flex items-center gap-4 p-5 bg-[#FAFAFA] rounded-2xl border border-gray-100 hover:border-[#1a237e]/20 hover:shadow-md hover:bg-white transition-all duration-300 group">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm border border-gray-50 text-[#1a237e] group-hover:bg-[#1a237e] group-hover:text-white transition-colors duration-300">
+            <div className="grid sm:grid-cols-2 gap-4 max-w-2xl mt-4">
+              <div className="flex items-center gap-4 py-2 hover:translate-x-1 transition-transform duration-300 group">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#1a237e]/5 text-[#1a237e] group-hover:bg-[#1a237e] group-hover:text-white transition-colors duration-300">
                   <Calendar className="h-5 w-5" />
                 </div>
                 <div>
@@ -86,8 +86,8 @@ export default function FounderSection() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 p-5 bg-[#FAFAFA] rounded-2xl border border-gray-100 hover:border-[#1a237e]/20 hover:shadow-md hover:bg-white transition-all duration-300 group">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm border border-gray-50 text-[#1a237e] group-hover:bg-[#1a237e] group-hover:text-white transition-colors duration-300">
+              <div className="flex items-center gap-4 py-2 hover:translate-x-1 transition-transform duration-300 group">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#1a237e]/5 text-[#1a237e] group-hover:bg-[#1a237e] group-hover:text-white transition-colors duration-300">
                   <Globe className="h-5 w-5" />
                 </div>
                 <div>
@@ -98,17 +98,17 @@ export default function FounderSection() {
             </div>
 
             {/* Premium Highlights List */}
-            <div className="space-y-4 max-w-2xl bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+            <div className="space-y-5 max-w-2xl pt-2">
               {[
                 "Recipient of the Outstanding Young Person of India Award",
                 "Featured on ZEE TV's \"The Real Heroes\"",
                 "Delivered talks in Singapore, Dubai, Thailand, Malaysia & more"
               ].map((highlight, index) => (
-                <div key={index} className="flex items-start gap-3 group">
-                  <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#f0f1fa] text-[#1a237e] group-hover:bg-[#1a237e] group-hover:text-white transition-colors duration-300">
+                <div key={index} className="flex items-start gap-4 group">
+                  <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#1a237e]/10 text-[#1a237e] group-hover:bg-[#1a237e] group-hover:text-white transition-colors duration-300">
                     <CheckCircle className="h-3.5 w-3.5" />
                   </div>
-                  <p className="text-gray-600 font-light text-base group-hover:text-gray-900 transition-colors">{highlight}</p>
+                  <p className="text-gray-600 font-light text-base md:text-lg group-hover:text-gray-900 transition-colors">{highlight}</p>
                 </div>
               ))}
             </div>
@@ -116,9 +116,21 @@ export default function FounderSection() {
             {/* CTA */}
             <div className="pt-2">
               <Link href="/founder" className="inline-block outline-none">
-                <Button className="h-14 px-8 rounded-full bg-[#1a237e] text-white hover:bg-[#10164f] text-base font-medium shadow-[0_4px_14px_0_rgba(26,35,126,0.39)] hover:shadow-[0_6px_20px_rgba(26,35,126,0.23)] transition-all duration-300 hover:-translate-y-0.5 group">
-                  Learn More About Our Founder
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                <Button className="relative overflow-hidden inline-flex items-center justify-center w-auto h-12 md:h-14 px-8 md:px-10 rounded-full bg-gradient-to-br from-[#1a237e] via-[#283593] to-[#3949ab] text-white text-sm md:text-base font-bold tracking-wide shadow-[0_20px_40px_-12px_rgba(26,35,126,0.4)] hover:shadow-[0_25px_50px_-12px_rgba(26,35,126,0.5)] transition-all duration-500 hover:-translate-y-1.5 hover:scale-[1.02] active:scale-[0.98] group border border-white/10">
+                  {/* Glass sheen highlight - top edge only */}
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                  
+                  <span className="relative z-10 whitespace-nowrap">Learn More About Our Founder</span>
+                  
+                  {/* Animated Arrow Wrap */}
+                  <div className="relative z-10 ml-3 h-5 w-5 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-[#1a237e] transition-all duration-300">
+                    <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:scale-110" />
+                  </div>
+                  
+                  {/* Modern sweeping light refraction shine */}
+                  <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                    <div className="absolute inset-y-0 w-24 bg-white/20 -skew-x-[45deg] animate-[shine_2s_infinite] blur-xl" style={{ left: '-50%' }} />
+                  </div>
                 </Button>
               </Link>
             </div>
@@ -126,6 +138,13 @@ export default function FounderSection() {
           </div>
         </div>
       </div>
+      
+      <style jsx>{`
+        @keyframes shine {
+          0% { left: -100%; }
+          100% { left: 200%; }
+        }
+      `}</style>
     </section>
   );
 }

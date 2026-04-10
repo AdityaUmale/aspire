@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Mail, Phone, Linkedin, Instagram, Facebook, Twitter, ArrowRight } from "lucide-react";
+import { MapPin, Mail, Phone, ArrowRight } from "lucide-react";
+import { FaLinkedinIn, FaInstagram, FaFacebookF, FaXTwitter } from "react-icons/fa6";
 
 export default function Footer() {
   return (
@@ -41,10 +42,10 @@ export default function Footer() {
             {/* Social Icons - Premium Glass Style */}
             <div className="flex items-center gap-4">
               {[
-                { icon: Linkedin, href: "https://www.linkedin.com/company/aspire-the-institute-of-human-development/" },
-                { icon: Instagram, href: "https://www.instagram.com/official_aspire_institute/" },
-                { icon: Facebook, href: "https://www.facebook.com/share/17VrNSbnhG/" },
-                { icon: Twitter, href: "https://x.com/AspireTIHD" }
+                { icon: FaLinkedinIn, href: "https://www.linkedin.com/company/aspire-the-institute-of-human-development/" },
+                { icon: FaInstagram, href: "https://www.instagram.com/official_aspire_institute/" },
+                { icon: FaFacebookF, href: "https://www.facebook.com/share/17VrNSbnhG/" },
+                { icon: FaXTwitter, href: "https://x.com/AspireTIHD" }
               ].map((Social, index) => (
                 <Link
                   key={index}

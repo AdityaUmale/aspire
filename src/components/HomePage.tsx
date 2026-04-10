@@ -173,17 +173,18 @@ export default function HomePage() {
               className="flex flex-row overflow-x-auto gap-4 lg:gap-5 pb-8 -mx-4 px-8 md:mx-0 md:px-0 scrollbar-hide snap-x"
             >
               {[
-                { title: "Leadership Development", tag: "For Professionals", description: "Develop essential leadership skills for the modern workplace and learn to inspire teams.", image: "/ldp.jpg", slug: "/courses/leadership-development", features: ["Strategic thinking", "Team management", "Decision making", "Conflict resolution"] },
-                { title: "Personality Development", tag: "For Everyone", description: "Build confidence and enhance your personal growth through comprehensive self-improvement.", image: "/pdc.jpg", slug: "/courses/personality-development", features: ["Self-confidence", "Communication skills", "Emotional intelligence", "Personal branding"] },
-                { title: "Public Speaking", tag: "For Everyone", description: "Master the art of effective communication and captivate any audience with your words.", image: "/public-speaking.jpg", slug: "/courses/public-speaking", features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"] },
-                { title: "English Language Training", tag: "For Adults & Students", description: "Enhance your English skills for better communication.", image: "/elt8.jpg", slug: "/courses/english-language-training", features: ["Vocabulary", "Pronunciation", "Fluency", "Confidence"] },
-                { title: "Summer Special Course For Kids", tag: "For Children", description: "Fun, structured programs that build confidence and curiosity in children.", icon: BookOpen, image: "/elt.jpg", slug: "/courses/childrens-learning-program", features: ["Creativity", "Learning Skills", "Teamwork", "Confidence"] },
-                { title: "Voice & Accent", tag: "For Professionals", description: "Improve your voice modulation and accent.", image: "/voice-and-accent.jpg", slug: "/courses/voice-and-accent", features: ["Clarity", "Tone", "Accent training", "Expression"] },
-                { title: "Entrepreneurship Development", tag: "For Entrepreneurs", description: "Build skills to start and grow your business.", image: "/edp-logo.jpg", slug: "/courses/entrepreneurship-development", features: ["Innovation", "Business planning", "Leadership", "Risk management"] },
-                { title: "Teachers Training Program", tag: "For Educators", description: "Empower educators with modern teaching methods.", image: "/teacher2.png", slug: "/courses/teachers-training-program", features: ["Pedagogy", "Classroom management", "Engagement", "Assessment"] },
-                { title: "ARISE Language and Thoughts Enrichment Camp", tag: "For Students", description: "A unique camp for personal growth.", image: "/arise-logo.jpg", slug: "/courses/arise-camp", features: ["Mindset", "Language Skills", "Critical Thinking", "Self-Expression"] },
-                { title: "International Workshop", tag: "For Global Learners", description: "Immersive global learning experiences that expand perspective and networks.", image: "/international.jpg", slug: "/courses/international-workshop", features: ["Cross-cultural skills", "Global trends", "Networking", "Innovation"] },
-                { title: "Interview Skills & Techniques", tag: "For Professionals & Students", description: "A powerful 10-day transformation program designed to help learners prepare for interviews and corporate interactions.", image: "/ist2.jpg", slug: "/courses/interview-skills-techniques", features: ["Interview Prep", "Group Discussion", "Mindset Shift", "Placement Readiness"] },
+                { title: "Leadership Development", tag: "For Professionals", description: "Lead people, not just projects, learn now", image: "/ldp.jpg", slug: "/courses/leadership-development", features: ["Strategic thinking", "Team management", "Decision making", "Conflict resolution"] },
+                { title: "Personality Development", tag: "For Everyone", description: "Unlock the best version of yourselves. It starts here", image: "/pdc.jpg", slug: "/courses/personality-development", features: ["Self-confidence", "Communication skills", "Emotional intelligence", "Personal branding"] },
+                { title: "Effective Public Speaking and Communication", tag: "For Everyone", description: "Communicate in a way that opens every door for you.", image: "/public-speaking.jpg", slug: "/courses/public-speaking", features: ["Speech preparation", "Delivery techniques", "Audience engagement", "Overcoming anxiety"] },
+                { title: "English Language Training", tag: "For Adults & Students", description: "Master Global English, own every room.", image: "/elt8.jpg", slug: "/courses/english-language-training", features: ["Vocabulary", "Pronunciation", "Fluency", "Confidence"] },
+                { title: "Voice & Accent", tag: "For Professionals", description: "Your voice is your identity, train it to lead.", image: "/voice-and-accent.jpg", slug: "/courses/voice-and-accent", features: ["Clarity", "Tone", "Accent training", "Expression"] },
+                { title: "Entrepreneurship Development", tag: "For Entrepreneurs", description: "Your Ideas deserve a plan. We help you build it.", image: "/edp-logo.jpg", slug: "/courses/entrepreneurship-development", features: ["Innovation", "Business planning", "Leadership", "Risk management"] },
+                { title: "Interview Skills & Techniques", tag: "For Professionals & Students", description: "Your Dream Job is one confident interview ahead.", image: "/ist2.jpg", slug: "/courses/interview-skills-techniques", features: ["Interview Prep", "Group Discussion", "Mindset Shift", "Placement Readiness"] },
+                { title: "ARISE Language and Thoughts Enrichment Camp", tag: "For Students", description: "One Camp. New Mindset. Lifelong impact where you rise", image: "/arise-logo.jpg", slug: "/courses/arise-camp", features: ["Mindset", "Language Skills", "Critical Thinking", "Self-Expression"] },
+                { title: "International Workshop", tag: "For Global Learners", description: "A global stage for your next big transformation.", image: "/international.jpg", slug: "/courses/international-workshop", features: ["Cross-cultural skills", "Global trends", "Networking", "Innovation"] },
+                { title: "Exclusive Workshops & Keynote Talks", tag: "For Professionals & Organisations", description: "Some transformations don't need months; they need the right two hours. High-impact sessions that cut straight to what matters.", image: "/workshop1.jpeg", slug: "/courses/workshops-keynote-talks", features: ["Mindset & Confidence", "Communication Mastery", "Leadership & Growth", "Customised Topics"] },
+                { title: "Summer Special Course For Kids", tag: "For Children", description: "Give them a summer that builds them for life.", image: "/elt.jpg", slug: "/courses/childrens-learning-program", features: ["Creativity", "Learning Skills", "Teamwork", "Confidence"] },
+                { title: "Teachers Training Program", tag: "For Educators", description: "Teach with purpose. Inspire with impact", image: "/teacher2.png", slug: "/courses/teachers-training-program", features: ["Pedagogy", "Classroom management", "Engagement", "Assessment"] },
               ].map((course, index) => (
                 <Link key={index} href={course.slug} legacyBehavior passHref>
                   <a className="group relative flex flex-col rounded-[1.5rem] bg-white border border-gray-200 shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.25)] hover:border-[#1a237e]/30 hover:-translate-y-2 block flex-shrink-0 w-[300px] sm:w-[340px] snap-start overflow-hidden h-[480px]">
@@ -304,8 +305,8 @@ export default function HomePage() {
                   {courses.map((course, index) => {
                     const programSlug = findProgramByCourseName(course.courseName)?.slug ?? null;
                     const courseSectionLabel = getCourseSectionLabel(course.section);
-                    const ctaHref = course.ctaMode === "ENQUIRE" ? "/#enquiry" : programSlug;
-                    const ctaLabel = course.ctaMode === "ENQUIRE" ? "Enquire Now" : "View Details";
+                    const ctaHref = "/#enquiry";
+                    const ctaLabel = "Enquire Now";
                     return (
                       <div key={index} className="group relative rounded-[1.5rem] bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200 transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.25)] hover:border-[#1a237e]/30 hover:-translate-y-2 w-[300px] sm:w-[340px] flex-shrink-0 flex flex-col h-[540px] snap-start overflow-hidden">
                         {/* Top Decorative Stripe */}
@@ -393,10 +394,38 @@ export default function HomePage() {
           </div>
         </section>
       </main>
-      <ArticlesSection />
+      {/* <ArticlesSection /> */}
       <FAQSection />
       <EnquiryForm />
       <Footer />
+
+      {/* Floating Action Button pointing to Upcoming Courses */}
+      <div className="fixed bottom-6 right-6 z-[90] md:bottom-8 md:right-8" style={{ animation: 'fab-entrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1s both' }}>
+        {/* Pulsing attention ring */}
+        <div className="absolute inset-0 rounded-full bg-[#1a237e]/10" style={{ animation: 'fab-pulse 3s ease-in-out infinite' }} />
+        
+        <button
+          onClick={() => {
+            const el = document.getElementById('upcoming-courses');
+            if (el) {
+              const y = el.getBoundingClientRect().top + window.scrollY - 100;
+              window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+          }}
+          className="group relative flex items-center gap-3 bg-white/60 backdrop-blur-xl border border-white/70 pl-4 pr-5 py-3 md:pl-5 md:pr-6 md:py-3.5 rounded-full shadow-[0_8px_32px_0_rgba(31,38,135,0.12)] hover:bg-white/80 hover:shadow-[0_12px_40px_0_rgba(26,35,126,0.18)] transition-all duration-500 hover:-translate-y-1 hover:scale-[1.03] cursor-pointer overflow-hidden"
+          aria-label="Scroll to Upcoming Courses"
+        >
+          {/* Glass sheen highlight */}
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-80 pointer-events-none" />
+
+          {/* Icon circle */}
+          <div className="flex items-center justify-center h-8 w-8 rounded-full bg-[#1a237e]/10 text-[#1a237e] group-hover:bg-[#1a237e] group-hover:text-white transition-all duration-300">
+            <Calendar className="h-4 w-4" />
+          </div>
+          <span className="font-semibold text-[13px] md:text-sm tracking-wide text-[#1a237e] whitespace-nowrap">Upcoming Batches</span>
+          <ArrowRight className="h-4 w-4 text-[#1a237e]/40 group-hover:text-[#1a237e] group-hover:translate-x-0.5 transition-all duration-300" />
+        </button>
+      </div>
 
       <style jsx global>{`
         .animate-on-scroll {
@@ -420,6 +449,16 @@ export default function HomePage() {
 
         .overflow-x-auto {
           scroll-behavior: smooth;
+        }
+
+        @keyframes fab-entrance {
+          0% { opacity: 0; transform: translateY(40px) scale(0.8); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes fab-pulse {
+          0%, 100% { transform: scale(1); opacity: 0.2; }
+          50% { transform: scale(1.25); opacity: 0; }
         }
       `}</style>
     </div>

@@ -93,27 +93,27 @@ export default function StudentArticlesPage() {
 
           {/* Clean Header */}
           <header className="mb-16">
-            <div className="flex items-center gap-2 mb-5">
-              <span className="h-px w-6 bg-gray-300"></span>
-              <span className="text-[11px] font-semibold tracking-[0.15em] text-gray-400 uppercase">Student Voices</span>
+            <div className="flex flex-wrap items-center gap-4 mb-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#e8eaf6] text-[#1a237e] text-[11px] font-bold uppercase tracking-wider">
+                <BookOpen className="h-3.5 w-3.5" />
+                Learners Article
+              </div>
+              <button
+                onClick={() => router.push('/publish-article')}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#1a237e]/10 hover:bg-[#1a237e]/5 text-[#1a237e] text-xs font-semibold transition-all group"
+              >
+                Publish your article
+                <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
+              </button>
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-[1.15] mb-4 tracking-tight">
-              Stories from Students
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-[1.15] mb-6 tracking-tight">
+              Authentic Articles by learners of Aspire
             </h1>
 
             <p className="text-lg text-gray-500 leading-relaxed font-normal max-w-lg">
-              Real experiences, thoughts, and reflections shared by the students of Aspire Institute.
+              Real journey, Real breakthroughs written by students who walked into Aspire Institute and walked out Transformed
             </p>
-
-            {/* Write your story CTA */}
-            <button
-              onClick={() => router.push('/publish-article')}
-              className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[#1a237e] hover:text-[#0d1642] transition-colors"
-            >
-              <BookOpen className="h-4 w-4" />
-              Share your story
-            </button>
           </header>
 
           {/* Error State */}

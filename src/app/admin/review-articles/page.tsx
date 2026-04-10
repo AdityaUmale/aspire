@@ -45,12 +45,12 @@ export default function ReviewArticlesPage() {
     setLoading(true);
     try {
       // Fetching ALL articles (published and unpublished) for review
-      const response = await fetch(`/api/student-article?page=${page}&limit=10`); 
-      
+      const response = await fetch(`/api/student-article?page=${page}&limit=10`);
+
       if (!response.ok) {
         throw new Error('Failed to fetch student articles');
       }
-      
+
       const data = await response.json();
       setArticles(data.articles);
       setPagination(data.pagination);
@@ -122,9 +122,9 @@ export default function ReviewArticlesPage() {
         <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2"></span>
         Student Submissions
       </div>
-      
+
       <h1 className="text-2xl lg:text-3xl font-bold text-[#1a237e] mb-6">Review Student Articles</h1>
-      
+
       {error && (
         <Alert variant="destructive" className="mb-6 bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
           <Terminal className="h-4 w-4" />
@@ -132,7 +132,7 @@ export default function ReviewArticlesPage() {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-      
+
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
           {[...Array(6)].map((_, index) => (
@@ -163,8 +163,8 @@ export default function ReviewArticlesPage() {
                 <CardHeader className="pb-2 p-4">
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
                     <CardTitle className="text-base lg:text-lg font-semibold text-[#1a237e]">{article.title}</CardTitle>
-                    <Badge 
-                      variant={article.reviewStatus === 'PUBLISHED' ? "default" : "secondary"} 
+                    <Badge
+                      variant={article.reviewStatus === 'PUBLISHED' ? "default" : "secondary"}
                       className={`text-xs ${getStatusClassName(article.reviewStatus)} self-start`}
                     >
                       {article.reviewStatus}
@@ -185,9 +185,9 @@ export default function ReviewArticlesPage() {
                   <p className="text-sm text-gray-600 line-clamp-3">{article.description}</p>
                 </CardContent>
                 <CardFooter className="grid grid-cols-1 gap-2 p-4 sm:grid-cols-2">
-                  <Button 
-                    variant="outline" 
-                    className="border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e] transition-all duration-300 flex items-center justify-center gap-2 text-sm" 
+                  <Button
+                    variant="outline"
+                    className="border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e] transition-all duration-300 flex items-center justify-center gap-2 text-sm"
                     onClick={() => router.push(`/admin/review-articles/${article._id}`)}
                   >
                     <BookOpen className="h-4 w-4" />
@@ -206,12 +206,12 @@ export default function ReviewArticlesPage() {
               </Card>
             ))}
           </div>
-          
+
           {/* Pagination Controls */}
           {pagination.pages > 1 && (
             <div className="flex flex-wrap justify-center mt-6 lg:mt-8 gap-2">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 disabled={pagination.page === 1}
                 onClick={() => handlePageChange(pagination.page - 1)}
                 className="border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e] text-sm"
@@ -225,16 +225,16 @@ export default function ReviewArticlesPage() {
                     key={pageNumber}
                     variant={pagination.page === pageNumber ? "default" : "outline"}
                     onClick={() => handlePageChange(pageNumber)}
-                    className={`text-sm ${pagination.page === pageNumber ? 
-                      "bg-gradient-to-r from-[#1a237e] to-[#3949ab] hover:from-[#0d1642] hover:to-[#1a237e] text-white" : 
+                    className={`text-sm ${pagination.page === pageNumber ?
+                      "bg-gradient-to-r from-[#1a237e] to-[#3949ab] hover:from-[#0d1642] hover:to-[#1a237e] text-white" :
                       "border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e]"}`}
                   >
                     {pageNumber}
                   </Button>
                 );
               })}
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 disabled={pagination.page === pagination.pages}
                 onClick={() => handlePageChange(pagination.page + 1)}
                 className="border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e] text-sm"

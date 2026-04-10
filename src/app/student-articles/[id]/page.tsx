@@ -171,7 +171,7 @@ export default function StudentArticleDetailPage() {
             className="inline-flex items-center gap-1.5 text-[13px] text-gray-400 hover:text-gray-600 transition-colors mb-10 group"
           >
             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
-            All student articles
+            All authentic articles
           </button>
 
           {/* Article Header */}

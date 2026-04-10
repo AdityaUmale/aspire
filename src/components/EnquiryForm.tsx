@@ -94,7 +94,7 @@ export default function EnquiryForm() {
             <div className="inline-flex items-center gap-3">
               <span className="h-[2px] w-8 bg-[#3949ab]/40 rounded-full" />
               <span className="text-sm font-bold tracking-[0.2em] text-[#1a237e] uppercase">
-                Contact Us
+                Connect with us
               </span>
             </div>
 
@@ -256,7 +256,7 @@ export default function EnquiryForm() {
                       </span>
                     ) : (
                       <span className="flex items-center">
-                        Send Enquiry
+                        Connect with us
                         <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                       </span>
                     )}

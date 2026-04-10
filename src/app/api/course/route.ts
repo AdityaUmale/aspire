@@ -64,6 +64,64 @@ export async function POST(req: NextRequest){
     }
 }
 
+export async function PATCH(req: NextRequest) {
+    try {
+        const auth = await requireAdmin(req);
+        if (!auth.ok) {
+            return auth.response;
+        }
+
+        await connectDB();
+        const { searchParams } = new URL(req.url);
+        const courseId = searchParams.get('id');
+
+        if (!courseId) {
+            return NextResponse.json({ error: "Course ID is required" }, { status: 400 });
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(courseId)) {
+            return NextResponse.json({ error: "Invalid course ID format" }, { status: 400 });
+        }
+
+        const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
+        const normalized = normalizeCoursePayload(body, {
+            requireDescriptionAndOutline: true,
+        });
+
+        if (!normalized.value) {
+            return NextResponse.json(
+                { error: normalized.errors.join(" ") || "Invalid course payload." },
+                { status: 400 }
+            );
+        }
+
+        const updatedCourse = await Course.findByIdAndUpdate(
+            courseId,
+            { $set: normalized.value },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedCourse) {
+            return NextResponse.json({ error: "Course not found" }, { status: 404 });
+        }
+
+        return NextResponse.json({ message: "Course updated successfully", course: updatedCourse }, { status: 200 });
+    } catch (error: unknown) {
+        console.error("Error updating course");
+
+        if (error && typeof error === 'object' && 'name' in error && error.name === 'ValidationError' && 'errors' in error) {
+            const errors: { [key: string]: string } = {};
+            const validationError = error as { errors: { [key: string]: { message: string } } };
+            for (const field in validationError.errors) {
+                errors[field] = validationError.errors[field].message;
+            }
+            return NextResponse.json({ error: "Validation failed", details: errors }, { status: 400 });
+        }
+
+        return NextResponse.json({ error: "Failed to update course" }, { status: 500 });
+    }
+}
+
 export async function DELETE(req: NextRequest) {
     try {
         const auth = await requireAdmin(req);

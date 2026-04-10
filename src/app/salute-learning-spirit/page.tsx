@@ -20,12 +20,13 @@ type SpiritStory = {
   image?: string;
   imagePosition?: string;
   imageScale?: string;
+  profession?: string;
 };
 
 const stories: SpiritStory[] = [
   {
     name: 'Smt. Shraddha Bhokare',
-    title: '79 years young | Salute Your Learning Spirit Award',
+    title: '79 years young ',
     headline: 'Learning has no age limit, and she proved it.',
     quote: 'Learning never retires and neither should our dreams.',
     story: [
@@ -34,10 +35,11 @@ const stories: SpiritStory[] = [
       'At our 17th Annual Function, she received the “We Salute Your Learning Spirit Award,” earning a heartfelt standing ovation for her courage and lifelong commitment to growth.',
     ],
     image: '/sls/Shradda.jpg',
+    profession: 'Former Professor',
   },
   {
     name: 'Shri Ramkrushna Gavhale',
-    title: '81 years | Income Tax Officer (Retd.)',
+    title: '81 years young',
     headline: 'Age is just a number; curiosity is forever.',
     quote: 'When the mind stays open, life keeps teaching.',
     story: [
@@ -47,10 +49,11 @@ const stories: SpiritStory[] = [
     ],
     image: '/sls/ramkrushn.jpg',
     imagePosition: 'object-[center_20%]',
+    profession: 'Income Tax Officer (retd.)',
   },
   {
     name: 'Smt. Ashwini Pathak',
-    title: '60+ | Accountant',
+    title: '60+ years young',
     headline: 'Before you expire, join Aspire.',
     quote: 'Growth belongs to anyone brave enough to begin again.',
     story: [
@@ -60,6 +63,7 @@ const stories: SpiritStory[] = [
     ],
     image: '/ashwini pathak.jpg',
     imagePosition: 'object-[center_10%]',
+    profession: 'Accounting professional',
   },
 ];
 
@@ -162,6 +166,11 @@ export default function SaluteLearningSpiritPage() {
                     <div className="text-xs font-bold uppercase tracking-widest text-[#1a237e] mt-1.5 bg-[#1a237e]/5 inline-block px-2 py-0.5 rounded-sm">
                       {story.title}
                     </div>
+                    {story.profession && (
+                      <div className="text-sm font-medium text-gray-600 mt-1">
+                        {story.profession}
+                      </div>
+                    )}
                   </div>
                 </div>
 

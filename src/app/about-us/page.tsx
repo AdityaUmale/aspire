@@ -32,7 +32,6 @@ const galleryImages: { src: string; caption: string; tall?: boolean }[] = [
   { src: '/gallery/Most innovative institute for human development training award.jpg.jpg', caption: 'Most Innovative Institute Award', tall: true },
   { src: '/gallery/Social Impact Award 2018.jpg.jpg', caption: 'Social Impact Award 2018' },
   { src: '/gallery/Nagpur Workshop.jpg.jpg', caption: 'Nagpur Workshop' },
-  { src: '/gallery/International workshop testimonial.jpg.jpg', caption: 'International Workshop Testimonial', tall: true },
   { src: "/gallery/State commisioner officer aspire institute's guest.jpg.jpg", caption: 'State Commissioner as Guest' },
   { src: '/gallery/Social Diwali.jpg.jpg', caption: 'Social Diwali Celebration' },
   { src: "/gallery/India's own University of life.jpg.jpg", caption: "India's Own University of Life", tall: true },
@@ -50,8 +49,6 @@ const campusImages: { src: string; caption: string }[] = [
   { src: '/gallery/campus/DSC_1361.jpg', caption: 'Learning Space' },
   { src: '/gallery/campus/DSC_1362.jpg', caption: 'Seminar Room' },
   { src: '/gallery/campus/DSC_1363.jpg', caption: 'Conference Area' },
-  { src: '/gallery/campus/DSC_1364.jpg', caption: 'Campus View' },
-  { src: '/gallery/campus/DSC_1365.jpg', caption: 'Study Corner' },
   { src: '/gallery/campus/DSC_1367.jpg', caption: 'Library Wing' },
   { src: '/gallery/campus/DSC_1369.jpg', caption: 'Open Space' },
   { src: '/gallery/campus/DSC_1372.jpg', caption: 'Lobby' },
@@ -67,18 +64,12 @@ const campusImages: { src: string; caption: string }[] = [
 ];
 
 const guestImages: { src: string; caption: string }[] = [
-  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.02.10 (1).jpeg', caption: 'Annual Function Special Guest' },
   { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.02.10 (2).jpeg', caption: 'Annual Function Special Guest' },
   { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.02.10 (3).jpeg', caption: 'Annual Function Special Guest' },
   { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.02.10.jpeg', caption: 'Annual Function Special Guest' },
   { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.02.11 (1).jpeg', caption: 'Annual Function Special Guest' },
-  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.02.11.jpeg', caption: 'Annual Function Special Guest' },
-  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.03.34 (1).jpeg', caption: 'Annual Function Special Guest' },
   { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.03.34 (2).jpeg', caption: 'Annual Function Special Guest' },
-  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.03.34 (3).jpeg', caption: 'Annual Function Special Guest' },
-  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.03.34.jpeg', caption: 'Annual Function Special Guest' },
   { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.03.35 (1).jpeg', caption: 'Annual Function Special Guest' },
-  { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.03.35.jpeg', caption: 'Annual Function Special Guest' },
   { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.03.36.jpeg', caption: 'Annual Function Special Guest' },
 ];
 
@@ -308,8 +299,8 @@ export default function AboutUsPage() {
 
               {[
                 { title: "Training Programs", items: ["Leadership Development", "Entrepreneurship Development", "Personality Development", "Public Speaking", "Teachers Training", "Interview Skills & Techniques"] },
-                { title: "Event Formats", items: ["Seminars & Keynotes", "Interactive Webinars", "Global Conferences", "Symposiums", "Residential Camps", "Hands-on Workshops"] },
-                { title: "Delivery Modes", items: ["Live Online Training", "In-Person Classroom", "Group Discussions", "Practical Assignments", "Lifetime Access"] },
+                { title: "Event Formats", items: ["Seminars & Keynotes", "Interactive Webinars", "Global Conferences", "Symposiums", "Residential Camps", "Hands-on Workshops", "Youth empowerment summit ‘YES’ Summit"] },
+                { title: "Delivery Modes", items: ["Live Online Training", "In-Person Classroom", "Group Discussions", "Practical Assignments", "Blended Learning"] },
               ].map((category, idx) => (
                 <div
                   key={idx}
@@ -357,17 +348,17 @@ export default function AboutUsPage() {
           </div>
 
           {/* Timeline Structure */}
-          <div className="max-w-5xl mx-auto relative">
+          <div className="max-w-7xl mx-auto relative">
             {/* Center Line (Hidden on mobile, visible on md) */}
             <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#1a237e]/0 via-[#1a237e]/20 to-[#1a237e]/0 -translate-x-1/2" />
 
             <div className="space-y-12 md:space-y-0 relative">
               {[
-                { title: "Best Institute for Creating Leaders", year: "2019", org: "World Education Summit", guests: ["Hon'ble Sayed Shahnawaz Hussain", "Hon'ble Tarun Chugh", "Hon'ble Navin Sinha", "Hon'ble Mugdha Godse"], image: "/Excellent institute of creating leaders & discovering the potential in student in india.jpg" },
-                { title: "Most Innovative Institute", year: "2019", org: "Human Development Awards", guests: ["Hon'ble Murli Manohar Joshi", "Hon'ble Adarsh Shastri", "Padma Shri Bajrang Punia", "Hon'ble Alok Mittal", "Hon'ble Gulshan Grover"], image: "/the most innovative istitute of human development training in india.jpg" },
-                { title: "Social Impact Award", year: "2018", org: "Pratigya Foundation", guests: ["Hon'ble Kiran Kher", "Hon'ble Shyam Jaju", "Hon'ble Laxmi Agarwal", "Hon'ble Namrata Goyal", "Hon'ble Poonam Dhillon", "Hon'ble Manoj Tiwari"], image: "/SOCIAL IMPACT AWARD 2018-19 FOR EMPOWERING SOCIETY THROUGH HUMAN DEVELOPMENT TRAINING PROGRAM.jpg" },
-                { title: "Best Institute in Maharashtra", year: "2018", org: "Education Excellence", guests: ["Padma Shri Sharmila Tagore", "Hon'ble Parshottam Rupala", "Hon'ble Dr. C. P. Thakur", "Hon'ble Anka Verma"], image: "/best institute of human development training in india.jpg" },
-                { title: "National Achievers Award", year: "2018", org: "Education Excellence", guests: ["Hon'ble Ram Niwas Goel", "Hon'ble Kanhaiya Lal Ganju", "Hon'ble Atishi Marlena"], image: "/NATIONAL ACHIEVERS AWARD FOR EDUCATION EXCELLENCE.jpg" }
+                { title: "Excellent Institute for Creating Leaders & Discovering Student Potential in India", year: "2019", org: "World Education Summit", guests: ["Hon'ble Sayed Shahnawaz Hussain", "Hon'ble Tarun Chugh", "Hon'ble Navin Sinha", "Hon'ble Mugdha Godse"], image: "/Excellent institute of creating leaders & discovering the potential in student in india.jpg" },
+                { title: "The Most Innovative Institute for Human Development Training in India", year: "2019", org: "Human Development Awards", guests: ["Hon'ble Murli Manohar Joshi", "Hon'ble Adarsh Shastri", "Padma Shri Bajrang Punia", "Hon'ble Alok Mittal", "Hon'ble Gulshan Grover"], image: "/the most innovative istitute of human development training in india.jpg" },
+                { title: "Social Impact Award 2018–19", year: "2018", org: "Pratigya Foundation", guests: ["Hon'ble Kiran Kher", "Hon'ble Shyam Jaju", "Hon'ble Laxmi Agarwal", "Hon'ble Namrata Goyal", "Hon'ble Poonam Dhillon", "Hon'ble Manoj Tiwari"], image: "/SOCIAL IMPACT AWARD 2018-19 FOR EMPOWERING SOCIETY THROUGH HUMAN DEVELOPMENT TRAINING PROGRAM.jpg" },
+                { title: "Best Institute for Human Development Training in Maharashtra", year: "2018", org: "Education Excellence", guests: ["Padma Shri Sharmila Tagore", "Hon'ble Parshottam Rupala", "Hon'ble Dr. C. P. Thakur", "Hon'ble Anka Verma"], image: "/best institute of human development training in india.jpg" },
+                { title: "National Achievers Award for Education Excellence", year: "2018", org: "Education Excellence", guests: ["Hon'ble Ram Niwas Goel", "Hon'ble Kanhaiya Lal Ganju", "Hon'ble Atishi Marlena"], image: "/NATIONAL ACHIEVERS AWARD FOR EDUCATION EXCELLENCE.jpg" }
               ].map((award, index) => (
                 <div key={index} className={`relative flex flex-col md:flex-row items-center justify-between ${index % 2 === 0 ? 'md:flex-row-reverse' : ''} group`}>
 
@@ -380,10 +371,25 @@ export default function AboutUsPage() {
                   <div className="hidden md:block md:w-[48%]" />
 
                   {/* Card Content — Compact Horizontal */}
-                  <div className="w-full md:w-[48%] bg-white rounded-[2rem] border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(26,35,126,0.12)] hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col sm:flex-row group/card">
+                  <div className="w-full md:w-[48%] bg-white rounded-[2rem] border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(26,35,126,0.12)] hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col sm:flex-row group/card md:min-h-[280px]">
 
-                    {/* Award Image — Left Side, Square */}
-                    <div className="relative h-44 w-full shrink-0 overflow-hidden bg-gray-100 sm:h-auto sm:w-32 md:w-36">
+                    {/* Award Image — Left Side with soft fade transition */}
+                    <div 
+                      className="relative h-44 w-full shrink-0 overflow-hidden sm:h-auto sm:w-32 md:w-86"
+                      style={{
+                        maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
+                        WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
+                      }}
+                    >
+                      {/* Responsive Desktop Fade override */}
+                      <style jsx>{`
+                        @media (min-width: 640px) {
+                          div {
+                            mask-image: linear-gradient(to right, black 50%, transparent 100%) !important;
+                            -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%) !important;
+                          }
+                        }
+                      `}</style>
                       <Image
                         src={award.image}
                         alt={award.title}
@@ -391,30 +397,30 @@ export default function AboutUsPage() {
                         className="object-cover group-hover/card:scale-105 transition-transform duration-700 ease-out"
                       />
                       {/* Year badge bottom of image */}
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1a237e]/80 to-transparent px-3 py-3">
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1a237e]/80 to-transparent px-3 py-3 z-10">
                         <span className="font-black text-xs text-white tracking-wider">{award.year}</span>
                       </div>
                     </div>
 
                     {/* Text Content — Right Side */}
-                      <div className="p-5 md:p-6 flex flex-col justify-between flex-1 min-w-0">
-                      <div>
+                    <div className="p-5 md:p-6 flex flex-col justify-between flex-1 min-w-0">
+                      <div className="min-h-[90px]">
                         <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[#3949ab] mb-2">{award.org}</p>
                         <h3 className="font-bold text-base text-gray-900 leading-snug group-hover/card:text-[#1a237e] transition-colors duration-300">
                           {award.title}
                         </h3>
                       </div>
 
-                        <div className="mt-4 pt-4 border-t border-gray-100">
-                          <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-2">Honoured By</p>
-                          <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
-                            {award.guests.map((guest, i) => (
-                              <span key={i} className="min-w-0 text-[10px] leading-tight font-semibold text-gray-600 bg-gray-50 px-2.5 py-1.5 rounded-2xl border border-gray-100 whitespace-normal break-words">
-                                {guest}
-                              </span>
-                            ))}
-                          </div>
+                      <div className="mt-4 pt-4 border-t border-gray-100">
+                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-2">Honoured By</p>
+                        <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+                          {award.guests.map((guest, i) => (
+                            <span key={i} className="min-w-0 text-[10px] leading-tight font-semibold text-gray-600 bg-gray-50 px-2.5 py-1.5 rounded-2xl border border-gray-100 whitespace-normal break-words">
+                              {guest}
+                            </span>
+                          ))}
                         </div>
+                      </div>
                     </div>
 
                   </div>

@@ -112,7 +112,7 @@ export default function Navbar() {
                         My Article Status
                       </DropdownLink>
                       <DropdownLink href="/student-articles" icon={FileText} onClick={() => setArticlesDropdown(false)}>
-                        Student Articles
+                        Authentic Articles
                       </DropdownLink>
                       <DropdownLink href="/articles" icon={FileText} onClick={() => setArticlesDropdown(false)}>
                         Founder&apos;s Articles
@@ -182,7 +182,7 @@ export default function Navbar() {
                       My Article Status
                     </MobileNavLink>
                     <MobileNavLink href="/student-articles" onClick={() => setIsOpen(false)} nested>
-                      Student Articles
+                      Authentic Articles
                     </MobileNavLink>
                     <MobileNavLink href="/articles" onClick={() => setIsOpen(false)} nested>
                       Founder&apos;s Articles
