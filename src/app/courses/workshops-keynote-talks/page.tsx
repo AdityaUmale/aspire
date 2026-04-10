@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import { Target, CheckCircle, ArrowRight, Award, Zap } from 'lucide-react';
+import { CheckCircle, ArrowRight, Award, Zap } from 'lucide-react';
 
 export default function WorkshopsKeynoteTalksPage() {
     const topics = [

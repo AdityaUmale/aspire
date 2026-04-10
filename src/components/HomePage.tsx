@@ -8,7 +8,6 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import FounderSection from "@/components/FounderSection";
 import {
-  BookOpen,
   ArrowRight,
   ArrowLeft,
   CheckCircle,
@@ -19,7 +18,6 @@ import { useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 import EnquiryForm from "@/components/EnquiryForm";
 import Footer from "@/components/Footer";
-import ArticlesSection from "@/components/ArticlesSection";
 import FAQSection from "@/components/FAQSection";
 import { findProgramByCourseName, getCourseSectionLabel } from "@/lib/course-config";
 
