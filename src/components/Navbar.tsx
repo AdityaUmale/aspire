@@ -39,7 +39,10 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 flex justify-center pointer-events-none pt-4 lg:pt-6 px-4 transition-all duration-500 ease-out">
+    <header 
+      style={{ viewTransitionName: "persistent-nav" }}
+      className="fixed top-0 inset-x-0 z-50 flex justify-center pointer-events-none pt-4 lg:pt-6 px-4 transition-all duration-500 ease-out"
+    >
       <div
         className={`
           w-full max-w-5xl pointer-events-auto transition-all duration-500

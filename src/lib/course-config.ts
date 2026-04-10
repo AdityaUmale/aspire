@@ -10,6 +10,7 @@ export interface ProgramCatalogEntry {
   description: string;
   features: string[];
   slug?: string;
+  image?: string;
   matchers: RegExp[];
 }
 
@@ -35,6 +36,7 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
       "Conflict resolution",
     ],
     slug: "/courses/leadership-development",
+    image: "/ldp.jpg",
     matchers: [/leadership development/i],
   },
   {
@@ -49,6 +51,7 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
       "Personal branding",
     ],
     slug: "/courses/personality-development",
+    image: "/pdc.jpg",
     matchers: [/personality development/i],
   },
   {
@@ -63,6 +66,7 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
       "Overcoming anxiety",
     ],
     slug: "/courses/public-speaking",
+    image: "/public-speaking.jpg",
     matchers: [/public speaking/i],
   },
   {
@@ -71,6 +75,7 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
     description: "Enhance your English skills for better communication.",
     features: ["Vocabulary", "Pronunciation", "Fluency", "Confidence"],
     slug: "/courses/english-language-training",
+    image: "/elt8.jpg",
     matchers: [/english language training/i, /\belt\b/i],
   },
   {
@@ -80,6 +85,7 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
       "Fun, structured programs that build confidence and curiosity in children.",
     features: ["Creativity", "Learning Skills", "Teamwork", "Confidence"],
     slug: "/courses/childrens-learning-program",
+    image: "/elt.jpg",
     matchers: [
       /summer special course for kids/i,
       /children'?s learning program/i,
@@ -92,6 +98,7 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
     description: "Improve your voice modulation and accent.",
     features: ["Clarity", "Tone", "Accent training", "Expression"],
     slug: "/courses/voice-and-accent",
+    image: "/voice-and-accent.jpg",
     matchers: [/voice\s*&\s*accent/i, /voice and accent/i],
   },
   {
@@ -105,6 +112,7 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
       "Risk management",
     ],
     slug: "/courses/entrepreneurship-development",
+    image: "/edp-logo.jpg",
     matchers: [/entrepreneurship development/i],
   },
   {
@@ -118,6 +126,7 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
       "Assessment",
     ],
     slug: "/courses/teachers-training-program",
+    image: "/teacher2.png",
     matchers: [/teachers? training/i],
   },
   {
@@ -131,6 +140,7 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
       "Self-Expression",
     ],
     slug: "/courses/arise-camp",
+    image: "/arise-logo.jpg",
     matchers: [/arise/i, /thought enrichment camp/i],
   },
   {
@@ -145,6 +155,7 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
       "Innovation",
     ],
     slug: "/courses/international-workshop",
+    image: "/international.jpg",
     matchers: [/international workshop/i],
   },
   {
@@ -159,6 +170,7 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
       "Placement Readiness",
     ],
     slug: "/courses/interview-skills-techniques",
+    image: "/ist2.jpg",
     matchers: [/interview skills/i, /interview skills\s*&\s*techniques/i],
   },
   {
@@ -173,6 +185,7 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
       "Customised Topics",
     ],
     slug: "/courses/workshops-keynote-talks",
+    image: "/workshop1.jpeg",
     matchers: [/exclusive workshops/i, /keynote talks/i, /workshop/i],
   },
 ];

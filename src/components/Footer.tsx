@@ -7,7 +7,7 @@ import { FaLinkedinIn, FaInstagram, FaFacebookF, FaXTwitter } from "react-icons/
 
 export default function Footer() {
   return (
-    <footer className="relative pt-20 pb-40 overflow-hidden z-10">
+    <footer style={{ viewTransitionName: "persistent-footer" }} className="relative pt-20 pb-40 overflow-hidden z-10">
 
       <div className="container relative z-10 px-6 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-16">

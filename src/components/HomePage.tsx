@@ -101,18 +101,18 @@ export default function HomePage() {
       {/* ────────────────────────────────────────────────
         GLOBAL GRADIENT BACKGROUND - fixed, spans entire page
        ──────────────────────────────────────────────── */}
-      <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
-        <div className="absolute top-[20%] right-[-10%] w-[350px] md:w-[500px] h-[350px] md:h-[500px] rounded-full bg-gradient-to-br from-[#7c4dff]/20 md:from-[#7c4dff]/25 via-[#536dfe]/15 md:via-[#536dfe]/20 to-transparent blur-[60px] md:blur-[80px]"></div>
-        <div className="absolute top-[55%] left-[-8%] w-[300px] md:w-[400px] h-[300px] md:h-[400px] rounded-full bg-gradient-to-tr from-[#448aff]/15 md:from-[#448aff]/20 via-[#7c4dff]/10 md:via-[#7c4dff]/15 to-transparent blur-[50px] md:blur-[60px]"></div>
-        <div className="absolute bottom-[10%] right-[5%] w-[250px] md:w-[350px] h-[250px] md:h-[350px] rounded-full bg-gradient-to-tl from-[#e040fb]/10 md:from-[#e040fb]/15 via-[#7c4dff]/10 md:via-[#7c4dff]/10 to-transparent blur-[40px] md:blur-[60px]"></div>
+      <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true" style={{ willChange: 'transform', transform: 'translateZ(0)' }}>
+        <div className="absolute top-[20%] right-[-10%] w-[350px] md:w-[500px] h-[350px] md:h-[500px] rounded-full bg-gradient-to-br from-[#7c4dff]/15 via-[#536dfe]/10 to-transparent blur-[80px]"></div>
+        <div className="absolute top-[55%] left-[-8%] w-[300px] md:w-[400px] h-[300px] md:h-[400px] rounded-full bg-gradient-to-tr from-[#448aff]/10 via-[#7c4dff]/8 to-transparent blur-[80px]"></div>
+        <div className="absolute bottom-[10%] right-[5%] w-[250px] md:w-[350px] h-[250px] md:h-[350px] rounded-full bg-gradient-to-tl from-[#e040fb]/8 via-[#7c4dff]/8 to-transparent blur-[80px]"></div>
       </div>
 
       <Navbar />
 
       {/* Global Grain Texture */}
       <div
-        className="fixed inset-0 opacity-[0.035] pointer-events-none z-50 mix-blend-multiply"
-        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
+        className="fixed inset-0 opacity-[0.025] pointer-events-none z-50"
+        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`, willChange: 'transform', transform: 'translateZ(0)' }}
       ></div>
 
       {/* Spacer for fixed navbar */}
@@ -303,14 +303,14 @@ export default function HomePage() {
                   className="flex flex-row overflow-x-auto gap-4 lg:gap-5 pb-8 -mx-4 px-8 md:mx-0 md:px-0 scrollbar-hide snap-x"
                 >
                   {courses.map((course, index) => {
-                    const programSlug = findProgramByCourseName(course.courseName)?.slug ?? null;
+                    const programEntry = findProgramByCourseName(course.courseName);
+                    const programSlug = programEntry?.slug ?? null;
                     const courseSectionLabel = getCourseSectionLabel(course.section);
                     const ctaHref = "/#enquiry";
-                    const ctaLabel = "Enquire Now";
                     return (
-                      <div key={index} className="group relative rounded-[1.5rem] bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200 transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.25)] hover:border-[#1a237e]/30 hover:-translate-y-2 w-[300px] sm:w-[340px] flex-shrink-0 flex flex-col h-[540px] snap-start overflow-hidden">
+                      <div key={index} className="group relative rounded-[1.5rem] bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200 transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.25)] hover:border-[#1a237e]/30 hover:-translate-y-2 w-[300px] sm:w-[340px] flex-shrink-0 flex flex-col snap-start overflow-hidden h-[540px]">
                         {/* Top Decorative Stripe */}
-                        <div className="h-1.5 w-full bg-gradient-to-r from-[#1a237e] to-[#3949ab]"></div>
+                        <div className="h-1.5 w-full bg-gradient-to-r from-[#1a237e] to-[#3949ab] flex-shrink-0"></div>
 
                         <div className="p-6 flex-1 flex flex-col">
                           <div className="relative flex flex-col items-start space-y-3 flex-1">
@@ -363,25 +363,27 @@ export default function HomePage() {
                           </div>
 
                           {/* Button Area */}
-                          <div className="mt-6">
-                            {ctaHref ? (
-                              <Link href={ctaHref}>
+                          <div className="mt-6 flex gap-2">
+                            <Link href={ctaHref} className={programSlug ? "flex-1" : "w-full"}>
+                              <Button
+                                className="w-full h-10 rounded-xl bg-[#1a237e] hover:bg-[#0d1642] text-white shadow-lg shadow-[#1a237e]/20 transition-all duration-300 text-sm font-medium hover:scale-[1.02]"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                Enquire Now
+                                <ArrowRight className="ml-2 h-4 w-4" />
+                              </Button>
+                            </Link>
+                            {programSlug && (
+                              <Link href={programSlug} className="flex-1">
                                 <Button
-                                  className="w-full h-12 rounded-xl bg-[#1a237e] hover:bg-[#0d1642] text-white shadow-lg shadow-[#1a237e]/20 transition-all duration-300 text-sm font-medium hover:scale-[1.02]"
+                                  variant="ghost"
+                                  className="w-full h-10 rounded-xl border border-gray-200 text-[#1a237e] hover:bg-[#1a237e] hover:text-white transition-all duration-300 text-sm font-medium group/btn"
                                   onClick={(e) => e.stopPropagation()}
                                 >
-                                  {ctaLabel}
-                                  <ArrowRight className="ml-2 h-4 w-4" />
+                                  View Program
+                                  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
                                 </Button>
                               </Link>
-                            ) : (
-                              <Button
-                                variant="secondary"
-                                className="w-full h-12 rounded-xl bg-gray-100 text-gray-400 cursor-not-allowed"
-                                disabled
-                              >
-                                Registration Closed
-                              </Button>
                             )}
                           </div>
                         </div>

@@ -14,6 +14,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Building2,
+  Heart,
+  PartyPopper,
   X
 } from 'lucide-react';
 
@@ -73,6 +75,36 @@ const guestImages: { src: string; caption: string }[] = [
   { src: '/gallery/annual-function-guests/WhatsApp Image 2026-03-21 at 17.03.36.jpeg', caption: 'Annual Function Special Guest' },
 ];
 
+const socialImages: { src: string; caption: string }[] = [
+  { src: '/social/WhatsApp Image 2026-04-07 at 19.29.17.jpeg', caption: 'Social Impact Initiative' },
+  { src: '/social/WhatsApp Image 2026-04-07 at 19.29.22.jpeg', caption: 'Community Outreach' },
+  { src: '/social/WhatsApp Image 2026-04-07 at 19.29.23.jpeg', caption: 'Giving Back' },
+  { src: '/social/WhatsApp Image 2026-04-07 at 19.29.24.jpeg', caption: 'Social Responsibility' },
+  { src: '/social/WhatsApp Image 2026-04-07 at 19.29.25.jpeg', caption: 'Community Engagement' },
+  { src: '/social/ascdasdasd.jpeg', caption: 'Social Initiative' },
+  { src: '/social/eberf.jpeg', caption: 'Societal Contribution' },
+  { src: '/social/qwdq.jpeg', caption: 'Aspire Gives Back' },
+  { src: '/social/wdqw.jpeg', caption: 'Impacting Communities' },
+];
+
+const publicEventImages: { src: string; caption: string }[] = [
+  { src: '/public events/DSC_0072.jpg', caption: 'Public Event Highlights' },
+  { src: '/public events/DSC_0136.jpg', caption: 'Event Address' },
+  { src: '/public events/DSC_0144.jpg', caption: 'Event Celebration' },
+  { src: '/public events/IMG_0258.jpg', caption: 'Event Gathering' },
+  { src: '/public events/IMG_0265.jpg', caption: 'Public Programme' },
+  { src: '/public events/IMG_0266.jpg', caption: 'Event Moments' },
+  { src: '/public events/IMG_0460.jpg', caption: 'Event Activity' },
+  { src: '/public events/IMG_0475.jpg', caption: 'Event Interaction' },
+  { src: '/public events/WhatsApp Image 2026-04-03 at 16.07.41.jpeg', caption: 'Public Gathering' },
+  { src: '/public events/WhatsApp Image 2026-04-03 at 16.07.45.jpeg', caption: 'Community Event' },
+  { src: '/public events/WhatsApp Image 2026-04-03 at 16.07.46.jpeg', caption: 'Event Highlight' },
+  { src: '/public events/WhatsApp Image 2026-04-03 at 16.07.47.jpeg', caption: 'Event Participation' },
+  { src: '/public events/_DSC5365.jpg', caption: 'Grand Stage' },
+  { src: '/public events/_DSC5418.jpg', caption: 'Keynote Address' },
+  { src: '/public events/_DSC5491.jpg', caption: 'Event Assembly' },
+];
+
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   visible: (i: number) => ({
@@ -85,7 +117,9 @@ const fadeUp = {
 export default function AboutUsPage() {
   const campusScrollRef = useRef<HTMLDivElement>(null);
   const guestScrollRef = useRef<HTMLDivElement>(null);
-  const [selectedImage, setSelectedImage] = useState<{ index: number; type: 'gallery' | 'campus' | 'guests' } | null>(null);
+  const socialScrollRef = useRef<HTMLDivElement>(null);
+  const publicEventsScrollRef = useRef<HTMLDivElement>(null);
+  const [selectedImage, setSelectedImage] = useState<{ index: number; type: 'gallery' | 'campus' | 'guests' | 'social' | 'events' } | null>(null);
 
   const scrollCampus = (direction: 'left' | 'right') => {
     if (!campusScrollRef.current) return;
@@ -105,7 +139,25 @@ export default function AboutUsPage() {
     });
   };
 
-  const openLightbox = (index: number, type: 'gallery' | 'campus' | 'guests') => {
+  const scrollSocial = (direction: 'left' | 'right') => {
+    if (!socialScrollRef.current) return;
+    const amount = socialScrollRef.current.clientWidth * 0.8;
+    socialScrollRef.current.scrollBy({
+      left: direction === 'left' ? -amount : amount,
+      behavior: 'smooth',
+    });
+  };
+
+  const scrollPublicEvents = (direction: 'left' | 'right') => {
+    if (!publicEventsScrollRef.current) return;
+    const amount = publicEventsScrollRef.current.clientWidth * 0.8;
+    publicEventsScrollRef.current.scrollBy({
+      left: direction === 'left' ? -amount : amount,
+      behavior: 'smooth',
+    });
+  };
+
+  const openLightbox = (index: number, type: 'gallery' | 'campus' | 'guests' | 'social' | 'events') => {
     setSelectedImage({ index, type });
     document.body.style.overflow = 'hidden';
   };
@@ -118,7 +170,7 @@ export default function AboutUsPage() {
   const navigateLightbox = useCallback((direction: 'next' | 'prev') => {
     if (!selectedImage) return;
     const { index, type } = selectedImage;
-    const list = type === 'gallery' ? galleryImages : (type === 'campus' ? campusImages : guestImages);
+    const list = getImageList(type);
     let newIndex = direction === 'next' ? index + 1 : index - 1;
 
     if (newIndex >= list.length) newIndex = 0;
@@ -138,8 +190,18 @@ export default function AboutUsPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedImage, closeLightbox, navigateLightbox]);
 
-  const currentImageData = selectedImage 
-    ? (selectedImage.type === 'gallery' ? galleryImages[selectedImage.index] : (selectedImage.type === 'campus' ? campusImages[selectedImage.index] : guestImages[selectedImage.index]))
+  const getImageList = (type: 'gallery' | 'campus' | 'guests' | 'social' | 'events') => {
+    switch (type) {
+      case 'gallery': return galleryImages;
+      case 'campus': return campusImages;
+      case 'social': return socialImages;
+      case 'events': return publicEventImages;
+      case 'guests': return guestImages;
+    }
+  };
+
+  const currentImageData = selectedImage
+    ? getImageList(selectedImage.type)[selectedImage.index]
     : null;
 
   return (
@@ -691,6 +753,192 @@ export default function AboutUsPage() {
       </section>
 
       {/* ════════════════════════════════════════════════
+          SOCIAL IMPACT — Our Social Initiatives
+         ════════════════════════════════════════════════ */}
+      <section className="py-24 md:py-32 relative z-10 overflow-hidden" id="social-impact">
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+
+          {/* Section Header */}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-3 mb-6">
+                <span className="h-px w-8 bg-[#1a237e]/20"></span>
+                <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Social Impact</span>
+              </div>
+              <div className="flex items-start gap-6">
+                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">06</span>
+                <div>
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
+                    Beyond the <span className="text-[#1a237e]">Classroom</span>
+                  </h2>
+                  <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
+                    At Aspire, impact extends beyond academic growth. We actively contribute to communities, champion social causes, and inspire learners to give back.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Scroll Controls */}
+            <div className="flex items-center gap-3 shrink-0">
+              <button
+                onClick={() => scrollSocial('left')}
+                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={() => scrollSocial('right')}
+                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Horizontal Carousel */}
+          <div
+            ref={socialScrollRef}
+            className="flex gap-4 md:gap-5 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {socialImages.map((img, i) => (
+              <motion.div
+                key={i}
+                custom={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-20px' }}
+                variants={fadeUp}
+                className="snap-start shrink-0 w-[85vw] sm:w-[60vw] md:w-[40vw] lg:w-[30vw]"
+                onClick={() => openLightbox(i, 'social')}
+              >
+                <div className="group relative overflow-hidden rounded-2xl md:rounded-[1.5rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 cursor-zoom-in">
+                  {/* Glass sheen */}
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
+
+                  <div className="relative w-full aspect-[4/3] overflow-hidden">
+                    <Image
+                      src={img.src}
+                      alt={img.caption}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                      sizes="(max-width: 640px) 85vw, (max-width: 1024px) 40vw, 30vw"
+                    />
+
+                    {/* Bottom vignette */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/70 via-transparent to-transparent z-10"></div>
+
+                    {/* Caption */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-20">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Heart className="h-3 w-3 text-white/70" />
+                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Social Impact</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════
+          PUBLIC EVENTS — Our Public Events
+         ════════════════════════════════════════════════ */}
+      <section className="py-24 md:py-32 relative z-10 overflow-hidden" id="public-events">
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+
+          {/* Section Header */}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-3 mb-6">
+                <span className="h-px w-8 bg-[#1a237e]/20"></span>
+                <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Public Events</span>
+              </div>
+              <div className="flex items-start gap-6">
+                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">07</span>
+                <div>
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
+                    Public <span className="text-[#1a237e]">Events</span>
+                  </h2>
+                  <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
+                    Grand gatherings, keynote sessions, and community celebrations, moments where Aspire&apos;s vision comes alive on the public stage.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Scroll Controls */}
+            <div className="flex items-center gap-3 shrink-0">
+              <button
+                onClick={() => scrollPublicEvents('left')}
+                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={() => scrollPublicEvents('right')}
+                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Horizontal Carousel */}
+          <div
+            ref={publicEventsScrollRef}
+            className="flex gap-4 md:gap-5 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {publicEventImages.map((img, i) => (
+              <motion.div
+                key={i}
+                custom={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-20px' }}
+                variants={fadeUp}
+                className="snap-start shrink-0 w-[85vw] sm:w-[60vw] md:w-[40vw] lg:w-[30vw]"
+                onClick={() => openLightbox(i, 'events')}
+              >
+                <div className="group relative overflow-hidden rounded-2xl md:rounded-[1.5rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 cursor-zoom-in">
+                  {/* Glass sheen */}
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
+
+                  <div className="relative w-full aspect-[4/3] overflow-hidden">
+                    <Image
+                      src={img.src}
+                      alt={img.caption}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                      sizes="(max-width: 640px) 85vw, (max-width: 1024px) 40vw, 30vw"
+                    />
+
+                    {/* Bottom vignette */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/70 via-transparent to-transparent z-10"></div>
+
+                    {/* Caption */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-20">
+                      <div className="flex items-center gap-2 mb-1">
+                        <PartyPopper className="h-3 w-3 text-white/70" />
+                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Public Event</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════
           WHY CHOOSE ASPIRE — Clean editorial CTA
          ════════════════════════════════════════════════ */}
       <section className="py-24 relative z-10 border-t border-gray-100">
@@ -796,12 +1044,12 @@ export default function AboutUsPage() {
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <span className="h-px w-6 bg-[#1a237e]/10"></span>
                   <span className="text-[#1a237e]/60 font-medium tracking-[0.2em] text-[10px] uppercase">
-                    {selectedImage.type === 'gallery' ? 'Aspire Gallery' : (selectedImage.type === 'campus' ? 'Aspire Campus' : 'Special Guests')}
+                    {selectedImage.type === 'gallery' ? 'Aspire Gallery' : selectedImage.type === 'campus' ? 'Aspire Campus' : selectedImage.type === 'social' ? 'Social Impact' : selectedImage.type === 'events' ? 'Public Events' : 'Special Guests'}
                   </span>
                   <span className="h-px w-6 bg-[#1a237e]/10"></span>
                 </div>
                 <p className="text-white/40 text-[11px] font-bold tracking-widest uppercase">
-                  Image {selectedImage.index + 1} of {(selectedImage.type === 'gallery' ? galleryImages : (selectedImage.type === 'campus' ? campusImages : guestImages)).length}
+                  Image {selectedImage.index + 1} of {getImageList(selectedImage.type).length}
                 </p>
               </div>
             </motion.div>

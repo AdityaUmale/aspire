@@ -13,6 +13,9 @@ const contentSecurityPolicyReportOnly = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  experimental: {
+    viewTransition: true,
+  },
   images: {
     remotePatterns: [
       {
