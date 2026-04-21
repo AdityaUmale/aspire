@@ -10,9 +10,9 @@ import { useEffect, useState, useCallback } from "react";
 const CAMPUS_IMAGES = [
   { src: '/carousel/12x18 == ok print.jpg', alt: 'Aspire Institute' },
   { src: '/carousel/DSC_1355.jpg', alt: 'Aspire Institute' },
-  { src: '/carousel/DSC_1397.jpg', alt: 'Aspire Institute' },
   { src: '/carousel/ac1.jpg', alt: 'Aspire Institute' },
-  { src: '/carousel/elt.jpg', alt: 'Aspire Institute' },
+  { src: '/carousel/ac2.jpg', alt: 'Aspire Institute' },
+  { src: '/carousel/arise-logo.jpg', alt: 'Aspire Institute' },
   { src: '/carousel/ist2.jpg', alt: 'Aspire Institute' },
 ];
 
