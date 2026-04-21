@@ -19,6 +19,7 @@ import { format } from "date-fns";
 import EnquiryForm from "@/components/EnquiryForm";
 import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
+import SocialPostsSection from "@/components/SocialPostsSection";
 import { findProgramByCourseName, getCourseSectionLabel } from "@/lib/course-config";
 
 interface Course {
@@ -396,6 +397,7 @@ export default function HomePage() {
       </main>
       {/* <ArticlesSection /> */}
       <FAQSection />
+      <SocialPostsSection />
       <EnquiryForm />
       <Footer />
 
