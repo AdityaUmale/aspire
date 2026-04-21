@@ -62,7 +62,7 @@ export default function WorkshopsKeynoteTalksPage() {
                                     Exclusive Workshops & Keynote Talks
                                 </h1>
                                 <p className="text-lg md:text-xl text-[#c5cae9] mb-8 leading-relaxed max-w-lg mx-auto md:mx-0">
-                                    Some transformations don&apos;t need months; they need the right two hours. Aspire&apos;s workshops are built to move you, challenge you, and leave you changed.
+                                    Because the right two hours can rewrite the next twenty years. Aspire&apos;s workshops are built to move you, challenge you, and leave you changed.
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                                     <Link href="/#enquiry">
@@ -133,7 +133,7 @@ export default function WorkshopsKeynoteTalksPage() {
                             </h2>
                             <div className="prose prose-lg text-gray-700 leading-relaxed">
                                 <p className="mb-6">
-                                    Some transformations don&apos;t need months; they need the right two hours. Aspire&apos;s workshops and talks are designed for exactly that: high-impact, focused sessions that cut straight to what matters.
+                                    Because the right two hours can rewrite the next twenty years. Aspire&apos;s workshops and talks are designed for exactly that: high-impact, focused sessions that cut straight to what matters.
                                 </p>
                                 <p className="mb-6">
                                     Whether you&apos;re a student stepping into the world, a professional looking to sharpen your edge, or an organisation ready to invest in its people, our sessions are built to move you, challenge you, and leave you with something you&apos;ll carry long after you walk out the door.

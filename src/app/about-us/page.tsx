@@ -105,6 +105,22 @@ const publicEventImages: { src: string; caption: string }[] = [
   { src: '/public events/_DSC5491.jpg', caption: 'Event Assembly' },
 ];
 
+const globalAspireImages: { src: string; caption: string }[] = [
+  { src: '/global-aspire/DSC03099.jpg', caption: 'Global Impact' },
+  { src: '/global-aspire/IMG_0460.jpg', caption: 'Global Impact' },
+  { src: '/global-aspire/IMG_0467.jpg', caption: 'Global Impact' },
+  { src: '/global-aspire/IMG_6678.jpg', caption: 'Global Impact' },
+  { src: '/global-aspire/IMG_6685.jpg', caption: 'Global Impact' },
+  { src: '/global-aspire/PHOTO-2026-04-03-16-01-03.jpg', caption: 'Global Impact' },
+  { src: '/global-aspire/WhatsApp Image 2026-04-03 at 16.07.40.jpeg', caption: 'Global Impact' },
+  { src: '/global-aspire/WhatsApp Image 2026-04-03 at 16.07.41.jpeg', caption: 'Global Impact' },
+  { src: '/global-aspire/WhatsApp Image 2026-04-03 at 16.07.42.jpeg', caption: 'Global Impact' },
+  { src: '/global-aspire/WhatsApp Image 2026-04-03 at 16.07.43.jpeg', caption: 'Global Impact' },
+  { src: '/global-aspire/WhatsApp Image 2026-04-03 at 16.07.44.jpeg', caption: 'Global Impact' },
+  { src: '/global-aspire/WhatsApp Image 2026-04-03 at 16.07.45.jpeg', caption: 'Global Impact' },
+  { src: '/global-aspire/WhatsApp Image 2026-04-0ascas3 at 16.07.45.jpeg', caption: 'Global Impact' },
+];
+
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   visible: (i: number) => ({
@@ -119,7 +135,8 @@ export default function AboutUsPage() {
   const guestScrollRef = useRef<HTMLDivElement>(null);
   const socialScrollRef = useRef<HTMLDivElement>(null);
   const publicEventsScrollRef = useRef<HTMLDivElement>(null);
-  const [selectedImage, setSelectedImage] = useState<{ index: number; type: 'gallery' | 'campus' | 'guests' | 'social' | 'events' } | null>(null);
+  const globalAspireScrollRef = useRef<HTMLDivElement>(null);
+  const [selectedImage, setSelectedImage] = useState<{ index: number; type: 'gallery' | 'campus' | 'guests' | 'social' | 'events' | 'global' } | null>(null);
 
   const scrollCampus = (direction: 'left' | 'right') => {
     if (!campusScrollRef.current) return;
@@ -157,7 +174,16 @@ export default function AboutUsPage() {
     });
   };
 
-  const openLightbox = (index: number, type: 'gallery' | 'campus' | 'guests' | 'social' | 'events') => {
+  const scrollGlobalAspire = (direction: 'left' | 'right') => {
+    if (!globalAspireScrollRef.current) return;
+    const amount = globalAspireScrollRef.current.clientWidth * 0.8;
+    globalAspireScrollRef.current.scrollBy({
+      left: direction === 'left' ? -amount : amount,
+      behavior: 'smooth',
+    });
+  };
+
+  const openLightbox = (index: number, type: 'gallery' | 'campus' | 'guests' | 'social' | 'events' | 'global') => {
     setSelectedImage({ index, type });
     document.body.style.overflow = 'hidden';
   };
@@ -190,13 +216,14 @@ export default function AboutUsPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedImage, closeLightbox, navigateLightbox]);
 
-  const getImageList = (type: 'gallery' | 'campus' | 'guests' | 'social' | 'events') => {
+  const getImageList = (type: 'gallery' | 'campus' | 'guests' | 'social' | 'events' | 'global') => {
     switch (type) {
       case 'gallery': return galleryImages;
       case 'campus': return campusImages;
       case 'social': return socialImages;
       case 'events': return publicEventImages;
       case 'guests': return guestImages;
+      case 'global': return globalAspireImages;
     }
   };
 
@@ -239,36 +266,33 @@ export default function AboutUsPage() {
               We are India&apos;s premier institute for personal and professional development, dedicated to the belief that every individual holds the power to transform.
             </p>
 
-            {/* Unique Architectural Stats Grid */}
-            <div className="max-w-6xl mx-auto">
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-8 md:gap-x-16 text-center md:text-left">
-                {[
-                  { label: "Active Learners", value: "150K+", sub: "Across India" },
-                  { label: "Global Reach", value: "3M+", sub: "Digital Footprint" },
-                  { label: "Years Legacy", value: "15+", sub: "Since 2009" },
-                  { label: "Programs", value: "5000+", sub: "Success Stories" },
-                ].map((stat, index) => (
-                  <div key={index} className="group relative pt-10">
-                    {/* Minimalist Top Accent */}
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 w-[80%] md:w-full h-[1px] bg-gray-100 group-hover:bg-[#1a237e]/20 transition-colors duration-500">
-                      <div className="absolute top-0 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 w-8 h-[2px] bg-[#1a237e] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center md:origin-left"></div>
-                    </div>
-
-                    <div className="space-y-1 text-center md:text-left">
-                      <h3 className="font-black text-4xl md:text-5xl text-[#1a237e] tracking-tighter group-hover:-translate-y-1 transition-transform duration-500">
-                        {stat.value}
-                      </h3>
-                      <div>
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0f1337] mb-1">
-                          {stat.label}
-                        </p>
-                        <p className="text-[10px] font-medium text-gray-400 italic">
-                          {stat.sub}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+            {/* Impact Stats Strip */}
+            <div className="max-w-7xl mx-auto pt-8">
+              <div className="space-y-12 md:space-y-16">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8 border-b border-[#1a237e]/5 pb-12">
+                  {[
+                    { value: "17+", label: "Years of Impact" },
+                    { value: "1.7 L+", label: "Learners" },
+                    { value: "5,000+", label: "Workshops" },
+                    { value: "15+", label: "Countries" },
+                    { value: "20+", label: "Indian States" },
+                    { value: "65+", label: "Training Programs" },
+                  ].map((stat, i) => (
+                    <StatItem key={i} value={stat.value} label={stat.label} isLast={i === 5} />
+                  ))}
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8">
+                  {[
+                    { value: "55+", label: "Collaborations with colleges and companies" },
+                    { value: "21+", label: "Residential Camp" },
+                    { value: "25+", label: "International Conferences" },
+                    { value: "300+", label: "International Learners" },
+                    { value: "10,000+", label: "Annual Learners Footfalls" },
+                    { value: "10+", label: "Foreign University Partnerships" },
+                  ].map((stat, i) => (
+                    <StatItem key={i} value={stat.value} label={stat.label} isLast={i === 5} />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -436,7 +460,7 @@ export default function AboutUsPage() {
                   <div className="w-full md:w-[48%] bg-white rounded-[2rem] border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(26,35,126,0.12)] hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col sm:flex-row group/card md:min-h-[280px]">
 
                     {/* Award Image — Left Side with soft fade transition */}
-                    <div 
+                    <div
                       className="relative h-44 w-full shrink-0 overflow-hidden sm:h-auto sm:w-32 md:w-86"
                       style={{
                         maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
@@ -494,6 +518,238 @@ export default function AboutUsPage() {
         </div>
       </section>
       {/* ════════════════════════════════════════════════
+          GLOBAL ASPIRE
+         ════════════════════════════════════════════════ */}
+      <section className="py-24 md:py-32 relative z-10 overflow-hidden" id="global-aspire">
+        {/* Subtle Globe Background */}
+        <div className="absolute inset-0 bg-[url('/globe.svg')] bg-no-repeat bg-[center_right_-20%] lg:bg-[center_right] opacity-[0.03] pointer-events-none"></div>
+
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">
+
+          {/* Section 1: Intro (Sticky left, right text + images) */}
+          <div className="grid lg:grid-cols-12 gap-16 lg:gap-20 items-start">
+
+            {/* Left Column - Sticky */}
+            <div className="lg:col-span-5 lg:sticky lg:top-32">
+              <div className="inline-flex items-center gap-3 mb-6">
+                <span className="h-px w-8 bg-[#1a237e]/20"></span>
+                <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Global Aspire</span>
+              </div>
+
+              <div className="flex items-start gap-6 mb-8">
+                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0 -mt-2">03</span>
+                <div>
+                  <h2 className="text-4xl md:text-5xl lg:text-[2.75rem] font-bold text-[#0f1337] leading-tight tracking-tight">
+                    Aspire Goes <span className="text-[#1a237e]">Global</span>
+                  </h2>
+                </div>
+              </div>
+
+              <blockquote className="border-l-4 border-[#3949ab] pl-6 italic text-gray-700 text-xl md:text-2xl font-light mb-8 leading-snug">
+                &quot;Travel far enough, and you meet yourself.&quot;
+              </blockquote>
+
+              <div className="prose prose-lg text-gray-500 font-light leading-relaxed">
+                <p className="mb-6">
+                  That has always been our belief. That the world is not just a geography to be visited - it is a mirror to be held up. Every country we have walked into, every university we have sat inside, every stage we have stood on across continents has taught us one thing above all else: the hunger to grow is the most universal human language there is.
+                </p>
+                <p>
+                  Aspire has never been just an institute. It has been a movement. And like all movements that matter - it refused to stay within borders.
+                </p>
+              </div>
+            </div>
+
+            {/* Right Column - Scrollable Content */}
+            <div className="lg:col-span-7">
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold text-[#0f1337]">The World Through Aspire&apos;s Lens</h3>
+                <p className="text-gray-500 text-lg leading-relaxed font-light">
+                  We did not go global to collect stamps on a passport. We went global because we believed our learners deserved to see themselves reflected in the world&apos;s best - and to know, without a doubt, that they belong there.
+                </p>
+                <p className="text-gray-500 text-lg leading-relaxed font-light">
+                  From the lecture halls of Singapore to the corridors of Malaysia, from the energy of Dubai to the ancient wisdom of Vietnam&apos;s oldest universities - Aspire has carried one message across every timezone: you are capable of more than you have been told.
+                </p>
+
+                {/* Embedded Gallery Block 1 */}
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 pt-6">
+                  {globalAspireImages.slice(0, 3).map((img, i) => (
+                    <motion.div
+                      key={i}
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true, margin: '-20px' }}
+                      variants={fadeUp}
+                      custom={i}
+                    >
+                      <div
+                        className="group relative overflow-hidden rounded-2xl bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 aspect-square cursor-zoom-in"
+                        onClick={() => openLightbox(i, 'global')}
+                      >
+                        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
+                        <Image src={img.src} alt={img.caption} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/70 via-transparent to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 2: Every Country. One Mission. (Full Width) */}
+          <div className="mt-20 md:mt-32">
+            <div className="max-w-4xl mx-auto text-center mb-16">
+              <h3 className="text-3xl md:text-5xl font-bold text-[#1a237e] mb-6 tracking-tight">Every Country. One Mission.</h3>
+              <p className="text-gray-500 text-lg md:text-xl leading-relaxed font-light">
+                Each institution on this list is not just a destination. It is a chapter in a story about what happens when an institute from the heart of India dares to believe it has something the world needs to hear.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+              {[
+                { name: "Singapore Management University", loc: "Singapore", year: "2013" },
+                { name: "The National University of Singapore", loc: "Singapore", year: "2014" },
+                { name: "Bangkok Christian College", loc: "Thailand", year: "2015" },
+                { name: "Universiti Kuala Lumpur", loc: "Malaysia", year: "2016" },
+                { name: "University of Dubai", loc: "UAE", year: "2017" },
+                { name: "Qatar Foundation", loc: "Qatar", year: "2018" },
+                { name: "International College of Ho Chi Minh City", loc: "Vietnam", year: "2023" },
+                { name: "IVI - Universiti Kebangsaan Malaysia (UKM)", loc: "Malaysia", year: "2024" },
+                { name: "Hanoi University of Science, VNU HUS", loc: "Vietnam", year: "2025" },
+              ].map((inst, i) => (
+                <div key={i} className="group relative bg-white/40 backdrop-blur-md rounded-3xl p-5 lg:p-6 border border-white/60 shadow-[0_4px_24px_rgba(26,35,126,0.03)] hover:shadow-[0_12px_40px_rgba(26,35,126,0.08)] hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col justify-between">
+                  <div className="text-[4.5rem] font-black absolute right-1 -bottom-2 text-[#1a237e]/5 leading-none transition-transform duration-500 group-hover:scale-110 select-none pointer-events-none">
+                    &apos;{inst.year.slice(2)}
+                  </div>
+                  <div className="relative z-10 flex flex-col h-full">
+                    <div>
+                      <span className="inline-block px-3 py-1 bg-[#1a237e]/5 text-[#1a237e] font-bold text-xs tracking-widest uppercase rounded-full mb-4">{inst.year}</span>
+                      <h4 className="font-bold text-[#0f1337] text-lg leading-tight mb-1 group-hover:text-[#1a237e] transition-colors">{inst.name}</h4>
+                      <p className="text-gray-500 text-sm font-medium mb-3">{inst.loc}</p>
+                    </div>
+
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Section 3: Narratives & Stories (Alternating Grid) */}
+          <div className="mt-24 md:mt-32 space-y-24 md:space-y-36">
+
+            {/* Story 1 */}
+            <div className="grid md:grid-cols-12 gap-10 md:gap-16 items-center">
+              <div className="md:col-span-6 lg:col-span-5">
+                <h3 className="text-3xl md:text-4xl font-bold text-[#0f1337] mb-6 tracking-tight">When the World Listened</h3>
+                <p className="text-gray-500 text-lg leading-relaxed font-light">
+                  Aspire&apos;s programs and training philosophy have been recognised far beyond Indian shores. Nor Zunaini Abd Kadir, Director of Universiti Kuala Lumpur - one of Malaysia&apos;s top five universities - praised Aspire Institute&apos;s approach for its innovation, depth, and genuine human impact.
+                </p>
+              </div>
+              <div className="md:col-span-6 lg:col-span-7">
+                <div className="grid grid-cols-2 gap-3 md:gap-5">
+                  {globalAspireImages.slice(3, 5).map((img, i) => (
+                    <motion.div key={i + 3} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-20px' }} variants={fadeUp} custom={i}>
+                      <div className="group relative overflow-hidden rounded-2xl md:rounded-[2rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 aspect-[4/3] cursor-zoom-in" onClick={() => openLightbox(i + 3, 'global')}>
+                        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
+                        <Image src={img.src} alt={img.caption} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/70 via-transparent to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Story 2 */}
+            <div className="grid md:grid-cols-12 gap-10 md:gap-16 items-center">
+              <div className="md:col-span-6 lg:col-span-7 order-2 md:order-1">
+                <div className="grid grid-cols-2 gap-3 md:gap-5">
+                  {globalAspireImages.slice(5, 7).map((img, i) => (
+                    <motion.div key={i + 5} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-20px' }} variants={fadeUp} custom={i}>
+                      <div className="group relative overflow-hidden rounded-2xl md:rounded-[2rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 aspect-[4/3] cursor-zoom-in" onClick={() => openLightbox(i + 5, 'global')}>
+                        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
+                        <Image src={img.src} alt={img.caption} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/70 via-transparent to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+              <div className="md:col-span-6 lg:col-span-5 order-1 md:order-2">
+                <h3 className="text-3xl md:text-4xl font-bold text-[#0f1337] mb-6 tracking-tight">Where East Met East</h3>
+                <p className="text-gray-500 text-lg leading-relaxed font-light mb-8">
+                  In one of our most memorable international collaborations, Aspire joined hands with the Indo-Japan Business Council to host a symposium that brought Japanese educators and industry leaders directly to our aspirants. It was not just a career opportunity - it was a window into one of the world&apos;s most disciplined, purposeful cultures.
+                </p>
+                <div className="p-6 bg-white/40 backdrop-blur-md rounded-2xl border-l-4 border-[#1a237e] shadow-sm">
+                  <p className="text-gray-600 text-lg leading-relaxed font-light">
+                    Our gratitude to <strong className="text-gray-900 font-semibold">Mr. Sotaro Ueda</strong>, <strong className="text-gray-900 font-semibold">Ms. Satomi Chida</strong>, and <strong className="text-gray-900 font-semibold">Mr. Shrikant Atre</strong>, President IJBC, for building that bridge with us.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Story 3 */}
+            <div className="grid md:grid-cols-12 gap-10 md:gap-16 items-center">
+              <div className="md:col-span-5 lg:col-span-5">
+                <h3 className="text-3xl md:text-4xl font-bold text-[#0f1337] mb-6 tracking-tight">Taking the Stage. Leaving an Impression.</h3>
+                <p className="text-gray-500 text-lg leading-relaxed font-light mb-6">
+                  In Singapore. In Dubai. In the UAE. Aspire has stood on stages in rooms full of people who did not grow up with our story - and left those rooms with our belief in their hearts.
+                </p>
+                <p className="text-gray-500 text-lg leading-relaxed font-light">
+                  The love and response we received from citizens of Singapore and the UAE reminded us of something we already knew, but needed to hear again: growth is not a cultural preference. It is a human need. And Aspire speaks that language fluently - in every country, in every room, on every stage.
+                </p>
+              </div>
+              <div className="md:col-span-7 lg:col-span-7">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                  {globalAspireImages.slice(7, 10).map((img, i) => (
+                    <motion.div key={i + 7} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-20px' }} variants={fadeUp} custom={i}>
+                      <div className="group relative overflow-hidden rounded-2xl bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 aspect-square cursor-zoom-in" onClick={() => openLightbox(i + 7, 'global')}>
+                        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
+                        <Image src={img.src} alt={img.caption} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/70 via-transparent to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Section 4: Conclusion (Full Width) */}
+          <div className="mt-24 md:mt-32 max-w-5xl mx-auto text-center">
+            <h3 className="text-3xl md:text-4xl font-bold text-[#0f1337] mb-8">The Lens We See the World Through</h3>
+            <div className="max-w-3xl mx-auto space-y-6">
+              <p className="text-gray-500 text-xl leading-relaxed font-light">
+                When Aspire travels, we do not go as tourists. We go as learners. We go as teachers. We go as believers in the idea that, somewhere between the familiarity of home and the wonder of somewhere new, transformation quietly happens.
+              </p>
+              <p className="text-gray-500 text-xl leading-relaxed font-light">
+                That is the Aspire way. Always has been.
+              </p>
+            </div>
+
+            <p className="text-2xl md:text-3xl text-[#1a237e] font-medium leading-snug my-16 py-12 border-y border-[#1a237e]/10">
+              Go far enough - and you will not just see the world. <br className="hidden sm:block" />You will finally see yourself.
+            </p>
+
+            {/* Embedded Gallery Block 5 - Remaining Images */}
+            <div className="grid grid-cols-3 gap-3 md:gap-5 mb-16">
+              {globalAspireImages.slice(10).map((img, i) => (
+                <motion.div key={i + 10} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-20px' }} variants={fadeUp} custom={i}>
+                  <div className="group relative overflow-hidden rounded-2xl md:rounded-[2rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 aspect-[4/3] cursor-zoom-in" onClick={() => openLightbox(i + 10, 'global')}>
+                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
+                    <Image src={img.src} alt={img.caption} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/70 via-transparent to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════
           SPECIAL GUESTS — Annual Function Special Guests
          ════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 relative z-10 overflow-hidden" id="guests">
@@ -507,7 +763,7 @@ export default function AboutUsPage() {
                 <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Annual Function</span>
               </div>
               <div className="flex items-start gap-6">
-                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">03</span>
+                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">04</span>
                 <div>
                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
                     Special <span className="text-[#1a237e]">Guests</span>
@@ -600,7 +856,7 @@ export default function AboutUsPage() {
               <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Gallery</span>
             </div>
             <div className="flex items-start gap-6">
-              <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">04</span>
+              <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">05</span>
               <div>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
                   Moments That <span className="text-[#1a237e]">Define Us</span>
@@ -624,7 +880,7 @@ export default function AboutUsPage() {
                 variants={fadeUp}
                 className="break-inside-avoid mb-4 md:mb-5"
               >
-                <div 
+                <div
                   onClick={() => openLightbox(i, 'gallery')}
                   className="group relative overflow-hidden rounded-2xl md:rounded-[1.5rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 hover:-translate-y-1 cursor-zoom-in"
                 >
@@ -673,7 +929,7 @@ export default function AboutUsPage() {
                 <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Campus</span>
               </div>
               <div className="flex items-start gap-6">
-                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">05</span>
+                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">06</span>
                 <div>
                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
                     Our <span className="text-[#1a237e]">Campus</span>
@@ -766,7 +1022,7 @@ export default function AboutUsPage() {
                 <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Social Impact</span>
               </div>
               <div className="flex items-start gap-6">
-                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">06</span>
+                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">07</span>
                 <div>
                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
                     Beyond the <span className="text-[#1a237e]">Classroom</span>
@@ -859,7 +1115,7 @@ export default function AboutUsPage() {
                 <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Public Events</span>
               </div>
               <div className="flex items-start gap-6">
-                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">07</span>
+                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">08</span>
                 <div>
                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
                     Public <span className="text-[#1a237e]">Events</span>
@@ -1039,7 +1295,7 @@ export default function AboutUsPage() {
                   priority
                 />
               </div>
-              
+
               <div className="mt-8 text-center max-w-2xl">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <span className="h-px w-6 bg-[#1a237e]/10"></span>
@@ -1056,6 +1312,17 @@ export default function AboutUsPage() {
           </motion.div>
         )}
       </AnimatePresence>
+    </div>
+  );
+}
+
+function StatItem({ value, label, isLast }: { value: string; label: string; isLast: boolean }) {
+  return (
+    <div className={`flex flex-col items-center justify-center text-center p-3 lg:p-0 ${!isLast ? 'lg:border-r border-gray-100' : ''}`}>
+      <span className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter text-[#1a237e] mb-2">{value}</span>
+      <span className="text-[11px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest leading-tight max-w-[200px]">
+        {label}
+      </span>
     </div>
   );
 }

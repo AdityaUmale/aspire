@@ -2,11 +2,12 @@ import type { NextConfig } from "next";
 
 const contentSecurityPolicyReportOnly = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.instagram.com https://platform.twitter.com https://connect.facebook.net https://platform.linkedin.com https://static.licdn.com https://static-exp1.licdn.com https://static-exp2.licdn.com https://static-exp3.licdn.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
   "connect-src 'self' https:",
+  "frame-src 'self' https://www.instagram.com https://www.facebook.com https://platform.twitter.com https://syndication.twitter.com https://www.linkedin.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -21,6 +22,22 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "**.public.blob.vercel-storage.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.fbcdn.net",
+      },
+      {
+        protocol: "https",
+        hostname: "**.cdninstagram.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.licdn.com",
+      },
+      {
+        protocol: "https",
+        hostname: "pbs.twimg.com",
       },
     ],
     formats: ["image/avif", "image/webp"],

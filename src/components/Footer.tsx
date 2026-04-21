@@ -2,10 +2,40 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { MapPin, Mail, Phone, ArrowRight } from "lucide-react";
 import { FaLinkedinIn, FaInstagram, FaFacebookF, FaXTwitter } from "react-icons/fa6";
+import SocialEmbed from "./SocialEmbed";
+
+interface SocialUrls {
+  linkedin: string;
+  instagram: string;
+  facebook: string;
+  twitter: string;
+}
+
+const SOCIAL_ICONS = [
+  { key: "linkedin" as const, icon: FaLinkedinIn, href: "https://www.linkedin.com/company/aspire-the-institute-of-human-development/" },
+  { key: "instagram" as const, icon: FaInstagram, href: "https://www.instagram.com/official_aspire_institute/" },
+  { key: "facebook" as const, icon: FaFacebookF, href: "https://www.facebook.com/share/17VrNSbnhG/" },
+  { key: "twitter" as const, icon: FaXTwitter, href: "https://x.com/AspireTIHD" },
+];
 
 export default function Footer() {
+  const [socialUrls, setSocialUrls] = useState<SocialUrls | null>(null);
+
+  useEffect(() => {
+    fetch('/api/admin/social-posts')
+      .then(r => r.json())
+      .then(res => {
+        if (res.success) setSocialUrls(res.data);
+      })
+      .catch(() => {/* silently fall back to icons */ });
+  }, []);
+
+  const hasAnyEmbed = socialUrls &&
+    (socialUrls.linkedin || socialUrls.instagram || socialUrls.facebook || socialUrls.twitter);
+
   return (
     <footer style={{ viewTransitionName: "persistent-footer" }} className="relative pt-20 pb-40 overflow-hidden z-10">
 
@@ -39,14 +69,9 @@ export default function Footer() {
               </p>
             </div>
 
-            {/* Social Icons - Premium Glass Style */}
+            {/* Social Icons - always shown */}
             <div className="flex items-center gap-4">
-              {[
-                { icon: FaLinkedinIn, href: "https://www.linkedin.com/company/aspire-the-institute-of-human-development/" },
-                { icon: FaInstagram, href: "https://www.instagram.com/official_aspire_institute/" },
-                { icon: FaFacebookF, href: "https://www.facebook.com/share/17VrNSbnhG/" },
-                { icon: FaXTwitter, href: "https://x.com/AspireTIHD" }
-              ].map((Social, index) => (
+              {SOCIAL_ICONS.map((Social, index) => (
                 <Link
                   key={index}
                   href={Social.href}
@@ -54,10 +79,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="group relative flex h-11 w-11 items-center justify-center rounded-xl bg-[#1a237e]/5 border border-[#1a237e]/10 text-[#1a237e] transition-all duration-500 overflow-hidden hover:text-white hover:border-transparent hover:-translate-y-1 hover:shadow-[0_10px_20px_-5px_rgba(26,35,126,0.3)]"
                 >
-                  {/* Hover background layer */}
                   <div className="absolute inset-0 bg-gradient-to-br from-[#1a237e] to-[#3949ab] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                  {/* Icon */}
                   <Social.icon className="relative z-10 h-5 w-5 transition-transform duration-500 group-hover:rotate-6" />
                 </Link>
               ))}
@@ -133,6 +155,24 @@ export default function Footer() {
             </div>
           </div>
         </div>
+
+        {/* --- Social Post Embeds Section --- */}
+        {hasAnyEmbed && (
+          <div className="mt-16 pt-12 border-t border-[#1a237e]/10">
+            <h3 className="font-bold text-xl text-[#1a237e] mb-8">Latest from Our Socials</h3>
+            <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {(["linkedin", "instagram", "facebook", "twitter"] as const).map(platform => {
+                const url = socialUrls?.[platform];
+                if (!url) return null;
+                return (
+                  <div key={platform} className="h-fit self-start overflow-hidden rounded-2xl border border-[#1a237e]/10 bg-white/60 p-2 shadow-sm backdrop-blur-sm">
+                    <SocialEmbed platform={platform} url={url} />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
     </footer>
   );

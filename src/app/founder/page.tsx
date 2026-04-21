@@ -80,7 +80,7 @@ export default function FounderPage() {
                 Sachin Burghate Sir doesn&apos;t just teach for a living; he teaches for a <strong className="text-[#1a237e] font-medium">purpose.</strong> As India&apos;s most celebrated voice in personal development, he has spent over two decades changing lives with extraordinary consistency.
               </p>
 
-              
+
             </div>
 
             {/* Image Composition */}
@@ -211,13 +211,13 @@ export default function FounderPage() {
                 <div className="h-px w-8 bg-[#1a237e]"></div>
                 <span className="text-xs font-bold tracking-[0.2em] uppercase text-[#1a237e]">Recognised. Celebrated. Unstoppable.</span>
               </div>
-              
+
               <div className="grid md:grid-cols-12 gap-6">
                 {/* Highlight Card 1: Outstanding Young Person */}
                 <div className="md:col-span-12 relative bg-[#1a237e] rounded-[2.5rem] p-10 md:p-14 text-white overflow-hidden shadow-[0_20px_40px_-15px_rgba(26,35,126,0.3)] group">
                   <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/5 blur-[80px] rounded-full translate-x-1/3 -translate-y-1/3 group-hover:scale-110 transition-transform duration-700" />
                   <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-400/10 blur-[80px] rounded-full -translate-x-1/3 translate-y-1/3" />
-                  
+
                   <div className="relative z-10 grid md:grid-cols-12 items-center gap-8 md:gap-12">
                     <div className="md:col-span-8 space-y-6">
                       <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm shadow-inner group-hover:-translate-y-1 transition-transform">
@@ -257,7 +257,7 @@ export default function FounderPage() {
                 <div className="md:col-span-6 relative bg-gradient-to-br from-[#f8f9fa] to-white border border-gray-100 rounded-[2.5rem] p-8 md:p-12 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden">
                   {/* Subtle map pattern/gradient hint */}
                   <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[#1a237e]/5 rounded-full blur-3xl group-hover:bg-[#1a237e]/10 transition-colors duration-700" />
-                  
+
                   <div className="relative z-10">
                     <div className="h-14 w-14 rounded-2xl bg-[#1a237e]/5 text-[#1a237e] flex items-center justify-center mb-8 border border-[#1a237e]/10 group-hover:bg-[#1a237e] group-hover:text-white transition-colors duration-500">
                       <Globe className="h-6 w-6" />

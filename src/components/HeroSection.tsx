@@ -46,7 +46,7 @@ export default function HeroSection() {
         return (
           <div
             key={i}
-            className="absolute -top-20 lg:-top-24 -bottom-[1%] -right-4 md:-right-6 w-[120vw] md:w-[90vw] lg:w-[90vw] transition-opacity duration-[2000ms] ease-in-out pointer-events-none"
+            className="hidden lg:block absolute -top-20 lg:-top-24 -bottom-[1%] -right-4 md:-right-6 w-[120vw] md:w-[90vw] lg:w-[90vw] transition-opacity duration-[2000ms] ease-in-out pointer-events-none"
             style={{
               opacity: isActive ? 1 : 0,
               zIndex: isActive ? 5 : 0,
@@ -144,6 +144,37 @@ export default function HeroSection() {
           <div className="relative z-10 flex items-center justify-center lg:justify-end mt-12 lg:mt-0 min-h-[400px] lg:min-h-[500px]">
             {/* Base Container for the entire right section actions */}
             <div className="relative w-full h-full flex items-center justify-center lg:justify-end">
+
+              {/* ── MOBILE: CAMPUS IMAGES BACKGROUND (Bigger, Faded) ── */}
+              {CAMPUS_IMAGES.map((img, i) => {
+                const slideIndex = i + 1;
+                const isActive = activeSlide === slideIndex;
+                return (
+                  <div
+                    key={`mobile-${i}`}
+                    className="absolute w-[100vw] left-1/2 -translate-x-1/2 h-[150%] sm:h-[160%] top-1/2 -translate-y-1/2 flex lg:hidden transition-opacity duration-[2000ms] ease-in-out pointer-events-none z-0"
+                    style={{
+                      opacity: isActive ? 1 : 0,
+                    }}
+                  >
+                    <div 
+                      className="relative w-full h-full transform transition-transform duration-[12000ms] ease-out"
+                      style={{
+                        transform: isActive ? 'scale(1.05)' : 'scale(1)',
+                        WebkitMaskImage: 'radial-gradient(ellipse 80% 60% at 50% 50%, black 20%, transparent 80%)',
+                        maskImage: 'radial-gradient(ellipse 80% 60% at 50% 50%, black 20%, transparent 80%)'
+                      }}
+                    >
+                      <Image src={img.src} alt={img.alt} fill className="object-cover" priority={i === 0} sizes="100vw" />
+                      
+                      {/* Gradient overlays to blend it perfectly */}
+                      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white to-transparent opacity-90"></div>
+                      <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white to-transparent opacity-90"></div>
+                      <div className="absolute inset-0 bg-[#1a237e]/10 mix-blend-overlay"></div>
+                    </div>
+                  </div>
+                );
+              })}
 
               {/* ── LAYER 1: The original 3D logo card ── */}
               <div

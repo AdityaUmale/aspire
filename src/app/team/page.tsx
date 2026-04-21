@@ -48,7 +48,7 @@ export default function TeamPage() {
       <section className="pt-32 pb-20 md:pt-48 md:pb-28 relative z-10">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-5xl mx-auto text-center">
-            
+
 
             <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-gray-900 tracking-tight leading-[1.05] mb-8">
               The People Behind
@@ -70,7 +70,7 @@ export default function TeamPage() {
               </p>
             </div>
 
-            
+
           </div>
         </div>
       </section>

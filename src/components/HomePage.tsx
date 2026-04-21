@@ -180,7 +180,7 @@ export default function HomePage() {
                 { title: "Interview Skills & Techniques", tag: "For Professionals & Students", description: "Your Dream Job is one confident interview ahead.", image: "/ist2.jpg", slug: "/courses/interview-skills-techniques", features: ["Interview Prep", "Group Discussion", "Mindset Shift", "Placement Readiness"] },
                 { title: "ARISE Language and Thoughts Enrichment Camp", tag: "For Students", description: "One Camp. New Mindset. Lifelong impact where you rise", image: "/arise-logo.jpg", slug: "/courses/arise-camp", features: ["Mindset", "Language Skills", "Critical Thinking", "Self-Expression"] },
                 { title: "International Workshop", tag: "For Global Learners", description: "A global stage for your next big transformation.", image: "/international.jpg", slug: "/courses/international-workshop", features: ["Cross-cultural skills", "Global trends", "Networking", "Innovation"] },
-                { title: "Exclusive Workshops & Keynote Talks", tag: "For Professionals & Organisations", description: "Some transformations don't need months; they need the right two hours. High-impact sessions that cut straight to what matters.", image: "/workshop1.jpeg", slug: "/courses/workshops-keynote-talks", features: ["Mindset & Confidence", "Communication Mastery", "Leadership & Growth", "Customised Topics"] },
+                { title: "Exclusive Workshops & Keynote Talks", tag: "For Professionals & Organisations", description: "Because the right two hours can rewrite the next twenty years. High-impact sessions that cut straight to what matters.", image: "/workshop1.jpeg", slug: "/courses/workshops-keynote-talks", features: ["Mindset & Confidence", "Communication Mastery", "Leadership & Growth", "Customised Topics"] },
                 { title: "Summer Special Course For Kids", tag: "For Children", description: "Give them a summer that builds them for life.", image: "/elt.jpg", slug: "/courses/childrens-learning-program", features: ["Creativity", "Learning Skills", "Teamwork", "Confidence"] },
                 { title: "Teachers Training Program", tag: "For Educators", description: "Teach with purpose. Inspire with impact", image: "/teacher2.png", slug: "/courses/teachers-training-program", features: ["Pedagogy", "Classroom management", "Engagement", "Assessment"] },
               ].map((course, index) => (
@@ -403,7 +403,7 @@ export default function HomePage() {
       <div className="fixed bottom-6 right-6 z-[90] md:bottom-8 md:right-8" style={{ animation: 'fab-entrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1s both' }}>
         {/* Pulsing attention ring */}
         <div className="absolute inset-0 rounded-full bg-[#1a237e]/10" style={{ animation: 'fab-pulse 3s ease-in-out infinite' }} />
-        
+
         <button
           onClick={() => {
             const el = document.getElementById('upcoming-courses');
