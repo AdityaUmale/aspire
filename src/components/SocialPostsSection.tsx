@@ -1,50 +1,54 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import SocialEmbed from './SocialEmbed';
 import { Share2 } from 'lucide-react';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6';
 import type { IconType } from 'react-icons';
+import SocialEmbed from './SocialEmbed';
+import type { SocialFeedItem, SocialPlatform } from '@/lib/social-types';
 
-interface SocialUrls {
-  linkedin: string;
-  instagram: string;
-  facebook: string;
-  twitter: string;
+interface SocialPostsSectionProps {
+  items: SocialFeedItem[];
+  isLoading?: boolean;
 }
 
-const PLATFORM_CONFIG: Record<string, { icon: IconType; accent: string; label: string }> = {
-  linkedin:  { icon: FaLinkedinIn, accent: '#0077B5', label: 'LinkedIn' },
-  instagram: { icon: FaInstagram,  accent: '#E1306C', label: 'Instagram' },
-  facebook:  { icon: FaFacebookF,  accent: '#1877F2', label: 'Facebook' },
-  twitter:   { icon: FaXTwitter,   accent: '#111111', label: 'X (Twitter)' },
+const PLATFORM_CONFIG: Record<SocialPlatform, { icon: IconType; accent: string; label: string }> = {
+  linkedin: { icon: FaLinkedinIn, accent: '#0077B5', label: 'LinkedIn' },
+  instagram: { icon: FaInstagram, accent: '#E1306C', label: 'Instagram' },
+  facebook: { icon: FaFacebookF, accent: '#1877F2', label: 'Facebook' },
+  twitter: { icon: FaXTwitter, accent: '#111111', label: 'X (Twitter)' },
 };
 
-export default function SocialPostsSection() {
-  const [socialUrls, setSocialUrls] = useState<SocialUrls | null>(null);
+const LOADING_PLATFORMS: SocialPlatform[] = ['linkedin', 'instagram', 'facebook', 'twitter'];
+
+function LoadingCard() {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white">
+      <div className="aspect-[3/4] animate-pulse bg-gradient-to-br from-slate-100 via-white to-slate-100" />
+      <div className="space-y-3 p-4">
+        <div className="h-3 w-16 rounded-full bg-slate-100" />
+        <div className="h-4 w-5/6 rounded-full bg-slate-100" />
+        <div className="h-3 w-full rounded-full bg-slate-100" />
+        <div className="h-3 w-4/5 rounded-full bg-slate-100" />
+        <div className="h-3 w-24 rounded-full bg-slate-100" />
+      </div>
+    </div>
+  );
+}
+
+export default function SocialPostsSection({ items, isLoading = false }: SocialPostsSectionProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    fetch('/api/admin/social-posts')
-      .then(r => r.json())
-      .then(res => {
-        if (res.success) {
-          setSocialUrls(res.data);
-          // Small delay to ensure smooth entrance animation after render
-          setTimeout(() => setMounted(true), 100);
-        }
-      })
-      .catch(() => {/* silently fall back */ });
+    setMounted(true);
   }, []);
 
-  const hasAnyEmbed = socialUrls &&
-    (socialUrls.linkedin || socialUrls.instagram || socialUrls.facebook || socialUrls.twitter);
+  if (!isLoading && items.length === 0) return null;
 
-  if (!hasAnyEmbed) return null;
+  const platformsToRender = isLoading ? LOADING_PLATFORMS : items.map((item) => item.platform);
 
   return (
     <section className="relative z-10 py-20 md:py-28 bg-gradient-to-b from-transparent to-[#f5f7ff]/40 overflow-hidden">
-      {/* Decorative background elements */}
       <div className="absolute top-0 right-0 -z-10 translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#7c4dff]/5 rounded-full blur-[80px]" />
       <div className="absolute bottom-0 left-0 -z-10 -translate-x-1/2 translate-y-1/2 w-96 h-96 bg-[#448aff]/5 rounded-full blur-[80px]" />
 
@@ -67,21 +71,19 @@ export default function SocialPostsSection() {
         </div>
 
         <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {(["linkedin", "instagram", "facebook", "twitter"] as const).map((platform, index) => {
-            const url = socialUrls?.[platform];
-            if (!url) return null;
+          {platformsToRender.map((platform, index) => {
             const { icon: Icon, accent, label } = PLATFORM_CONFIG[platform];
+            const item = items.find((entry) => entry.platform === platform) ?? null;
 
             return (
-              <div 
-                key={platform} 
+              <div
+                key={platform}
                 className={`flex flex-col gap-4 transform transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
                 style={{ transitionDelay: `${index * 150}ms` }}
               >
-                {/* Premium Typographic Social Tag */}
                 <div className="flex items-center self-center sm:self-start gap-3 mb-1 px-1 transition-transform duration-300 hover:-translate-y-1">
-                  <div 
-                    className="flex items-center justify-center h-9 w-9 rounded-xl text-white shadow-lg" 
+                  <div
+                    className="flex items-center justify-center h-9 w-9 rounded-xl text-white shadow-lg"
                     style={{ backgroundColor: accent, boxShadow: `0 4px 14px 0 ${accent}40` }}
                   >
                     <Icon className="h-4 w-4" />
@@ -92,11 +94,8 @@ export default function SocialPostsSection() {
                   </div>
                 </div>
 
-                {/* The Embedded Card */}
-                <div 
-                  className="h-fit self-start w-full overflow-hidden rounded-[1.5rem] border border-[#1a237e]/10 bg-white/60 p-2 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-md transition-all duration-700 hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.15)] hover:bg-white hover:-translate-y-2"
-                >
-                  <SocialEmbed platform={platform} url={url} />
+                <div className="h-fit self-start w-full overflow-hidden rounded-[1.5rem] border border-[#1a237e]/10 bg-white/60 p-2 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-md transition-all duration-700 hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.15)] hover:bg-white hover:-translate-y-2">
+                  {item ? <SocialEmbed item={item} /> : <LoadingCard />}
                 </div>
               </div>
             );

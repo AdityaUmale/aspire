@@ -35,7 +35,7 @@ const PLATFORMS = [
     icon: FaFacebookF,
     color: '#1877F2',
     placeholder: 'https://www.facebook.com/reel/... or Facebook embed URL/code',
-    hint: 'Paste a public Facebook reel/post URL, plugin URL, or iframe embed code',
+    hint: 'Direct Facebook URLs render as preview cards. Use Facebook plugin/embed code for inline playback.',
   },
   {
     key: 'twitter' as const,
@@ -77,11 +77,19 @@ function getPlatformValidation(platform: keyof SocialUrls, url: string) {
       return null;
     case 'facebook':
       const normalizedFacebook = normalizeFacebookInput(value);
+      const isFacebookPlugin = /facebook\.com\/plugins\/(?:video|post)\.php/i.test(normalizedFacebook);
+
+      if (isFacebookPlugin) {
+        return {
+          tone: 'info' as const,
+          message: 'Official Facebook plugin/embed URLs can render inline on the landing page.',
+        };
+      }
 
       if (/facebook\.com\/(?:share\/|share\.php)/i.test(normalizedFacebook)) {
         return {
           tone: 'warning' as const,
-          message: 'Share links are less reliable. Facebook’s official Embed iframe/plugin URL or the direct public reel/video/post URL is best.',
+          message: 'Share links are less reliable and will render as preview cards. Use Facebook’s official Embed iframe/plugin URL for inline playback.',
         };
       }
 
@@ -91,7 +99,10 @@ function getPlatformValidation(platform: keyof SocialUrls, url: string) {
           message: 'Use a direct facebook.com reel, video, post, photo, permalink URL, or Facebook embed URL/code.',
         };
       }
-      return null;
+      return {
+        tone: 'info' as const,
+        message: 'Direct Facebook reels, videos, and posts render as preview cards with a link out to Facebook.',
+      };
     case 'twitter':
       if (!/(?:x\.com|twitter\.com)\/[^/]+\/status\/\d+/i.test(value)) {
         return {
@@ -153,7 +164,7 @@ export default function SocialPostsPage() {
       <div className="space-y-1">
         <h1 className="text-2xl font-bold text-[#1a237e]">Social Media Post Embeds</h1>
         <p className="text-sm text-gray-500">
-          Paste the direct URL of your latest post on each platform. These will be displayed in the footer of the website.
+          Paste the direct URL of your latest post on each platform. These will be displayed in the social section of the landing page.
           Leave a field blank to hide that platform&apos;s embed.
         </p>
       </div>
@@ -232,8 +243,8 @@ export default function SocialPostsPage() {
         <ul className="text-xs text-amber-700 space-y-1 list-disc list-inside">
           <li>Instagram embeds require the post to be from a <strong>public</strong> account.</li>
           <li>LinkedIn embeds work only for public posts where the author or page allows embedding. Some post types may still fall back to a preview card.</li>
-          <li>For Facebook, a direct public reel, video, post, or permalink URL is best. You can also paste Facebook&apos;s plugin URL or full iframe embed code and it will be normalized automatically.</li>
-          <li>Facebook share links may work if they redirect cleanly, but the official Embed code from Facebook is the most reliable option.</li>
+          <li>Direct Facebook reels, videos, posts, and share links now render as preview cards with an outbound CTA.</li>
+          <li>Facebook&apos;s official Embed/plugin URL or iframe code is the reliable way to get inline playback on the landing page.</li>
           <li>For X (Twitter), use a direct <strong>/status/</strong> URL. If the post cannot be embedded, the site will show a preview card instead.</li>
         </ul>
       </div>

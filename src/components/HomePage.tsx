@@ -21,6 +21,7 @@ import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
 import SocialPostsSection from "@/components/SocialPostsSection";
 import { findProgramByCourseName, getCourseSectionLabel } from "@/lib/course-config";
+import type { SocialFeedItem, SocialFeedResponse } from "@/lib/social-types";
 
 interface Course {
   _id: string;
@@ -38,6 +39,8 @@ export default function HomePage() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [socialFeedItems, setSocialFeedItems] = useState<SocialFeedItem[]>([]);
+  const [socialFeedLoading, setSocialFeedLoading] = useState(true);
   const programsRef = useRef<HTMLDivElement | null>(null);
   const upcomingCoursesRef = useRef<HTMLDivElement | null>(null);
 
@@ -54,6 +57,48 @@ export default function HomePage() {
     const scrollAmount = direction === "left" ? -350 : 350;
     container.scrollBy({ left: scrollAmount, behavior: "smooth" });
   };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    let cancelled = false;
+
+    const fetchSocialFeed = async () => {
+      try {
+        const response = await fetch("/api/social-feed", {
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        const data = await response.json();
+
+        if (response.ok && data?.success) {
+          const items = (data.data as SocialFeedResponse | undefined)?.items;
+          if (!cancelled) {
+            setSocialFeedItems(Array.isArray(items) ? items : []);
+          }
+          return;
+        }
+
+        if (!cancelled) {
+          setSocialFeedItems([]);
+        }
+      } catch (error) {
+        if (!cancelled && (error as Error).name !== "AbortError") {
+          setSocialFeedItems([]);
+        }
+      } finally {
+        if (!cancelled) {
+          setSocialFeedLoading(false);
+        }
+      }
+    };
+
+    void fetchSocialFeed();
+
+    return () => {
+      cancelled = true;
+      controller.abort();
+    };
+  }, []);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -397,7 +442,7 @@ export default function HomePage() {
       </main>
       {/* <ArticlesSection /> */}
       <FAQSection />
-      <SocialPostsSection />
+      <SocialPostsSection items={socialFeedItems} isLoading={socialFeedLoading} />
       <EnquiryForm />
       <Footer />
 

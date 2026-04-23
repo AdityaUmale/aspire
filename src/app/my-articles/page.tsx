@@ -173,19 +173,7 @@ export default function MyArticlesPage() {
             </Card>
           ) : (
             <div className="space-y-6">
-              <Card className="rounded-[2rem] border-[#1a237e]/10 bg-white/90 shadow-sm">
-                <CardContent className="py-5 px-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-[#1a237e]/50 font-bold">Verified email</p>
-                    <p className="text-lg font-semibold text-[#1a237e]">{session.writer.email}</p>
-                  </div>
-                  {session.sessionExpiresAt && (
-                    <p className="text-sm text-gray-500">
-                      Session active until {formatDate(session.sessionExpiresAt)}
-                    </p>
-                  )}
-                </CardContent>
-              </Card>
+              
 
               {articles.length === 0 ? (
                 <Card className="rounded-[2rem] border-gray-200/80 bg-white/90 shadow-sm">
