@@ -135,7 +135,6 @@ export default function AboutUsPage() {
   const guestScrollRef = useRef<HTMLDivElement>(null);
   const socialScrollRef = useRef<HTMLDivElement>(null);
   const publicEventsScrollRef = useRef<HTMLDivElement>(null);
-  const globalAspireScrollRef = useRef<HTMLDivElement>(null);
   const [selectedImage, setSelectedImage] = useState<{ index: number; type: 'gallery' | 'campus' | 'guests' | 'social' | 'events' | 'global' } | null>(null);
 
   const scrollCampus = (direction: 'left' | 'right') => {
@@ -174,14 +173,6 @@ export default function AboutUsPage() {
     });
   };
 
-  const scrollGlobalAspire = (direction: 'left' | 'right') => {
-    if (!globalAspireScrollRef.current) return;
-    const amount = globalAspireScrollRef.current.clientWidth * 0.8;
-    globalAspireScrollRef.current.scrollBy({
-      left: direction === 'left' ? -amount : amount,
-      behavior: 'smooth',
-    });
-  };
 
   const openLightbox = (index: number, type: 'gallery' | 'campus' | 'guests' | 'social' | 'events' | 'global') => {
     setSelectedImage({ index, type });

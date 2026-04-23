@@ -127,7 +127,6 @@ export default function AdminDashboardPage() {
       document.addEventListener('keydown', handleKeyDown);
     }
     return () => document.removeEventListener('keydown', handleKeyDown);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editingCourse]);
 
   const handleDeleteCourse = async (courseId: string, courseName: string) => {
