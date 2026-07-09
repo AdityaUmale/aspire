@@ -9,11 +9,10 @@ import { useEffect, useState, useCallback } from "react";
 // Slide 0 = the original 3D logo card, slides 1-5 = full-bleed campus images
 const CAMPUS_IMAGES = [
   { src: '/carousel/12x18 == ok print.jpg', alt: 'Aspire Institute' },
-  { src: '/carousel/DSC_1355.jpg', alt: 'Aspire Institute' },
-  { src: '/carousel/ac1.jpg', alt: 'Aspire Institute' },
-  { src: '/carousel/ac2.jpg', alt: 'Aspire Institute' },
-  { src: '/carousel/arise-logo.jpg', alt: 'Aspire Institute' },
-  { src: '/carousel/ist2.jpg', alt: 'Aspire Institute' },
+  { src: '/ldp1.jpg', alt: 'Aspire Institute' },
+  { src: '/psc2.jpg', alt: 'Aspire Institute' },
+  { src: '/iw1.jpg', alt: 'Aspire Institute' },
+  { src: '/workshop7.jpeg', alt: 'Aspire Institute' },
 ];
 
 const TOTAL_SLIDES = 1 + CAMPUS_IMAGES.length; // 1 logo card + N images
@@ -84,15 +83,15 @@ export default function HeroSection() {
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row fade-in w-full sm:w-auto" style={{ animationDelay: '0.3s' }}>
-              <Link href="/#enquiry" className="w-full sm:w-auto">
+              <Link href="/#courses" className="w-full sm:w-auto">
                 <Button className="bg-[#1a237e] hover:bg-[#0d1642] shadow-md transition-all duration-300 hover:shadow-lg w-full sm:w-auto">
-                  Start Your Growth Journey
+                  Explore our courses
                   <ChevronRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="#courses" className="w-full sm:w-auto">
+              <Link href="#enquiry" className="w-full sm:w-auto">
                 <Button variant="outline" className="text-[#1a237e] border-[#1a237e] hover:bg-[#e8eaf6] transition-all duration-300 w-full sm:w-auto">
-                  Explore Programs
+                  Start Your Journey
                 </Button>
               </Link>
             </div>

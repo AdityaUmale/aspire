@@ -2,14 +2,18 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { Menu, X, ChevronRight, PenTool, ChevronDown, FileText, ArrowRight, ShieldCheck } from "lucide-react";
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [articlesDropdown, setArticlesDropdown] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const isArticlesActive = pathname.startsWith('/articles') || pathname === '/publish-article' || pathname === '/my-articles' || pathname === '/student-articles';
 
   // Handle scroll effect for the "Island" navbar
   useEffect(() => {
@@ -95,13 +99,13 @@ export default function Navbar() {
                   aria-haspopup="true"
                   className={`
                     relative px-4 py-2 rounded-full text-sm font-sans font-medium transition-all duration-300 flex items-center gap-2 group outline-none focus-visible:ring-2 focus-visible:ring-[#1a237e]/50
-                    ${articlesDropdown ? 'text-[#1a237e] bg-[#1a237e]/5' : 'text-gray-600 hover:text-[#1a237e]'}
+                    ${articlesDropdown || isArticlesActive ? 'text-[#1a237e] bg-[#1a237e]/5 font-semibold' : 'text-gray-600 hover:text-[#1a237e]'}
                   `}
                 >
-                  <span className="absolute inset-0 rounded-full bg-[#1a237e]/5 scale-75 opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100" />
+                  <span className={`absolute inset-0 rounded-full bg-[#1a237e]/5 transition-all duration-300 ${articlesDropdown || isArticlesActive ? 'scale-100 opacity-100' : 'scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100'}`} />
                   <FileText className="h-4 w-4 relative z-10" />
                   <span className="relative z-10">Articles</span>
-                  <ChevronDown className={`h-3.5 w-3.5 relative z-10 transition-transform duration-300 ease-out ${articlesDropdown ? 'rotate-180 text-[#1a237e]' : 'text-gray-400 group-hover:text-[#1a237e]'}`} />
+                  <ChevronDown className={`h-3.5 w-3.5 relative z-10 transition-transform duration-300 ease-out ${articlesDropdown || isArticlesActive ? 'rotate-180 text-[#1a237e]' : 'text-gray-400 group-hover:text-[#1a237e]'}`} />
                 </button>
 
                 {/* Dropdown Menu - Premium Bento Style */}
@@ -203,12 +207,19 @@ export default function Navbar() {
 
 // Sub-component for Desktop Links with Refined "Pill" Hover
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isActive = pathname === href;
+
   return (
     <Link
       href={href}
-      className="relative px-4 py-2 rounded-full text-sm font-sans font-medium text-gray-600 transition-all duration-300 hover:text-[#1a237e] group outline-none focus-visible:ring-2 focus-visible:ring-[#1a237e]/50"
+      className={`relative px-4 py-2 rounded-full text-sm font-sans font-medium transition-all duration-300 group outline-none focus-visible:ring-2 focus-visible:ring-[#1a237e]/50
+        ${isActive ? 'text-[#1a237e] bg-[#1a237e]/5 font-semibold' : 'text-gray-600 hover:text-[#1a237e]'}
+      `}
     >
-      <span className="absolute inset-0 rounded-full bg-[#1a237e]/5 scale-75 opacity-0 transition-all duration-300 ease-out group-hover:scale-100 group-hover:opacity-100" />
+      <span className={`absolute inset-0 rounded-full bg-[#1a237e]/5 transition-all duration-300 ease-out 
+        ${isActive ? 'scale-100 opacity-100' : 'scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100'}
+      `} />
       <span className="relative z-10">{children}</span>
     </Link>
   );
@@ -216,19 +227,28 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
 
 // Sub-component for Desktop Dropdown Links
 function DropdownLink({ href, onClick, icon: Icon, children }: { href: string; onClick: () => void; icon: React.ElementType; children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isActive = pathname === href;
+
   return (
     <Link
       href={href}
       onClick={onClick}
-      className="flex items-center justify-between p-3 rounded-xl text-sm font-medium text-gray-600 hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-200 group"
+      className={`flex items-center justify-between p-3 rounded-xl text-sm font-medium transition-all duration-200 group
+        ${isActive ? 'text-[#1a237e] bg-[#1a237e]/5 font-semibold' : 'text-gray-600 hover:text-[#1a237e] hover:bg-[#1a237e]/5'}
+      `}
     >
       <div className="flex items-center gap-3">
-        <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-white border border-gray-100 shadow-sm group-hover:border-[#1a237e]/20 group-hover:text-[#1a237e] transition-colors">
+        <div className={`flex items-center justify-center h-8 w-8 rounded-lg border shadow-sm transition-colors
+          ${isActive ? 'bg-[#1a237e]/10 border-[#1a237e]/20 text-[#1a237e]' : 'bg-white border-gray-100 group-hover:border-[#1a237e]/20 group-hover:text-[#1a237e]'}
+        `}>
           <Icon className="h-4 w-4" />
         </div>
         <span>{children}</span>
       </div>
-      <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 text-[#1a237e] transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
+      <ArrowRight className={`h-4 w-4 transition-all duration-300 
+        ${isActive ? 'opacity-100 translate-x-0 text-[#1a237e]' : 'opacity-0 -translate-x-2 text-[#1a237e] group-hover:opacity-100 group-hover:translate-x-0'}
+      `} />
     </Link>
   );
 }
@@ -247,6 +267,9 @@ function MobileNavLink({
   highlight?: boolean;
   nested?: boolean;
 }) {
+  const pathname = usePathname();
+  const isActive = pathname === href;
+
   return (
     <Link
       href={href}
@@ -255,12 +278,15 @@ function MobileNavLink({
         flex items-center justify-between px-4 py-3.5 rounded-xl text-sm font-medium transition-all group active:scale-[0.98]
         ${highlight
           ? 'bg-[#1a237e] text-white shadow-md hover:bg-[#283593]'
-          : 'text-gray-700 hover:bg-white hover:shadow-sm hover:text-[#1a237e] border border-transparent hover:border-gray-100'}
-        ${nested ? 'py-3 text-[13px] bg-transparent hover:bg-white' : ''}
+          : isActive
+            ? 'bg-[#1a237e]/5 text-[#1a237e] font-semibold border-gray-100 shadow-sm'
+            : 'text-gray-700 hover:bg-white hover:shadow-sm hover:text-[#1a237e] border border-transparent hover:border-gray-100'}
+        ${nested && isActive ? 'py-3 text-[13px] bg-[#1a237e]/5 text-[#1a237e] font-semibold' : nested ? 'py-3 text-[13px] bg-transparent hover:bg-white' : ''}
       `}
     >
       <span>{children}</span>
-      <ChevronRight className={`h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 ${highlight ? 'text-white/70' : 'text-gray-400 group-hover:text-[#1a237e]'}`} />
+      <ChevronRight className={`h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 
+        ${highlight ? 'text-white/70' : isActive ? 'text-[#1a237e]' : 'text-gray-400 group-hover:text-[#1a237e]'}`} />
     </Link>
   );
 }
