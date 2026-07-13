@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import NextImage from 'next/image';
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { FloatingToast } from '@/components/ui/floating-toast';
 import {
-  ArrowRight,
   Clock,
   Feather,
   LoaderCircle,
@@ -21,8 +21,24 @@ import {
   Terminal,
   User,
 } from 'lucide-react';
-import RichTextEditor from '@/components/RichTextEditor';
 import Navbar from '@/components/Navbar';
+import CoverImageField from '@/components/CoverImageField';
+import type { RichTextEditorHandle } from '@/components/RichTextEditor';
+import { MAX_LENGTHS } from '@/lib/validation';
+import { extractPlainText } from '@/lib/article-utils';
+import {
+  migrateAnonymousDraftToWriter,
+  readArticleDraft,
+  ANON_DRAFT_KEY,
+  useArticleDraft,
+} from '@/hooks/useArticleDraft';
+
+const RichTextEditor = dynamic(() => import('@/components/RichTextEditor'), {
+  ssr: false,
+  loading: () => (
+    <div className="min-h-[500px] rounded-2xl border-2 border-gray-200 bg-white animate-pulse" />
+  ),
+});
 
 type WriterSessionResponse = {
   writer: {
@@ -30,15 +46,18 @@ type WriterSessionResponse = {
     email: string;
   } | null;
   sessionExpiresAt: string | null;
+  emailVerificationSkipped?: boolean;
 };
-
-const extractPlainText = (html: string) => html.replace(/<[^>]*>/g, '').trim();
 
 export default function PublishArticlePage() {
   const router = useRouter();
+  const errorRef = useRef<HTMLDivElement>(null);
+  const editorRef = useRef<RichTextEditorHandle | null>(null);
+  const autosaveGenRef = useRef(0);
   const [email, setEmail] = useState('');
   const [otpCode, setOtpCode] = useState('');
   const [verifiedEmail, setVerifiedEmail] = useState<string | null>(null);
+  const [writerId, setWriterId] = useState<string | null>(null);
   const [sessionExpiresAt, setSessionExpiresAt] = useState<string | null>(null);
   const [otpRequested, setOtpRequested] = useState(false);
   const [verificationMessage, setVerificationMessage] = useState<string | null>(null);
@@ -46,33 +65,136 @@ export default function PublishArticlePage() {
   const [description, setDescription] = useState('');
   const [writerName, setWriterName] = useState('');
   const [content, setContent] = useState('');
+  const [coverImage, setCoverImage] = useState<string | null>(null);
+  const [serverDraftId, setServerDraftId] = useState<string | null>(null);
+  const [serverDraftStatus, setServerDraftStatus] = useState<
+    'DRAFT' | 'PENDING' | 'REJECTED' | null
+  >(null);
+  const [draftRestored, setDraftRestored] = useState(false);
+  const [serverDraftSaving, setServerDraftSaving] = useState(false);
   const [isCheckingSession, setIsCheckingSession] = useState(true);
   const [isSendingOtp, setIsSendingOtp] = useState(false);
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [emailVerificationSkipped, setEmailVerificationSkipped] =
+    useState(false);
+
+  const { clearDraft } = useArticleDraft({
+    writerId,
+    title,
+    description,
+    writerName,
+    content,
+    coverImage,
+    enabled: !isSubmitting,
+  });
+
+  const applyDraft = (draft: {
+    title: string;
+    description: string;
+    writerName?: string;
+    content: string;
+    coverImage?: string | null;
+  } | null) => {
+    if (!draft) {
+      return;
+    }
+
+    const hasContent =
+      draft.title ||
+      draft.description ||
+      draft.writerName ||
+      draft.content.replace(/<[^>]*>/g, '').trim() ||
+      /<img\b/i.test(draft.content) ||
+      draft.coverImage;
+
+    if (!hasContent) {
+      return;
+    }
+
+    setTitle(draft.title);
+    setDescription(draft.description);
+    setWriterName(draft.writerName || '');
+    setContent(draft.content);
+    setCoverImage(draft.coverImage ?? null);
+    setDraftRestored(true);
+  };
+
+  const loadServerDraft = async (id: string) => {
+    try {
+      const response = await fetch(`/api/student-article/draft?id=${id}`, {
+        cache: 'no-store',
+      });
+      if (!response.ok) {
+        return false;
+      }
+      const data = await response.json();
+      const article = data.article;
+      if (!article) {
+        return false;
+      }
+
+      setServerDraftId(article.id);
+      setServerDraftStatus(article.reviewStatus || 'DRAFT');
+      applyDraft({
+        title: article.title,
+        description: article.description,
+        writerName: article.writerName || '',
+        content: article.content || '',
+        coverImage: article.coverImage ?? null,
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
   const loadWriterSession = async () => {
     setIsCheckingSession(true);
     try {
+      const draftParam =
+        typeof window !== 'undefined'
+          ? new URLSearchParams(window.location.search).get('draft')
+          : null;
+
       const response = await fetch('/api/writer-auth/session', {
         cache: 'no-store',
       });
 
       const data = await response.json() as WriterSessionResponse;
 
+      setEmailVerificationSkipped(Boolean(data.emailVerificationSkipped));
+
       if (data.writer?.email) {
         setEmail(data.writer.email);
         setVerifiedEmail(data.writer.email);
+        setWriterId(data.writer.id);
         setSessionExpiresAt(data.sessionExpiresAt);
-        setVerificationMessage('This browser is already verified for article submissions.');
+        setVerificationMessage(
+          data.emailVerificationSkipped
+            ? 'Dev mode: email verification is skipped. You can submit articles without OTP.'
+            : 'This browser is already verified for article submissions.'
+        );
+
+        if (draftParam) {
+          const loaded = await loadServerDraft(draftParam);
+          if (!loaded) {
+            applyDraft(migrateAnonymousDraftToWriter(data.writer.id));
+          }
+        } else {
+          applyDraft(migrateAnonymousDraftToWriter(data.writer.id));
+        }
       } else {
         setVerifiedEmail(null);
+        setWriterId(null);
         setSessionExpiresAt(null);
+        applyDraft(readArticleDraft(ANON_DRAFT_KEY));
       }
     } catch (sessionError) {
       console.error('Failed to load writer session', sessionError);
+      applyDraft(readArticleDraft(ANON_DRAFT_KEY));
     } finally {
       setIsCheckingSession(false);
     }
@@ -80,7 +202,113 @@ export default function PublishArticlePage() {
 
   useEffect(() => {
     void loadWriterSession();
+    // Initial session + draft restore only on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Server-side draft autosave once the writer is verified
+  useEffect(() => {
+    if (!verifiedEmail || isSubmitting || isCheckingSession) {
+      return;
+    }
+
+    const latestContent = editorRef.current?.getHTML() ?? content;
+    const hasContent =
+      title.trim() ||
+      description.trim() ||
+      latestContent.replace(/<[^>]*>/g, '').trim() ||
+      coverImage;
+
+    if (!hasContent) {
+      return;
+    }
+
+    // Never invent titles on PENDING/REJECTED autosave
+    if (
+      serverDraftId &&
+      (serverDraftStatus === 'PENDING' || serverDraftStatus === 'REJECTED') &&
+      (!title.trim() || !description.trim())
+    ) {
+      return;
+    }
+
+    const gen = ++autosaveGenRef.current;
+
+    const timer = window.setTimeout(async () => {
+      if (gen !== autosaveGenRef.current) {
+        return;
+      }
+
+      const flushed = editorRef.current?.flush() ?? content;
+      setServerDraftSaving(true);
+      try {
+        if (
+          serverDraftId &&
+          (serverDraftStatus === 'PENDING' || serverDraftStatus === 'REJECTED')
+        ) {
+          await fetch(`/api/student-article/${serverDraftId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              title,
+              description,
+              content: flushed,
+              writerName,
+              coverImage,
+              saveOnly: true,
+            }),
+          });
+        } else {
+          const response = await fetch('/api/student-article/draft', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: serverDraftId,
+              title,
+              description,
+              content: flushed,
+              writerName,
+              coverImage,
+            }),
+          });
+          if (response.ok && gen === autosaveGenRef.current) {
+            const data = await response.json();
+            if (data.article?.id) {
+              setServerDraftId(data.article.id);
+              setServerDraftStatus('DRAFT');
+            }
+          }
+        }
+      } catch (saveError) {
+        console.error('Server draft save failed', saveError);
+      } finally {
+        if (gen === autosaveGenRef.current) {
+          setServerDraftSaving(false);
+        }
+      }
+    }, 2500);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [
+    verifiedEmail,
+    title,
+    description,
+    content,
+    coverImage,
+    writerName,
+    serverDraftId,
+    serverDraftStatus,
+    isSubmitting,
+    isCheckingSession,
+  ]);
+
+  useEffect(() => {
+    if (error && errorRef.current) {
+      errorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [error]);
 
   const handleRequestOtp = async () => {
     setError(null);
@@ -149,10 +377,12 @@ export default function PublishArticlePage() {
 
       setVerifiedEmail(data.writer.email);
       setEmail(data.writer.email);
+      setWriterId(data.writer.id);
       setSessionExpiresAt(data.sessionExpiresAt);
       setOtpRequested(false);
       setOtpCode('');
       setVerificationMessage('Email verified. You can submit and track your article now.');
+      applyDraft(migrateAnonymousDraftToWriter(data.writer.id));
     } catch (verifyError: unknown) {
       setError(
         verifyError instanceof Error
@@ -178,6 +408,7 @@ export default function PublishArticlePage() {
     }
 
     setVerifiedEmail(null);
+    setWriterId(null);
     setSessionExpiresAt(null);
     setOtpRequested(false);
     setOtpCode('');
@@ -187,6 +418,8 @@ export default function PublishArticlePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Cancel any in-flight / pending autosave so it cannot race create.
+    autosaveGenRef.current += 1;
     setIsSubmitting(true);
     setError(null);
     setSuccess(null);
@@ -197,13 +430,47 @@ export default function PublishArticlePage() {
       return;
     }
 
+    // Flush debounced editor HTML before validation / network.
+    const flushedContent = editorRef.current?.flush() ?? content;
+    setContent(flushedContent);
+
+    const plainText = extractPlainText(flushedContent);
+
+    if (!title.trim() || title.trim().length > MAX_LENGTHS.title) {
+      setError(`Title is required (max ${MAX_LENGTHS.title} characters).`);
+      setIsSubmitting(false);
+      return;
+    }
+
     if (
-      !title.trim() ||
       !description.trim() ||
-      !content.trim() ||
-      extractPlainText(content).length === 0
+      description.trim().length > MAX_LENGTHS.description
     ) {
-      setError('Title, Description, and Content are required.');
+      setError(
+        `Description is required (max ${MAX_LENGTHS.description} characters).`
+      );
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!flushedContent.trim() || !plainText) {
+      setError('Article content is required. Add text before submitting.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (flushedContent.length > MAX_LENGTHS.content) {
+      setError(
+        `Article content is too long (max ${MAX_LENGTHS.content.toLocaleString()} characters).`
+      );
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (writerName && writerName.length > MAX_LENGTHS.writerName) {
+      setError(
+        `Writer name exceeds ${MAX_LENGTHS.writerName} characters.`
+      );
       setIsSubmitting(false);
       return;
     }
@@ -212,35 +479,49 @@ export default function PublishArticlePage() {
       const payload = {
         title,
         description,
-        content,
+        content: flushedContent,
         writerName,
+        coverImage,
+        action: 'submit' as const,
       };
 
-      const response = await fetch('/api/student-article', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+      // Resubmit existing draft / pending / rejected via PATCH; otherwise create new
+      const response = serverDraftId
+        ? await fetch(`/api/student-article/${serverDraftId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          })
+        : await fetch('/api/student-article', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
 
       const data = await response.json();
 
       if (!response.ok) {
         if (response.status === 401) {
           setVerifiedEmail(null);
+          setWriterId(null);
           setSessionExpiresAt(null);
           setOtpRequested(false);
         }
         throw new Error(data.error || 'Failed to submit article');
       }
 
+      clearDraft();
       setTitle('');
       setDescription('');
       setWriterName('');
       setContent('');
+      setCoverImage(null);
+      setServerDraftId(null);
+      setServerDraftStatus(null);
+      setDraftRestored(false);
       setSuccess('Your story has been submitted. You can track its review status anytime.');
       setVerificationMessage('Your verified email is still active for future submissions.');
+      router.replace('/publish-article');
     } catch (submitError: unknown) {
       const errorMessage =
         submitError instanceof Error
@@ -288,13 +569,13 @@ export default function PublishArticlePage() {
         </div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-6xl">
-          <div className="text-center mb-20 space-y-6">
+          <div className="text-center mb-20 space-y-6 mt-12">
             <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-[#1a237e]/10 bg-white shadow-[0_2px_12px_rgba(26,35,126,0.08)] mb-4 animate-in fade-in slide-in-from-bottom-3">
               <Feather className="h-5 w-5 text-[#1a237e]" />
               <span className="text-sm font-bold tracking-[0.2em] text-[#1a237e] uppercase">The Student Journal</span>
             </div>
 
-            <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl text-[#1a237e] leading-[1.1] animate-in fade-in slide-in-from-bottom-5">
+            <h1 className="font-bold tracking-tight text-5xl md:text-6xl lg:text-7xl text-[#1a237e] leading-[1.1] animate-in fade-in slide-in-from-bottom-5">
               Every leader starts with <br />
               <span className="text-[#3949ab]">a story to tell.</span>
             </h1>
@@ -307,7 +588,7 @@ export default function PublishArticlePage() {
               <Button
                 size="lg"
                 onClick={() => document.getElementById('writing-canvas')?.scrollIntoView({ behavior: 'smooth' })}
-                className="rounded-full px-10 h-14 bg-[#1a237e] hover:bg-[#0d1642] text-white text-base font-semibold shadow-[0_10px_30px_rgba(26,35,126,0.25)]"
+                className="rounded-2xl px-10 h-14 bg-[#1a237e] hover:bg-[#0d1642] text-white text-base font-semibold shadow-[0_10px_30px_rgba(26,35,126,0.25)]"
               >
                 Start Writing
               </Button>
@@ -315,7 +596,7 @@ export default function PublishArticlePage() {
                 size="lg"
                 variant="outline"
                 onClick={() => router.push('/my-articles')}
-                className="rounded-full px-10 h-14 border-[#1a237e]/30 text-[#1a237e] hover:bg-white hover:text-[#0d1642] hover:border-[#1a237e]/60 transition-all bg-white/60 backdrop-blur-sm text-base font-medium"
+                className="rounded-2xl px-10 h-14 border-[#1a237e]/30 text-[#1a237e] hover:bg-white hover:text-[#0d1642] hover:border-[#1a237e]/60 transition-all bg-white/60 backdrop-blur-sm text-base font-medium"
               >
                 <Clock className="mr-2 h-4 w-4" />
                 View My Article Status
@@ -372,19 +653,45 @@ export default function PublishArticlePage() {
               ))}
             </div>
           </div>
+        </div>
 
-          <div id="writing-canvas" className="max-w-4xl mx-auto">
+        <div className="w-full mx-auto px-4 md:px-8 lg:px-12 relative z-10 max-w-[1600px]">
+          <div id="writing-canvas" className="w-full mx-auto">
             <div className="space-y-4 mb-8">
               {error && (
-                <Alert variant="destructive" className="bg-red-50 border-red-100 text-red-900 rounded-xl shadow-sm animate-in zoom-in-95">
-                  <Terminal className="h-4 w-4" />
-                  <AlertTitle className="font-bold">Something needs attention</AlertTitle>
-                  <AlertDescription className="text-red-800/80">{error}</AlertDescription>
+                <div ref={errorRef}>
+                  <Alert variant="destructive" className="bg-red-50 border-red-100 text-red-900 rounded-2xl shadow-sm animate-in zoom-in-95">
+                    <Terminal className="h-4 w-4" />
+                    <AlertTitle className="font-bold">Something needs attention</AlertTitle>
+                    <AlertDescription className="text-red-800/80">{error}</AlertDescription>
+                  </Alert>
+                </div>
+              )}
+
+              {draftRestored && (
+                <Alert className="bg-amber-50 border-amber-100 text-amber-900 rounded-2xl shadow-sm">
+                  <Feather className="h-4 w-4" />
+                  <AlertTitle className="font-bold">Draft restored</AlertTitle>
+                  <AlertDescription className="text-amber-800/80">
+                    We recovered your previous writing
+                    {serverDraftId ? ' from your account' : ' from this browser'}.
+                  </AlertDescription>
+                </Alert>
+              )}
+
+              {emailVerificationSkipped && (
+                <Alert className="bg-amber-50 border-amber-200 text-amber-950 rounded-2xl shadow-sm">
+                  <ShieldCheck className="h-4 w-4" />
+                  <AlertTitle className="font-bold">Email verification skipped</AlertTitle>
+                  <AlertDescription className="text-amber-900/80">
+                    <code className="text-xs">SKIP_WRITER_EMAIL_VERIFICATION=true</code> is set.
+                    OTP/Resend is bypassed for local testing. Turn this off before production.
+                  </AlertDescription>
                 </Alert>
               )}
 
               {verificationMessage && (
-                <Alert className="bg-white border-[#1a237e]/10 text-[#1a237e] rounded-xl shadow-sm">
+                <Alert className="bg-white border-[#1a237e]/10 text-[#1a237e] rounded-2xl shadow-sm">
                   <ShieldCheck className="h-4 w-4" />
                   <AlertTitle className="font-bold">Writer verification</AlertTitle>
                   <AlertDescription className="text-[#1a237e]/80">
@@ -397,265 +704,277 @@ export default function PublishArticlePage() {
 
             <div className="bg-transparent relative">
               <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 items-start">
 
-                {/* ── Section 01: Verify Email ── */}
-                <div className="group/section transition-all duration-500">
-                  <div className="bg-white rounded-3xl border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_32px_rgba(26,35,126,0.06)] transition-all duration-500 overflow-hidden">
-                    <div className="flex items-center gap-3 px-7 pt-6 pb-4 border-b border-gray-50">
-                      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#1a237e] to-[#3949ab] text-white text-[11px] font-bold shrink-0 shadow-sm">
-                        01
-                      </span>
-                      <div>
-                        <label htmlFor="email" className="block text-sm font-bold text-gray-900 tracking-tight">
-                          Verify Your Email <span className="text-red-400 text-[10px] align-top">*</span>
-                        </label>
-                        <p className="text-[11px] text-gray-400 mt-0.5 leading-snug">We use email verification to protect submissions and let you track review status.</p>
+                  {/* Left Column: Distraction-free Writing Canvas */}
+                  <div className="bg-white rounded-xl border border-gray-200 p-6 md:p-8 space-y-8 shadow-sm">
+
+                    {/* Document Title */}
+                    <div className="space-y-1.5">
+                      <label htmlFor="title" className="block text-sm font-semibold text-gray-900">
+                        Title <span className="text-red-500">*</span>
+                      </label>
+                      <p className="text-sm text-gray-500 mb-2">Craft a clear, engaging title that summarizes your article.</p>
+                      <div className="flex items-start gap-3">
+                        <div className="relative flex-1">
+                          <Input
+                            id="title"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder="Enter a compelling title..."
+                            maxLength={MAX_LENGTHS.title}
+                            className="w-full h-11 rounded-lg border-gray-300 px-4 text-base shadow-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all pr-16"
+                            required
+                          />
+                          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-400 font-medium tabular-nums">
+                            {title.length}/{MAX_LENGTHS.title}
+                          </div>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="p-6 space-y-4">
-                      <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center">
-                        <div className="flex items-center gap-3 flex-1 px-5 py-4 bg-gradient-to-r from-[#f8f9ff] to-[#f5f6ff] rounded-2xl border border-[#1a237e]/8 focus-within:border-[#1a237e]/30 focus-within:shadow-[0_0_0_3px_rgba(26,35,126,0.06)] transition-all duration-300">
-                          <Mail className="h-5 w-5 text-[#3949ab] shrink-0" />
-                          <Input
-                            id="email"
-                            type="email"
-                            inputMode="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="you@example.com"
-                            readOnly={isVerified || isCheckingSession}
-                            className="border-0 bg-transparent p-0 h-auto text-base font-medium text-gray-800 placeholder:text-gray-300 focus-visible:ring-0 shadow-none w-full"
-                            required
-                          />
+                    {/* Document Subtitle / Description */}
+                    <div className="space-y-1.5">
+                      <label htmlFor="description" className="block text-sm font-semibold text-gray-900">
+                        Subtitle
+                      </label>
+                      <p className="text-sm text-gray-500 mb-2">Add a short subtitle (optional).</p>
+                      <div className="relative">
+                        <Textarea
+                          id="description"
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                          placeholder="Write a subtitle that hooks readers..."
+                          maxLength={MAX_LENGTHS.description}
+                          className="w-full min-h-[80px] rounded-lg border-gray-300 p-4 text-base shadow-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 resize-none transition-all pr-16"
+                        />
+                        <div className="absolute right-4 bottom-4 text-xs text-gray-400 font-medium tabular-nums">
+                          {description.length}/{MAX_LENGTHS.description}
                         </div>
+                      </div>
+                    </div>
 
-                        {isVerified ? (
-                          <Button
-                            type="button"
-                            variant="outline"
-                            onClick={handleLogoutWriter}
-                            className="h-12 px-6 rounded-2xl border-gray-200 text-gray-600 hover:bg-gray-50 hover:text-[#1a237e] hover:border-[#1a237e]/20 transition-all text-sm font-medium"
-                          >
-                            <LogOut className="h-4 w-4 mr-2" />
-                            Use Different Email
-                          </Button>
-                        ) : (
-                          <Button
-                            type="button"
-                            onClick={handleRequestOtp}
-                            disabled={isSendingOtp || isCheckingSession}
-                            className="h-12 px-7 rounded-2xl bg-[#1a237e] hover:bg-[#0d1642] text-white text-sm font-semibold shadow-[0_4px_16px_rgba(26,35,126,0.2)]"
-                          >
-                            {isSendingOtp ? (
-                              <>
-                                <LoaderCircle className="h-4 w-4 mr-2 animate-spin" />
-                                Sending...
-                              </>
-                            ) : (
-                              <>
-                                Send OTP
-                                <ArrowRight className="h-4 w-4 ml-2" />
-                              </>
-                            )}
-                          </Button>
-                        )}
+                    {/* Content */}
+                    <div className="space-y-3">
+                      <div className="flex items-start justify-between">
+                        <div className="space-y-0.5">
+                          <label className="block text-sm font-semibold text-gray-900">
+                            Content <span className="text-red-500">*</span>
+                          </label>
+                          <p className="text-sm text-gray-500">Write your article content. Use headings, lists, and formatting to make it easy to read.</p>
+                        </div>
+                        <div className="flex items-center gap-4 shrink-0">
+                          <div className="text-xs text-gray-500 font-medium tabular-nums hidden sm:block">
+                            {content.trim().split(/\s+/).filter(Boolean).length} words · {content.replace(/<[^>]*>/g, '').length} characters
+                          </div>
+                        </div>
                       </div>
 
-                      {!isVerified && (
-                        <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center">
-                          <Input
-                            value={otpCode}
-                            onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                            placeholder={otpRequested ? "Enter 6-digit code" : "Request a code first"}
-                            inputMode="numeric"
-                            autoComplete="one-time-code"
-                            disabled={!otpRequested || isVerifyingOtp}
-                            className="h-12 flex-1 rounded-2xl border-gray-200 bg-white text-base tracking-[0.3em] text-center focus:border-[#1a237e]/30 focus:shadow-[0_0_0_3px_rgba(26,35,126,0.06)] transition-all"
+                      {/* RichTextEditor Wrapper */}
+                      <div className="relative rounded-lg border border-gray-300 shadow-sm overflow-hidden bg-white flex flex-col">
+                        <div className="flex-1 min-h-[400px]">
+                          <RichTextEditor
+                            ref={editorRef}
+                            content={content}
+                            onChange={setContent}
+                            placeholder="Start writing your article here..."
+                            stickyToolbar={false}
+                            allowInlineImages={false}
+                            borderless={true}
                           />
-                          <Button
-                            type="button"
-                            variant="outline"
-                            onClick={handleVerifyOtp}
-                            disabled={!otpRequested || isVerifyingOtp}
-                            className="h-12 px-7 rounded-2xl border-[#1a237e]/15 text-[#1a237e] hover:bg-[#1a237e]/5 text-sm font-semibold"
-                          >
-                            {isVerifyingOtp ? (
-                              <>
-                                <LoaderCircle className="h-4 w-4 mr-2 animate-spin" />
-                                Verifying...
-                              </>
-                            ) : (
-                              <>
-                                Verify Email
-                                <ShieldCheck className="h-4 w-4 ml-2" />
-                              </>
-                            )}
-                          </Button>
                         </div>
-                      )}
-
-                      <div className="flex flex-wrap items-center gap-3 pt-1">
-                        <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border ${isVerified ? 'border-emerald-200 bg-emerald-50 text-emerald-700' : 'border-amber-200 bg-amber-50 text-amber-700'}`}>
-                          <span className={`h-1.5 w-1.5 rounded-full ${isVerified ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`}></span>
-                          {isCheckingSession ? 'Checking session...' : isVerified ? `Verified as ${verifiedEmail}` : 'Verification required'}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => router.push('/my-articles')}
-                          className="text-xs font-semibold text-[#1a237e] hover:text-[#0d1642] underline underline-offset-2 decoration-[#1a237e]/20 hover:decoration-[#1a237e]/50 transition-colors"
-                        >
-                          View my article statuses
-                        </button>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {/* ── Section 02: Author Name ── */}
-                <div className="group/section transition-all duration-500">
-                  <div className="bg-white rounded-3xl border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_32px_rgba(26,35,126,0.06)] transition-all duration-500 overflow-hidden">
-                    <div className="flex items-center gap-3 px-7 pt-6 pb-4 border-b border-gray-50">
-                      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#1a237e] to-[#3949ab] text-white text-[11px] font-bold shrink-0 shadow-sm">
-                        02
-                      </span>
-                      <div>
-                        <label htmlFor="writerName" className="block text-sm font-bold text-gray-900 tracking-tight">
-                          Author Name <span className="text-gray-300 font-normal text-xs">(optional)</span>
-                        </label>
-                        <p className="text-[11px] text-gray-400 mt-0.5 leading-snug">How you want to be credited on your published article</p>
+                  {/* Right Column: Publishing Controls Sidebar */}
+                  <div className="space-y-5 lg:sticky lg:top-28">
+
+                    {/* Card 01: Submission & Action Status */}
+                    <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-5 space-y-5">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-sm font-bold text-gray-900 tracking-tight flex items-center gap-2">
+                          <Sparkles className="h-4 w-4 text-[#1a237e]" />
+                          Publish Article
+                        </h3>
+                        {/* Auto-save status */}
+                        {isVerified && serverDraftId ? (
+                          <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100 flex items-center gap-1.5">
+                            <span className="h-1 w-1 rounded-full bg-emerald-500 animate-pulse"></span>
+                            {serverDraftSaving ? 'Saving...' : 'Saved'}
+                          </span>
+                        ) : (
+                          <span className="text-[10px] font-bold text-gray-500 bg-gray-50 px-2.5 py-1 rounded-full border border-gray-100">
+                            Local Draft
+                          </span>
+                        )}
                       </div>
+
+                      <div className="space-y-3">
+                        <Button
+                          type="submit"
+                          className="w-full h-12 rounded-2xl bg-[#1a237e] hover:bg-[#0d1642] text-white text-sm font-bold shadow-[0_4px_16px_rgba(26,35,126,0.15)] hover:shadow-[0_8px_24px_rgba(26,35,126,0.25)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300"
+                          disabled={isSubmitting || isCheckingSession || !isVerified}
+                        >
+                          {isSubmitting ? (
+                            <span className="flex items-center gap-2">
+                              <LoaderCircle className="h-4 w-4 animate-spin" />
+                              Submitting...
+                            </span>
+                          ) : (
+                            <span className="flex items-center gap-2">
+                              {isVerified ? 'Submit for Review' : 'Verify Email to Publish'}
+                              <Send className="h-4 w-4" />
+                            </span>
+                          )}
+                        </Button>
+
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => router.push('/my-articles')}
+                          className="w-full h-12 rounded-2xl border-gray-200 text-gray-600 hover:bg-gray-50 hover:text-[#1a237e] transition-all text-xs font-semibold"
+                        >
+                          <Clock className="mr-2 h-3.5 w-3.5" />
+                          View My Article Status
+                        </Button>
+                      </div>
+
+                      <p className="text-[11px] text-gray-400 font-normal leading-relaxed">
+                        Every article goes through an editorial check. You can track progress in real-time.
+                      </p>
                     </div>
 
-                    <div className="p-6">
-                      <div className="flex items-center gap-3 px-5 py-4 bg-gradient-to-r from-[#f8f9ff] to-[#f5f6ff] rounded-2xl border border-[#1a237e]/8 focus-within:border-[#1a237e]/30 focus-within:shadow-[0_0_0_3px_rgba(26,35,126,0.06)] transition-all duration-300">
-                        <User className="h-5 w-5 text-[#3949ab] shrink-0" />
+                    {/* Card 02: Verification & Writer Profile */}
+                    <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-5 space-y-4">
+                      <h3 className="text-sm font-bold text-gray-900 tracking-tight flex items-center gap-2">
+                        <User className="h-4 w-4 text-[#1a237e]" />
+                        Author Profile
+                      </h3>
+
+                      {/* Author Name */}
+                      <div className="space-y-1.5">
+                        <label htmlFor="writerName" className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                          Author Name <span className="text-gray-300 font-normal lowercase">(optional)</span>
+                        </label>
                         <Input
                           id="writerName"
                           value={writerName}
                           onChange={(e) => setWriterName(e.target.value)}
                           placeholder="e.g. Alex Johnson"
-                          className="border-0 bg-transparent p-0 h-auto text-base font-medium text-gray-800 placeholder:text-gray-300 focus-visible:ring-0 shadow-none w-full"
+                          maxLength={MAX_LENGTHS.writerName}
+                          className="h-10 rounded-xl border-gray-200 bg-gray-50/50 px-3 text-sm font-medium text-gray-800 focus:border-[#1a237e]/30 focus:bg-white focus:shadow-[0_0_0_2px_rgba(26,35,126,0.04)] transition-all shadow-none"
+                        />
+                        <div className="text-[9px] text-gray-400 text-right">
+                          {writerName.length}/{MAX_LENGTHS.writerName}
+                        </div>
+                      </div>
+
+                      <div className="h-px bg-gray-100 my-2"></div>
+
+                      {/* Verification Status */}
+                      <div className="space-y-3">
+                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                          Writer Verification
+                        </label>
+
+                        {isVerified ? (
+                          <div className="space-y-3">
+                            <div className="p-3.5 bg-emerald-50/30 border border-emerald-100 rounded-2xl flex items-start gap-3">
+                              <ShieldCheck className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="min-w-0">
+                                <p className="text-xs font-semibold text-emerald-950 truncate">Verified Account</p>
+                                <p className="text-[10px] text-emerald-700/80 truncate mt-0.5">{verifiedEmail}</p>
+                              </div>
+                            </div>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              onClick={handleLogoutWriter}
+                              className="w-full h-9 text-xs font-semibold text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"
+                            >
+                              <LogOut className="h-3.5 w-3.5 mr-1.5" />
+                              Use Different Email
+                            </Button>
+                          </div>
+                        ) : (
+                          <div className="space-y-3">
+                            <div className="space-y-2">
+                              <div className="relative">
+                                <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                                <Input
+                                  id="email"
+                                  type="email"
+                                  inputMode="email"
+                                  value={email}
+                                  onChange={(e) => setEmail(e.target.value)}
+                                  placeholder="you@example.com"
+                                  readOnly={isVerified || isCheckingSession}
+                                  className="h-10 pl-9 rounded-xl border-gray-200 bg-white text-sm font-medium text-gray-800 placeholder:text-gray-300 focus:border-[#1a237e]/30 focus:shadow-[0_0_0_2px_rgba(26,35,126,0.04)] transition-all shadow-none"
+                                  required
+                                />
+                              </div>
+
+                              <Button
+                                type="button"
+                                onClick={handleRequestOtp}
+                                disabled={isSendingOtp || isCheckingSession}
+                                className="w-full h-9 rounded-xl bg-gray-900 hover:bg-black text-white text-xs font-bold transition-all"
+                              >
+                                {isSendingOtp ? (
+                                  <LoaderCircle className="h-3.5 w-3.5 animate-spin mr-1.5" />
+                                ) : null}
+                                {isSendingOtp ? 'Sending...' : 'Send Verification OTP'}
+                              </Button>
+                            </div>
+
+                            {otpRequested && (
+                              <div className="space-y-2 pt-1 animate-in slide-in-from-top-2 duration-300">
+                                <Input
+                                  value={otpCode}
+                                  onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                                  placeholder="Enter 6-digit OTP"
+                                  inputMode="numeric"
+                                  autoComplete="one-time-code"
+                                  disabled={isVerifyingOtp}
+                                  className="h-10 rounded-xl border-gray-200 text-center text-sm font-semibold tracking-[0.2em] placeholder:tracking-normal focus:border-[#1a237e]/30 focus:shadow-[0_0_0_2px_rgba(26,35,126,0.04)]"
+                                />
+                                <Button
+                                  type="button"
+                                  onClick={handleVerifyOtp}
+                                  disabled={isVerifyingOtp}
+                                  className="w-full h-9 rounded-xl bg-[#1a237e] hover:bg-[#0d1642] text-white text-xs font-bold transition-all"
+                                >
+                                  {isVerifyingOtp ? (
+                                    <LoaderCircle className="h-3.5 w-3.5 animate-spin mr-1.5" />
+                                  ) : null}
+                                  {isVerifyingOtp ? 'Verifying...' : 'Verify OTP Code'}
+                                </Button>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Card 03: Cover Image */}
+                    <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-5 space-y-3">
+                      <h3 className="text-sm font-bold text-gray-900 tracking-tight">
+                        Cover Image
+                      </h3>
+                      <p className="text-[10px] text-gray-400 leading-snug">
+                        Used as a thumbnail in article lists and for social card sharing.
+                      </p>
+                      <div className="pt-1">
+                        <CoverImageField
+                          value={coverImage}
+                          onChange={setCoverImage}
+                          disabled={isSubmitting}
                         />
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {/* ── Section 03: Article Title ── */}
-                <div className="group/section transition-all duration-500">
-                  <div className="bg-white rounded-3xl border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_32px_rgba(26,35,126,0.06)] transition-all duration-500 overflow-hidden">
-                    <div className="flex items-center gap-3 px-7 pt-6 pb-4 border-b border-gray-50">
-                      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#1a237e] to-[#3949ab] text-white text-[11px] font-bold shrink-0 shadow-sm">
-                        03
-                      </span>
-                      <div>
-                        <label htmlFor="title" className="block text-sm font-bold text-gray-900 tracking-tight">
-                          Article Title <span className="text-red-400 text-[10px] align-top">*</span>
-                        </label>
-                        <p className="text-[11px] text-gray-400 mt-0.5 leading-snug">A clear, compelling headline for your story</p>
-                      </div>
-                    </div>
-
-                    <div className="p-6">
-                      <div className="relative group/input">
-                        <Input
-                          id="title"
-                          value={title}
-                          onChange={(e) => setTitle(e.target.value)}
-                          placeholder="Give your story a powerful name..."
-                          className="w-full border-0 bg-transparent p-0 h-auto text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 placeholder:text-gray-200 focus-visible:ring-0 shadow-none transition-all"
-                          required
-                        />
-                        <div className="mt-3 h-[2px] bg-gradient-to-r from-[#1a237e]/30 via-[#3949ab]/20 to-transparent rounded-full scale-x-0 origin-left group-focus-within/input:scale-x-100 transition-transform duration-500"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* ── Section 04: Short Description ── */}
-                <div className="group/section transition-all duration-500">
-                  <div className="bg-white rounded-3xl border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_32px_rgba(26,35,126,0.06)] transition-all duration-500 overflow-hidden">
-                    <div className="flex items-center gap-3 px-7 pt-6 pb-4 border-b border-gray-50">
-                      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#1a237e] to-[#3949ab] text-white text-[11px] font-bold shrink-0 shadow-sm">
-                        04
-                      </span>
-                      <div>
-                        <label htmlFor="description" className="block text-sm font-bold text-gray-900 tracking-tight">
-                          Short Description <span className="text-red-400 text-[10px] align-top">*</span>
-                        </label>
-                        <p className="text-[11px] text-gray-400 mt-0.5 leading-snug">1-2 sentences that hook your readers and summarise your article</p>
-                      </div>
-                    </div>
-
-                    <div className="p-6">
-                      <Textarea
-                        id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="One or two sentences to hook your readers..."
-                        className="w-full border-0 bg-gradient-to-r from-[#f8f9ff] to-[#f5f6ff] p-5 min-h-[120px] text-base font-light text-gray-700 placeholder:text-gray-300 focus-visible:ring-0 focus:shadow-[0_0_0_3px_rgba(26,35,126,0.06)] shadow-none resize-none leading-relaxed rounded-2xl border border-[#1a237e]/8 focus:border-[#1a237e]/30 transition-all duration-300"
-                        required
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-3 group/section transition-all duration-500 pt-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1a237e] text-white text-[11px] font-bold shrink-0">
-                        05
-                      </span>
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-800">
-                          Article Content <span className="text-red-400 text-xs">*</span>
-                        </label>
-                        <p className="text-xs text-gray-400 mt-0.5">Write your full article here and use formatting, headings, and images to bring it to life.</p>
-                      </div>
-                    </div>
-                    <div className="hidden sm:flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full">
-                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
-                      Rich Text Editor
-                    </div>
-                  </div>
-                  <div className="relative group/editor">
-                    <RichTextEditor
-                      content={content}
-                      onChange={setContent}
-                      placeholder="Let your words flow here..."
-                      stickyToolbar
-                      toolbarOffsetPx={100}
-                    />
-                  </div>
-                </div>
-
-                <div className="pt-12 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-8">
-                  <div className="flex items-center gap-4 max-w-md">
-                    <div className="h-10 w-10 shrink-0 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
-                      <Sparkles className="h-5 w-5" />
-                    </div>
-                    <p className="text-xs text-gray-400 font-medium leading-relaxed">
-                      Only verified writers can submit articles. Once submitted, your article will appear in your dashboard as pending, published, or rejected.
-                    </p>
-                  </div>
-                  <Button
-                    type="submit"
-                    className="h-16 px-12 rounded-full bg-[#1a237e] hover:bg-[#0d1642] text-white text-lg font-bold shadow-[0_10px_30px_rgba(26,35,126,0.3)] hover:shadow-[0_20px_40px_rgba(26,35,126,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
-                    disabled={isSubmitting || isCheckingSession || !isVerified}
-                  >
-                    {isSubmitting ? (
-                      <span className="flex items-center gap-3">
-                        <LoaderCircle className="h-5 w-5 animate-spin" />
-                        Submitting...
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-3">
-                        {isVerified ? 'Submit for Review' : 'Verify Email to Continue'}
-                        <Send className="h-5 w-5" />
-                      </span>
-                    )}
-                  </Button>
                 </div>
               </form>
             </div>

@@ -1,31 +1,52 @@
-import mongoose from "mongoose";
+import mongoose, { type InferSchemaType, type Model } from "mongoose";
 
-const ArticleSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
+const ArticleSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Admin",
+      required: true,
+    },
+    slug: {
+      type: String,
+      sparse: true,
+      unique: true,
+      index: true,
+    },
+    readingTimeMinutes: {
+      type: Number,
+      default: null,
+    },
+    coverImage: {
+      type: String,
+      default: null,
+    },
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  content: {
-    type: String,
-    required: true,
-  },
-  author: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Admin",
-    required: true,
-  },
-}, {
-  timestamps: true,
-});
+  {
+    timestamps: true,
+  }
+);
 
-// Force re-compilation when schema changes
-if (mongoose.models.Article) {
-  delete mongoose.models.Article;
-}
+ArticleSchema.index({ createdAt: -1 });
 
-const Article = mongoose.model("Article", ArticleSchema);
+export type ArticleDocument = InferSchemaType<typeof ArticleSchema> & {
+  _id: mongoose.Types.ObjectId;
+};
+
+const Article =
+  (mongoose.models.Article as Model<ArticleDocument> | undefined) ||
+  mongoose.model<ArticleDocument>("Article", ArticleSchema);
+
 export default Article;

@@ -116,7 +116,7 @@ export default function FounderSection() {
             {/* CTA */}
             <div className="pt-2">
               <Link href="/founder" className="inline-block outline-none">
-                <Button className="relative overflow-hidden inline-flex items-center justify-center w-auto h-12 md:h-14 px-8 md:px-10 rounded-full bg-gradient-to-br from-[#1a237e] via-[#283593] to-[#3949ab] text-white text-sm md:text-base font-bold tracking-wide shadow-[0_20px_40px_-12px_rgba(26,35,126,0.4)] hover:shadow-[0_25px_50px_-12px_rgba(26,35,126,0.5)] transition-all duration-500 hover:-translate-y-1.5 hover:scale-[1.02] active:scale-[0.98] group border border-white/10">
+                <Button className="relative overflow-hidden inline-flex items-center justify-center w-auto h-12 md:h-14 px-8 md:px-10 rounded-2xl bg-gradient-to-br from-[#1a237e] via-[#283593] to-[#3949ab] text-white text-sm md:text-base font-bold tracking-wide shadow-[0_20px_40px_-12px_rgba(26,35,126,0.4)] hover:shadow-[0_25px_50px_-12px_rgba(26,35,126,0.5)] transition-all duration-500 hover:-translate-y-1.5 hover:scale-[1.02] active:scale-[0.98] group border border-white/10">
                   {/* Glass sheen highlight - top edge only */}
                   <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
                   

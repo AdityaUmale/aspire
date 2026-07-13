@@ -2,8 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { FaLinkedinIn, FaInstagram, FaFacebookF, FaXTwitter } from 'react-icons/fa6';
-import { Save, RefreshCw, CheckCircle, AlertCircle, ExternalLink } from 'lucide-react';
+import { Save, RefreshCw, ExternalLink, AlertCircle, Info } from 'lucide-react';
 import { normalizeFacebookInput } from '@/lib/social-url';
+import { AdminPageHeader } from '@/components/admin/page-header';
+import { useAdminToast } from '@/components/admin/admin-toast';
+import { getFriendlyError } from '@/lib/admin-messages';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 interface SocialUrls {
   linkedin: string;
@@ -65,7 +71,8 @@ function getPlatformValidation(platform: keyof SocialUrls, url: string) {
     case 'linkedin':
       return {
         tone: 'info' as const,
-        message: 'LinkedIn can render as a live embed when the post is public and embedding is allowed by the page or profile.',
+        message:
+          'LinkedIn can render as a live embed when the post is public and embedding is allowed by the page or profile.',
       };
     case 'instagram':
       if (!/instagram\.com\/(?:p|reel)\/[A-Za-z0-9_-]+/i.test(value)) {
@@ -75,7 +82,7 @@ function getPlatformValidation(platform: keyof SocialUrls, url: string) {
         };
       }
       return null;
-    case 'facebook':
+    case 'facebook': {
       const normalizedFacebook = normalizeFacebookInput(value);
       const isFacebookPlugin = /facebook\.com\/plugins\/(?:video|post)\.php/i.test(normalizedFacebook);
 
@@ -89,20 +96,23 @@ function getPlatformValidation(platform: keyof SocialUrls, url: string) {
       if (/facebook\.com\/(?:share\/|share\.php)/i.test(normalizedFacebook)) {
         return {
           tone: 'warning' as const,
-          message: 'Share links are less reliable and will render as preview cards. Use Facebook’s official Embed iframe/plugin URL for inline playback.',
+          message:
+            'Share links are less reliable and will render as preview cards. Use Facebook’s official Embed iframe/plugin URL for inline playback.',
         };
       }
 
       if (!FACEBOOK_POST_PATTERNS.some((pattern) => pattern.test(normalizedFacebook))) {
         return {
           tone: 'warning' as const,
-          message: 'Use a direct facebook.com reel, video, post, photo, permalink URL, or Facebook embed URL/code.',
+          message:
+            'Use a direct facebook.com reel, video, post, photo, permalink URL, or Facebook embed URL/code.',
         };
       }
       return {
         tone: 'info' as const,
         message: 'Direct Facebook reels, videos, and posts render as preview cards with a link out to Facebook.',
       };
+    }
     case 'twitter':
       if (!/(?:x\.com|twitter\.com)\/[^/]+\/status\/\d+/i.test(value)) {
         return {
@@ -117,23 +127,44 @@ function getPlatformValidation(platform: keyof SocialUrls, url: string) {
 }
 
 export default function SocialPostsPage() {
-  const [urls, setUrls] = useState<SocialUrls>({ linkedin: '', instagram: '', facebook: '', twitter: '' });
+  const toast = useAdminToast();
+  const [urls, setUrls] = useState<SocialUrls>({
+    linkedin: '',
+    instagram: '',
+    facebook: '',
+    twitter: '',
+  });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/admin/social-posts')
-      .then(r => r.json())
-      .then(res => {
-        if (res.success) setUrls({ linkedin: res.data.linkedin || '', instagram: res.data.instagram || '', facebook: res.data.facebook || '', twitter: res.data.twitter || '' });
+      .then((r) => r.json())
+      .then((res) => {
+        if (res.success) {
+          setUrls({
+            linkedin: res.data.linkedin || '',
+            instagram: res.data.instagram || '',
+            facebook: res.data.facebook || '',
+            twitter: res.data.twitter || '',
+          });
+          setLoadError(null);
+        } else {
+          throw new Error(res.message || 'Failed to load social post URLs');
+        }
+      })
+      .catch((err) => {
+        const message = getFriendlyError(err, 'Could not load saved social URLs.');
+        setLoadError(message);
+        toast.error('Load failed', message);
       })
       .finally(() => setLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- load once
   }, []);
 
   const handleSave = async () => {
     setSaving(true);
-    setStatus('idle');
     try {
       const res = await fetch('/api/admin/social-posts', {
         method: 'PUT',
@@ -148,104 +179,140 @@ export default function SocialPostsPage() {
           facebook: data.data.facebook || '',
           twitter: data.data.twitter || '',
         });
+        toast.success('Social embeds saved', 'Homepage social section will use these URLs.');
+      } else {
+        throw new Error(data.message || data.error || 'Failed to save social posts');
       }
-      setStatus(data.success ? 'success' : 'error');
-    } catch {
-      setStatus('error');
+    } catch (err) {
+      toast.error(
+        'Could not save',
+        getFriendlyError(err, 'Failed to save. Please try again.')
+      );
     } finally {
       setSaving(false);
-      setTimeout(() => setStatus('idle'), 3000);
     }
   };
 
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div className="space-y-1">
-        <h1 className="text-2xl font-bold text-[#1a237e]">Social Media Post Embeds</h1>
-        <p className="text-sm text-gray-500">
-          Paste the direct URL of your latest post on each platform. These will be displayed in the social section of the landing page.
-          Leave a field blank to hide that platform&apos;s embed.
-        </p>
-      </div>
+      <AdminPageHeader
+        badge="Social embeds"
+        title="Social media post embeds"
+        description="Paste the direct URL of your latest post on each platform. These appear in the social section of the landing page. Leave a field blank to hide that platform."
+      />
+
+      {loadError ? (
+        <div className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+          <p>{loadError}</p>
+        </div>
+      ) : null}
 
       {loading ? (
-        <div className="flex items-center gap-3 text-gray-400 py-12 justify-center">
-          <RefreshCw className="h-5 w-5 animate-spin" />
-          <span>Loading saved URLs…</span>
-        </div>
-      ) : (
-        <div className="space-y-5">
-          {PLATFORMS.map(({ key, label, icon: Icon, color, placeholder, hint }) => (
-            <div key={key} className="bg-white/80 backdrop-blur-sm border border-[#1a237e]/10 rounded-2xl p-5 shadow-sm space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: `${color}18` }}>
-                  <Icon className="h-4 w-4" style={{ color }} />
+        <div className="space-y-4">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="rounded-2xl border border-gray-200 bg-white p-5">
+              <div className="mb-3 flex items-center gap-3">
+                <Skeleton className="h-9 w-9 rounded-xl" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-3 w-48" />
                 </div>
-                <div>
-                  <h3 className="font-semibold text-[#1a237e] text-sm">{label}</h3>
-                  <p className="text-xs text-gray-400">{hint}</p>
-                </div>
-                {urls[key] && (
-                  <a href={urls[key]} target="_blank" rel="noopener noreferrer" className="ml-auto flex items-center gap-1 text-xs text-[#3949ab] hover:underline">
-                    Preview <ExternalLink className="h-3 w-3" />
-                  </a>
-                )}
               </div>
-              <input
-                type={key === 'facebook' ? 'text' : 'url'}
-                value={urls[key]}
-                onChange={e => setUrls(prev => ({ ...prev, [key]: e.target.value }))}
-                placeholder={placeholder}
-                className="w-full rounded-xl border border-[#1a237e]/10 bg-[#f8f9ff] px-4 py-2.5 text-sm text-gray-700 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e]/30 transition"
-              />
-              {(() => {
-                const validation = getPlatformValidation(key, urls[key]);
-                if (!validation) return null;
-
-                return (
-                  <p className={`text-xs ${validation.tone === 'warning' ? 'text-amber-700' : 'text-[#3949ab]'}`}>
-                    {validation.message}
-                  </p>
-                );
-              })()}
+              <Skeleton className="h-11 w-full rounded-xl" />
             </div>
           ))}
         </div>
+      ) : (
+        <div className="space-y-4">
+          {PLATFORMS.map(({ key, label, icon: Icon, color, placeholder, hint }) => {
+            const validation = getPlatformValidation(key, urls[key]);
+            return (
+              <div
+                key={key}
+                className="space-y-3 rounded-2xl border border-[#1a237e]/10 bg-white/90 p-5 shadow-sm backdrop-blur-sm transition-shadow hover:shadow-md"
+              >
+                <div className="flex items-center gap-3">
+                  <div
+                    className="flex h-10 w-10 items-center justify-center rounded-xl"
+                    style={{ backgroundColor: `${color}18` }}
+                  >
+                    <Icon className="h-4 w-4" style={{ color }} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-sm font-semibold text-[#1a237e]">{label}</h3>
+                    <p className="text-xs text-gray-400">{hint}</p>
+                  </div>
+                  {urls[key] ? (
+                    <a
+                      href={urls[key]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ml-auto inline-flex items-center gap-1 text-xs font-medium text-[#3949ab] transition-colors hover:text-[#1a237e] hover:underline"
+                    >
+                      Open <ExternalLink className="h-3 w-3" />
+                    </a>
+                  ) : null}
+                </div>
+                <input
+                  type={key === 'facebook' ? 'text' : 'url'}
+                  value={urls[key]}
+                  onChange={(e) => setUrls((prev) => ({ ...prev, [key]: e.target.value }))}
+                  placeholder={placeholder}
+                  className="w-full rounded-xl border border-[#1a237e]/10 bg-[#f8f9ff] px-4 py-2.5 text-sm text-gray-700 placeholder:text-gray-300 transition focus:border-[#1a237e]/30 focus:outline-none focus:ring-2 focus:ring-[#1a237e]/15"
+                />
+                {validation ? (
+                  <p
+                    className={cn(
+                      'flex items-start gap-1.5 text-xs leading-relaxed',
+                      validation.tone === 'warning' ? 'text-amber-700' : 'text-[#3949ab]'
+                    )}
+                  >
+                    {validation.tone === 'warning' ? (
+                      <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                    ) : (
+                      <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                    )}
+                    {validation.message}
+                  </p>
+                ) : null}
+              </div>
+            );
+          })}
+        </div>
       )}
 
-      {/* Save Button */}
-      <div className="flex items-center gap-4">
-        <button
+      <div className="flex flex-wrap items-center gap-3">
+        <Button
           onClick={handleSave}
           disabled={saving || loading}
-          className="flex items-center gap-2 bg-[#1a237e] hover:bg-[#283593] disabled:opacity-50 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg"
+          className="bg-[#1a237e] text-white shadow-md hover:bg-[#283593] hover:shadow-lg"
         >
           {saving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-          {saving ? 'Saving…' : 'Save Changes'}
-        </button>
-
-        {status === 'success' && (
-          <span className="flex items-center gap-1.5 text-sm text-green-600 font-medium">
-            <CheckCircle className="h-4 w-4" /> Saved successfully
-          </span>
-        )}
-        {status === 'error' && (
-          <span className="flex items-center gap-1.5 text-sm text-red-500 font-medium">
-            <AlertCircle className="h-4 w-4" /> Failed to save. Please try again.
-          </span>
-        )}
+          {saving ? 'Saving…' : 'Save changes'}
+        </Button>
+        <p className="text-xs text-gray-400">Changes apply to the public homepage social section.</p>
       </div>
 
-      {/* Notes */}
-      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-1.5">
-        <p className="text-xs font-semibold text-amber-700 uppercase tracking-wide">Important Notes</p>
-        <ul className="text-xs text-amber-700 space-y-1 list-disc list-inside">
-          <li>Instagram embeds require the post to be from a <strong>public</strong> account.</li>
-          <li>LinkedIn embeds work only for public posts where the author or page allows embedding. Some post types may still fall back to a preview card.</li>
-          <li>Direct Facebook reels, videos, posts, and share links now render as preview cards with an outbound CTA.</li>
-          <li>Facebook&apos;s official Embed/plugin URL or iframe code is the reliable way to get inline playback on the landing page.</li>
-          <li>For X (Twitter), use a direct <strong>/status/</strong> URL. If the post cannot be embedded, the site will show a preview card instead.</li>
+      <div className="space-y-2 rounded-2xl border border-amber-200/80 bg-amber-50/90 p-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">Important notes</p>
+        <ul className="list-inside list-disc space-y-1 text-xs leading-relaxed text-amber-800/90">
+          <li>
+            Instagram embeds require the post to be from a <strong>public</strong> account.
+          </li>
+          <li>
+            LinkedIn embeds work only for public posts where the author or page allows embedding.
+          </li>
+          <li>
+            Direct Facebook reels, videos, posts, and share links render as preview cards with an outbound CTA.
+          </li>
+          <li>
+            Facebook&apos;s official Embed/plugin URL or iframe code is the reliable way to get inline playback.
+          </li>
+          <li>
+            For X (Twitter), use a direct <strong>/status/</strong> URL. If the post cannot be embedded, a preview
+            card is shown instead.
+          </li>
         </ul>
       </div>
     </div>

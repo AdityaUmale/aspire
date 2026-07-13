@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   getOrRefreshWriterSession,
+  isWriterEmailVerificationSkipped,
   setWriterSessionCookie,
 } from "@/lib/writer-auth";
 
@@ -10,7 +11,11 @@ export async function GET(request: NextRequest) {
 
     if (!session) {
       return NextResponse.json(
-        { writer: null, sessionExpiresAt: null },
+        {
+          writer: null,
+          sessionExpiresAt: null,
+          emailVerificationSkipped: isWriterEmailVerificationSkipped(),
+        },
         { status: 200 }
       );
     }
@@ -19,6 +24,9 @@ export async function GET(request: NextRequest) {
       {
         writer: session.writer,
         sessionExpiresAt: session.expiresAt.toISOString(),
+        emailVerificationSkipped:
+          Boolean(session.emailVerificationSkipped) ||
+          isWriterEmailVerificationSkipped(),
       },
       { status: 200 }
     );

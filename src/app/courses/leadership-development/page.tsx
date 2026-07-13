@@ -71,7 +71,7 @@ export default function LeadershipDevelopmentPage() {
                   <div className="absolute inset-0 bg-gradient-to-br from-[#c5cae9]/30 to-transparent rounded-2xl blur-2xl group-hover:blur-3xl transition-all duration-500"></div>
                   <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                     <Image
-                      src="/ldp3.jpg"
+                      src="/ldp-new/IMG_8929.JPG"
                       alt="Leadership Development Program"
                       width={600}
                       height={500}
@@ -130,7 +130,7 @@ export default function LeadershipDevelopmentPage() {
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#e8eaf6] rounded-full blur-xl"></div>
               <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-[#c5cae9] rounded-full blur-xl"></div>
               <Image
-                src="/ldp4.jpg"
+                src="/ldp-new/IMG_8935.JPG"
                 alt="Leadership training session at Aspire Institute"
                 width={600}
                 height={450}
@@ -144,7 +144,7 @@ export default function LeadershipDevelopmentPage() {
             <div className="order-2 md:order-1 relative">
               <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform -rotate-2 scale-[1.02]"></div>
               <Image
-                src="/ldp1.jpg"
+                src="/ldp-new/IMG_8711.JPG"
                 alt="Professional development in LDP"
                 width={600}
                 height={450}

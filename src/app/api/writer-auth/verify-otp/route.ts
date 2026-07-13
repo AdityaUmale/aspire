@@ -66,24 +66,63 @@ export async function POST(request: NextRequest) {
 
     const expectedCodeHash = hashWriterOtpCode({ email, code });
 
-    if (challenge.codeHash !== expectedCodeHash) {
-      const nextAttemptCount = challenge.attemptCount + 1;
-      await WriterOtpChallenge.findByIdAndUpdate(challenge._id, {
-        $set: {
-          attemptCount: nextAttemptCount,
-          invalidatedAt:
-            nextAttemptCount >= challenge.maxAttempts ? new Date() : null,
+    const activeChallengeFilter = {
+      _id: challenge._id,
+      consumedAt: null,
+      invalidatedAt: null,
+      expiresAt: { $gt: now },
+      $expr: { $lt: ["$attemptCount", "$maxAttempts"] },
+    };
+
+    const claimedChallenge = await WriterOtpChallenge.findOneAndUpdate(
+      {
+        ...activeChallengeFilter,
+        codeHash: expectedCodeHash,
+      },
+      {
+        $set: { consumedAt: now },
+        $inc: { attemptCount: 1 },
+      },
+      { new: true }
+    );
+
+    if (!claimedChallenge) {
+      const failedChallenge = await WriterOtpChallenge.findOneAndUpdate(
+        {
+          ...activeChallengeFilter,
+          codeHash: { $ne: expectedCodeHash },
         },
-      });
+        { $inc: { attemptCount: 1 } },
+        { new: true }
+      );
+
+      if (
+        failedChallenge &&
+        failedChallenge.attemptCount >= failedChallenge.maxAttempts
+      ) {
+        await WriterOtpChallenge.updateOne(
+          {
+            _id: failedChallenge._id,
+            consumedAt: null,
+            invalidatedAt: null,
+            attemptCount: { $gte: failedChallenge.maxAttempts },
+          },
+          { $set: { invalidatedAt: new Date() } }
+        );
+      }
+
+      const attemptsExhausted =
+        !failedChallenge ||
+        failedChallenge.attemptCount >= failedChallenge.maxAttempts;
 
       return NextResponse.json(
         {
           error:
-            nextAttemptCount >= challenge.maxAttempts
+            attemptsExhausted
               ? "Too many incorrect attempts. Request a new code."
               : "Verification code is invalid or expired",
         },
-        { status: nextAttemptCount >= challenge.maxAttempts ? 429 : 400 }
+        { status: attemptsExhausted ? 429 : 400 }
       );
     }
 
@@ -102,10 +141,6 @@ export async function POST(request: NextRequest) {
         setDefaultsOnInsert: true,
       }
     );
-
-    await WriterOtpChallenge.findByIdAndUpdate(challenge._id, {
-      $set: { consumedAt: now, attemptCount: challenge.attemptCount + 1 },
-    });
 
     const { token, expiresAt } = await createWriterSession({
       writerId: String(writer._id),

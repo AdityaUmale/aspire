@@ -68,7 +68,7 @@ export default function EntrepreneurshipDevelopmentPage() {
                   <div className="absolute inset-0 bg-gradient-to-br from-[#c5cae9]/30 to-transparent rounded-2xl blur-2xl group-hover:blur-3xl transition-all duration-500"></div>
                   <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                     <Image
-                      src="/edp.jpg"
+                      src="/edp/IMG_7318.JPG"
                       alt="Entrepreneurship Development Program"
                       width={600}
                       height={500}
@@ -127,7 +127,7 @@ export default function EntrepreneurshipDevelopmentPage() {
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#e8eaf6] rounded-full blur-xl"></div>
               <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-[#c5cae9] rounded-full blur-xl"></div>
               <Image
-                src="/edp1.jpg"
+                src="/edp/IMG_7346.JPG"
                 alt="Entrepreneurship training session"
                 width={600}
                 height={450}
@@ -141,7 +141,7 @@ export default function EntrepreneurshipDevelopmentPage() {
             <div className="order-2 md:order-1 relative">
               <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform -rotate-2 scale-[1.02]"></div>
               <Image
-                src="/edp-logo.jpg"
+                src="/edp/IMG_7559.JPG"
                 alt="Business planning workshop"
                 width={600}
                 height={450}

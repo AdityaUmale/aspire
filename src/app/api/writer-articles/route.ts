@@ -19,14 +19,25 @@ export async function GET(request: NextRequest) {
 
     await connectDB();
 
-    const articles = await StudentArticle.find({
+    const articles = (await StudentArticle.find({
       $or: [
         { writer: session.writer.id },
         { writer: null, submitterEmail: session.writer.email },
       ],
     })
       .sort({ createdAt: -1 })
-      .lean();
+      .lean()) as Array<{
+      _id: unknown;
+      title: string;
+      description: string;
+      slug?: string | null;
+      coverImage?: string | null;
+      reviewStatus?: unknown;
+      isPublished?: boolean;
+      rejectionReason?: string | null;
+      createdAt?: Date;
+      updatedAt?: Date;
+    }>;
 
     const response = NextResponse.json(
       {
@@ -37,8 +48,17 @@ export async function GET(request: NextRequest) {
             id: String(article._id),
             title: article.title,
             description: article.description,
+            slug: article.slug || null,
+            coverImage:
+              typeof article.coverImage === "string"
+                ? article.coverImage
+                : null,
             reviewStatus,
             isPublished: reviewStatus === "PUBLISHED",
+            rejectionReason:
+              typeof article.rejectionReason === "string"
+                ? article.rejectionReason
+                : null,
             createdAt: article.createdAt,
             updatedAt: article.updatedAt,
           };

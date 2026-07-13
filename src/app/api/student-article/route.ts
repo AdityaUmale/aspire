@@ -8,6 +8,7 @@ import { getAdminFromRequest, requireAdmin } from "@/lib/auth";
 import { sanitizeRichTextHtml } from "@/lib/sanitize";
 import {
   deriveStudentArticleReviewStatus,
+  getAdminStudentArticleFilter,
   getPendingStudentArticleFilter,
   getPublishedStudentArticleFilter,
   isStudentArticlePublished,
@@ -22,31 +23,81 @@ import {
   getOrRefreshWriterSession,
   setWriterSessionCookie,
 } from "@/lib/writer-auth";
+import {
+  buildArticleSlug,
+  computeReadingTimeMinutes,
+  resolveReadingTimeMinutes,
+} from "@/lib/article-utils";
+import {
+  isAllowedCoverImageUrl,
+  normalizeCoverImage,
+} from "@/lib/cover-image";
 
 const getAuthorProjection = (isAdmin: boolean) =>
   isAdmin ? "name email" : "name";
+
+const LIST_PROJECTION =
+  "title description slug readingTimeMinutes coverImage author writerName reviewStatus isPublished createdAt updatedAt reviewedBy content";
 
 const sanitizeStudentArticleForResponse = <
   T extends {
     content?: string;
     reviewStatus?: unknown;
     isPublished?: boolean;
+    readingTimeMinutes?: number | null;
   },
 >(
-  article: T | null
+  article: T | null,
+  options: { includeContent?: boolean } = {}
 ) => {
   if (!article) {
     return article;
   }
 
+  const includeContent = options.includeContent !== false;
   const reviewStatus = deriveStudentArticleReviewStatus(article);
+  const content = article.content ?? "";
 
   return {
     ...article,
     reviewStatus,
     isPublished: reviewStatus === "PUBLISHED",
-    content: sanitizeRichTextHtml(article.content ?? ""),
+    readingTimeMinutes: resolveReadingTimeMinutes({
+      readingTimeMinutes: article.readingTimeMinutes,
+      content: includeContent ? content : "",
+    }),
+    ...(includeContent
+      ? { content: sanitizeRichTextHtml(content) }
+      : { content: undefined }),
   };
+};
+
+/**
+ * One-shot (per process) backfill for legacy docs missing reviewStatus.
+ * Avoids two collection-wide writes on every public list request.
+ */
+let reviewStatusBackfillPromise: Promise<void> | null = null;
+
+const ensureReviewStatusBackfillOnce = () => {
+  if (!reviewStatusBackfillPromise) {
+    reviewStatusBackfillPromise = (async () => {
+      await Promise.all([
+        StudentArticle.updateMany(
+          { reviewStatus: { $exists: false }, isPublished: true },
+          { $set: { reviewStatus: "PUBLISHED" } }
+        ),
+        StudentArticle.updateMany(
+          { reviewStatus: { $exists: false }, isPublished: { $ne: true } },
+          { $set: { reviewStatus: "PENDING" } }
+        ),
+      ]);
+    })().catch((error) => {
+      console.error("Failed to backfill student article reviewStatus", error);
+      // Allow a later request to retry after a cold-start failure.
+      reviewStatusBackfillPromise = null;
+    });
+  }
+  return reviewStatusBackfillPromise;
 };
 
 export async function POST(req: NextRequest) {
@@ -89,18 +140,42 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    let coverImage: string | null = null;
+    if (
+      body?.coverImage !== undefined &&
+      body?.coverImage !== null &&
+      body?.coverImage !== ""
+    ) {
+      if (!isAllowedCoverImageUrl(body.coverImage)) {
+        return NextResponse.json(
+          { error: "Invalid cover image URL" },
+          { status: 400 }
+        );
+      }
+      coverImage = normalizeCoverImage(body.coverImage);
+    }
+
+    const sanitizedContent = sanitizeRichTextHtml(content);
+    const readingTimeMinutes = computeReadingTimeMinutes(sanitizedContent);
+
     const newStudentArticle = new StudentArticle({
       title,
       description,
-      content: sanitizeRichTextHtml(content),
+      content: sanitizedContent,
       writerName: writerName || null,
       author: admin?.id ?? null,
       writer: writerSession?.writer.id ?? null,
       submitterEmail: writerSession?.writer.email ?? admin?.email ?? null,
       reviewStatus: "PENDING",
       isPublished: false,
+      readingTimeMinutes,
+      coverImage,
     });
 
+    newStudentArticle.slug = buildArticleSlug(
+      title,
+      String(newStudentArticle._id)
+    );
     const savedArticle = await newStudentArticle.save();
 
     const response = NextResponse.json(
@@ -155,10 +230,15 @@ export async function GET(req: NextRequest) {
         );
       }
 
-      const article = await StudentArticle.findById(id)
+      const article = (await StudentArticle.findById(id)
         .populate("author", getAuthorProjection(Boolean(admin)))
         .populate("reviewedBy", "name email")
-        .lean();
+        .lean()) as {
+        content?: string;
+        reviewStatus?: unknown;
+        isPublished?: boolean;
+        readingTimeMinutes?: number | null;
+      } | null;
 
       if (!article) {
         return NextResponse.json(
@@ -180,6 +260,11 @@ export async function GET(req: NextRequest) {
       );
     }
 
+    // One-shot per process — not on every public list hit forever.
+    if (publishedOnly || admin) {
+      void ensureReviewStatusBackfillOnce();
+    }
+
     const { page, limit, skip } = clampPagination({
       pageInput: searchParams.get("page"),
       limitInput: searchParams.get("limit"),
@@ -189,9 +274,10 @@ export async function GET(req: NextRequest) {
 
     const filter = publishedOnly
       ? getPublishedStudentArticleFilter()
-      : {};
+      : getAdminStudentArticleFilter();
 
-    const articles = await StudentArticle.find(filter)
+    const listQuery = StudentArticle.find(filter)
+      .select(LIST_PROJECTION)
       .populate("author", getAuthorProjection(Boolean(admin)))
       .populate("reviewedBy", "name email")
       .sort({ createdAt: -1 })
@@ -199,15 +285,77 @@ export async function GET(req: NextRequest) {
       .limit(limit)
       .lean();
 
-    const total = publishedOnly
-      ? await StudentArticle.countDocuments(getPublishedStudentArticleFilter())
-      : await StudentArticle.countDocuments({});
+    const totalQuery = publishedOnly
+      ? StudentArticle.countDocuments(getPublishedStudentArticleFilter())
+      : StudentArticle.countDocuments(getAdminStudentArticleFilter());
+
+    const pendingQuery = admin
+      ? StudentArticle.countDocuments(getPendingStudentArticleFilter())
+      : Promise.resolve(undefined);
+
+    const [articlesRaw, total, pending] = await Promise.all([
+      listQuery,
+      totalQuery,
+      pendingQuery,
+    ]);
+
+    const articles = articlesRaw as Array<{
+      _id?: unknown;
+      content?: string;
+      reviewStatus?: unknown;
+      isPublished?: boolean;
+      readingTimeMinutes?: number | null;
+    }>;
+
+    const articlesForClient = articles.map((article) => {
+      const content =
+        typeof article.content === "string" ? article.content : "";
+      const mapped = sanitizeStudentArticleForResponse(article, {
+        includeContent: false,
+      });
+
+      const readingTimeMinutes = resolveReadingTimeMinutes({
+        readingTimeMinutes: article.readingTimeMinutes,
+        content,
+      });
+
+      const id = article._id ? String(article._id) : "";
+      const title =
+        typeof (article as { title?: string }).title === "string"
+          ? (article as { title: string }).title
+          : "article";
+      let slug =
+        typeof (article as { slug?: string }).slug === "string"
+          ? (article as { slug: string }).slug
+          : null;
+
+      const updates: Record<string, unknown> = {};
+      if (
+        typeof article.readingTimeMinutes !== "number" ||
+        !Number.isFinite(article.readingTimeMinutes)
+      ) {
+        updates.readingTimeMinutes = readingTimeMinutes;
+      }
+      if (!slug && id) {
+        slug = buildArticleSlug(title, id);
+        updates.slug = slug;
+      }
+      if (id && Object.keys(updates).length > 0) {
+        void StudentArticle.updateOne({ _id: id }, { $set: updates }).catch(
+          () => undefined
+        );
+      }
+
+      return {
+        ...mapped,
+        slug,
+        readingTimeMinutes,
+      };
+    });
 
     return NextResponse.json(
       {
-        articles: articles.map((article) =>
-          sanitizeStudentArticleForResponse(article)
-        ),
+        articles: articlesForClient,
         pagination: {
           total,
           page,
@@ -215,9 +363,7 @@ export async function GET(req: NextRequest) {
           pages: Math.ceil(total / limit),
         },
         counts: {
-          pending: admin
-            ? await StudentArticle.countDocuments(getPendingStudentArticleFilter())
-            : undefined,
+          pending,
         },
       },
       { status: 200 }

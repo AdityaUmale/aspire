@@ -98,7 +98,7 @@ export default function Footer() {
                     <MapPin className="h-4 w-4" />
                   </div>
                   <div className="space-y-1">
-                    <span className="text-xs font-bold text-[#3949ab] uppercase tracking-wider">Headquarters</span>
+                    <span className="text-xs font-bold text-[#3949ab] uppercase tracking-wider">Headquarter</span>
                     <p className="text-sm text-gray-600 leading-relaxed max-w-xs">
                       Sahakar Nagar, Gaurakhshan Road,<br />
                       Akola - 444001, Maharashtra (India)

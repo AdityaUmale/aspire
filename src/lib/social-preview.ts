@@ -42,8 +42,62 @@ const FACEBOOK_REQUEST_HEADERS = {
   'user-agent': 'curl/8.7.1',
 };
 
+const MAX_REDIRECTS = 5;
+const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
+
 function isAllowedHost(hostname: string) {
   return ALLOWED_HOSTS.some((host) => hostname === host || hostname.endsWith(`.${host}`));
+}
+
+function assertAllowedRequestUrl(value: string | URL) {
+  const url = value instanceof URL ? value : new URL(value);
+  const isDefaultPort =
+    !url.port ||
+    (url.protocol === 'http:' && url.port === '80') ||
+    (url.protocol === 'https:' && url.port === '443');
+
+  if (
+    !['http:', 'https:'].includes(url.protocol) ||
+    !isAllowedHost(url.hostname) ||
+    url.username ||
+    url.password ||
+    !isDefaultPort
+  ) {
+    throw new SocialPreviewRequestError('Unsupported host', 400);
+  }
+
+  return url;
+}
+
+async function fetchAllowedSocialUrl(
+  value: string | URL,
+  init: RequestInit
+) {
+  let currentUrl = assertAllowedRequestUrl(value);
+
+  for (let redirects = 0; redirects <= MAX_REDIRECTS; redirects += 1) {
+    const response = await fetch(currentUrl, {
+      ...init,
+      redirect: 'manual',
+    });
+
+    if (!REDIRECT_STATUSES.has(response.status)) {
+      return response;
+    }
+
+    const location = response.headers.get('location');
+    if (!location) {
+      return response;
+    }
+
+    if (redirects === MAX_REDIRECTS) {
+      throw new SocialPreviewRequestError('Too many redirects', 400);
+    }
+
+    currentUrl = assertAllowedRequestUrl(new URL(location, currentUrl));
+  }
+
+  throw new SocialPreviewRequestError('Too many redirects', 400);
 }
 
 function escapeRegExp(value: string) {
@@ -204,17 +258,13 @@ function extractFacebookCanonicalUrl(html: string, baseUrl: string, fallbackUrl:
 async function resolveFacebookShareUrl(url: string, headers: HeadersInit) {
   for (const method of ['HEAD', 'GET'] as const) {
     try {
-      const response = await fetch(url, {
+      const response = await fetchAllowedSocialUrl(url, {
         cache: 'no-store',
         headers,
         method,
-        redirect: 'manual',
       });
 
-      const location = response.headers.get('location');
-      if (location) {
-        return new URL(location, url).toString();
-      }
+      return response.url || url;
     } catch {
       continue;
     }
@@ -244,9 +294,7 @@ export async function fetchSocialPreviewData(rawRequestedUrl: string): Promise<S
     throw new SocialPreviewRequestError('Invalid URL', 400);
   }
 
-  if (!['http:', 'https:'].includes(parsedUrl.protocol) || !isAllowedHost(parsedUrl.hostname)) {
-    throw new SocialPreviewRequestError('Unsupported host', 400);
-  }
+  assertAllowedRequestUrl(parsedUrl);
 
   try {
     const requestHeaders =
@@ -258,10 +306,9 @@ export async function fetchSocialPreviewData(rawRequestedUrl: string): Promise<S
         ? normalizeFacebookInput(await resolveFacebookShareUrl(parsedUrl.toString(), requestHeaders))
         : parsedUrl.toString();
 
-    const response = await fetch(resolvedUrl, {
+    const response = await fetchAllowedSocialUrl(resolvedUrl, {
       cache: 'no-store',
       headers: requestHeaders,
-      redirect: 'follow',
     });
 
     const finalUrl =

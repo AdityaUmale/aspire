@@ -4,18 +4,17 @@ import React, { useMemo, useState } from 'react';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import {
+  AlertCircle,
   CalendarIcon,
   CheckCircle,
   FileImage,
   GraduationCap,
   Loader2,
   Sparkles,
-  Terminal,
   Trash2,
   Upload,
 } from 'lucide-react';
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -35,6 +34,9 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
+import { AdminPageHeader } from '@/components/admin/page-header';
+import { useAdminToast } from '@/components/admin/admin-toast';
+import { getFriendlyError } from '@/lib/admin-messages';
 
 import { cn } from '@/lib/utils';
 import {
@@ -59,6 +61,7 @@ const emptyImportState = {
 };
 
 export default function AddCoursesPage() {
+  const toast = useAdminToast();
   const [selectedProgram, setSelectedProgram] = useState<string>('');
   const [courseName, setCourseName] = useState('');
   const [description, setDescription] = useState('');
@@ -70,17 +73,14 @@ export default function AddCoursesPage() {
 
   const [manualLoading, setManualLoading] = useState(false);
   const [manualError, setManualError] = useState<string | null>(null);
-  const [manualSuccess, setManualSuccess] = useState<string | null>(null);
 
   const [posterFile, setPosterFile] = useState<File | null>(null);
   const [parseLoading, setParseLoading] = useState(false);
   const [parseError, setParseError] = useState<string | null>(null);
-  const [parseSuccess, setParseSuccess] = useState<string | null>(null);
   const [draftRows, setDraftRows] = useState<DraftImportItem[]>([]);
   const [importMeta, setImportMeta] = useState(emptyImportState);
   const [bulkSaving, setBulkSaving] = useState(false);
   const [bulkSaveError, setBulkSaveError] = useState<string | null>(null);
-  const [bulkSaveSuccess, setBulkSaveSuccess] = useState<string | null>(null);
 
   const selectedDraftCount = useMemo(
     () => draftRows.filter((row) => row.selected).length,
@@ -114,7 +114,6 @@ export default function AddCoursesPage() {
     event.preventDefault();
     setManualLoading(true);
     setManualError(null);
-    setManualSuccess(null);
 
     const courseOutline = courseOutlineStr
       .split(',')
@@ -122,7 +121,9 @@ export default function AddCoursesPage() {
       .filter(Boolean);
 
     if (!courseName || !description || courseOutline.length === 0 || !courseDate) {
-      setManualError('Please fill in all required fields, including the start date.');
+      const message = 'Please fill in all required fields, including the start date and at least one highlight.';
+      setManualError(message);
+      toast.error('Missing information', message);
       setManualLoading(false);
       return;
     }
@@ -149,12 +150,12 @@ export default function AddCoursesPage() {
         throw new Error(data.error || `HTTP error! status: ${response.status}`);
       }
 
-      setManualSuccess('Course added successfully.');
+      toast.success('Course added', `“${courseName}” is now listed as an upcoming course.`);
       resetManualForm();
     } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'Failed to add course. Please try again.';
+      const message = getFriendlyError(error, 'Failed to add course. Please try again.');
       setManualError(message);
+      toast.error('Could not add course', message);
     } finally {
       setManualLoading(false);
     }
@@ -162,15 +163,15 @@ export default function AddCoursesPage() {
 
   const handlePosterParse = async () => {
     if (!posterFile) {
-      setParseError('Choose a poster image before starting extraction.');
+      const message = 'Choose a poster image before starting extraction.';
+      setParseError(message);
+      toast.error('No poster selected', message);
       return;
     }
 
     setParseLoading(true);
     setParseError(null);
-    setParseSuccess(null);
     setBulkSaveError(null);
-    setBulkSaveSuccess(null);
 
     try {
       const formData = new FormData();
@@ -186,17 +187,23 @@ export default function AddCoursesPage() {
         throw new Error(payload.error || 'Failed to parse poster.');
       }
 
+      const count = payload.items?.length ?? 0;
       setDraftRows(payload.items ?? []);
       setImportMeta({
         imageUrl: payload.imageUrl ?? '',
         sourceMonthLabel: payload.sourceMonthLabel ?? '',
         model: payload.model ?? '',
       });
-      setParseSuccess(`Extracted ${payload.items?.length ?? 0} draft rows. Review and save the ones you want to publish.`);
+      toast.success(
+        'Poster parsed',
+        count === 0
+          ? 'No course rows were found. Try a clearer image or add a course manually.'
+          : `Extracted ${count} draft row${count === 1 ? '' : 's'}. Review and save the ones you want.`
+      );
     } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'Failed to parse poster.';
+      const message = getFriendlyError(error, 'Failed to parse poster. Try another image or add courses manually.');
       setParseError(message);
+      toast.error('Extraction failed', message);
       setDraftRows([]);
       setImportMeta(emptyImportState);
     } finally {
@@ -216,13 +223,14 @@ export default function AddCoursesPage() {
   const handleBulkSave = async () => {
     const selectedRows = draftRows.filter((row) => row.selected);
     if (selectedRows.length === 0) {
-      setBulkSaveError('Select at least one draft row to save.');
+      const message = 'Select at least one draft row to save.';
+      setBulkSaveError(message);
+      toast.error('Nothing selected', message);
       return;
     }
 
     setBulkSaving(true);
     setBulkSaveError(null);
-    setBulkSaveSuccess(null);
 
     try {
       const response = await fetch('/api/course/bulk', {
@@ -262,12 +270,16 @@ export default function AddCoursesPage() {
         throw new Error([payload.error, rowErrorText].filter(Boolean).join(' '));
       }
 
-      setBulkSaveSuccess(`Saved ${payload.createdCount ?? selectedRows.length} upcoming course cards.`);
+      const saved = payload.createdCount ?? selectedRows.length;
+      toast.success(
+        'Courses published',
+        `Saved ${saved} upcoming course card${saved === 1 ? '' : 's'}.`
+      );
       setDraftRows((currentRows) => currentRows.filter((row) => !row.selected));
     } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'Failed to save selected rows.';
+      const message = getFriendlyError(error, 'Failed to save selected rows.');
       setBulkSaveError(message);
+      toast.error('Save failed', message);
     } finally {
       setBulkSaving(false);
     }
@@ -275,28 +287,22 @@ export default function AddCoursesPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm mb-6">
-          <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2"></span>
-          Upcoming Course Manager
-        </div>
+      <AdminPageHeader
+        badge="Upcoming courses"
+        title="Import or add courses"
+        description="Upload a schedule poster to extract draft cards, review them carefully, and publish only the rows you trust."
+      />
 
-        <h1 className="text-2xl lg:text-3xl font-bold text-[#1a237e] mb-2">Import Or Add Upcoming Courses</h1>
-        <p className="text-sm lg:text-base text-gray-600">
-          Upload a schedule poster to extract draft cards, review them, and publish only the rows you trust.
-        </p>
-      </div>
-
-      <div className="bg-white/90 backdrop-blur-md p-4 lg:p-6 rounded-2xl shadow-xl border border-gray-200/60 space-y-5">
+      <div className="space-y-5 rounded-2xl border border-gray-200/70 bg-white/90 p-4 shadow-sm backdrop-blur-md lg:p-6">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-[#eef2ff] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#1a237e]">
               <Sparkles className="h-3.5 w-3.5" />
-              OpenAI Vision Import
+              Vision import
             </div>
-            <h2 className="mt-3 text-xl font-bold text-[#1a237e]">Import From Schedule Image</h2>
+            <h2 className="mt-3 text-xl font-bold text-[#1a237e]">Import from schedule image</h2>
             <p className="mt-1 text-sm text-gray-600">
-              The image is parsed into editable draft rows. Nothing is published until you save the selected items.
+              The image is parsed into editable draft rows. Nothing is published until you save selected items.
             </p>
           </div>
           {selectedDraftCount > 0 && (
@@ -306,37 +312,19 @@ export default function AddCoursesPage() {
           )}
         </div>
 
-        {parseError && (
-          <Alert variant="destructive" className="bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
-            <Terminal className="h-4 w-4" />
-            <AlertTitle>Extraction Failed</AlertTitle>
-            <AlertDescription>{parseError}</AlertDescription>
-          </Alert>
-        )}
+        {parseError ? (
+          <div className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-800">
+            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+            <p>{parseError}</p>
+          </div>
+        ) : null}
 
-        {parseSuccess && (
-          <Alert className="bg-green-100/50 border-green-300/50 text-green-800 rounded-lg shadow-sm">
-            <CheckCircle className="h-4 w-4" />
-            <AlertTitle>Draft Ready</AlertTitle>
-            <AlertDescription>{parseSuccess}</AlertDescription>
-          </Alert>
-        )}
-
-        {bulkSaveError && (
-          <Alert variant="destructive" className="bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
-            <Terminal className="h-4 w-4" />
-            <AlertTitle>Save Failed</AlertTitle>
-            <AlertDescription>{bulkSaveError}</AlertDescription>
-          </Alert>
-        )}
-
-        {bulkSaveSuccess && (
-          <Alert className="bg-green-100/50 border-green-300/50 text-green-800 rounded-lg shadow-sm">
-            <CheckCircle className="h-4 w-4" />
-            <AlertTitle>Saved</AlertTitle>
-            <AlertDescription>{bulkSaveSuccess}</AlertDescription>
-          </Alert>
-        )}
+        {bulkSaveError ? (
+          <div className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-800">
+            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+            <p>{bulkSaveError}</p>
+          </div>
+        ) : null}
 
         <div className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="space-y-3">
@@ -649,33 +637,24 @@ export default function AddCoursesPage() {
         )}
       </div>
 
-      <div className="bg-white/90 backdrop-blur-md p-4 lg:p-6 rounded-2xl shadow-xl border border-gray-200/60">
+      <div className="rounded-2xl border border-gray-200/70 bg-white/90 p-4 shadow-sm backdrop-blur-md lg:p-6">
         <div className="mb-6">
           <div className="inline-flex items-center gap-2 rounded-full bg-[#eef2ff] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#1a237e]">
             <GraduationCap className="h-3.5 w-3.5" />
-            Manual Fallback
+            Manual entry
           </div>
-          <h2 className="mt-3 text-xl font-bold text-[#1a237e]">Add One Upcoming Course</h2>
+          <h2 className="mt-3 text-xl font-bold text-[#1a237e]">Add one upcoming course</h2>
           <p className="mt-1 text-sm text-gray-600">
-            Use this form for one-off updates or if a poster row needs to be entered manually.
+            Use this form for one-off updates or when a poster row needs to be entered by hand.
           </p>
         </div>
 
-        {manualError && (
-          <Alert variant="destructive" className="mb-6 bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
-            <Terminal className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>{manualError}</AlertDescription>
-          </Alert>
-        )}
-
-        {manualSuccess && (
-          <Alert className="mb-6 bg-green-100/50 border-green-300/50 text-green-800 rounded-lg shadow-sm">
-            <CheckCircle className="h-4 w-4" />
-            <AlertTitle>Success</AlertTitle>
-            <AlertDescription>{manualSuccess}</AlertDescription>
-          </Alert>
-        )}
+        {manualError ? (
+          <div className="mb-6 flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-800">
+            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+            <p>{manualError}</p>
+          </div>
+        ) : null}
 
         <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-5">
           <div>

@@ -1016,7 +1016,7 @@ export default function AboutUsPage() {
                 <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">07</span>
                 <div>
                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
-                    Beyond the <span className="text-[#1a237e]">Classroom</span>
+                    Social Initiatives <span className="text-[#1a237e]">&amp; Events</span>
                   </h2>
                   <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
                     At Aspire, impact extends beyond academic growth. We actively contribute to communities, champion social causes, and inspire learners to give back.

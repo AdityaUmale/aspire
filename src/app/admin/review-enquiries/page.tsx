@@ -1,13 +1,23 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation'; // Import useRouter
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Terminal, Inbox, MessageSquare, CheckCircle, XCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Inbox, MessageSquare, CheckCircle2, Clock, AlertCircle, ChevronRight } from 'lucide-react';
+import { AdminPageHeader } from '@/components/admin/page-header';
+import { AdminEmptyState } from '@/components/admin/empty-state';
+import { useAdminToast } from '@/components/admin/admin-toast';
+import { getFriendlyError } from '@/lib/admin-messages';
+import { cn } from '@/lib/utils';
 
-// Update the Enquiry interface
 interface Enquiry {
   _id: string;
   name: string;
@@ -16,11 +26,12 @@ interface Enquiry {
   age?: number;
   enquiry: string;
   createdAt: string;
-  reviewed?: boolean; // Add the reviewed field
+  reviewed?: boolean;
 }
 
 export default function ReviewEnquiriesPage() {
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter();
+  const toast = useAdminToast();
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,16 +41,19 @@ export default function ReviewEnquiriesPage() {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch('/api/submit-enquiry'); // Assuming this is the endpoint to GET enquiries
+        const response = await fetch('/api/submit-enquiry');
         if (!response.ok) {
-          const errorData = await response.json().catch(() => ({ message: 'Failed to fetch enquiries' }));
+          const errorData = await response
+            .json()
+            .catch(() => ({ message: 'Failed to fetch enquiries' }));
           throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setEnquiries(data.data || []); // Corrected: Access data.data instead of data.enquiries
+        setEnquiries(data.data || []);
       } catch (err: unknown) {
-        const errorMessage = err instanceof Error ? err.message : 'An error occurred while fetching enquiries.';
+        const errorMessage = getFriendlyError(err, 'Could not load enquiries.');
         setError(errorMessage);
+        toast.error('Load failed', errorMessage);
         console.error('Error fetching enquiries:', err);
       } finally {
         setLoading(false);
@@ -47,122 +61,149 @@ export default function ReviewEnquiriesPage() {
     };
 
     fetchEnquiries();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const pendingCount = enquiries.filter((e) => !e.reviewed).length;
 
   return (
     <div className="space-y-6">
-      <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm mb-6">
-        <Inbox className="h-4 w-4 mr-2" />
-        Review Enquiries
-      </div>
+      <AdminPageHeader
+        badge="Inbox"
+        title="Submitted enquiries"
+        description="Open a row to read the full message and mark it as reviewed when you’ve handled it."
+      />
 
-      <h1 className="text-2xl lg:text-3xl font-bold text-[#1a237e] mb-6">Submitted Enquiries</h1>
+      {!loading && enquiries.length > 0 ? (
+        <div className="flex flex-wrap gap-3 text-sm">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1 text-gray-600 shadow-sm">
+            <Inbox className="h-3.5 w-3.5" />
+            {enquiries.length} total
+          </span>
+          <span
+            className={cn(
+              'inline-flex items-center gap-1.5 rounded-full border px-3 py-1 shadow-sm',
+              pendingCount > 0
+                ? 'border-amber-200 bg-amber-50 text-amber-800'
+                : 'border-emerald-200 bg-emerald-50 text-emerald-800'
+            )}
+          >
+            <Clock className="h-3.5 w-3.5" />
+            {pendingCount} pending
+          </span>
+        </div>
+      ) : null}
 
-      {error && (
-        <Alert variant="destructive" className="mb-6 bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
-          <Terminal className="h-4 w-4" />
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
+      {error ? (
+        <div className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+          <p>{error}</p>
+        </div>
+      ) : null}
 
-      <div className="bg-white/90 backdrop-blur-md p-4 lg:p-6 rounded-2xl shadow-xl border border-gray-200/60">
+      <div className="overflow-hidden rounded-2xl border border-gray-200/70 bg-white/90 shadow-sm backdrop-blur-md">
         {loading ? (
-          <div className="space-y-4">
+          <div className="space-y-4 p-5">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="flex items-center space-x-4 p-2 border-b border-gray-200/60 last:border-b-0">
-                <Skeleton className="h-8 w-8 lg:h-10 lg:w-10 rounded-full bg-gray-200/80" />
-                <div className="space-y-2 flex-grow">
-                  <Skeleton className="h-3 lg:h-4 w-3/4 bg-gray-200/80" />
-                  <Skeleton className="h-3 lg:h-4 w-1/2 bg-gray-200/80" />
+              <div
+                key={i}
+                className="flex items-center space-x-4 border-b border-gray-100 pb-4 last:border-0 last:pb-0"
+              >
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <div className="flex-grow space-y-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-3 w-1/2" />
                 </div>
               </div>
             ))}
           </div>
         ) : enquiries.length === 0 ? (
-          <div className="text-center py-8 lg:py-12">
-            <MessageSquare className="h-10 w-10 lg:h-12 lg:w-12 text-[#1a237e]/40 mx-auto mb-4" />
-            <p className="text-gray-500 text-base lg:text-lg">No enquiries submitted yet.</p>
+          <div className="p-4">
+            <AdminEmptyState
+              icon={MessageSquare}
+              title="No enquiries yet"
+              description="Contact form submissions will show up here."
+              className="border-0 bg-transparent shadow-none"
+            />
           </div>
         ) : (
           <>
-            {/* Mobile Card View */}
-            <div className="space-y-4 md:hidden">
+            <div className="space-y-2 p-3 md:hidden">
               {enquiries.map((enquiry) => (
-                <div
+                <button
                   key={enquiry._id}
+                  type="button"
                   onClick={() => router.push(`/admin/review-enquiries/${enquiry._id}`)}
-                  className="bg-white border border-gray-200 rounded-lg p-4 cursor-pointer hover:bg-[#e8eaf6]/30 transition-colors"
+                  className="w-full rounded-xl border border-gray-200 bg-white p-4 text-left transition-colors hover:border-[#1a237e]/20 hover:bg-[#f8f9ff]"
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold text-gray-900 text-sm">{enquiry.name}</h3>
-                        <div className="flex items-center ml-2">
-                          {enquiry.reviewed ? (
-                            <div className="flex items-center text-green-600">
-                              <CheckCircle className="h-4 w-4 mr-1" />
-                              <span className="text-xs font-medium">Reviewed</span>
-                            </div>
-                          ) : (
-                            <div className="flex items-center text-amber-600">
-                              <XCircle className="h-4 w-4 mr-1" />
-                              <span className="text-xs font-medium">Pending</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <p className="text-xs text-gray-600 mb-1">{enquiry.email}</p>
-                      {enquiry.phone && <p className="text-xs text-gray-600 mb-1">{enquiry.phone}</p>}
-                      {typeof enquiry.age !== 'undefined' && (
-                        <p className="text-xs text-gray-600 mb-2">Age: {enquiry.age}</p>
-                      )}
-                      <p className="text-xs text-gray-500">{new Date(enquiry.createdAt).toLocaleDateString()}</p>
-                    </div>
+                  <div className="mb-2 flex items-start justify-between gap-2">
+                    <h3 className="text-sm font-semibold text-gray-900">{enquiry.name}</h3>
+                    <StatusPill reviewed={!!enquiry.reviewed} />
                   </div>
-                </div>
+                  <p className="text-xs text-gray-600">{enquiry.email}</p>
+                  {enquiry.phone ? <p className="text-xs text-gray-600">{enquiry.phone}</p> : null}
+                  <div className="mt-2 flex items-center justify-between">
+                    <p className="text-xs text-gray-400">
+                      {new Date(enquiry.createdAt).toLocaleDateString()}
+                    </p>
+                    <ChevronRight className="h-4 w-4 text-gray-300" />
+                  </div>
+                </button>
               ))}
             </div>
 
-            {/* Desktop Table View */}
-            <div className="hidden md:block overflow-x-auto">
+            <div className="hidden overflow-x-auto md:block">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-b-[#1a237e]/20">
-                    <TableHead className="text-[#1a237e] font-semibold text-xs lg:text-sm">Name</TableHead>
-                    <TableHead className="text-[#1a237e] font-semibold text-xs lg:text-sm">Email</TableHead>
-                    <TableHead className="text-[#1a237e] font-semibold text-xs lg:text-sm">Phone</TableHead>
-                    <TableHead className="text-[#1a237e] font-semibold text-xs lg:text-sm">Age</TableHead>
-                    <TableHead className="text-[#1a237e] font-semibold text-xs lg:text-sm">Date</TableHead>
-                    <TableHead className="text-[#1a237e] font-semibold text-xs lg:text-sm">Status</TableHead>
+                  <TableRow className="border-b-[#1a237e]/10 hover:bg-transparent">
+                    <TableHead className="text-xs font-semibold text-[#1a237e] lg:text-sm">
+                      Name
+                    </TableHead>
+                    <TableHead className="text-xs font-semibold text-[#1a237e] lg:text-sm">
+                      Email
+                    </TableHead>
+                    <TableHead className="text-xs font-semibold text-[#1a237e] lg:text-sm">
+                      Phone
+                    </TableHead>
+                    <TableHead className="text-xs font-semibold text-[#1a237e] lg:text-sm">
+                      Age
+                    </TableHead>
+                    <TableHead className="text-xs font-semibold text-[#1a237e] lg:text-sm">
+                      Date
+                    </TableHead>
+                    <TableHead className="text-xs font-semibold text-[#1a237e] lg:text-sm">
+                      Status
+                    </TableHead>
+                    <TableHead className="w-10" />
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {enquiries.map((enquiry) => (
-                    <TableRow 
-                      key={enquiry._id} 
-                      className="border-b-gray-200/60 hover:bg-[#e8eaf6]/30 cursor-pointer" 
+                    <TableRow
+                      key={enquiry._id}
+                      className="cursor-pointer border-b-gray-100 transition-colors hover:bg-[#eef2ff]/50"
                       onClick={() => router.push(`/admin/review-enquiries/${enquiry._id}`)}
                     >
-                      <TableCell className="font-medium text-gray-700 py-2 lg:py-3 text-xs lg:text-sm whitespace-nowrap">{enquiry.name}</TableCell>
-                      <TableCell className="text-gray-600 py-2 lg:py-3 text-xs lg:text-sm whitespace-nowrap">{enquiry.email}</TableCell>
-                      <TableCell className="text-gray-600 py-2 lg:py-3 text-xs lg:text-sm whitespace-nowrap">{enquiry.phone || '-'}</TableCell>
-                      <TableCell className="text-gray-600 py-2 lg:py-3 text-xs lg:text-sm whitespace-nowrap">{typeof enquiry.age !== 'undefined' ? enquiry.age : '-'}</TableCell>
-                      <TableCell className="text-gray-500 py-2 lg:py-3 text-xs whitespace-nowrap">{new Date(enquiry.createdAt).toLocaleDateString()}</TableCell>
-                      <TableCell className="py-2 lg:py-3">
-                        <div className="flex items-center">
-                          {enquiry.reviewed ? (
-                            <div className="flex items-center text-green-600">
-                              <CheckCircle className="h-3 w-3 lg:h-4 lg:w-4 mr-1" />
-                              <span className="text-xs font-medium">Reviewed</span>
-                            </div>
-                          ) : (
-                            <div className="flex items-center text-amber-600">
-                              <XCircle className="h-3 w-3 lg:h-4 lg:w-4 mr-1" />
-                              <span className="text-xs font-medium">Pending</span>
-                            </div>
-                          )}
-                        </div>
+                      <TableCell className="whitespace-nowrap py-3 text-sm font-medium text-gray-800">
+                        {enquiry.name}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap py-3 text-sm text-gray-600">
+                        {enquiry.email}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap py-3 text-sm text-gray-600">
+                        {enquiry.phone || '—'}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap py-3 text-sm text-gray-600">
+                        {typeof enquiry.age !== 'undefined' ? enquiry.age : '—'}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap py-3 text-xs text-gray-500">
+                        {new Date(enquiry.createdAt).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell className="py-3">
+                        <StatusPill reviewed={!!enquiry.reviewed} />
+                      </TableCell>
+                      <TableCell className="py-3">
+                        <ChevronRight className="h-4 w-4 text-gray-300" />
                       </TableCell>
                     </TableRow>
                   ))}
@@ -173,5 +214,22 @@ export default function ReviewEnquiriesPage() {
         )}
       </div>
     </div>
+  );
+}
+
+function StatusPill({ reviewed }: { reviewed: boolean }) {
+  if (reviewed) {
+    return (
+      <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
+        <CheckCircle2 className="h-3 w-3" />
+        Reviewed
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700">
+      <Clock className="h-3 w-3" />
+      Pending
+    </span>
   );
 }

@@ -12,12 +12,18 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
+import {
+  formatArticleDate,
+  resolveReadingTimeMinutes,
+} from '@/lib/article-utils';
 
 interface StudentArticle {
   _id: string;
   title: string;
   description: string;
-  content: string;
+  slug?: string | null;
+  readingTimeMinutes?: number | null;
+  coverImage?: string | null;
   author?: {
     name: string;
   } | null;
@@ -63,21 +69,6 @@ export default function StudentArticlesPage() {
   const handlePageChange = (newPage: number) => {
     fetchPublishedStudentArticles(newPage);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const getReadingTime = (content: string) => {
-    const text = content.replace(/<[^>]*>/g, '');
-    const words = text.split(/\s+/).filter(Boolean).length;
-    return Math.max(1, Math.ceil(words / 200));
-  };
-
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return '';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    });
   };
 
   const getAuthorName = (article: StudentArticle) => {
@@ -157,19 +148,39 @@ export default function StudentArticlesPage() {
                 {articles.map((article) => (
                   <div
                     key={article._id}
-                    className="flex flex-col bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-xl hover:shadow-indigo-500/5 hover:border-indigo-100 transition-all duration-300 cursor-pointer group"
-                    onClick={() => router.push(`/student-articles/${article._id}`)}
+                    className="flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-indigo-500/5 hover:border-indigo-100 transition-all duration-300 cursor-pointer group"
+                    onClick={() =>
+                      router.push(
+                        `/student-articles/${article.slug || article._id}`
+                      )
+                    }
                   >
+                    {article.coverImage ? (
+                      <div className="relative w-full aspect-[16/10] bg-gray-50 overflow-hidden">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={article.coverImage}
+                          alt=""
+                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                    ) : null}
+                    <div className="flex flex-col p-6 flex-1">
                     <div className="flex items-center gap-3 mb-5 text-[12px] font-medium text-gray-500">
                       {article.createdAt && (
                         <time className="bg-gray-50 px-2.5 py-1 rounded-md text-gray-600">
-                          {formatDate(article.createdAt)}
+                          {formatArticleDate(article.createdAt)}
                         </time>
                       )}
                       <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
                       <span className="flex items-center gap-1.5">
                         <BookOpen className="w-3.5 h-3.5 text-gray-400" />
-                        {getReadingTime(article.content)} min
+                        {resolveReadingTimeMinutes({
+                          readingTimeMinutes: article.readingTimeMinutes,
+                        })}{' '}
+                        min
                       </span>
                     </div>
 
@@ -193,6 +204,7 @@ export default function StudentArticlesPage() {
                       <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-50 text-gray-400 group-hover:bg-[#1a237e] group-hover:text-white transition-all duration-300">
                         <ArrowRight className="h-4 w-4" />
                       </span>
+                    </div>
                     </div>
                   </div>
                 ))}

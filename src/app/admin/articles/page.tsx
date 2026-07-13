@@ -1,35 +1,58 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { Textarea } from "@/components/ui/textarea";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { FloatingToast } from '@/components/ui/floating-toast';
-import { Terminal, PenLine, LoaderCircle, Trash2, FileText } from 'lucide-react';
-import RichTextEditor from '@/components/RichTextEditor';
+import { PenLine, LoaderCircle, Trash2, FileText, AlertCircle, RefreshCw } from 'lucide-react';
 import { format } from 'date-fns';
+import { MAX_LENGTHS } from '@/lib/validation';
+import { extractPlainText } from '@/lib/article-utils';
+import CoverImageField from '@/components/CoverImageField';
+import { AdminPageHeader } from '@/components/admin/page-header';
+import { AdminEmptyState } from '@/components/admin/empty-state';
+import { useAdminToast } from '@/components/admin/admin-toast';
+import { getFriendlyError } from '@/lib/admin-messages';
+import { cn } from '@/lib/utils';
+
+const RichTextEditor = dynamic(() => import('@/components/RichTextEditor'), {
+  ssr: false,
+  loading: () => (
+    <div className="min-h-[400px] rounded-2xl border-2 border-gray-200 bg-white animate-pulse" />
+  ),
+});
 
 interface Article {
   _id: string;
   title: string;
   description: string;
-  content: string;
+  slug?: string | null;
+  coverImage?: string | null;
+  content?: string;
   createdAt?: string;
 }
 
 export default function AddArticlesPage() {
+  const toast = useAdminToast();
+  const errorRef = useRef<HTMLDivElement>(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [content, setContent] = useState('');
+  const [coverImage, setCoverImage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoadingArticles, setIsLoadingArticles] = useState(true);
   const [articlesError, setArticlesError] = useState<string | null>(null);
   const [isDeletingId, setIsDeletingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (error && errorRef.current) {
+      errorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [error]);
 
   const fetchArticles = async () => {
     setIsLoadingArticles(true);
@@ -45,8 +68,9 @@ export default function AddArticlesPage() {
 
       setArticles(data.articles || []);
     } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'An error occurred while fetching articles';
+      const errorMessage = getFriendlyError(err, 'Could not load founder articles.');
       setArticlesError(errorMessage);
+      toast.error('Failed to load articles', errorMessage);
       console.error('Error fetching founder articles:', err);
     } finally {
       setIsLoadingArticles(false);
@@ -55,17 +79,45 @@ export default function AddArticlesPage() {
 
   useEffect(() => {
     fetchArticles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- load once on mount
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
-    setSuccess(null);
 
-    // Validate form fields
-    if (!title.trim() || !description.trim() || !content.trim()) {
-      setError('All fields are required');
+    const plainText = extractPlainText(content);
+    const hasImages = /<img\b/i.test(content);
+
+    if (!title.trim() || title.length > MAX_LENGTHS.title) {
+      const message = `Title is required (max ${MAX_LENGTHS.title} characters).`;
+      setError(message);
+      toast.error('Check the title', message);
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!description.trim() || description.length > MAX_LENGTHS.description) {
+      const message = `Description is required (max ${MAX_LENGTHS.description} characters).`;
+      setError(message);
+      toast.error('Check the description', message);
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!content.trim() || (!plainText && !hasImages)) {
+      const message = 'Article content is required. Add text or images before publishing.';
+      setError(message);
+      toast.error('Content required', message);
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (content.length > MAX_LENGTHS.content) {
+      const message = `Article content is too long (max ${MAX_LENGTHS.content.toLocaleString()} characters).`;
+      setError(message);
+      toast.error('Content too long', message);
       setIsSubmitting(false);
       return;
     }
@@ -80,6 +132,7 @@ export default function AddArticlesPage() {
           title,
           description,
           content,
+          coverImage,
         }),
       });
 
@@ -89,15 +142,16 @@ export default function AddArticlesPage() {
         throw new Error(data.error || 'Failed to create article');
       }
 
-      // Clear form and show success message
       setTitle('');
       setDescription('');
       setContent('');
-      setSuccess('Article created successfully!');
+      setCoverImage(null);
+      toast.success('Article published', `“${data.article?.title || title}” is now live.`);
       setArticles((currentArticles) => [data.article, ...currentArticles]);
     } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'An error occurred while creating the article';
+      const errorMessage = getFriendlyError(err, 'Could not create the article. Please try again.');
       setError(errorMessage);
+      toast.error('Publish failed', errorMessage);
       console.error('Error creating article:', err);
     } finally {
       setIsSubmitting(false);
@@ -105,12 +159,11 @@ export default function AddArticlesPage() {
   };
 
   const handleDeleteArticle = async (articleId: string, articleTitle: string) => {
-    if (!window.confirm(`Are you sure you want to delete "${articleTitle}"? This action cannot be undone.`)) {
+    if (!window.confirm(`Delete “${articleTitle}”? This cannot be undone.`)) {
       return;
     }
 
     setArticlesError(null);
-    setSuccess(null);
     setError(null);
     setIsDeletingId(articleId);
 
@@ -125,10 +178,11 @@ export default function AddArticlesPage() {
       }
 
       setArticles((currentArticles) => currentArticles.filter((article) => article._id !== articleId));
-      setSuccess('Article deleted successfully!');
+      toast.success('Article deleted', `“${articleTitle}” has been removed.`);
     } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'An error occurred while deleting the article';
+      const errorMessage = getFriendlyError(err, 'Could not delete this article. Please try again.');
       setArticlesError(errorMessage);
+      toast.error('Delete failed', errorMessage);
       console.error('Error deleting founder article:', err);
     } finally {
       setIsDeletingId(null);
@@ -137,32 +191,20 @@ export default function AddArticlesPage() {
 
   return (
     <div>
-      <FloatingToast
-        open={Boolean(success)}
-        onClose={() => setSuccess(null)}
-        variant="success"
-        title={success?.includes('deleted') ? 'Founder article deleted' : 'Founder article created'}
-        description={success || ''}
-        durationMs={4500}
-        className="top-6 md:top-6"
+      <AdminPageHeader
+        badge="Founder articles"
+        title="Create and manage founder articles"
+        description="Write and publish founder pieces, then manage existing published articles below."
       />
 
-      <div className="inline-flex items-center rounded-full border border-[#1a237e]/20 bg-white px-3 py-1 text-sm text-[#1a237e] shadow-sm mb-6">
-        <span className="flex h-2 w-2 rounded-full bg-[#1a237e] mr-2"></span>
-        Founder Articles
-      </div>
+      {error ? (
+        <div ref={errorRef} className="mb-6 flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+          <p>{error}</p>
+        </div>
+      ) : null}
 
-      <h1 className="text-2xl lg:text-3xl font-bold text-[#1a237e] mb-6">Create and Manage Founder Articles</h1>
-
-      {error && (
-        <Alert variant="destructive" className="mb-6 bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
-          <Terminal className="h-4 w-4" />
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
-
-      <div className="bg-transparent relative max-w-5xl mx-auto mt-12 pb-32">
+      <div className="relative mx-auto max-w-5xl pb-24">
         <form onSubmit={handleSubmit} className="space-y-10">
           
           {/* Section 01: Title */}
@@ -184,10 +226,14 @@ export default function AddArticlesPage() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="What is the name of your story?"
+                maxLength={MAX_LENGTHS.title}
                 className="border-0 bg-transparent p-0 pb-1 h-auto text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 placeholder:text-gray-300 focus-visible:ring-0 shadow-none -ml-[2px] transition-all"
                 required
               />
               <div className="absolute bottom-0 left-5 right-5 h-0.5 w-0 bg-[#1a237e] transition-all duration-700 group-focus-within/input:w-[calc(100%-40px)] opacity-40 rounded-full"></div>
+              <p className="text-[11px] text-gray-400 mt-3 text-right">
+                {title.length}/{MAX_LENGTHS.title}
+              </p>
             </div>
           </div>
 
@@ -210,24 +256,52 @@ export default function AddArticlesPage() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Write a compelling summary that makes readers want to dive in..."
+                maxLength={MAX_LENGTHS.description}
                 className="border-0 bg-transparent p-5 min-h-[100px] text-lg font-light text-gray-700 placeholder:text-gray-300 focus-visible:ring-0 shadow-none resize-none leading-relaxed rounded-2xl"
                 required
               />
+              <p className="text-[11px] text-gray-400 px-5 pb-3 text-right">
+                {description.length}/{MAX_LENGTHS.description}
+              </p>
             </div>
           </div>
 
-          {/* Section 03: Content */}
+          {/* Section 03: Cover */}
+          <div className="space-y-3 group/section transition-all duration-500">
+            <div className="flex items-center gap-3">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1a237e] text-white text-[11px] font-bold shrink-0">
+                03
+              </span>
+              <div>
+                <p className="block text-sm font-semibold text-gray-800">
+                  Cover image <span className="text-gray-400 text-xs font-normal">(optional)</span>
+                </p>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  Card thumbnail and social share image
+                </p>
+              </div>
+            </div>
+            <CoverImageField
+              value={coverImage}
+              onChange={setCoverImage}
+              disabled={isSubmitting}
+            />
+          </div>
+
+          {/* Section 04: Content */}
           <div className="space-y-3 group/section transition-all duration-500 pt-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1a237e] text-white text-[11px] font-bold shrink-0">
-                  03
+                  04
                 </span>
                 <div>
                   <label className="block text-sm font-semibold text-gray-800">
                     Article Content <span className="text-red-400 text-xs">*</span>
                   </label>
-                  <p className="text-xs text-gray-400 mt-0.5">Write the full article here — use formatting, headings, and images</p>
+                  <p className="text-xs text-gray-400 mt-0.5">
+                    Write the full article — headings, quotes, links (cover is separate above)
+                  </p>
                 </div>
               </div>
               <div className="hidden sm:flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full">
@@ -242,6 +316,7 @@ export default function AddArticlesPage() {
                 placeholder="Share the full depth of your perspective here..."
                 stickyToolbar
                 toolbarOffsetPx={16}
+                allowInlineImages={false}
               />
             </div>
           </div>
@@ -267,11 +342,11 @@ export default function AddArticlesPage() {
           </div>
         </form>
 
-        <section className="mt-20 space-y-6">
-          <div className="flex items-center justify-between gap-4">
+        <section className="mt-16 space-y-6">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-[#1a237e]">Published Founder Articles</h2>
-              <p className="text-sm text-gray-500 mt-1">Admins can remove existing published founder articles from here.</p>
+              <h2 className="text-xl font-bold text-[#1a237e] sm:text-2xl">Published founder articles</h2>
+              <p className="mt-1 text-sm text-gray-500">Remove published founder articles from the site here.</p>
             </div>
             <Button
               type="button"
@@ -280,55 +355,73 @@ export default function AddArticlesPage() {
               disabled={isLoadingArticles}
               className="border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e]"
             >
-              {isLoadingArticles ? 'Refreshing...' : 'Refresh'}
+              <RefreshCw className={cn('h-4 w-4', isLoadingArticles && 'animate-spin')} />
+              {isLoadingArticles ? 'Refreshing…' : 'Refresh'}
             </Button>
           </div>
 
-          {articlesError && (
-            <Alert variant="destructive" className="bg-red-100/50 border-red-300/50 text-red-800 rounded-lg shadow-sm">
-              <Terminal className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>{articlesError}</AlertDescription>
-            </Alert>
-          )}
+          {articlesError ? (
+            <div className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+              <p>{articlesError}</p>
+            </div>
+          ) : null}
 
           {isLoadingArticles ? (
             <div className="rounded-2xl border border-gray-200 bg-white p-8 text-center text-gray-500 shadow-sm">
-              Loading founder articles...
+              Loading founder articles…
             </div>
           ) : articles.length === 0 ? (
-            <div className="rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm">
-              <FileText className="mx-auto mb-4 h-10 w-10 text-[#1a237e]/35" />
-              <p className="text-gray-600">No founder articles have been published yet.</p>
-            </div>
+            <AdminEmptyState
+              icon={FileText}
+              title="No founder articles yet"
+              description="Publish your first founder article using the form above."
+            />
           ) : (
             <div className="space-y-4">
               {articles.map((article) => (
                 <div
                   key={article._id}
-                  className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+                  className="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm transition-shadow hover:shadow-md"
                 >
-                  <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-[#1a237e]">{article.title}</h3>
-                      {article.createdAt && (
-                        <p className="mt-1 text-xs text-gray-500">
-                          Published on {format(new Date(article.createdAt), 'PPP')}
-                        </p>
-                      )}
-                      <p className="mt-3 text-sm leading-6 text-gray-600">{article.description}</p>
-                    </div>
+                  <div className="flex flex-col gap-0 md:flex-row md:items-stretch">
+                    {article.coverImage ? (
+                      <div className="relative md:w-48 shrink-0 aspect-[16/10] md:aspect-auto md:min-h-[120px] bg-gray-50">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={article.coverImage}
+                          alt=""
+                          className="absolute inset-0 h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                    ) : (
+                      <div className="md:w-48 shrink-0 aspect-[16/10] md:aspect-auto md:min-h-[120px] bg-gradient-to-br from-[#e8eaf6] to-gray-50 flex items-center justify-center">
+                        <FileText className="h-8 w-8 text-[#1a237e]/25" />
+                      </div>
+                    )}
+                    <div className="flex flex-1 flex-col gap-4 p-5 md:flex-row md:items-start md:justify-between">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-lg font-semibold text-[#1a237e]">{article.title}</h3>
+                        {article.createdAt && (
+                          <p className="mt-1 text-xs text-gray-500">
+                            Published on {format(new Date(article.createdAt), 'PPP')}
+                          </p>
+                        )}
+                        <p className="mt-3 text-sm leading-6 text-gray-600 line-clamp-3">{article.description}</p>
+                      </div>
 
-                    <Button
-                      type="button"
-                      variant="destructive"
-                      onClick={() => handleDeleteArticle(article._id, article.title)}
-                      disabled={isDeletingId === article._id}
-                      className="shrink-0"
-                    >
-                      <Trash2 className="mr-2 h-4 w-4" />
-                      {isDeletingId === article._id ? 'Deleting...' : 'Delete'}
-                    </Button>
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        onClick={() => handleDeleteArticle(article._id, article.title)}
+                        disabled={isDeletingId === article._id}
+                        className="shrink-0"
+                      >
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        {isDeletingId === article._id ? 'Deleting...' : 'Delete'}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))}

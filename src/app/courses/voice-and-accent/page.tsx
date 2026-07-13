@@ -123,7 +123,7 @@ export default function VoiceAndAccentPage() {
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#e8eaf6] rounded-full blur-xl"></div>
               <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-[#c5cae9] rounded-full blur-xl"></div>
               <Image
-                src="/vaa1.jpg"
+                src="/voice-accent/vaa.JPG"
                 alt="Voice and accent coaching"
                 width={600}
                 height={450}
@@ -137,7 +137,7 @@ export default function VoiceAndAccentPage() {
             <div className="order-2 md:order-1 relative">
               <div className="absolute inset-0 bg-[#1a237e]/5 rounded-2xl transform -rotate-2 scale-[1.02]"></div>
               <Image
-                src="/voice-and-accent.jpg"
+                src="/voice-accent/IMG_9036.JPG"
                 alt="Practical speech exercises"
                 width={600}
                 height={450}

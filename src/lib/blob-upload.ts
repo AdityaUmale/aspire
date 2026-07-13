@@ -70,12 +70,17 @@ export const createBlobUploadFileName = ({
 
 export const uploadToVercelBlob = async (
   fileName: string,
-  fileEntry: File
+  body: File | Buffer,
+  contentType?: string
 ): Promise<string> => {
   const token = process.env.BLOB_READ_WRITE_TOKEN;
   if (!token) {
     throw new Error("Image uploads are not configured. Set BLOB_READ_WRITE_TOKEN.");
   }
+
+  const resolvedType =
+    contentType ||
+    (body instanceof File ? body.type : "application/octet-stream");
 
   const pathname = toBlobPathname(fileName);
   const response = await fetch(`${VERCEL_BLOB_API_BASE_URL}/${pathname}`, {
@@ -84,11 +89,11 @@ export const uploadToVercelBlob = async (
       access: "public",
       authorization: `Bearer ${token}`,
       "x-api-version": VERCEL_BLOB_API_VERSION,
-      "x-content-type": fileEntry.type,
+      "x-content-type": resolvedType,
       "x-add-random-suffix": "1",
       "x-cache-control-max-age": String(DEFAULT_CACHE_CONTROL_MAX_AGE_SECONDS),
     },
-    body: fileEntry,
+    body: body as BodyInit,
   });
 
   const payload = (await response.json().catch(() => ({}))) as VercelBlobUploadResponse;

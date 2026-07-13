@@ -112,7 +112,7 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
       "Risk management",
     ],
     slug: "/courses/entrepreneurship-development",
-    image: "/edp-logo.jpg",
+    image: "/edp/IMG_7496.JPG",
     matchers: [/entrepreneurship development/i],
   },
   {
@@ -187,6 +187,21 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
     slug: "/courses/workshops-keynote-talks",
     image: "/workshop1.jpeg",
     matchers: [/exclusive workshops/i, /keynote talks/i, /workshop/i],
+  },
+  {
+    key: "corporate-training",
+    title: "Corporate Training Programs",
+    description:
+      "Practical, result-oriented training that enhances professional skills, workplace relationships, and future-ready leadership.",
+    features: [
+      "Sales Training",
+      "Leadership Development",
+      "Team Communication",
+      "Conflict Management",
+    ],
+    slug: "/courses/corporate-training",
+    image: "/corporate-training/IMG_6133.JPG",
+    matchers: [/corporate training/i],
   },
 ];
 
