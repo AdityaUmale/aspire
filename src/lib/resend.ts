@@ -46,8 +46,8 @@ export const sendWriterOtpEmail = async ({
     body: JSON.stringify({
       from: getResendFromEmail(),
       to: [email],
-      subject: "Your Aspire verification code",
-      text: `Your Aspire verification code is ${code}. It expires in 10 minutes.`,
+      subject: "Your Aspire Institute verification code",
+      text: `Your Aspire Institute verification code is ${code}. It expires in 10 minutes.`,
       html: `
         <div style="font-family: Arial, sans-serif; color: #111827; line-height: 1.6;">
           <p style="margin: 0 0 12px;">Use this verification code to continue your article submission:</p>

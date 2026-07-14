@@ -47,15 +47,15 @@ const faqs: FAQItem[] = [
     },
     {
         question: "What problems do we solve at Aspire Institute for our learners?",
-        answer: "Aspire addresses challenges such as lack of confidence, fear of public speaking, weak communication skills, unclear career direction, and limited leadership exposure. The institute provides structured mentorship, practical exposure, and real-world learning experiences to bridge these gaps.",
+        answer: "Aspire Institute addresses challenges such as lack of confidence, fear of public speaking, weak communication skills, unclear career direction, and limited leadership exposure. The institute provides structured mentorship, practical exposure, and real-world learning experiences to bridge these gaps.",
     },
     {
         question: "Why was Aspire Institute established in Akola?",
-        answer: "Aspire was established in Akola with a clear mission: to bring world-class human development training to Tier-2 and Tier-3 cities equally. The vision was to create opportunities locally so students would not have to migrate to metros to access quality personal and professional development.",
+        answer: "Aspire Institute was established in Akola with a clear mission: to bring world-class human development training to Tier-2 and Tier-3 cities equally. The vision was to create opportunities locally so students would not have to migrate to metros to access quality personal and professional development.",
     },
     {
         question: "Why is it called an Institute of Human Development?",
-        answer: "Because Aspire focuses beyond academics. Known as the University of Life. It works on communication, confidence, leadership, emotional intelligence, public speaking, and professional growth. The goal is not just skill-enrichment, but also personality development.",
+        answer: "Because Aspire Institute focuses beyond academics. Known as the University of Life. It works on communication, confidence, leadership, emotional intelligence, public speaking, and professional growth. The goal is not just skill-enrichment, but also personality development.",
     },
 ];
 

@@ -63,10 +63,10 @@ export default function TeamPage() {
                 At Aspire, The Institute Of Human Development, people are not a part of the process; they are the process. Every breakthrough a learner experiences, every moment of clarity, every shift in confidence and capability, behind it stands a team that chose this work not for convenience, but for conviction.
               </p>
               <p>
-                Team Aspire is a living, breathing collective of passionate educators, mentors, researchers, and professionals bound by one shared purpose: to help every aspirant evolve and unlock their true potential.
+                Team Aspire Institute is a living, breathing collective of passionate educators, mentors, researchers, and professionals bound by one shared purpose: to help every aspirant evolve and unlock their true potential.
               </p>
               <p>
-                From our trainers to our research and development team and support staff, every single member of Team Aspire shows up with dedication, empathy, and an uncompromising sense of responsibility toward every learner in our care.
+                From our trainers to our research and development team and support staff, every single member of Team Aspire Institute shows up with dedication, empathy, and an uncompromising sense of responsibility toward every learner in our care.
               </p>
             </div>
 
@@ -133,7 +133,7 @@ export default function TeamPage() {
                   Our trainers are among the most thoughtfully selected educators in the field, not simply for their subject expertise or academic credentials, but for something far harder to measure: their ability to genuinely connect with people.
                 </p>
                 <p>
-                  At Aspire, we believe knowledge transferred without connection rarely transforms. Our trainers understand this deeply.
+                  At Aspire Institute, we believe knowledge transferred without connection rarely transforms. Our trainers understand this deeply.
                 </p>
               </div>
             </div>
@@ -160,10 +160,10 @@ export default function TeamPage() {
 
               <div className="rounded-[2rem] bg-[#f8f9fc] border border-gray-100 p-8 md:p-10">
                 <p className="text-gray-600 text-lg leading-relaxed font-light">
-                  Inside every Aspire classroom, the trainer is not merely a facilitator of information. They are a mentor, a guide, and a powerful force of encouragement. Every session is designed to be intellectually stimulating, emotionally supportive, and practically relevant. Every learner receives individual attention, honest feedback, and consistent opportunities to practice, reflect, and grow.
+                  Inside every Aspire Institute classroom, the trainer is not merely a facilitator of information. They are a mentor, a guide, and a powerful force of encouragement. Every session is designed to be intellectually stimulating, emotionally supportive, and practically relevant. Every learner receives individual attention, honest feedback, and consistent opportunities to practice, reflect, and grow.
                 </p>
                 <p className="text-[#1a237e] text-lg md:text-xl font-semibold leading-relaxed mt-6">
-                  The goal is simple and powerful: every aspirant who walks into an Aspire programme walks out more confident, more capable, and genuinely future-ready.
+                  The goal is simple and powerful: every aspirant who walks into an Aspire Institute programme walks out more confident, more capable, and genuinely future-ready.
                 </p>
               </div>
             </div>
@@ -188,10 +188,10 @@ export default function TeamPage() {
 
               <div className="space-y-6 text-gray-500 text-lg leading-relaxed font-light">
                 <p>
-                  Behind every programme Aspire delivers, behind every module, every methodology, every carefully chosen learning experience, there is a team working tirelessly and invisibly to make it exceptional.
+                  Behind every programme Aspire Institute delivers, behind every module, every methodology, every carefully chosen learning experience, there is a team working tirelessly and invisibly to make it exceptional.
                 </p>
                 <p>
-                  Our Research and Development Department is what makes Aspire Institute genuinely different. While many institutions teach, Aspire continuously studies, questions, refines, and reimagines.
+                  Our Research and Development Department is what makes Aspire Institute genuinely different. While many institutions teach, Aspire Institute continuously studies, questions, refines, and reimagines.
                 </p>
                 <p>
                   Nothing at Aspire Institute is left to assumption. Every programme is thoughtfully researched, continuously improved, and precisely calibrated to meet the evolving needs of every learner we serve.
@@ -216,7 +216,7 @@ export default function TeamPage() {
 
               <div className="rounded-[2rem] bg-gradient-to-r from-[#1a237e] via-[#283593] to-[#3949ab] p-8 md:p-10 text-white shadow-[0_20px_40px_-15px_rgba(26,35,126,0.3)]">
                 <p className="text-lg md:text-xl leading-relaxed font-light">
-                  Our R&D team dedicates itself to understanding how people learn, what they need, and what the world increasingly demands of them. Learning patterns, student psychology, emerging skill requirements, and global workforce trends all develop into Aspire&apos;s curriculum.
+                  Our R&D team dedicates itself to understanding how people learn, what they need, and what the world increasingly demands of them. Learning patterns, student psychology, emerging skill requirements, and global workforce trends all develop into Aspire Institute&apos;s curriculum.
                 </p>
                 <p className="text-lg md:text-xl leading-relaxed font-semibold mt-6">
                   At Aspire, The Institute Of Human Development, we design transformative learning.

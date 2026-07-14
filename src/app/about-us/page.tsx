@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '@/components/Navbar';
@@ -83,7 +83,7 @@ const socialImages: { src: string; caption: string }[] = [
   { src: '/social/WhatsApp Image 2026-04-07 at 19.29.25.jpeg', caption: 'Community Engagement' },
   { src: '/social/ascdasdasd.jpeg', caption: 'Social Initiative' },
   { src: '/social/eberf.jpeg', caption: 'Societal Contribution' },
-  { src: '/social/qwdq.jpeg', caption: 'Aspire Gives Back' },
+  { src: '/social/qwdq.jpeg', caption: 'Aspire Institute Gives Back' },
   { src: '/social/wdqw.jpeg', caption: 'Impacting Communities' },
 ];
 
@@ -131,48 +131,7 @@ const fadeUp = {
 };
 
 export default function AboutUsPage() {
-  const campusScrollRef = useRef<HTMLDivElement>(null);
-  const guestScrollRef = useRef<HTMLDivElement>(null);
-  const socialScrollRef = useRef<HTMLDivElement>(null);
-  const publicEventsScrollRef = useRef<HTMLDivElement>(null);
   const [selectedImage, setSelectedImage] = useState<{ index: number; type: 'gallery' | 'campus' | 'guests' | 'social' | 'events' | 'global' } | null>(null);
-
-  const scrollCampus = (direction: 'left' | 'right') => {
-    if (!campusScrollRef.current) return;
-    const amount = campusScrollRef.current.clientWidth * 0.8;
-    campusScrollRef.current.scrollBy({
-      left: direction === 'left' ? -amount : amount,
-      behavior: 'smooth',
-    });
-  };
-
-  const scrollGuest = (direction: 'left' | 'right') => {
-    if (!guestScrollRef.current) return;
-    const amount = guestScrollRef.current.clientWidth * 0.8;
-    guestScrollRef.current.scrollBy({
-      left: direction === 'left' ? -amount : amount,
-      behavior: 'smooth',
-    });
-  };
-
-  const scrollSocial = (direction: 'left' | 'right') => {
-    if (!socialScrollRef.current) return;
-    const amount = socialScrollRef.current.clientWidth * 0.8;
-    socialScrollRef.current.scrollBy({
-      left: direction === 'left' ? -amount : amount,
-      behavior: 'smooth',
-    });
-  };
-
-  const scrollPublicEvents = (direction: 'left' | 'right') => {
-    if (!publicEventsScrollRef.current) return;
-    const amount = publicEventsScrollRef.current.clientWidth * 0.8;
-    publicEventsScrollRef.current.scrollBy({
-      left: direction === 'left' ? -amount : amount,
-      behavior: 'smooth',
-    });
-  };
-
 
   const openLightbox = (index: number, type: 'gallery' | 'campus' | 'guests' | 'social' | 'events' | 'global') => {
     setSelectedImage({ index, type });
@@ -297,38 +256,35 @@ export default function AboutUsPage() {
         <div className="container mx-auto px-4 md:px-6 max-w-6xl">
 
           {/* Intro */}
-          <div className="max-w-3xl mb-20">
+          <div className="max-w-3xl mb-14 md:mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-8">
               More than just an institute, we are a <span className="text-[#1a237e]">movement.</span>
             </h2>
             <p className="text-gray-500 text-lg leading-relaxed font-light">
-              Aspire offers a vibrant curriculum tailored for both young minds and seasoned professionals. We operate on a fundamental truth:
+              Aspire Institute offers a vibrant curriculum tailored for both young minds and seasoned professionals. We operate on a fundamental truth:
               <strong className="text-[#1a237e] font-medium"> everyone has the potential to become an incredible version of themselves.</strong>
             </p>
           </div>
 
-          {/* Mission */}
-          <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start pb-16 md:pb-20 border-b border-gray-100">
-            <div className="lg:col-span-4">
-              <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none block mb-4">01</span>
-              <h3 className="text-2xl md:text-3xl font-bold text-[#0f1337] tracking-tight">Our Mission</h3>
-            </div>
-            <div className="lg:col-span-8 lg:pt-6">
-              <p className="text-xl md:text-2xl text-gray-600 leading-relaxed font-light">
-                Our mission is to provide an extensive variety of life-transforming programs to create effective <strong className="text-[#0f1337] font-semibold">Communicators</strong>, <strong className="text-[#0f1337] font-semibold">Self-believers</strong>, <strong className="text-[#0f1337] font-semibold">Engaging leaders</strong>, <strong className="text-[#0f1337] font-semibold">Aspiring professionals</strong> and <strong className="text-[#0f1337] font-semibold">Visionary entrepreneurs</strong>.
+          {/* Mission & Vision */}
+          <div className="grid border-y border-[#1a237e]/15 lg:grid-cols-2">
+            <div className="py-10 md:py-12 lg:pr-14">
+              <div className="mb-7">
+                <span className="mb-4 block h-[3px] w-10 rounded-full bg-[#1a237e]" aria-hidden="true" />
+                <h3 className="text-3xl font-bold tracking-tight text-[#0f1337] md:text-[2rem]">Our Mission</h3>
+              </div>
+              <p className="text-lg font-semibold leading-relaxed text-[#1a237e] md:text-[1.35rem]">
+                Our mission is to provide an extensive variety of life-transforming programs to create effective <strong className="font-semibold text-[#1a237e]">Communicators</strong>, <strong className="font-semibold text-[#1a237e]">Self-believers</strong>, <strong className="font-semibold text-[#1a237e]">Engaging leaders</strong>, <strong className="font-semibold text-[#1a237e]">Aspiring professionals</strong> and <strong className="font-semibold text-[#1a237e]">Visionary entrepreneurs</strong>.
               </p>
             </div>
-          </div>
 
-          {/* Vision */}
-          <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start pt-16 md:pt-20">
-            <div className="lg:col-span-4">
-              <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none block mb-4">02</span>
-              <h3 className="text-2xl md:text-3xl font-bold text-[#0f1337] tracking-tight">Our Vision</h3>
-            </div>
-            <div className="lg:col-span-8 lg:pt-6">
-              <p className="text-xl md:text-2xl text-gray-600 leading-relaxed font-light">
-                Aspire envisions a world where people <strong className="text-[#0f1337] font-semibold">believe in themselves</strong> and live their true potential to make this world a <strong className="text-[#0f1337] font-semibold">better place to live</strong>.
+            <div className="border-t border-[#1a237e]/10 py-10 md:py-12 lg:border-l lg:border-t-0 lg:pl-14">
+              <div className="mb-7">
+                <span className="mb-4 block h-[3px] w-10 rounded-full bg-[#1a237e]" aria-hidden="true" />
+                <h3 className="text-3xl font-bold tracking-tight text-[#0f1337] md:text-[2rem]">Our Vision</h3>
+              </div>
+              <p className="text-lg font-semibold leading-relaxed text-[#1a237e] md:text-[1.35rem]">
+                Aspire Institute envisions a world where people <strong className="font-semibold text-[#1a237e]">believe in themselves</strong> and live their true potential to make this world a <strong className="font-semibold text-[#1a237e]">better place to live</strong>.
               </p>
             </div>
           </div>
@@ -375,7 +331,23 @@ export default function AboutUsPage() {
               <div className="absolute bottom-10 left-0 w-48 h-48 bg-gradient-to-tr from-[#448aff] to-[#536dfe] rounded-full blur-[60px] opacity-30 -z-10 mix-blend-multiply"></div>
 
               {[
-                { title: "Training Programs", items: ["Leadership Development", "Entrepreneurship Development", "Personality Development", "Public Speaking", "Teachers Training", "Interview Skills & Techniques"] },
+                {
+                  title: "Flagship Programs",
+                  items: [
+                    "English Language Training",
+                    "Personality Development Program",
+                    "Leadership Development Program",
+                    "Public Speaking and Effective Communication Program",
+                    "Entrepreneurship Development Program",
+                    "International Workshop And Conference",
+                    "Residential Camp",
+                    "Corporate Training Program",
+                    "Exclusive 2 Hours Workshops",
+                    "Teachers Training Program",
+                    "Interview Skills and Techniques",
+                    "Summer Special Course For Kids",
+                  ],
+                },
                 { title: "Event Formats", items: ["Seminars & Keynotes", "Interactive Webinars", "Global Conferences", "Symposiums", "Residential Camps", "Hands-on Workshops", "Youth empowerment summit ‘YES’ Summit"] },
                 { title: "Delivery Modes", items: ["Live Online Training", "In-Person Classroom", "Group Discussions", "Practical Assignments", "Blended Learning"] },
               ].map((category, idx) => (
@@ -413,23 +385,27 @@ export default function AboutUsPage() {
       </section>
 
       {/* ════════════════════════════════════════════════
-          HALL OF RECOGNITION — Preserved as-is
+          HALL OF RECOGNITION
          ════════════════════════════════════════════════ */}
-      <section className="py-24 relative z-10">
+      <section className="py-16 sm:py-20 md:py-24 relative z-10">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-16">
-            <h2 className="font-bold text-4xl md:text-5xl text-gray-900 mb-6 tracking-tight">Hall of Recognition</h2>
-            <p className="text-gray-500 text-lg font-light max-w-2xl mx-auto">
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <h2 className="font-bold text-3xl sm:text-4xl md:text-5xl text-gray-900 mb-4 sm:mb-6 tracking-tight px-2">
+              Hall of Recognition
+            </h2>
+            <p className="text-gray-500 text-base sm:text-lg font-light max-w-2xl mx-auto px-2">
               Our commitment to excellence has been recognized on national and international platforms by esteemed dignitaries.
             </p>
           </div>
 
           {/* Timeline Structure */}
           <div className="max-w-7xl mx-auto relative">
-            {/* Center Line (Hidden on mobile, visible on md) */}
+            {/* Mobile left timeline line */}
+            <div className="md:hidden absolute left-[11px] top-3 bottom-3 w-px bg-gradient-to-b from-[#1a237e]/0 via-[#1a237e]/25 to-[#1a237e]/0" />
+            {/* Desktop center line */}
             <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#1a237e]/0 via-[#1a237e]/20 to-[#1a237e]/0 -translate-x-1/2" />
 
-            <div className="space-y-12 md:space-y-0 relative">
+            <div className="space-y-6 sm:space-y-8 md:space-y-12 relative">
               {[
                 { title: "Excellent Institute for Creating Leaders & Discovering Student Potential in India", year: "2019", org: "World Education Summit", guests: ["Hon'ble Sayed Shahnawaz Hussain", "Hon'ble Tarun Chugh", "Hon'ble Navin Sinha", "Hon'ble Mugdha Godse"], image: "/Excellent institute of creating leaders & discovering the potential in student in india.jpg" },
                 { title: "The Most Innovative Institute for Human Development Training in India", year: "2019", org: "Human Development Awards", guests: ["Hon'ble Murli Manohar Joshi", "Hon'ble Adarsh Shastri", "Padma Shri Bajrang Punia", "Hon'ble Alok Mittal", "Hon'ble Gulshan Grover"], image: "/the most innovative istitute of human development training in india.jpg" },
@@ -437,71 +413,72 @@ export default function AboutUsPage() {
                 { title: "Best Institute for Human Development Training in Maharashtra", year: "2018", org: "Education Excellence", guests: ["Padma Shri Sharmila Tagore", "Hon'ble Parshottam Rupala", "Hon'ble Dr. C. P. Thakur", "Hon'ble Anka Verma"], image: "/best institute of human development training in india.jpg" },
                 { title: "National Achievers Award for Education Excellence", year: "2018", org: "Education Excellence", guests: ["Hon'ble Ram Niwas Goel", "Hon'ble Kanhaiya Lal Ganju", "Hon'ble Atishi Marlena"], image: "/NATIONAL ACHIEVERS AWARD FOR EDUCATION EXCELLENCE.jpg" }
               ].map((award, index) => (
-                <div key={index} className={`relative flex flex-col md:flex-row items-center justify-between ${index % 2 === 0 ? 'md:flex-row-reverse' : ''} group`}>
+                <div
+                  key={index}
+                  className={`relative flex flex-col md:flex-row md:items-stretch md:justify-between ${
+                    index % 2 === 0 ? 'md:flex-row-reverse' : ''
+                  } group`}
+                >
+                  {/* Mobile timeline dot */}
+                  <div className="md:hidden absolute left-0 top-6 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm">
+                    <Milestone className="h-3 w-3 text-[#3949ab]" />
+                  </div>
 
-                  {/* Timeline Dot */}
-                  <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-10 h-10 bg-white border border-gray-200 rounded-full items-center justify-center z-10 group-hover:border-[#1a237e] transition-colors shadow-sm">
+                  {/* Desktop timeline dot */}
+                  <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-gray-200 rounded-full items-center justify-center z-10 group-hover:border-[#1a237e] transition-colors shadow-sm">
                     <Milestone className="h-4 w-4 text-[#3949ab]" />
                   </div>
 
-                  {/* Empty space for alternating layout */}
+                  {/* Empty space for alternating desktop layout */}
                   <div className="hidden md:block md:w-[48%]" />
 
-                  {/* Card Content — Compact Horizontal */}
-                  <div className="w-full md:w-[48%] bg-white rounded-[2rem] border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(26,35,126,0.12)] hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col sm:flex-row group/card md:min-h-[280px]">
-
-                    {/* Award Image — Left Side with soft fade transition */}
-                    <div
-                      className="relative h-44 w-full shrink-0 overflow-hidden sm:h-auto sm:w-32 md:w-86"
-                      style={{
-                        maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
-                        WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
-                      }}
-                    >
-                      {/* Responsive Desktop Fade override */}
-                      <style jsx>{`
-                        @media (min-width: 640px) {
-                          div {
-                            mask-image: linear-gradient(to right, black 50%, transparent 100%) !important;
-                            -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%) !important;
-                          }
-                        }
-                      `}</style>
+                  {/* Card */}
+                  <div className="w-full md:w-[48%] ml-8 md:ml-0 bg-white rounded-2xl sm:rounded-[1.75rem] md:rounded-[2rem] border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(26,35,126,0.12)] hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col lg:flex-row group/card">
+                    {/* Image — full width on mobile/tablet, side strip on large screens */}
+                    <div className="relative h-48 sm:h-52 w-full shrink-0 overflow-hidden lg:h-auto lg:w-44 xl:w-52 lg:min-h-[260px]">
                       <Image
                         src={award.image}
                         alt={award.title}
                         fill
-                        className="object-cover group-hover/card:scale-105 transition-transform duration-700 ease-out"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 220px"
+                        className="object-cover object-center group-hover/card:scale-105 transition-transform duration-700 ease-out"
                       />
-                      {/* Year badge bottom of image */}
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1a237e]/80 to-transparent px-3 py-3 z-10">
-                        <span className="font-black text-xs text-white tracking-wider">{award.year}</span>
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#1a237e]/70 via-[#1a237e]/10 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-white/80" />
+                      <div className="absolute bottom-3 left-3 z-10 lg:bottom-4 lg:left-3">
+                        <span className="inline-flex items-center rounded-full bg-white/95 px-3 py-1 text-xs font-black tracking-wider text-[#1a237e] shadow-sm">
+                          {award.year}
+                        </span>
                       </div>
                     </div>
 
-                    {/* Text Content — Right Side */}
-                    <div className="p-5 md:p-6 flex flex-col justify-between flex-1 min-w-0">
-                      <div className="min-h-[90px]">
-                        <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[#3949ab] mb-2">{award.org}</p>
-                        <h3 className="font-bold text-base text-gray-900 leading-snug group-hover/card:text-[#1a237e] transition-colors duration-300">
+                    {/* Text content */}
+                    <div className="p-4 sm:p-5 md:p-6 flex flex-col justify-between flex-1 min-w-0">
+                      <div>
+                        <p className="text-[10px] sm:text-xs font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#3949ab] mb-2">
+                          {award.org}
+                        </p>
+                        <h3 className="font-bold text-sm sm:text-base md:text-[0.95rem] lg:text-base text-gray-900 leading-snug group-hover/card:text-[#1a237e] transition-colors duration-300">
                           {award.title}
                         </h3>
                       </div>
 
                       <div className="mt-4 pt-4 border-t border-gray-100">
-                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-2">Honoured By</p>
-                        <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+                        <p className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest mb-2.5">
+                          Honoured By
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
                           {award.guests.map((guest, i) => (
-                            <span key={i} className="min-w-0 text-[10px] leading-tight font-semibold text-gray-600 bg-gray-50 px-2.5 py-1.5 rounded-2xl border border-gray-100 whitespace-normal break-words">
+                            <span
+                              key={i}
+                              className="max-w-full text-[11px] sm:text-xs leading-snug font-semibold text-gray-600 bg-gray-50 px-2.5 py-1.5 rounded-xl border border-gray-100 break-words"
+                            >
                               {guest}
                             </span>
                           ))}
                         </div>
                       </div>
                     </div>
-
                   </div>
-
                 </div>
               ))}
             </div>
@@ -524,16 +501,13 @@ export default function AboutUsPage() {
             <div className="lg:col-span-5 lg:sticky lg:top-32">
               <div className="inline-flex items-center gap-3 mb-6">
                 <span className="h-px w-8 bg-[#1a237e]/20"></span>
-                <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Global Aspire</span>
+                <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Global Aspire Institute</span>
               </div>
 
-              <div className="flex items-start gap-6 mb-8">
-                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0 -mt-2">03</span>
-                <div>
-                  <h2 className="text-4xl md:text-5xl lg:text-[2.75rem] font-bold text-[#0f1337] leading-tight tracking-tight">
-                    Aspire Goes <span className="text-[#1a237e]">Global</span>
-                  </h2>
-                </div>
+              <div className="mb-8">
+                <h2 className="text-4xl md:text-5xl lg:text-[2.75rem] font-bold text-[#0f1337] leading-tight tracking-tight">
+                  Aspire Institute Goes <span className="text-[#1a237e]">Global</span>
+                </h2>
               </div>
 
               <blockquote className="border-l-4 border-[#3949ab] pl-6 italic text-gray-700 text-xl md:text-2xl font-light mb-8 leading-snug">
@@ -545,7 +519,7 @@ export default function AboutUsPage() {
                   That has always been our belief. That the world is not just a geography to be visited - it is a mirror to be held up. Every country we have walked into, every university we have sat inside, every stage we have stood on across continents has taught us one thing above all else: the hunger to grow is the most universal human language there is.
                 </p>
                 <p>
-                  Aspire has never been just an institute. It has been a movement. And like all movements that matter - it refused to stay within borders.
+                  Aspire Institute has never been just an institute. It has been a movement. And like all movements that matter - it refused to stay within borders.
                 </p>
               </div>
             </div>
@@ -553,12 +527,12 @@ export default function AboutUsPage() {
             {/* Right Column - Scrollable Content */}
             <div className="lg:col-span-7">
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-[#0f1337]">The World Through Aspire&apos;s Lens</h3>
+                <h3 className="text-2xl font-bold text-[#0f1337]">The World Through Aspire Institute&apos;s Lens</h3>
                 <p className="text-gray-500 text-lg leading-relaxed font-light">
                   We did not go global to collect stamps on a passport. We went global because we believed our learners deserved to see themselves reflected in the world&apos;s best - and to know, without a doubt, that they belong there.
                 </p>
                 <p className="text-gray-500 text-lg leading-relaxed font-light">
-                  From the lecture halls of Singapore to the corridors of Malaysia, from the energy of Dubai to the ancient wisdom of Vietnam&apos;s oldest universities - Aspire has carried one message across every timezone: you are capable of more than you have been told.
+                  From the lecture halls of Singapore to the corridors of Malaysia, from the energy of Dubai to the ancient wisdom of Vietnam&apos;s oldest universities - Aspire Institute has carried one message across every timezone: you are capable of more than you have been told.
                 </p>
 
                 {/* Embedded Gallery Block 1 */}
@@ -609,9 +583,6 @@ export default function AboutUsPage() {
                 { name: "Hanoi University of Science, VNU HUS", loc: "Vietnam", year: "2025" },
               ].map((inst, i) => (
                 <div key={i} className="group relative bg-white/40 backdrop-blur-md rounded-3xl p-5 lg:p-6 border border-white/60 shadow-[0_4px_24px_rgba(26,35,126,0.03)] hover:shadow-[0_12px_40px_rgba(26,35,126,0.08)] hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col justify-between">
-                  <div className="text-[4.5rem] font-black absolute right-1 -bottom-2 text-[#1a237e]/5 leading-none transition-transform duration-500 group-hover:scale-110 select-none pointer-events-none">
-                    &apos;{inst.year.slice(2)}
-                  </div>
                   <div className="relative z-10 flex flex-col h-full">
                     <div>
                       <span className="inline-block px-3 py-1 bg-[#1a237e]/5 text-[#1a237e] font-bold text-xs tracking-widest uppercase rounded-full mb-4">{inst.year}</span>
@@ -633,7 +604,7 @@ export default function AboutUsPage() {
               <div className="md:col-span-6 lg:col-span-5">
                 <h3 className="text-3xl md:text-4xl font-bold text-[#0f1337] mb-6 tracking-tight">When the World Listened</h3>
                 <p className="text-gray-500 text-lg leading-relaxed font-light">
-                  Aspire&apos;s programs and training philosophy have been recognised far beyond Indian shores. Nor Zunaini Abd Kadir, Director of Universiti Kuala Lumpur - one of Malaysia&apos;s top five universities - praised Aspire Institute&apos;s approach for its innovation, depth, and genuine human impact.
+                  Aspire Institute&apos;s programs and training philosophy have been recognised far beyond Indian shores. Nor Zunaini Abd Kadir, Director of Universiti Kuala Lumpur - one of Malaysia&apos;s top five universities - praised Aspire Institute&apos;s approach for its innovation, depth, and genuine human impact.
                 </p>
               </div>
               <div className="md:col-span-6 lg:col-span-7">
@@ -669,7 +640,7 @@ export default function AboutUsPage() {
               <div className="md:col-span-6 lg:col-span-5 order-1 md:order-2">
                 <h3 className="text-3xl md:text-4xl font-bold text-[#0f1337] mb-6 tracking-tight">Where East Met East</h3>
                 <p className="text-gray-500 text-lg leading-relaxed font-light mb-8">
-                  In one of our most memorable international collaborations, Aspire joined hands with the Indo-Japan Business Council to host a symposium that brought Japanese educators and industry leaders directly to our aspirants. It was not just a career opportunity - it was a window into one of the world&apos;s most disciplined, purposeful cultures.
+                  In one of our most memorable international collaborations, Aspire Institute joined hands with the Indo-Japan Business Council to host a symposium that brought Japanese educators and industry leaders directly to our aspirants. It was not just a career opportunity - it was a window into one of the world&apos;s most disciplined, purposeful cultures.
                 </p>
                 <div className="p-6 bg-white/40 backdrop-blur-md rounded-2xl border-l-4 border-[#1a237e] shadow-sm">
                   <p className="text-gray-600 text-lg leading-relaxed font-light">
@@ -684,10 +655,10 @@ export default function AboutUsPage() {
               <div className="md:col-span-5 lg:col-span-5">
                 <h3 className="text-3xl md:text-4xl font-bold text-[#0f1337] mb-6 tracking-tight">Taking the Stage. Leaving an Impression.</h3>
                 <p className="text-gray-500 text-lg leading-relaxed font-light mb-6">
-                  In Singapore. In Dubai. In the UAE. Aspire has stood on stages in rooms full of people who did not grow up with our story - and left those rooms with our belief in their hearts.
+                  In Singapore. In Dubai. In the UAE. Aspire Institute has stood on stages in rooms full of people who did not grow up with our story - and left those rooms with our belief in their hearts.
                 </p>
                 <p className="text-gray-500 text-lg leading-relaxed font-light">
-                  The love and response we received from citizens of Singapore and the UAE reminded us of something we already knew, but needed to hear again: growth is not a cultural preference. It is a human need. And Aspire speaks that language fluently - in every country, in every room, on every stage.
+                  The love and response we received from citizens of Singapore and the UAE reminded us of something we already knew, but needed to hear again: growth is not a cultural preference. It is a human need. And Aspire Institute speaks that language fluently - in every country, in every room, on every stage.
                 </p>
               </div>
               <div className="md:col-span-7 lg:col-span-7">
@@ -712,10 +683,10 @@ export default function AboutUsPage() {
             <h3 className="text-3xl md:text-4xl font-bold text-[#0f1337] mb-8">The Lens We See the World Through</h3>
             <div className="max-w-3xl mx-auto space-y-6">
               <p className="text-gray-500 text-xl leading-relaxed font-light">
-                When Aspire travels, we do not go as tourists. We go as learners. We go as teachers. We go as believers in the idea that, somewhere between the familiarity of home and the wonder of somewhere new, transformation quietly happens.
+                When Aspire Institute travels, we do not go as tourists. We go as learners. We go as teachers. We go as believers in the idea that, somewhere between the familiarity of home and the wonder of somewhere new, transformation quietly happens.
               </p>
               <p className="text-gray-500 text-xl leading-relaxed font-light">
-                That is the Aspire way. Always has been.
+                That is the Aspire Institute way. Always has been.
               </p>
             </div>
 
@@ -743,92 +714,64 @@ export default function AboutUsPage() {
       {/* ════════════════════════════════════════════════
           SPECIAL GUESTS — Annual Function Special Guests
          ════════════════════════════════════════════════ */}
-      <section className="py-24 md:py-32 relative z-10 overflow-hidden" id="guests">
+      <section className="py-24 md:py-32 relative z-10" id="guests">
         <div className="container mx-auto px-4 md:px-6 max-w-7xl">
 
           {/* Section Header */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-3 mb-6">
-                <span className="h-px w-8 bg-[#1a237e]/20"></span>
-                <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Annual Function</span>
-              </div>
-              <div className="flex items-start gap-6">
-                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">04</span>
-                <div>
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
-                    Special <span className="text-[#1a237e]">Guests</span>
-                  </h2>
-                  <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
-                    Moments with distinguished luminaries who have graced our Annual Functions, inspiring our community.
-                  </p>
-                </div>
-              </div>
+          <div className="max-w-3xl mb-16">
+            <div className="inline-flex items-center gap-3 mb-6">
+              <span className="h-px w-8 bg-[#1a237e]/20"></span>
+              <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Annual Function</span>
             </div>
-
-            {/* Scroll Controls */}
-            <div className="flex items-center gap-3 shrink-0">
-              <button
-                onClick={() => scrollGuest('left')}
-                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
-                aria-label="Scroll left"
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-              <button
-                onClick={() => scrollGuest('right')}
-                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
-                aria-label="Scroll right"
-              >
-                <ChevronRight className="h-5 w-5" />
-              </button>
+            <div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
+                Special <span className="text-[#1a237e]">Guests</span>
+              </h2>
+              <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
+                Moments with distinguished luminaries who have graced our Annual Functions, inspiring our community.
+              </p>
             </div>
           </div>
 
-          {/* Horizontal Carousel */}
-          <div
-            ref={guestScrollRef}
-            className="flex gap-4 md:gap-5 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {guestImages.map((img, i) => (
-              <motion.div
-                key={i}
-                custom={i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '-20px' }}
-                variants={fadeUp}
-                className="snap-start shrink-0 w-[85vw] sm:w-[60vw] md:w-[40vw] lg:w-[30vw]"
-                onClick={() => openLightbox(i, 'guests')}
-              >
-                <div className="group relative overflow-hidden rounded-2xl md:rounded-[1.5rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 cursor-zoom-in">
-                  {/* Glass sheen */}
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
-
-                  <div className="relative w-full aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={img.src}
-                      alt={img.caption}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      sizes="(max-width: 640px) 85vw, (max-width: 1024px) 40vw, 30vw"
-                    />
-
-                    {/* Bottom vignette */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/70 via-transparent to-transparent z-10"></div>
-
-                    {/* Caption */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-20">
-                      <div className="flex items-center gap-2 mb-1">
-                        <Camera className="h-3 w-3 text-white/70" />
-                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Special Guests</span>
+          {/* Masonry Grid */}
+          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 md:gap-5 [column-fill:_balance]">
+            {guestImages.map((img, i) => {
+              const tall = i % 5 === 2 || i % 7 === 0;
+              return (
+                <motion.div
+                  key={i}
+                  custom={i}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-40px' }}
+                  variants={fadeUp}
+                  className="break-inside-avoid mb-4 md:mb-5"
+                >
+                  <div
+                    onClick={() => openLightbox(i, 'guests')}
+                    className="group relative overflow-hidden rounded-2xl md:rounded-[1.5rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 hover:-translate-y-1 cursor-zoom-in"
+                  >
+                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
+                    <div className={`relative w-full overflow-hidden ${tall ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
+                      <Image
+                        src={img.src}
+                        alt={img.caption}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/80 via-[#0f1337]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
+                      <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <Camera className="h-3 w-3 text-white/70" />
+                          <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Special Guests</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -846,16 +789,13 @@ export default function AboutUsPage() {
               <span className="h-px w-8 bg-[#1a237e]/20"></span>
               <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Gallery</span>
             </div>
-            <div className="flex items-start gap-6">
-              <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">05</span>
-              <div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
-                  Moments That <span className="text-[#1a237e]">Define Us</span>
-                </h2>
-                <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
-                  A visual journey through workshops, awards, international events and celebrations that have shaped the Aspire legacy.
-                </p>
-              </div>
+            <div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
+                Moments That <span className="text-[#1a237e]">Define Us</span>
+              </h2>
+              <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
+                A visual journey through workshops, awards, international events and celebrations that have shaped the Aspire Institute legacy.
+              </p>
             </div>
           </div>
 
@@ -895,7 +835,7 @@ export default function AboutUsPage() {
                     <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                       <div className="flex items-center gap-2 mb-1.5">
                         <Camera className="h-3 w-3 text-white/70" />
-                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Aspire Gallery</span>
+                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Aspire Institute Gallery</span>
                       </div>
                     </div>
                   </div>
@@ -909,92 +849,64 @@ export default function AboutUsPage() {
       {/* ════════════════════════════════════════════════
           CAMPUS — Our Campus
          ════════════════════════════════════════════════ */}
-      <section className="py-24 md:py-32 relative z-10 overflow-hidden" id="campus">
+      <section className="py-24 md:py-32 relative z-10" id="campus">
         <div className="container mx-auto px-4 md:px-6 max-w-7xl">
 
           {/* Section Header */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-3 mb-6">
-                <span className="h-px w-8 bg-[#1a237e]/20"></span>
-                <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Campus</span>
-              </div>
-              <div className="flex items-start gap-6">
-                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">06</span>
-                <div>
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
-                    Our <span className="text-[#1a237e]">Campus</span>
-                  </h2>
-                  <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
-                    A purpose-built environment designed to inspire learning, foster collaboration, and ignite transformation.
-                  </p>
-                </div>
-              </div>
+          <div className="max-w-3xl mb-16">
+            <div className="inline-flex items-center gap-3 mb-6">
+              <span className="h-px w-8 bg-[#1a237e]/20"></span>
+              <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Campus</span>
             </div>
-
-            {/* Scroll Controls */}
-            <div className="flex items-center gap-3 shrink-0">
-              <button
-                onClick={() => scrollCampus('left')}
-                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
-                aria-label="Scroll left"
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-              <button
-                onClick={() => scrollCampus('right')}
-                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
-                aria-label="Scroll right"
-              >
-                <ChevronRight className="h-5 w-5" />
-              </button>
+            <div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
+                Our <span className="text-[#1a237e]">Campus</span>
+              </h2>
+              <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
+                A purpose-built environment designed to inspire learning, foster collaboration, and ignite transformation.
+              </p>
             </div>
           </div>
 
-          {/* Horizontal Carousel */}
-          <div
-            ref={campusScrollRef}
-            className="flex gap-4 md:gap-5 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {campusImages.map((img, i) => (
-              <motion.div
-                key={i}
-                custom={i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '-20px' }}
-                variants={fadeUp}
-                className="snap-start shrink-0 w-[85vw] sm:w-[60vw] md:w-[40vw] lg:w-[30vw]"
-                onClick={() => openLightbox(i, 'campus')}
-              >
-                <div className="group relative overflow-hidden rounded-2xl md:rounded-[1.5rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 cursor-zoom-in">
-                  {/* Glass sheen */}
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
-
-                  <div className="relative w-full aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={img.src}
-                      alt={img.caption}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      sizes="(max-width: 640px) 85vw, (max-width: 1024px) 40vw, 30vw"
-                    />
-
-                    {/* Bottom vignette */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/70 via-transparent to-transparent z-10"></div>
-
-                    {/* Caption */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-20">
-                      <div className="flex items-center gap-2 mb-1">
-                        <Building2 className="h-3 w-3 text-white/70" />
-                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Campus</span>
+          {/* Masonry Grid */}
+          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 md:gap-5 [column-fill:_balance]">
+            {campusImages.map((img, i) => {
+              const tall = i % 5 === 2 || i % 7 === 0;
+              return (
+                <motion.div
+                  key={i}
+                  custom={i}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-40px' }}
+                  variants={fadeUp}
+                  className="break-inside-avoid mb-4 md:mb-5"
+                >
+                  <div
+                    onClick={() => openLightbox(i, 'campus')}
+                    className="group relative overflow-hidden rounded-2xl md:rounded-[1.5rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 hover:-translate-y-1 cursor-zoom-in"
+                  >
+                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
+                    <div className={`relative w-full overflow-hidden ${tall ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
+                      <Image
+                        src={img.src}
+                        alt={img.caption}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/80 via-[#0f1337]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
+                      <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <Building2 className="h-3 w-3 text-white/70" />
+                          <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Campus</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -1002,92 +914,64 @@ export default function AboutUsPage() {
       {/* ════════════════════════════════════════════════
           SOCIAL IMPACT — Our Social Initiatives
          ════════════════════════════════════════════════ */}
-      <section className="py-24 md:py-32 relative z-10 overflow-hidden" id="social-impact">
+      <section className="py-24 md:py-32 relative z-10" id="social-impact">
         <div className="container mx-auto px-4 md:px-6 max-w-7xl">
 
           {/* Section Header */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-3 mb-6">
-                <span className="h-px w-8 bg-[#1a237e]/20"></span>
-                <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Social Impact</span>
-              </div>
-              <div className="flex items-start gap-6">
-                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">07</span>
-                <div>
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
-                    Social Initiatives <span className="text-[#1a237e]">&amp; Events</span>
-                  </h2>
-                  <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
-                    At Aspire, impact extends beyond academic growth. We actively contribute to communities, champion social causes, and inspire learners to give back.
-                  </p>
-                </div>
-              </div>
+          <div className="max-w-3xl mb-16">
+            <div className="inline-flex items-center gap-3 mb-6">
+              <span className="h-px w-8 bg-[#1a237e]/20"></span>
+              <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Social Impact</span>
             </div>
-
-            {/* Scroll Controls */}
-            <div className="flex items-center gap-3 shrink-0">
-              <button
-                onClick={() => scrollSocial('left')}
-                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
-                aria-label="Scroll left"
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-              <button
-                onClick={() => scrollSocial('right')}
-                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
-                aria-label="Scroll right"
-              >
-                <ChevronRight className="h-5 w-5" />
-              </button>
+            <div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
+                Social Initiatives <span className="text-[#1a237e]">&amp; Events</span>
+              </h2>
+              <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
+                At Aspire Institute, impact extends beyond academic growth. We actively contribute to communities, champion social causes, and inspire learners to give back.
+              </p>
             </div>
           </div>
 
-          {/* Horizontal Carousel */}
-          <div
-            ref={socialScrollRef}
-            className="flex gap-4 md:gap-5 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {socialImages.map((img, i) => (
-              <motion.div
-                key={i}
-                custom={i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '-20px' }}
-                variants={fadeUp}
-                className="snap-start shrink-0 w-[85vw] sm:w-[60vw] md:w-[40vw] lg:w-[30vw]"
-                onClick={() => openLightbox(i, 'social')}
-              >
-                <div className="group relative overflow-hidden rounded-2xl md:rounded-[1.5rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 cursor-zoom-in">
-                  {/* Glass sheen */}
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
-
-                  <div className="relative w-full aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={img.src}
-                      alt={img.caption}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      sizes="(max-width: 640px) 85vw, (max-width: 1024px) 40vw, 30vw"
-                    />
-
-                    {/* Bottom vignette */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/70 via-transparent to-transparent z-10"></div>
-
-                    {/* Caption */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-20">
-                      <div className="flex items-center gap-2 mb-1">
-                        <Heart className="h-3 w-3 text-white/70" />
-                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Social Impact</span>
+          {/* Masonry Grid */}
+          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 md:gap-5 [column-fill:_balance]">
+            {socialImages.map((img, i) => {
+              const tall = i % 5 === 2 || i % 7 === 0;
+              return (
+                <motion.div
+                  key={i}
+                  custom={i}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-40px' }}
+                  variants={fadeUp}
+                  className="break-inside-avoid mb-4 md:mb-5"
+                >
+                  <div
+                    onClick={() => openLightbox(i, 'social')}
+                    className="group relative overflow-hidden rounded-2xl md:rounded-[1.5rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 hover:-translate-y-1 cursor-zoom-in"
+                  >
+                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
+                    <div className={`relative w-full overflow-hidden ${tall ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
+                      <Image
+                        src={img.src}
+                        alt={img.caption}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/80 via-[#0f1337]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
+                      <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <Heart className="h-3 w-3 text-white/70" />
+                          <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Social Impact</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -1095,92 +979,64 @@ export default function AboutUsPage() {
       {/* ════════════════════════════════════════════════
           PUBLIC EVENTS — Our Public Events
          ════════════════════════════════════════════════ */}
-      <section className="py-24 md:py-32 relative z-10 overflow-hidden" id="public-events">
+      <section className="py-24 md:py-32 relative z-10" id="public-events">
         <div className="container mx-auto px-4 md:px-6 max-w-7xl">
 
           {/* Section Header */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-3 mb-6">
-                <span className="h-px w-8 bg-[#1a237e]/20"></span>
-                <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Public Events</span>
-              </div>
-              <div className="flex items-start gap-6">
-                <span className="font-black text-7xl md:text-8xl text-[#1a237e]/10 leading-none select-none hidden md:block shrink-0">08</span>
-                <div>
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
-                    Public <span className="text-[#1a237e]">Events</span>
-                  </h2>
-                  <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
-                    Grand gatherings, keynote sessions, and community celebrations, moments where Aspire&apos;s vision comes alive on the public stage.
-                  </p>
-                </div>
-              </div>
+          <div className="max-w-3xl mb-16">
+            <div className="inline-flex items-center gap-3 mb-6">
+              <span className="h-px w-8 bg-[#1a237e]/20"></span>
+              <span className="text-[#1a237e] font-bold tracking-[0.2em] text-xs uppercase">Public Events</span>
             </div>
-
-            {/* Scroll Controls */}
-            <div className="flex items-center gap-3 shrink-0">
-              <button
-                onClick={() => scrollPublicEvents('left')}
-                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
-                aria-label="Scroll left"
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-              <button
-                onClick={() => scrollPublicEvents('right')}
-                className="h-11 w-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-[#1a237e] hover:text-[#1a237e] hover:bg-[#1a237e]/5 transition-all duration-300"
-                aria-label="Scroll right"
-              >
-                <ChevronRight className="h-5 w-5" />
-              </button>
+            <div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0f1337] leading-tight tracking-tight mb-4">
+                Public <span className="text-[#1a237e]">Events</span>
+              </h2>
+              <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-xl">
+                Grand gatherings, keynote sessions, and community celebrations, moments where Aspire Institute&apos;s vision comes alive on the public stage.
+              </p>
             </div>
           </div>
 
-          {/* Horizontal Carousel */}
-          <div
-            ref={publicEventsScrollRef}
-            className="flex gap-4 md:gap-5 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {publicEventImages.map((img, i) => (
-              <motion.div
-                key={i}
-                custom={i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '-20px' }}
-                variants={fadeUp}
-                className="snap-start shrink-0 w-[85vw] sm:w-[60vw] md:w-[40vw] lg:w-[30vw]"
-                onClick={() => openLightbox(i, 'events')}
-              >
-                <div className="group relative overflow-hidden rounded-2xl md:rounded-[1.5rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 cursor-zoom-in">
-                  {/* Glass sheen */}
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
-
-                  <div className="relative w-full aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={img.src}
-                      alt={img.caption}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      sizes="(max-width: 640px) 85vw, (max-width: 1024px) 40vw, 30vw"
-                    />
-
-                    {/* Bottom vignette */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/70 via-transparent to-transparent z-10"></div>
-
-                    {/* Caption */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-20">
-                      <div className="flex items-center gap-2 mb-1">
-                        <PartyPopper className="h-3 w-3 text-white/70" />
-                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Public Event</span>
+          {/* Masonry Grid */}
+          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 md:gap-5 [column-fill:_balance]">
+            {publicEventImages.map((img, i) => {
+              const tall = i % 5 === 2 || i % 7 === 0;
+              return (
+                <motion.div
+                  key={i}
+                  custom={i}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-40px' }}
+                  variants={fadeUp}
+                  className="break-inside-avoid mb-4 md:mb-5"
+                >
+                  <div
+                    onClick={() => openLightbox(i, 'events')}
+                    className="group relative overflow-hidden rounded-2xl md:rounded-[1.5rem] bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_4px_24px_0_rgba(31,38,135,0.04)] hover:shadow-[0_16px_48px_0_rgba(26,35,126,0.12)] transition-all duration-500 hover:-translate-y-1 cursor-zoom-in"
+                  >
+                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50 pointer-events-none z-10"></div>
+                    <div className={`relative w-full overflow-hidden ${tall ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
+                      <Image
+                        src={img.src}
+                        alt={img.caption}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0f1337]/80 via-[#0f1337]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
+                      <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <PartyPopper className="h-3 w-3 text-white/70" />
+                          <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">Public Event</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -1197,7 +1053,7 @@ export default function AboutUsPage() {
               <div className="lg:col-span-5 lg:sticky lg:top-32">
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight leading-[1.1] mb-6">
                   Why Choose <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a237e] to-[#3949ab]">Aspire?</span>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a237e] to-[#3949ab]">Aspire Institute?</span>
                 </h2>
                 <p className="text-gray-500 text-lg font-light leading-relaxed">
                   Our institute carries 17+ years of meaningful work in education, built on consistency, trust and credibility. We do not simply conduct courses; we help individuals unlock their potential.
@@ -1291,7 +1147,7 @@ export default function AboutUsPage() {
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <span className="h-px w-6 bg-[#1a237e]/10"></span>
                   <span className="text-[#1a237e]/60 font-medium tracking-[0.2em] text-[10px] uppercase">
-                    {selectedImage.type === 'gallery' ? 'Aspire Gallery' : selectedImage.type === 'campus' ? 'Aspire Campus' : selectedImage.type === 'social' ? 'Social Impact' : selectedImage.type === 'events' ? 'Public Events' : 'Special Guests'}
+                    {selectedImage.type === 'gallery' ? 'Aspire Institute Gallery' : selectedImage.type === 'campus' ? 'Aspire Institute Campus' : selectedImage.type === 'social' ? 'Social Impact' : selectedImage.type === 'events' ? 'Public Events' : 'Special Guests'}
                   </span>
                   <span className="h-px w-6 bg-[#1a237e]/10"></span>
                 </div>

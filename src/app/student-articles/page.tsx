@@ -99,7 +99,7 @@ export default function StudentArticlesPage() {
             </div>
 
             <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-5 tracking-tight">
-              Authentic Articles by learners of Aspire
+              Authentic Articles by learners of Aspire Institute
             </h1>
 
             <p className="text-lg text-gray-500 leading-relaxed">

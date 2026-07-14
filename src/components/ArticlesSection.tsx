@@ -148,7 +148,7 @@ function PublishJourney() {
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
             <p className="text-sm text-gray-500 font-medium">
-              Hundreds of students have published their stories on Aspire’s platform.
+              Hundreds of students have published their stories on Aspire Institute’s platform.
             </p>
           </div>
         </div>
@@ -257,7 +257,7 @@ function AspireInsightsCard() {
           <span className="text-sm font-sans font-semibold text-[#1a237e] uppercase tracking-wide">Expert Content</span>
         </div>
 
-        <h3 className="font-bold text-3xl lg:text-4xl text-[#1a237e] mb-3">Aspire Insights</h3>
+        <h3 className="font-bold text-3xl lg:text-4xl text-[#1a237e] mb-3">Aspire Institute Insights</h3>
         <p className="font-sans text-gray-600 mb-8 max-w-sm leading-relaxed">
           Curated knowledge from our team. Deep dives into personal development strategies that actually work.
         </p>
@@ -312,7 +312,7 @@ export default function ArticlesSection() {
             </span>
           </div>
           <h2 className="font-bold text-4xl md:text-5xl lg:text-6xl text-[#1a237e] mb-6 text-balance">
-            Authentic Articles by learners of Aspire
+            Authentic Articles by learners of Aspire Institute
           </h2>
           <p className="font-sans text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed text-pretty">
             Real journey, Real breakthroughs written by students who walked into Aspire Institute and walked out Transformed

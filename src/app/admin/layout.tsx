@@ -79,7 +79,7 @@ function SidebarContent({
           <Shield className="h-5 w-5" />
         </div>
         <div className="min-w-0">
-          <p className="truncate text-base font-bold text-[#1a237e]">Aspire Admin</p>
+          <p className="truncate text-base font-bold text-[#1a237e]">Aspire Institute Admin</p>
           <p className="truncate text-[11px] text-gray-400">Content control panel</p>
         </div>
       </div>

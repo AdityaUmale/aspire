@@ -27,7 +27,7 @@ const values = [
         icon: Heart,
         title: 'Discipline & Character',
         description:
-            'At Aspire, leadership is not about position. It is about responsibility, discipline and character.',
+            'At Aspire Institute, leadership is not about position. It is about responsibility, discipline and character.',
     },
     {
         icon: Shield,
@@ -45,7 +45,7 @@ const values = [
         icon: Target,
         title: 'Clarity & Direction',
         description:
-            'Aspire is remembered as a phase that built discipline, clarity and direction for everyone who becomes part of the team.',
+            'Aspire Institute is remembered as a phase that built discipline, clarity and direction for everyone who becomes part of the team.',
     },
     {
         icon: TrendingUp,
@@ -76,7 +76,7 @@ const roles = [
             'Discipline and consistency',
             'Commitment to complete the full one-year journey',
         ],
-        note: 'At Aspire, internship is not treated lightly. You are given exposure, mentorship and responsibility that shape your thinking and work ethic.',
+        note: 'At Aspire Institute, internship is not treated lightly. You are given exposure, mentorship and responsibility that shape your thinking and work ethic.',
         closing:
             'It is a valuable opportunity, one that demands seriousness, but rewards you with clarity, confidence and direction.',
     },
@@ -110,7 +110,7 @@ const roles = [
         tagline: 'Build Expression. Build Confidence. Build Individuals.',
         icon: BookOpen,
         description:
-            'Language training at Aspire goes beyond basics. It builds confidence, clarity and personality.',
+            'Language training at Aspire Institute goes beyond basics. It builds confidence, clarity and personality.',
         responsibilities: [
             'Conduct structured sessions',
             'Execute practical learning activities',
@@ -134,7 +134,7 @@ const roles = [
         tagline: 'Clarity. Listening. Direction.',
         icon: HeadphonesIcon,
         description:
-            'At Aspire, career guidance begins with understanding the individual.',
+            'At Aspire Institute, career guidance begins with understanding the individual.',
         responsibilities: [
             'Listens with patience',
             'Helps them understand their strengths',
@@ -171,7 +171,7 @@ const roles = [
         ],
         note: 'This role may not always be visible, but it is deeply valuable.',
         closing:
-            'Being trusted with institutional systems reflects the confidence Aspire places in you, and that trust is something to hold with gratitude.',
+            'Being trusted with institutional systems reflects the confidence Aspire Institute places in you, and that trust is something to hold with gratitude.',
     },
 ];
 
@@ -437,14 +437,14 @@ export default function CareersPage() {
                         {/* Text content */}
                         <div className="lg:col-span-10 space-y-8">
                             <p className="text-2xl md:text-3xl text-gray-800 leading-[1.4] font-medium tracking-tight">
-                                Being selected at Aspire Institute as a part of Team Aspire is not
+                                Being selected at Aspire Institute as a part of Team Aspire Institute is not
                                 just about receiving a role. It is not just an opportunity. It is{' '}
                                 <span className="text-[#1a237e] font-bold">a rare chance to be mentored, challenged, and shaped</span>{' '}
                                 in an environment that builds both competence and character.
                             </p>
 
                             <p className="text-2xl md:text-3xl text-gray-800 leading-[1.4] font-medium tracking-tight">
-                                Aspire is not remembered as just a place of work. It is remembered
+                                Aspire Institute is not remembered as just a place of work. It is remembered
                                 as a phase that built{' '}
                                 <span className="text-[#1a237e] font-bold">discipline, clarity and direction</span>.
                                 We invite committed joiners who understand that meaningful growth
@@ -490,10 +490,10 @@ export default function CareersPage() {
                         <div className="lg:col-span-4 lg:sticky lg:top-32">
                             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-5">
                                 Why Join<br />
-                                <span className="text-[#1a237e]">Aspire?</span>
+                                <span className="text-[#1a237e]">Aspire Institute?</span>
                             </h2>
                             <p className="text-gray-500 text-base leading-relaxed mb-8">
-                                Aspire does not offer casual roles. It offers growth journeys.
+                                Aspire Institute does not offer casual roles. It offers growth journeys.
                             </p>
                             {/* Closing quote */}
                             <div className="border-l-2 border-[#1a237e] pl-4 space-y-2">
@@ -526,7 +526,7 @@ export default function CareersPage() {
 
                             {/* Closing paragraph */}
                             <p className="text-gray-500 text-sm md:text-base leading-relaxed mt-8 max-w-2xl">
-                                Being a part of Team Aspire, the leading personal and professional
+                                Being a part of Team Aspire Institute, the leading personal and professional
                                 development training institute&apos;s team, is a valuable
                                 opportunity, one that should be approached with gratitude,
                                 commitment and integrity.
@@ -556,7 +556,7 @@ export default function CareersPage() {
                             <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
                                 <div className="text-center lg:text-left">
                                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-                                        Join Team Aspire
+                                        Join Team Aspire Institute
                                     </h2>
                                     <p className="text-[#c5cae9] text-base md:text-lg max-w-xl">
                                         Take the next step in your journey. Drop your resume and a brief introduction at:

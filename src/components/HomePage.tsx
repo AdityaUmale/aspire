@@ -231,45 +231,47 @@ export default function HomePage() {
                 { title: "Teachers Training Program", tag: "For Educators", description: "Teach with purpose. Inspire with impact", image: "/teacher2.png", slug: "/courses/teachers-training-program", features: ["Pedagogy", "Classroom management", "Engagement", "Assessment"] },
                 { title: "Corporate Training Programs", tag: "For Organisations", description: "Empowering People. Strengthening Organizations.", image: "/corporate-training/IMG_6133.JPG", slug: "/courses/corporate-training", features: ["Sales Training", "Leadership Development", "Team Communication", "Conflict Management"] },
               ].map((course, index) => (
-                <Link key={index} href={course.slug} legacyBehavior passHref>
-                  <a className="group relative flex flex-col rounded-[1.5rem] bg-white border border-gray-200 shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.25)] hover:border-[#1a237e]/30 hover:-translate-y-2 block flex-shrink-0 w-[300px] sm:w-[340px] snap-start overflow-hidden h-[480px]">
-                    {/* Image Area */}
-                    <div className="relative h-56 w-full overflow-hidden">
-                      <Image src={course.image} alt={`${course.title} workshop in progress at Aspire Institute`} width={400} height={300} sizes="(max-width: 640px) 300px, (max-width: 1024px) 340px, 340px" className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#1a237e]/80 via-transparent to-transparent opacity-80"></div>
+                <Link
+                  key={index}
+                  href={course.slug}
+                  className="group relative flex flex-col rounded-[1.5rem] bg-white border border-gray-200 shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.25)] hover:border-[#1a237e]/30 hover:-translate-y-2 flex-shrink-0 w-[300px] sm:w-[340px] snap-start overflow-hidden h-[480px]"
+                >
+                  {/* Image Area */}
+                  <div className="relative h-56 w-full overflow-hidden">
+                    <Image src={course.image} alt={`${course.title} workshop in progress at Aspire Institute`} width={400} height={300} sizes="(max-width: 640px) 300px, (max-width: 1024px) 340px, 340px" className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a237e]/80 via-transparent to-transparent opacity-80"></div>
 
-                      {/* Title Overlay on Image */}
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <h3 className="font-bold text-xl font-medium text-white leading-tight drop-shadow-md">{course.title}</h3>
-                      </div>
+                    {/* Title Overlay on Image */}
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <h3 className="font-bold text-xl font-medium text-white leading-tight drop-shadow-md">{course.title}</h3>
+                    </div>
+                  </div>
+
+                  {/* Content Area */}
+                  <div className="p-6 flex flex-col bg-white relative z-10 h-[280px]">
+                    <p className="text-gray-500 text-sm mb-6 leading-relaxed font-light line-clamp-3">{course.description}</p>
+
+                    {/* Features List */}
+                    <div className="w-full pt-4 border-t border-dashed border-gray-200 mb-6 flex-grow">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Focus Areas</p>
+                      <ul className="grid grid-cols-1 gap-2">
+                        {course.features.slice(0, 3).map((feature, i) => (
+                          <li key={i} className="flex items-center gap-2 text-xs text-gray-600 font-medium">
+                            <CheckCircle className="h-3 w-3 text-[#3949ab]" />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
 
-                    {/* Content Area */}
-                    <div className="p-6 flex flex-col bg-white relative z-10 h-[280px]">
-                      <p className="text-gray-500 text-sm mb-6 leading-relaxed font-light line-clamp-3">{course.description}</p>
-
-                      {/* Features List */}
-                      <div className="w-full pt-4 border-t border-dashed border-gray-200 mb-6 flex-grow">
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Focus Areas</p>
-                        <ul className="grid grid-cols-1 gap-2">
-                          {course.features.slice(0, 3).map((feature, i) => (
-                            <li key={i} className="flex items-center gap-2 text-xs text-gray-600 font-medium">
-                              <CheckCircle className="h-3 w-3 text-[#3949ab]" />
-                              {feature}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      {/* Action */}
-                      <div className="mt-auto">
-                        <Button variant="ghost" className="w-full justify-between border border-gray-100 text-[#1a237e] hover:bg-[#1a237e] hover:text-white transition-all duration-300 group/btn">
-                          <span className="text-sm font-medium">View Program</span>
-                          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
-                        </Button>
-                      </div>
+                    {/* Action */}
+                    <div className="mt-auto">
+                      <Button variant="ghost" className="w-full justify-between border border-gray-100 text-[#1a237e] hover:bg-[#1a237e] hover:text-white transition-all duration-300 group/btn">
+                        <span className="text-sm font-medium">View Program</span>
+                        <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                      </Button>
                     </div>
-                  </a>
+                  </div>
                 </Link>
               ))}
             </div>

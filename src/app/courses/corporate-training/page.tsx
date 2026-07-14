@@ -215,7 +215,7 @@ export default function CorporateTrainingPage() {
                     Ready to Strengthen Your Organization?
                   </h2>
                   <p className="text-[#c5cae9] text-base md:text-lg max-w-xl">
-                    Partner with Aspire for customized corporate training that builds skilled professionals and exceptional leaders.
+                    Partner with Aspire Institute for customized corporate training that builds skilled professionals and exceptional leaders.
                   </p>
                 </div>
 

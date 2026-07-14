@@ -184,7 +184,7 @@ export default function ArticlesPage() {
                           {article.author?.name ? article.author.name.charAt(0).toUpperCase() : 'A'}
                         </div>
                         <span className="text-sm font-medium text-gray-900">
-                          {article.author?.name || 'Aspire Founder'}
+                          {article.author?.name || 'Aspire Institute Founder'}
                         </span>
                       </div>
                       <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-50 text-gray-400 group-hover:bg-[#1a237e] group-hover:text-white transition-all duration-300">

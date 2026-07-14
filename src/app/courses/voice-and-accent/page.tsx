@@ -154,7 +154,7 @@ export default function VoiceAndAccentPage() {
                   Whether you&apos;re a working professional, a customer-facing employee, or someone who wants to polish their speech, this program provides you with the skills to overcome accent-related hurdles and present your most professional self.
                 </p>
                 <p className="font-bold text-[#1a237e] text-xl">
-                  With Aspire, let your voice be your biggest asset.
+                  With Aspire Institute, let your voice be your biggest asset.
                 </p>
               </div>
             </div>

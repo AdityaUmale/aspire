@@ -72,7 +72,7 @@ export default function Navbar() {
               <div className="relative overflow-hidden rounded-full transition-transform duration-300 group-hover:scale-105 group-active:scale-95">
                 <Image
                   src="/logo1.png"
-                  alt="Aspire Logo"
+                  alt="Aspire Institute Logo"
                   width={72}
                   height={72}
                   sizes="72px"

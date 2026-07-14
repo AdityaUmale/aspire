@@ -154,10 +154,10 @@ export default function EnglishLanguageTrainingPage() {
                   Through our interactive, activity-based training, we make English simple, enjoyable, and practical for everyday life, work, and study. With stories, conversations, games, and media-based lessons, we help learners rise above barriers, think in English, and express themselves naturally.
                 </p>
                 <p className="mb-6">
-                  Aspire&apos;s English programs don&apos;t just teach English. They help you communicate fearlessly, connect globally, and grow personally and professionally.
+                  Aspire Institute&apos;s English programs don&apos;t just teach English. They help you communicate fearlessly, connect globally, and grow personally and professionally.
                 </p>
                 <p className="font-bold text-[#1a237e] text-xl">
-                  Aspire helps to connect globally, express freely, and grow personally and professionally with the power of English.
+                  Aspire Institute helps to connect globally, express freely, and grow personally and professionally with the power of English.
                 </p>
               </div>
             </div>

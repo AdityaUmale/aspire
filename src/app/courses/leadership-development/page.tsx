@@ -158,7 +158,7 @@ export default function LeadershipDevelopmentPage() {
                   Through practical strategies, reflection-based learning, and hands-on exercises, you’ll learn how to lead with confidence, handle complexity with calm, and influence people with purpose. Whether you’re an emerging professional, a manager, or an entrepreneur, LDP equips you to build high-performing teams, make smart decisions, and turn challenges into opportunities.
                 </p>
                 <p className="mb-6">
-                  With over 17 years of proven impact across India, Aspire’s Leadership Development Program transforms potential into performance, creating leaders who not only achieve goals but elevate others along the way.
+                  With over 17 years of proven impact across India, Aspire Institute’s Leadership Development Program transforms potential into performance, creating leaders who not only achieve goals but elevate others along the way.
                 </p>
                 <p className="font-bold text-[#1a237e] italic text-xl">
                   “Discover the leader within and make leadership your strength.”

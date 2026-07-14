@@ -307,11 +307,11 @@ export default function FounderPage() {
                     </p>
 
                     <p>
-                      Some institutions teach subjects. And then some institutions shape people. At Aspire, we have always chosen the latter, and that choice has defined everything we do.
+                      Some institutions teach subjects. And then some institutions shape people. At Aspire Institute, we have always chosen the latter, and that choice has defined everything we do.
                     </p>
 
                     <p>
-                      Since 2009, Aspire has stood for something larger than conventional education. We were built on the belief that true learning must go beyond textbooks and examinations. Nurturing learners&apos; confidence, sharpening their communication, awakening their leadership, and giving them a deep, grounded sense of purpose are not additions to our curriculum. They are the very heart of it.
+                      Since 2009, Aspire Institute has stood for something larger than conventional education. We were built on the belief that true learning must go beyond textbooks and examinations. Nurturing learners&apos; confidence, sharpening their communication, awakening their leadership, and giving them a deep, grounded sense of purpose are not additions to our curriculum. They are the very heart of it.
                     </p>
 
                     <p>

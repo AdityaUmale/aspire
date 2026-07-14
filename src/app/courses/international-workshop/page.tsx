@@ -122,7 +122,7 @@ export default function InternationalWorkshopPage() {
                   Travelling is NOT just a journey where you visit places, capture memories, and buy souvenirs; it is a profound journey of self-discovery where you break boundaries, conquer fears, dive into new cultures, learn languages, and above all, find a new perspective on life.
                 </p>
                 <p className="mb-6">
-                  The Aspire International Workshop is more than just an educational tour; it is a blend of learning, exploration, and endless fun. It brings together Aspire Institute students and participants who want to step out of their comfort zones, experience a new country, and grow individually.
+                  The Aspire Institute International Workshop is more than just an educational tour; it is a blend of learning, exploration, and endless fun. It brings together Aspire Institute students and participants who want to step out of their comfort zones, experience a new country, and grow individually.
                 </p>
               </div>
             </div>

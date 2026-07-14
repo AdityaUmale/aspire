@@ -155,7 +155,7 @@ export default function PersonalityDevelopmentPage() {
                   Through introspective sessions, goal-setting exercises, and life-skill training, learners develop a confident attitude, strong interpersonal skills, and a calm, positive outlook. Designed for students, professionals, homemakers, and anyone seeking meaningful change, the PDC shapes individuals who think clearly, communicate effectively, and lead gracefully in personal and professional life.
                 </p>
                 <p className="mb-6">
-                  With Aspire, self-improvement becomes not just a course, but a way of living.
+                  With Aspire Institute, self-improvement becomes not just a course, but a way of living.
                 </p>
                 <p className="font-bold text-[#1a237e] text-xl">
                   Personal growth is the first step toward professional success.

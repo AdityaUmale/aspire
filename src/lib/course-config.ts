@@ -15,12 +15,12 @@ export interface ProgramCatalogEntry {
 }
 
 export const GENERIC_UPCOMING_DESCRIPTION =
-  "Upcoming training batch. Contact Aspire to confirm details and availability.";
+  "Upcoming training batch. Contact Aspire Institute to confirm details and availability.";
 
 export const GENERIC_UPCOMING_HIGHLIGHTS = [
   "Fresh batch starting soon",
   "Schedule shared in the latest poster",
-  "Contact Aspire to confirm availability",
+  "Contact Aspire Institute to confirm availability",
 ];
 
 export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [

@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -24,11 +22,11 @@ const successStories: SuccessStory[] = [
     role: 'Senior Consultant, Fractal Analytics',
     headline: 'Consistency Changed My Life.',
     quote:
-      'Today, as a Senior Consultant at Fractal Analytics, I work with greater confidence and direction. My goal is to grow into senior management and create lasting value for both my organization and my family. Aspire taught me that steady effort, guided well, always leads forward.',
+      'Today, as a Senior Consultant at Fractal Analytics, I work with greater confidence and direction. My goal is to grow into senior management and create lasting value for both my organization and my family. Aspire Institute taught me that steady effort, guided well, always leads forward.',
     story: [
       'Coming from a financially humble background, responsibility shaped me early. I knew growth would not be instant, it had to be earned. Joining Aspire, The Institute Of Human Development, became a defining step in that journey.',
       'Through the ELT Intermediate and Proficient Levels, the Personality Development Program, and the Arise Language And Thoughts Enrichment Camp, I strengthened not just my English communication, but my clarity of thought and confidence in expression.',
-      'Aspire helped me present ideas effectively, interact professionally with teams, and build a positive, solution-focused mindset. Over time, these changes reflected directly in my career growth.',
+      'Aspire Institute helped me present ideas effectively, interact professionally with teams, and build a positive, solution-focused mindset. Over time, these changes reflected directly in my career growth.',
     ],
     image: '/Rohit Chaudhari.jpg',
     imagePosition: 'object-[center_20%]',
@@ -36,9 +34,9 @@ const successStories: SuccessStory[] = [
   {
     name: 'Ms. Pranjali Wahurwagh',
     role: 'Flight Attendant, IndiGo Airlines',
-    headline: 'At Aspire, I Discovered A Stronger Version Of Myself.',
+    headline: 'At Aspire Institute, I Discovered A Stronger Version Of Myself.',
     quote:
-      'Aspire shaped my mindset, resilience, and belief that no dream is too big. The journey continues, but now I walk it with confidence and purpose.',
+      'Aspire Institute shaped my mindset, resilience, and belief that no dream is too big. The journey continues, but now I walk it with confidence and purpose.',
     story: [
       'Coming from a small town, I joined Aspire, The Institute Of Human Development, through the Intermediate to Proficient levels and the Arise Language And Thoughts Enrichment Camp. What began as a step to improve my English became a complete transformation.',
       'My communication improved, but more importantly, my confidence grew. Speaking fluently once felt difficult. Today, I connect effortlessly with people from across the world.',
@@ -51,9 +49,9 @@ const successStories: SuccessStory[] = [
   {
     name: 'Ms. Pratiksha Nirale',
     role: 'Assistant Manager, ASBC & Co.',
-    headline: "I Didn't Just Grow At Aspire, I Rebuilt Myself.",
+    headline: "I Didn't Just Grow At Aspire Institute, I Rebuilt Myself.",
     quote:
-      'I once hoped for stability and direction, today, I am living the dreams I once only imagined. Aspire taught me that when clarity meets courage, transformation follows.',
+      'I once hoped for stability and direction, today, I am living the dreams I once only imagined. Aspire Institute taught me that when clarity meets courage, transformation follows.',
     story: [
       'There was a phase in my life when I felt confused, demotivated, and uncertain about my direction. Joining Aspire, The Institute Of Human Development, became the turning point.',
       'Through the Leadership Development Program, Personality Development Program, Advanced and Proficient Levels, multiple Arise Camps, the Meet Yourself International Workshop in Hanoi, and growth workshops in Pune, I slowly began to see myself with clarity.',
@@ -66,10 +64,10 @@ const successStories: SuccessStory[] = [
     role: 'Process Executive, Infosys BPM',
     headline: 'There Was A Time I Was Afraid To Speak. Today, I Speak With Confidence.',
     quote:
-      'I carry not just improved communication skills, but a stronger sense of self. I aspire to grow further as a responsible corporate professional and one day, a successful businessman. Aspire taught me that even the smallest consistent steps can change a life.',
+      'I carry not just improved communication skills, but a stronger sense of self. I aspire to grow further as a responsible corporate professional and one day, a successful businessman. Aspire Institute taught me that even the smallest consistent steps can change a life.',
     story: [
       'I joined Aspire, The Institute Of Human Development, at the Basic Level as a nervous but eager learner. I wanted to improve my English, but what I truly needed was belief in myself.',
-      'Aspire gave me that space, patient guidance, constant motivation, and the courage to grow step by step. From Levels 2 to 5, the Arise Camp, and the Public Speaking Program, every stage shaped me.',
+      'Aspire Institute gave me that space, patient guidance, constant motivation, and the courage to grow step by step. From Levels 2 to 5, the Arise Camp, and the Public Speaking Program, every stage shaped me.',
       'Daily practice slowly replaced hesitation with clarity. I learned to express my thoughts without fear and approach challenges with a calm, positive mindset. Today, as a Process Executive at Infosys BPM, I see how far I have come.',
     ],
     image: '/shubham marhe.jpg',
@@ -79,7 +77,7 @@ const successStories: SuccessStory[] = [
     name: 'Ms. Sharayu Hande',
     role: 'Amazon, India',
     headline: 'At Aspire Institute, I Unlocked A Version Of Myself I Never Knew Existed.',
-    quote: "If you're ready to rewrite your story, Aspire is where the first chapter begins.",
+    quote: "If you're ready to rewrite your story, Aspire Institute is where the first chapter begins.",
     story: [
       'With the right training, guidance, and constant belief paired with my efforts, I built the skills, confidence, and mindset that led to my placement at Amazon.',
       'This was not one big change, but a series of transformations, clearer thinking, stronger confidence, and a positive outlook on growth.',
@@ -90,9 +88,9 @@ const successStories: SuccessStory[] = [
   {
     name: 'Mr. Aditya Umale',
     role: 'Software Engineer, Giddly',
-    headline: 'At Aspire, I Learned How To Turn Potential Into Performance.',
+    headline: 'At Aspire Institute, I Learned How To Turn Potential Into Performance.',
     quote:
-      'Today, as a Software Engineer at Giddly with multiple job offers after graduation, I move forward with clarity and purpose. Aspire helped me grow into a professional who strives to create meaningful impact through his work.',
+      'Today, as a Software Engineer at Giddly with multiple job offers after graduation, I move forward with clarity and purpose. Aspire Institute helped me grow into a professional who strives to create meaningful impact through his work.',
     story: [
       'I joined Aspire, The Institute Of Human Development, with technical knowledge and a desire to grow, but I needed direction and confidence.',
       'Through programs like PDP, LDP, ELT (L3, L4, L5), FEL, and the Arise Language And Thoughts Enrichment Camp, my communication became clearer, my thinking sharper, and my leadership more grounded in values and empathy.',
@@ -119,7 +117,7 @@ const successStories: SuccessStory[] = [
   {
     name: 'Dr. Renuka Pawar',
     role: 'Agricultural Research Fellow, Dr.PDKV, Maharashtra.',
-    headline: 'Joining Aspire Was A Turning Point In My Journey.',
+    headline: 'Joining Aspire Institute Was A Turning Point In My Journey.',
     quote:
       'If you ever need a place that equips you to chase the impossible, Aspire Institute is where impossible begins to feel achievable.',
     story: [
@@ -135,10 +133,10 @@ const successStories: SuccessStory[] = [
     role: 'Business Owner, Sankalp Cyber Café & PA to MLC, Vidhan Bhavan',
     headline: 'My Journey Was Never Easy, But It Was Always Meaningful.',
     quote:
-      'I aim to scale higher, expand my ventures, and inspire others who begin with limited resources but unlimited determination. Aspire taught me that resilience, guided well, can turn struggle into strength.',
+      'I aim to scale higher, expand my ventures, and inspire others who begin with limited resources but unlimited determination. Aspire Institute taught me that resilience, guided well, can turn struggle into strength.',
     story: [
       'When I joined Aspire, The Institute Of Human Development, I was carrying responsibilities, setbacks, and the pressure to build something of my own. I needed clarity and direction.',
-      'Aspire became that turning point. It gave me belief when I needed it most. Through the Personality Development Program and Functional English Level training, I rebuilt myself step by step.',
+      'Aspire Institute became that turning point. It gave me belief when I needed it most. Through the Personality Development Program and Functional English Level training, I rebuilt myself step by step.',
       'My communication improved, but more importantly, my mindset changed. Today, as the owner of Sankalp Cyber Café and serving as PA to an MLC at Vidhan Bhavan, I lead with confidence and purpose.',
     ],
     image: '/sls/kirtesh.jpg',
@@ -146,13 +144,13 @@ const successStories: SuccessStory[] = [
   {
     name: 'Mr. Gopal Hagawane',
     role: 'Business Owner, Shree Hari Food Junction',
-    headline: 'I Joined Aspire To Improve My English. I Walked Away With Belief In Myself.',
+    headline: 'I Joined Aspire Institute To Improve My English. I Walked Away With Belief In Myself.',
     quote:
       'I now aim to grow as an ideal businessman and build multiple successful ventures. This journey taught me that when you believe in yourself, you begin to break every ceiling that once felt out of reach.',
     story: [
       'As the owner of Shree Hari Food Junction, I always worked hard, but I wanted to grow beyond my limitations. I enrolled at Aspire, The Institute Of Human Development, and completed the ELT levels up to Functional English Level 2.',
       'What began as a simple step toward better communication became a journey of confidence and clarity. There was a time I struggled to speak even a few words in English.',
-      'Today, I communicate comfortably and carry myself with confidence in every interaction. Aspire helped me recognize my potential and approach challenges with a positive mindset.',
+      'Today, I communicate comfortably and carry myself with confidence in every interaction. Aspire Institute helped me recognize my potential and approach challenges with a positive mindset.',
     ],
     image: '/gopal hagwane.jpg',
     imagePosition: 'object-[center_10%]',
@@ -160,13 +158,13 @@ const successStories: SuccessStory[] = [
   {
     name: 'Mr. Vishal Tale',
     role: 'Office Manager, Mandar Pharma',
-    headline: 'Aspire Became The Backbone Of My Growth.',
+    headline: 'Aspire Institute Became The Backbone Of My Growth.',
     quote:
-      'I aim to step into larger leadership roles, manage bigger teams, and take on greater responsibilities. Aspire taught me that true growth begins within, and when your mindset strengthens, your career follows.',
+      'I aim to step into larger leadership roles, manage bigger teams, and take on greater responsibilities. Aspire Institute taught me that true growth begins within, and when your mindset strengthens, your career follows.',
     story: [
       'I joined Aspire, The Institute Of Human Development, through Functional English Level 2, hoping to improve my communication. What I experienced was much deeper.',
       'The journey shaped my confidence, strengthened my thinking, and helped me grow into a calm and capable professional. I learned how to draft professional emails, communicate effectively with senior executives, and handle workplace responsibilities with clarity.',
-      'More importantly, Aspire taught me how to stay composed under pressure, think logically, and respond with maturity instead of reacting emotionally. Today, as an Office Manager at Mandar Pharma, I carry myself with greater confidence and stability.',
+      'More importantly, Aspire Institute taught me how to stay composed under pressure, think logically, and respond with maturity instead of reacting emotionally. Today, as an Office Manager at Mandar Pharma, I carry myself with greater confidence and stability.',
     ],
     image: '/vishal tale.JPG.jpg',
   },
@@ -191,11 +189,11 @@ function accentColorFromName(name: string) {
 
 export default function SuccessStoriesPage() {
   return (
-    <div className="min-h-screen bg-[#f4f3ef] font-sans selection:bg-[#1a237e] selection:text-white">
+    <div className="min-h-screen bg-[#e6e4dc] font-sans selection:bg-[#1a237e] selection:text-white">
       <Navbar />
 
       <div
-        className="fixed inset-0 pointer-events-none opacity-[0.4] z-0"
+        className="fixed inset-0 pointer-events-none opacity-[0.35] z-0"
         style={{
           backgroundImage:
             'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.8\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")',
@@ -239,14 +237,13 @@ export default function SuccessStoriesPage() {
             return (
               <article
                 key={story.name}
-                className={`break-inside-avoid relative bg-[#fffdf8] rounded-[3px] p-6 md:p-8 shadow-[2px_4px_16px_rgba(0,0,0,0.08),_0_0_2px_rgba(0,0,0,0.02)] border border-[#e8e6df] transition-all duration-300 hover:shadow-[4px_12px_28px_rgba(0,0,0,0.1)] hover:-translate-y-1 hover:rotate-0 group ${rotation}`}
-                style={{
-                  backgroundImage:
-                    'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' opacity=\'0.04\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")',
-                }}
+                className={`break-inside-avoid relative rounded-lg p-6 md:p-8 bg-white border border-[#cfcbc0] shadow-[4px_10px_28px_rgba(0,0,0,0.12),_0_2px_6px_rgba(0,0,0,0.05)] transition-all duration-300 group hover:bg-[#eef0fa] hover:rotate-0 hover:-translate-y-2 hover:z-20 hover:shadow-[0_20px_48px_-12px_rgba(26,35,126,0.35),_0_8px_20px_rgba(0,0,0,0.1)] hover:border-[#1a237e]/40 hover:ring-4 hover:ring-[#1a237e]/12 ${rotation}`}
               >
+                {/* Soft left accent for depth */}
+                <div className="absolute left-0 top-5 bottom-5 w-1 rounded-full bg-[#1a237e]/30 transition-all duration-300 group-hover:bg-[#1a237e] group-hover:w-1.5" />
+
                 <div className="absolute top-3 left-1/2 -translate-x-1/2 w-4 h-4 z-20">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#283593] to-[#1a237e] rounded-full shadow-[inset_-2px_-2px_4px_rgba(0,0,0,0.4),_inset_1.5px_1.5px_3px_rgba(255,255,255,0.4),_0_4px_6px_rgba(0,0,0,0.3)] border border-[#0f1337]"></div>
+                  <div className="absolute inset-0 rounded-full border border-[#0f1337] bg-gradient-to-br from-[#283593] to-[#1a237e] shadow-[inset_-2px_-2px_4px_rgba(0,0,0,0.4),_inset_1.5px_1.5px_3px_rgba(255,255,255,0.4),_0_4px_6px_rgba(0,0,0,0.3)] transition-shadow duration-300 group-hover:from-[#3949ab] group-hover:to-[#1a237e] group-hover:shadow-[inset_-2px_-2px_4px_rgba(0,0,0,0.4),_inset_1.5px_1.5px_3px_rgba(255,255,255,0.45),_0_4px_10px_rgba(26,35,126,0.45)]" />
                   <div className="absolute top-1 left-1.5 w-1 h-1 bg-white/60 rounded-full blur-[0.5px]"></div>
                   <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-black/40 rounded-full blur-[1.5px]"></div>
                 </div>
@@ -254,7 +251,7 @@ export default function SuccessStoriesPage() {
                 <div className="mt-4 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-5 mb-6 relative z-[2]">
                   <div className="flex-shrink-0">
                     {story.image ? (
-                      <div className="h-24 w-24 sm:h-28 sm:w-28 rounded-xl overflow-hidden shadow-md border-2 border-white ring-1 ring-black/5">
+                      <div className="h-24 w-24 sm:h-28 sm:w-28 rounded-xl overflow-hidden border-2 border-white shadow-md ring-1 ring-black/5 transition-shadow duration-300 group-hover:shadow-[0_8px_20px_rgba(26,35,126,0.2)] group-hover:ring-2 group-hover:ring-[#1a237e]/20">
                         <Image
                           src={story.image}
                           alt={story.name}
@@ -292,16 +289,16 @@ export default function SuccessStoriesPage() {
                   ))}
                 </div>
 
-                <div className="bg-[#f4efe3]/60 border-l-[3px] border-[#1a237e]/40 px-4 py-3 rounded-r-sm relative z-[2]">
+                <div className="px-4 py-3 rounded-r-sm relative z-[2] bg-[#f0ede4] border-l-[3px] border-[#1a237e]/40 transition-all duration-300 group-hover:bg-white/80 group-hover:border-[#1a237e]">
                   <p className="text-gray-800 font-medium italic text-sm">{story.quote}</p>
                 </div>
 
                 <div
-                  className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-[#e4dfd1] to-[#fdfcf7] shadow-[-2px_-2px_6px_rgba(0,0,0,0.06)] rounded-tl-sm transition-all duration-300 origin-bottom-right group-hover:w-10 group-hover:h-10 z-10"
+                  className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-[#d9d4c6] to-white shadow-[-2px_-2px_6px_rgba(0,0,0,0.06)] rounded-tl-sm transition-all duration-300 origin-bottom-right group-hover:w-10 group-hover:h-10 z-10"
                   style={{ clipPath: 'polygon(100% 0, 0 100%, 100% 100%)' }}
                 ></div>
                 <div
-                  className="absolute bottom-0 right-0 w-8 h-8 bg-[#f4f3ef] transition-all duration-300 origin-bottom-right group-hover:w-10 group-hover:h-10 z-0 pointer-events-none"
+                  className="absolute bottom-0 right-0 w-8 h-8 bg-[#e6e4dc] transition-all duration-300 origin-bottom-right group-hover:w-10 group-hover:h-10 z-0 pointer-events-none"
                   style={{ clipPath: 'polygon(100% 0, 0 100%, 100% 100%)', transform: 'scale(1.05) translate(1px, 1px)' }}
                 ></div>
               </article>

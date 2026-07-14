@@ -30,7 +30,7 @@ const stories: SpiritStory[] = [
     headline: 'Learning has no age limit, and she proved it.',
     quote: 'Learning never retires and neither should our dreams.',
     story: [
-      'Inspired by her granddaughter, she joined Aspire not as a spectator but as a determined learner, walking into every session with curiosity, discipline, and a desire to improve her communication.',
+      'Inspired by her granddaughter, she joined Aspire Institute not as a spectator but as a determined learner, walking into every session with curiosity, discipline, and a desire to improve her communication.',
       'Her dedication became an inspiration for learners across all ages. Watching her participate, practise, and progress reminded everyone that learning isn’t bound by time, it’s powered by spirit.',
       'At our 17th Annual Function, she received the “We Salute Your Learning Spirit Award,” earning a heartfelt standing ovation for her courage and lifelong commitment to growth.',
     ],
@@ -43,7 +43,7 @@ const stories: SpiritStory[] = [
     headline: 'Age is just a number; curiosity is forever.',
     quote: 'When the mind stays open, life keeps teaching.',
     story: [
-      'Even after retirement, his dedication to improving himself brought him to Aspire with the same curiosity and discipline as our youngest learners.',
+      'Even after retirement, his dedication to improving himself brought him to Aspire Institute with the same curiosity and discipline as our youngest learners.',
       'His enthusiasm to learn, ask questions, and embrace new knowledge inspired everyone around him. He showed us that personal development has no timeline, only a willing heart.',
       'We proudly honoured him with the “We Salute Your Learning Spirit Award” for his remarkable determination and example of lifelong learning.',
     ],
@@ -54,7 +54,7 @@ const stories: SpiritStory[] = [
   {
     name: 'Smt. Ashwini Pathak',
     title: '60+ years young',
-    headline: 'Before you expire, join Aspire.',
+    headline: 'Before you expire, join Aspire Institute.',
     quote: 'Growth belongs to anyone brave enough to begin again.',
     story: [
       'With wisdom and warmth, she returned to the classroom to upgrade herself, balancing responsibilities while staying curious and courageous.',
@@ -124,30 +124,28 @@ export default function SaluteLearningSpiritPage() {
             return (
               <article
                 key={story.name}
-                className={`break-inside-avoid relative bg-[#fffdf8] rounded-[3px] p-6 md:p-8 shadow-[2px_4px_16px_rgba(0,0,0,0.08),_0_0_2px_rgba(0,0,0,0.02)] border border-[#e8e6df] transition-all duration-300 hover:shadow-[4px_12px_28px_rgba(0,0,0,0.1)] hover:-translate-y-1 hover:rotate-0 group ${rotation}`}
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' opacity='0.04' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
-                }}
+                className={`break-inside-avoid relative rounded-lg p-6 md:p-8 bg-white border border-[#cfcbc0] shadow-[4px_10px_28px_rgba(0,0,0,0.12),_0_2px_6px_rgba(0,0,0,0.05)] transition-all duration-300 group hover:bg-[#eef0fa] hover:rotate-0 hover:-translate-y-2 hover:z-20 hover:shadow-[0_20px_48px_-12px_rgba(26,35,126,0.35),_0_8px_20px_rgba(0,0,0,0.1)] hover:border-[#1a237e]/40 hover:ring-4 hover:ring-[#1a237e]/12 ${rotation}`}
               >
+                {/* Soft left accent for depth */}
+                <div className="absolute left-0 top-5 bottom-5 w-1 rounded-full bg-[#1a237e]/30 transition-all duration-300 group-hover:bg-[#1a237e] group-hover:w-1.5" />
+
                 {/* REALISTIC PUSH PIN */}
                 <div className="absolute top-3 left-1/2 -translate-x-1/2 w-4 h-4 z-20">
-                  {/* Pin Head */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#283593] to-[#1a237e] rounded-full shadow-[inset_-2px_-2px_4px_rgba(0,0,0,0.4),_inset_1.5px_1.5px_3px_rgba(255,255,255,0.4),_0_4px_6px_rgba(0,0,0,0.3)] border border-[#0f1337]"></div>
-                  {/* Pin Highlight */}
+                  <div className="absolute inset-0 rounded-full border border-[#0f1337] bg-gradient-to-br from-[#283593] to-[#1a237e] shadow-[inset_-2px_-2px_4px_rgba(0,0,0,0.4),_inset_1.5px_1.5px_3px_rgba(255,255,255,0.4),_0_4px_6px_rgba(0,0,0,0.3)] transition-shadow duration-300 group-hover:from-[#3949ab] group-hover:to-[#1a237e] group-hover:shadow-[inset_-2px_-2px_4px_rgba(0,0,0,0.4),_inset_1.5px_1.5px_3px_rgba(255,255,255,0.45),_0_4px_10px_rgba(26,35,126,0.45)]" />
                   <div className="absolute top-1 left-1.5 w-1 h-1 bg-white/60 rounded-full blur-[0.5px]"></div>
-                  {/* Pin Shadow/Hole Depth */}
                   <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-black/40 rounded-full blur-[1.5px]"></div>
                 </div>
 
                 <div className="mt-4 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-5 mb-6 relative z-[2]">
                   <div className="flex-shrink-0">
                     {story.image ? (
-                      <div className="h-24 w-24 sm:h-28 sm:w-28 rounded-xl overflow-hidden shadow-md border-2 border-white ring-1 ring-black/5">
+                      <div className="h-24 w-24 sm:h-28 sm:w-28 rounded-xl overflow-hidden border-2 border-white shadow-md ring-1 ring-black/5 transition-shadow duration-300 group-hover:shadow-[0_8px_20px_rgba(26,35,126,0.2)] group-hover:ring-2 group-hover:ring-[#1a237e]/20">
                         <Image
                           src={story.image}
                           alt={story.name}
                           width={112}
                           height={112}
+                          sizes="(max-width: 640px) 96px, 112px"
                           className={`w-full h-full object-cover ${story.imageScale || ''} ${story.imagePosition || 'object-center'}`}
                         />
                       </div>
@@ -175,7 +173,7 @@ export default function SaluteLearningSpiritPage() {
                 </div>
 
                 <h4 className="font-bold text-xl text-[#1a237e] leading-snug mb-5 relative z-[2]">
-                  “{story.headline}”
+                  &ldquo;{story.headline}&rdquo;
                 </h4>
 
                 <div className="space-y-3 text-gray-700 leading-relaxed text-sm md:text-base mb-6 relative z-[2]">
@@ -184,17 +182,17 @@ export default function SaluteLearningSpiritPage() {
                   ))}
                 </div>
 
-                {/* Quote Box - Styled like a stamped/highlighted section */}
-                <div className="bg-[#f4efe3]/60 border-l-[3px] border-[#1a237e]/40 px-4 py-3 rounded-r-sm relative z-[2] mt-auto">
+                {/* Quote Box */}
+                <div className="px-4 py-3 rounded-r-sm relative z-[2] bg-[#f0ede4] border-l-[3px] border-[#1a237e]/40 transition-all duration-300 group-hover:bg-white/80 group-hover:border-[#1a237e]">
                   <p className="text-gray-800 font-medium italic text-sm flex items-start gap-2">
-                    <Quote className="h-4 w-4 text-[#1a237e]/30 shrink-0 mt-0.5" />
+                    <Quote className="h-4 w-4 text-[#1a237e]/30 shrink-0 mt-0.5 transition-colors duration-300 group-hover:text-[#1a237e]/60" />
                     {story.quote}
                   </p>
                 </div>
 
                 {/* Realistic paper fold effect at the bottom corner */}
                 <div
-                  className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-[#e4dfd1] to-[#fdfcf7] shadow-[-2px_-2px_6px_rgba(0,0,0,0.06)] rounded-tl-sm transition-all duration-300 origin-bottom-right group-hover:w-10 group-hover:h-10 z-10"
+                  className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-[#d9d4c6] to-white shadow-[-2px_-2px_6px_rgba(0,0,0,0.06)] rounded-tl-sm transition-all duration-300 origin-bottom-right group-hover:w-10 group-hover:h-10 z-10"
                   style={{ clipPath: 'polygon(100% 0, 0 100%, 100% 100%)' }}
                 ></div>
                 {/* Background mask for the fold */}
