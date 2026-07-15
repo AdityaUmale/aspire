@@ -5,8 +5,6 @@ import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
@@ -15,7 +13,7 @@ import {
   Eye,
   FileText,
   Pencil,
-  ShieldCheck,
+  Plus,
   Terminal,
   Trash2,
   XCircle,
@@ -44,10 +42,24 @@ type WriterArticle = {
 };
 
 const STATUS_STYLES: Record<WriterArticle['reviewStatus'], string> = {
-  DRAFT: 'bg-slate-50 text-slate-700 border-slate-200',
-  PENDING: 'bg-amber-50 text-amber-700 border-amber-200',
-  PUBLISHED: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  REJECTED: 'bg-red-50 text-red-700 border-red-200',
+  DRAFT: 'border-slate-200 bg-slate-50 text-slate-600',
+  PENDING: 'border-amber-200 bg-amber-50 text-amber-700',
+  PUBLISHED: 'border-emerald-200 bg-emerald-50 text-emerald-700',
+  REJECTED: 'border-red-200 bg-red-50 text-red-700',
+};
+
+const STATUS_LABELS: Record<WriterArticle['reviewStatus'], string> = {
+  DRAFT: 'Draft',
+  PENDING: 'In review',
+  PUBLISHED: 'Published',
+  REJECTED: 'Needs changes',
+};
+
+const STATUS_COPY: Record<WriterArticle['reviewStatus'], string> = {
+  DRAFT: 'Private to you until submitted.',
+  PENDING: 'Waiting for the editorial team.',
+  PUBLISHED: 'Your story is live.',
+  REJECTED: 'Review the editor feedback and resubmit.',
 };
 
 export default function MyArticlesPage() {
@@ -99,22 +111,6 @@ export default function MyArticlesPage() {
     void loadPage();
   }, []);
 
-  const getStatusCopy = (status: WriterArticle['reviewStatus']) => {
-    if (status === 'PUBLISHED') {
-      return 'Live on the Student Articles page.';
-    }
-
-    if (status === 'REJECTED') {
-      return 'This submission was not approved. You can edit and resubmit.';
-    }
-
-    if (status === 'DRAFT') {
-      return 'Saved as a draft — only you can see it.';
-    }
-
-    return 'Your article is waiting for editorial review.';
-  };
-
   const handleWithdraw = async (article: WriterArticle) => {
     if (
       !window.confirm(
@@ -146,217 +142,201 @@ export default function MyArticlesPage() {
     }
   };
 
+  const openArticle = (article: WriterArticle) => {
+    router.push(
+      article.isPublished
+        ? `/student-articles/${article.slug || article.id}`
+        : `/my-articles/${article.id}/preview`
+    );
+  };
+
   return (
-    <div className="flex flex-col min-h-screen bg-[#FAFAFA] font-sans selection:bg-[#1a237e] selection:text-white">
+    <div className="flex min-h-screen flex-col bg-[#fbfbfa] font-sans text-slate-950 selection:bg-[#1a237e] selection:text-white">
       <Navbar />
 
-      <main className="flex-1 pt-32 pb-20">
-        <div className="max-w-5xl mx-auto px-4 md:px-6">
-          <div className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+      <main className="flex-1 pb-24 pt-32 lg:pt-36">
+        <div className="mx-auto w-full max-w-[920px] px-5 md:px-8">
+          <header className="flex flex-col gap-7 border-b border-slate-200 pb-8 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#e8eaf6] text-[#1a237e] text-[11px] font-bold uppercase tracking-wider mb-4">
-                <ShieldCheck className="h-3.5 w-3.5" />
-                Writer dashboard
-              </div>
-              <h1 className="text-4xl font-bold text-[#1a237e]">My Articles</h1>
-              <p className="text-gray-500 mt-2 max-w-xl">
-                Track drafts, review status, and live stories tied to your verified email.
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                Your writing
+              </p>
+              <h1 className="text-[38px] font-semibold leading-none tracking-[-0.045em] text-slate-950 md:text-[44px]">
+                My articles
+              </h1>
+              <p className="mt-4 max-w-xl text-[15px] leading-6 text-slate-500">
+                Draft, submit, and follow each story from one quiet workspace.
               </p>
             </div>
             <Button
               onClick={() => router.push('/publish-article')}
-              className="rounded-2xl h-12 px-7 bg-[#1a237e] hover:bg-[#0d1642] text-white"
+              className="h-11 w-fit rounded-full bg-[#1a237e] px-5 text-sm font-semibold text-white shadow-none transition hover:-translate-y-0.5 hover:bg-[#11194f] active:translate-y-0"
             >
-              Write an article
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <Plus className="mr-2 h-4 w-4" />
+              New article
             </Button>
-          </div>
+          </header>
 
-          {error && (
+          {error ? (
             <Alert
               variant="destructive"
-              className="mb-6 bg-red-50 border-red-100 text-red-900 rounded-xl"
+              className="mt-7 rounded-xl border-red-200 bg-red-50 text-red-900"
             >
               <Terminal className="h-4 w-4" />
-              <AlertTitle>Something went wrong</AlertTitle>
+              <AlertTitle>Could not load your writing</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
             </Alert>
-          )}
+          ) : null}
 
           {loading ? (
-            <div className="space-y-4">
-              {[...Array(3)].map((_, index) => (
-                <Skeleton key={index} className="h-40 w-full rounded-[2rem]" />
+            <div className="divide-y divide-slate-200">
+              {[0, 1, 2].map((item) => (
+                <div key={item} className="grid grid-cols-[1fr_112px] gap-5 py-8 md:grid-cols-[1fr_190px] md:gap-10">
+                  <div className="space-y-3">
+                    <Skeleton className="h-4 w-36 rounded-full" />
+                    <Skeleton className="h-7 w-4/5 rounded-md" />
+                    <Skeleton className="h-4 w-full rounded-md" />
+                    <Skeleton className="h-9 w-64 rounded-full" />
+                  </div>
+                  <Skeleton className="h-[88px] w-28 rounded-lg md:h-[126px] md:w-[190px]" />
+                </div>
               ))}
             </div>
           ) : !session?.writer ? (
-            <Card className="rounded-[2rem] border-gray-200/80 bg-white/90 shadow-sm">
-              <CardContent className="py-10 px-8 text-center">
-                <FileText className="h-12 w-12 text-[#1a237e]/40 mx-auto mb-4" />
-                <h2 className="text-2xl font-bold text-[#1a237e] mb-3">
-                  Verify your email to continue
-                </h2>
-                <p className="text-gray-500 max-w-xl mx-auto leading-relaxed mb-6">
-                  Article statuses are private to your verified writer session.
-                </p>
-                <Button
-                  onClick={() => router.push('/publish-article')}
-                  className="rounded-2xl h-12 px-7 bg-[#1a237e] hover:bg-[#0d1642] text-white"
-                >
-                  Verify & write
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </CardContent>
-            </Card>
+            <section className="border-b border-slate-200 py-16 text-center">
+              <FileText className="mx-auto mb-5 h-9 w-9 text-slate-300" />
+              <h2 className="text-2xl font-semibold tracking-tight text-slate-900">
+                Verify your email to see your writing
+              </h2>
+              <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-500">
+                Drafts and review updates are private to your verified writer session.
+              </p>
+              <Button
+                onClick={() => router.push('/publish-article')}
+                className="mt-6 h-11 rounded-full bg-[#1a237e] px-6 text-white hover:bg-[#11194f]"
+              >
+                Verify and write <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </section>
+          ) : articles.length === 0 ? (
+            <section className="border-b border-slate-200 py-16 text-center">
+              <FileText className="mx-auto mb-5 h-9 w-9 text-slate-300" />
+              <h2 className="text-2xl font-semibold tracking-tight text-slate-900">
+                Your first story starts here
+              </h2>
+              <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-500">
+                Start a draft and it will be saved here automatically.
+              </p>
+              <Button
+                onClick={() => router.push('/publish-article')}
+                className="mt-6 h-11 rounded-full bg-[#1a237e] px-6 text-white hover:bg-[#11194f]"
+              >
+                Write an article <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </section>
           ) : (
-            <div>
-              {articles.length === 0 ? (
-                <Card className="rounded-[2rem] border-gray-200/80 bg-white/90 shadow-sm">
-                  <CardContent className="py-10 px-8 text-center">
-                    <FileText className="h-12 w-12 text-[#1a237e]/40 mx-auto mb-4" />
-                    <h2 className="text-2xl font-bold text-[#1a237e] mb-3">
-                      No submissions yet
-                    </h2>
-                    <p className="text-gray-500 max-w-xl mx-auto leading-relaxed mb-6">
-                      Your verified session is ready. Submit your first article and it will
-                      appear here right away.
-                    </p>
-                    <Button
-                      onClick={() => router.push('/publish-article')}
-                      className="rounded-2xl h-12 px-7 bg-[#1a237e] hover:bg-[#0d1642] text-white"
-                    >
-                      Submit an Article
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </CardContent>
-                </Card>
-              ) : (
-                <div className="grid gap-5">
-                  {articles.map((article) => (
-                    <Card
-                      key={article.id}
-                      className="group rounded-[1.5rem] md:rounded-[2rem] border border-gray-200/60 bg-white shadow-sm hover:shadow-md hover:border-[#1a237e]/20 transition-all duration-300 overflow-hidden"
-                    >
-                      <div className="flex flex-col sm:flex-row h-full">
-                        {article.coverImage ? (
-                          <div className="relative sm:w-44 md:w-56 shrink-0 aspect-[16/10] sm:aspect-auto sm:min-h-full bg-gray-50/50 border-b sm:border-b-0 sm:border-r border-gray-100 overflow-hidden">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={article.coverImage}
-                              alt=""
-                              className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                              loading="lazy"
-                            />
-                          </div>
-                        ) : null}
-                        <div className="flex-1 min-w-0 flex flex-col">
-                          <CardHeader className="pb-3 pt-5 px-6 md:px-8 border-b border-gray-50">
-                            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-                              <div className="space-y-1.5">
-                                <CardTitle className="text-xl md:text-2xl font-bold text-gray-900 group-hover:text-[#1a237e] transition-colors line-clamp-1">
-                                  {article.title || 'Untitled draft'}
-                                </CardTitle>
-                                <p className="text-sm font-medium text-gray-500 flex items-center gap-1.5">
-                                  <Clock3 className="h-3.5 w-3.5" />
-                                  {article.reviewStatus === 'DRAFT' ? 'Last saved' : 'Submitted'}{' '}
-                                  on {formatArticleDate(article.updatedAt || article.createdAt, 'Unknown')}
-                                </p>
-                              </div>
-                              <Badge
-                                variant="secondary"
-                                className={`border px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full shadow-sm whitespace-nowrap ${STATUS_STYLES[article.reviewStatus]}`}
-                              >
-                                {article.reviewStatus}
-                              </Badge>
-                            </div>
-                          </CardHeader>
-
-                          <CardContent className="pt-5 px-6 md:px-8 pb-5 md:pb-6 flex-1 flex flex-col">
-                            <p className="text-gray-600 leading-relaxed mb-6 line-clamp-2 flex-1">
-                              {article.description || 'No description provided.'}
-                            </p>
-
-                            {article.reviewStatus === 'REJECTED' && article.rejectionReason && (
-                              <div className="mb-6 rounded-xl border border-red-200 bg-red-50/80 p-4 text-sm text-red-900 shadow-sm flex items-start gap-3">
-                                 <XCircle className="h-5 w-5 text-red-500 mt-0.5 shrink-0" />
-                                 <div>
-                                   <p className="font-semibold mb-1">Editor feedback</p>
-                                   <p className="text-red-700/90 leading-relaxed">{article.rejectionReason}</p>
-                                 </div>
-                              </div>
-                            )}
-
-                            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pt-5 border-t border-gray-100">
-                              <p className="text-sm font-medium text-gray-500">
-                                {getStatusCopy(article.reviewStatus)}
-                              </p>
-
-                              <div className="flex flex-wrap items-center gap-2.5">
-                                {article.isPublished ? (
-                                  <Button
-                                    variant="outline"
-                                    onClick={() => router.push(`/student-articles/${article.slug || article.id}`)}
-                                    className="rounded-xl h-10 border-gray-200 text-gray-700 hover:bg-[#1a237e] hover:text-white hover:border-[#1a237e] transition-all shadow-sm"
-                                  >
-                                    View live article
-                                    <ArrowRight className="ml-2 h-4 w-4" />
-                                  </Button>
-                                ) : (
-                                  <Button
-                                    variant="outline"
-                                    onClick={() => router.push(`/my-articles/${article.id}/preview`)}
-                                    className="rounded-xl h-10 border-gray-200 text-gray-700 hover:bg-[#1a237e] hover:text-white hover:border-[#1a237e] transition-all shadow-sm"
-                                  >
-                                    <Eye className="mr-2 h-4 w-4" />
-                                    Preview
-                                  </Button>
-                                )}
-
-                                {(article.reviewStatus === 'DRAFT' || article.reviewStatus === 'PENDING' || article.reviewStatus === 'REJECTED') && (
-                                  <>
-                                    <Button
-                                      variant="outline"
-                                      onClick={() => router.push(`/publish-article?draft=${article.id}`)}
-                                      className="rounded-xl h-10 border-[#1a237e]/20 text-[#1a237e] bg-[#1a237e]/5 hover:bg-[#1a237e] hover:text-white transition-all shadow-sm font-semibold"
-                                    >
-                                      <Pencil className="mr-2 h-4 w-4" />
-                                      {article.reviewStatus === 'REJECTED' ? 'Edit & resubmit' : 'Continue editing'}
-                                    </Button>
-                                    <Button
-                                      variant="outline"
-                                      disabled={actionId === article.id}
-                                      onClick={() => void handleWithdraw(article)}
-                                      className="rounded-xl h-10 border-red-200 text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all shadow-sm"
-                                    >
-                                      <Trash2 className="mr-2 h-4 w-4" />
-                                      {actionId === article.id ? 'Withdrawing…' : 'Withdraw'}
-                                    </Button>
-                                  </>
-                                )}
-
-                                {article.reviewStatus === 'PENDING' && (
-                                  <span className="inline-flex items-center gap-2 text-sm text-amber-600 font-medium ml-1">
-                                    <Clock3 className="h-4 w-4" />
-                                    Pending review
-                                  </span>
-                                )}
-
-                                {article.reviewStatus === 'REJECTED' && !article.rejectionReason && (
-                                  <span className="inline-flex items-center gap-2 text-sm text-red-600 font-medium ml-1">
-                                    <XCircle className="h-4 w-4" />
-                                    Not approved
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </CardContent>
-                        </div>
+            <section className="divide-y divide-slate-200 border-b border-slate-200">
+              {articles.map((article) => (
+                <article key={article.id} className="group py-8 md:py-9">
+                  <div className={article.coverImage ? 'grid grid-cols-[minmax(0,1fr)_112px] gap-5 md:grid-cols-[minmax(0,1fr)_190px] md:gap-10' : ''}>
+                    <div className="min-w-0">
+                      <div className="mb-3 flex flex-wrap items-center gap-2.5 text-xs text-slate-500">
+                        <span className={`rounded-full border px-2.5 py-1 font-semibold ${STATUS_STYLES[article.reviewStatus]}`}>
+                          {STATUS_LABELS[article.reviewStatus]}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5">
+                          <Clock3 className="h-3.5 w-3.5" />
+                          {article.reviewStatus === 'DRAFT' ? 'Saved' : 'Updated'}{' '}
+                          {formatArticleDate(article.updatedAt || article.createdAt, 'recently')}
+                        </span>
                       </div>
-                    </Card>
-                  ))}
-                </div>
-              )}
-            </div>
+
+                      <button
+                        type="button"
+                        onClick={() => openArticle(article)}
+                        className="block max-w-2xl text-left"
+                      >
+                        <h2 className="line-clamp-2 text-[21px] font-semibold leading-[1.25] tracking-[-0.025em] text-slate-950 transition-colors group-hover:text-[#1a237e] md:text-[24px]">
+                          {article.title || 'Untitled draft'}
+                        </h2>
+                        {article.description ? (
+                          <p className="mt-2 line-clamp-2 max-w-[62ch] text-sm leading-6 text-slate-500 md:text-[15px]">
+                            {article.description}
+                          </p>
+                        ) : null}
+                      </button>
+
+                      {article.reviewStatus === 'REJECTED' && article.rejectionReason ? (
+                        <div className="mt-4 flex max-w-2xl items-start gap-2.5 border-l-2 border-red-300 pl-3 text-sm leading-5 text-red-700">
+                          <XCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                          <p><span className="font-semibold">Editor note:</span> {article.rejectionReason}</p>
+                        </div>
+                      ) : null}
+
+                      <div className="mt-5 flex flex-wrap items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => openArticle(article)}
+                          className="h-9 rounded-full border-slate-200 bg-white px-4 text-slate-700 shadow-none hover:border-slate-300 hover:bg-slate-50"
+                        >
+                          <Eye className="mr-1.5 h-3.5 w-3.5" />
+                          {article.isPublished ? 'View story' : 'Preview'}
+                        </Button>
+
+                        {!article.isPublished ? (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => router.push(`/publish-article?draft=${article.id}`)}
+                            className="h-9 rounded-full border-[#1a237e]/20 bg-[#1a237e]/[0.04] px-4 font-semibold text-[#1a237e] shadow-none hover:bg-[#1a237e]/[0.08]"
+                          >
+                            <Pencil className="mr-1.5 h-3.5 w-3.5" />
+                            {article.reviewStatus === 'REJECTED' ? 'Edit and resubmit' : 'Edit'}
+                          </Button>
+                        ) : null}
+
+                        {!article.isPublished ? (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            disabled={actionId === article.id}
+                            onClick={() => void handleWithdraw(article)}
+                            aria-label={`Withdraw ${article.title}`}
+                            className="h-9 rounded-full px-3 text-slate-400 shadow-none hover:bg-red-50 hover:text-red-600"
+                          >
+                            <Trash2 className="mr-1.5 h-3.5 w-3.5" />
+                            {actionId === article.id ? 'Removing…' : 'Remove'}
+                          </Button>
+                        ) : null}
+
+                        <span className="ml-1 hidden text-xs text-slate-400 md:inline">
+                          {STATUS_COPY[article.reviewStatus]}
+                        </span>
+                      </div>
+                    </div>
+
+                    {article.coverImage ? (
+                      <button
+                        type="button"
+                        onClick={() => openArticle(article)}
+                        className="relative h-[88px] w-28 overflow-hidden rounded-lg bg-slate-100 md:h-[126px] md:w-[190px]"
+                        aria-label={`Preview ${article.title}`}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={article.coverImage}
+                          alt=""
+                          className="absolute inset-0 h-full w-full object-cover transition duration-500 ease-out group-hover:scale-[1.025]"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </button>
+                    ) : null}
+                  </div>
+                </article>
+              ))}
+            </section>
           )}
         </div>
       </main>

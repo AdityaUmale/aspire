@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import NextImage from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { FloatingToast } from '@/components/ui/floating-toast';
 import {
@@ -49,11 +48,18 @@ type WriterSessionResponse = {
   emailVerificationSkipped?: boolean;
 };
 
+const createDraftToken = () =>
+  globalThis.crypto?.randomUUID?.() ??
+  `draft-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
 export default function PublishArticlePage() {
   const router = useRouter();
   const errorRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<RichTextEditorHandle | null>(null);
   const autosaveGenRef = useRef(0);
+  const autosaveInFlightRef = useRef<Promise<void> | null>(null);
+  const serverDraftIdRef = useRef<string | null>(null);
+  const submitLockRef = useRef(false);
   const [email, setEmail] = useState('');
   const [otpCode, setOtpCode] = useState('');
   const [verifiedEmail, setVerifiedEmail] = useState<string | null>(null);
@@ -62,10 +68,10 @@ export default function PublishArticlePage() {
   const [otpRequested, setOtpRequested] = useState(false);
   const [verificationMessage, setVerificationMessage] = useState<string | null>(null);
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
   const [writerName, setWriterName] = useState('');
   const [content, setContent] = useState('');
   const [coverImage, setCoverImage] = useState<string | null>(null);
+  const [draftToken, setDraftToken] = useState('');
   const [serverDraftId, setServerDraftId] = useState<string | null>(null);
   const [serverDraftStatus, setServerDraftStatus] = useState<
     'DRAFT' | 'PENDING' | 'REJECTED' | null
@@ -84,19 +90,19 @@ export default function PublishArticlePage() {
   const { clearDraft } = useArticleDraft({
     writerId,
     title,
-    description,
     writerName,
     content,
     coverImage,
-    enabled: !isSubmitting,
+    draftToken,
+    enabled: !isSubmitting && !isCheckingSession && Boolean(draftToken),
   });
 
   const applyDraft = (draft: {
     title: string;
-    description: string;
     writerName?: string;
     content: string;
     coverImage?: string | null;
+    draftToken?: string | null;
   } | null) => {
     if (!draft) {
       return;
@@ -104,7 +110,6 @@ export default function PublishArticlePage() {
 
     const hasContent =
       draft.title ||
-      draft.description ||
       draft.writerName ||
       draft.content.replace(/<[^>]*>/g, '').trim() ||
       /<img\b/i.test(draft.content) ||
@@ -115,10 +120,12 @@ export default function PublishArticlePage() {
     }
 
     setTitle(draft.title);
-    setDescription(draft.description);
     setWriterName(draft.writerName || '');
     setContent(draft.content);
     setCoverImage(draft.coverImage ?? null);
+    if (draft.draftToken) {
+      setDraftToken(draft.draftToken);
+    }
     setDraftRestored(true);
   };
 
@@ -136,14 +143,15 @@ export default function PublishArticlePage() {
         return false;
       }
 
+      serverDraftIdRef.current = article.id;
       setServerDraftId(article.id);
       setServerDraftStatus(article.reviewStatus || 'DRAFT');
       applyDraft({
         title: article.title,
-        description: article.description,
         writerName: article.writerName || '',
         content: article.content || '',
         coverImage: article.coverImage ?? null,
+        draftToken: article.draftToken ?? null,
       });
       return true;
     } catch {
@@ -196,6 +204,7 @@ export default function PublishArticlePage() {
       console.error('Failed to load writer session', sessionError);
       applyDraft(readArticleDraft(ANON_DRAFT_KEY));
     } finally {
+      setDraftToken((current) => current || createDraftToken());
       setIsCheckingSession(false);
     }
   };
@@ -208,14 +217,13 @@ export default function PublishArticlePage() {
 
   // Server-side draft autosave once the writer is verified
   useEffect(() => {
-    if (!verifiedEmail || isSubmitting || isCheckingSession) {
+    if (!verifiedEmail || !draftToken || isSubmitting || isCheckingSession) {
       return;
     }
 
     const latestContent = editorRef.current?.getHTML() ?? content;
     const hasContent =
       title.trim() ||
-      description.trim() ||
       latestContent.replace(/<[^>]*>/g, '').trim() ||
       coverImage;
 
@@ -227,65 +235,81 @@ export default function PublishArticlePage() {
     if (
       serverDraftId &&
       (serverDraftStatus === 'PENDING' || serverDraftStatus === 'REJECTED') &&
-      (!title.trim() || !description.trim())
+      !title.trim()
     ) {
       return;
     }
 
     const gen = ++autosaveGenRef.current;
 
-    const timer = window.setTimeout(async () => {
+    const timer = window.setTimeout(() => {
       if (gen !== autosaveGenRef.current) {
         return;
       }
 
-      const flushed = editorRef.current?.flush() ?? content;
       setServerDraftSaving(true);
-      try {
-        if (
-          serverDraftId &&
-          (serverDraftStatus === 'PENDING' || serverDraftStatus === 'REJECTED')
-        ) {
-          await fetch(`/api/student-article/${serverDraftId}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              title,
-              description,
-              content: flushed,
-              writerName,
-              coverImage,
-              saveOnly: true,
-            }),
-          });
-        } else {
-          const response = await fetch('/api/student-article/draft', {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              id: serverDraftId,
-              title,
-              description,
-              content: flushed,
-              writerName,
-              coverImage,
-            }),
-          });
-          if (response.ok && gen === autosaveGenRef.current) {
-            const data = await response.json();
-            if (data.article?.id) {
-              setServerDraftId(data.article.id);
-              setServerDraftStatus('DRAFT');
+      const previousSave = autosaveInFlightRef.current;
+      const saveTask = (async () => {
+        if (previousSave) {
+          await previousSave;
+        }
+        if (gen !== autosaveGenRef.current) {
+          return;
+        }
+
+        const flushed = editorRef.current?.flush() ?? content;
+        const activeDraftId = serverDraftIdRef.current || serverDraftId;
+
+        try {
+          if (
+            activeDraftId &&
+            (serverDraftStatus === 'PENDING' || serverDraftStatus === 'REJECTED')
+          ) {
+            await fetch(`/api/student-article/${activeDraftId}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                title,
+                content: flushed,
+                writerName,
+                coverImage,
+                saveOnly: true,
+              }),
+            });
+          } else {
+            const response = await fetch('/api/student-article/draft', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                id: activeDraftId,
+                draftToken,
+                title,
+                content: flushed,
+                writerName,
+                coverImage,
+              }),
+            });
+            if (response.ok) {
+              const data = await response.json();
+              if (data.article?.id) {
+                serverDraftIdRef.current = data.article.id;
+                setServerDraftId(data.article.id);
+                setServerDraftStatus('DRAFT');
+              }
             }
           }
+        } catch (saveError) {
+          console.error('Server draft save failed', saveError);
         }
-      } catch (saveError) {
-        console.error('Server draft save failed', saveError);
-      } finally {
-        if (gen === autosaveGenRef.current) {
+      })();
+
+      autosaveInFlightRef.current = saveTask;
+      void saveTask.finally(() => {
+        if (autosaveInFlightRef.current === saveTask) {
+          autosaveInFlightRef.current = null;
           setServerDraftSaving(false);
         }
-      }
+      });
     }, 2500);
 
     return () => {
@@ -294,12 +318,12 @@ export default function PublishArticlePage() {
   }, [
     verifiedEmail,
     title,
-    description,
     content,
     coverImage,
     writerName,
     serverDraftId,
     serverDraftStatus,
+    draftToken,
     isSubmitting,
     isCheckingSession,
   ]);
@@ -418,15 +442,16 @@ export default function PublishArticlePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitLockRef.current) {
+      return;
+    }
     // Cancel any in-flight / pending autosave so it cannot race create.
     autosaveGenRef.current += 1;
-    setIsSubmitting(true);
     setError(null);
     setSuccess(null);
 
     if (!verifiedEmail) {
       setError('Verify your email before submitting an article.');
-      setIsSubmitting(false);
       return;
     }
 
@@ -438,24 +463,11 @@ export default function PublishArticlePage() {
 
     if (!title.trim() || title.trim().length > MAX_LENGTHS.title) {
       setError(`Title is required (max ${MAX_LENGTHS.title} characters).`);
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (
-      !description.trim() ||
-      description.trim().length > MAX_LENGTHS.description
-    ) {
-      setError(
-        `Description is required (max ${MAX_LENGTHS.description} characters).`
-      );
-      setIsSubmitting(false);
       return;
     }
 
     if (!flushedContent.trim() || !plainText) {
       setError('Article content is required. Add text before submitting.');
-      setIsSubmitting(false);
       return;
     }
 
@@ -463,7 +475,6 @@ export default function PublishArticlePage() {
       setError(
         `Article content is too long (max ${MAX_LENGTHS.content.toLocaleString()} characters).`
       );
-      setIsSubmitting(false);
       return;
     }
 
@@ -471,23 +482,30 @@ export default function PublishArticlePage() {
       setError(
         `Writer name exceeds ${MAX_LENGTHS.writerName} characters.`
       );
-      setIsSubmitting(false);
       return;
     }
 
+    submitLockRef.current = true;
+    setIsSubmitting(true);
+
     try {
+      if (autosaveInFlightRef.current) {
+        await autosaveInFlightRef.current;
+      }
+
       const payload = {
         title,
-        description,
         content: flushedContent,
         writerName,
         coverImage,
         action: 'submit' as const,
       };
 
+      const activeDraftId = serverDraftIdRef.current || serverDraftId;
+
       // Resubmit existing draft / pending / rejected via PATCH; otherwise create new
-      const response = serverDraftId
-        ? await fetch(`/api/student-article/${serverDraftId}`, {
+      const response = activeDraftId
+        ? await fetch(`/api/student-article/${activeDraftId}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
@@ -512,13 +530,14 @@ export default function PublishArticlePage() {
 
       clearDraft();
       setTitle('');
-      setDescription('');
       setWriterName('');
       setContent('');
       setCoverImage(null);
+      serverDraftIdRef.current = null;
       setServerDraftId(null);
       setServerDraftStatus(null);
       setDraftRestored(false);
+      setDraftToken(createDraftToken());
       setSuccess('Your story has been submitted. You can track its review status anytime.');
       setVerificationMessage('Your verified email is still active for future submissions.');
       router.replace('/publish-article');
@@ -529,6 +548,7 @@ export default function PublishArticlePage() {
           : 'An error occurred while submitting the article';
       setError(errorMessage);
     } finally {
+      submitLockRef.current = false;
       setIsSubmitting(false);
     }
   };
@@ -729,27 +749,6 @@ export default function PublishArticlePage() {
                           <div className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-400 font-medium tabular-nums">
                             {title.length}/{MAX_LENGTHS.title}
                           </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Document Subtitle / Description */}
-                    <div className="space-y-1.5">
-                      <label htmlFor="description" className="block text-sm font-semibold text-gray-900">
-                        Subtitle
-                      </label>
-                      <p className="text-sm text-gray-500 mb-2">Add a short subtitle (optional).</p>
-                      <div className="relative">
-                        <Textarea
-                          id="description"
-                          value={description}
-                          onChange={(e) => setDescription(e.target.value)}
-                          placeholder="Write a subtitle that hooks readers..."
-                          maxLength={MAX_LENGTHS.description}
-                          className="w-full min-h-[80px] rounded-lg border-gray-300 p-4 text-base shadow-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 resize-none transition-all pr-16"
-                        />
-                        <div className="absolute right-4 bottom-4 text-xs text-gray-400 font-medium tabular-nums">
-                          {description.length}/{MAX_LENGTHS.description}
                         </div>
                       </div>
                     </div>

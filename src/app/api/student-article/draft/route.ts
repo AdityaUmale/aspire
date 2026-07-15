@@ -11,6 +11,7 @@ import {
 import {
   buildArticleSlug,
   computeReadingTimeMinutes,
+  extractPlainText,
 } from "@/lib/article-utils";
 import {
   isAllowedCoverImageUrl,
@@ -19,7 +20,7 @@ import {
 
 /**
  * Upsert a server-side DRAFT for the authenticated writer.
- * Body: { id?, title, description, content, writerName?, coverImage? }
+ * Body: { id?, title, content, writerName?, coverImage? }
  *
  * Does not invent placeholder titles on update — empty title on create only
  * becomes "Untitled draft". Never touches PENDING/REJECTED/PUBLISHED docs.
@@ -35,20 +36,13 @@ export async function PUT(req: NextRequest) {
     const body = await req.json();
     const id = typeof body?.id === "string" ? body.id.trim() : "";
     const titleRaw = normalizeString(body?.title);
-    const descriptionRaw = normalizeString(body?.description);
     const content = typeof body?.content === "string" ? body.content : "";
     const writerName = normalizeString(body?.writerName);
+    const draftToken = normalizeString(body?.draftToken);
 
     if (titleRaw.length > MAX_LENGTHS.title) {
       return NextResponse.json(
         { error: `Title exceeds ${MAX_LENGTHS.title} characters` },
-        { status: 400 }
-      );
-    }
-
-    if (descriptionRaw.length > MAX_LENGTHS.description) {
-      return NextResponse.json(
-        { error: `Description exceeds ${MAX_LENGTHS.description} characters` },
         { status: 400 }
       );
     }
@@ -63,6 +57,13 @@ export async function PUT(req: NextRequest) {
     if (writerName && writerName.length > MAX_LENGTHS.writerName) {
       return NextResponse.json(
         { error: "Writer name exceeds allowed length" },
+        { status: 400 }
+      );
+    }
+
+    if (draftToken && draftToken.length > 100) {
+      return NextResponse.json(
+        { error: "Invalid draft token" },
         { status: 400 }
       );
     }
@@ -82,6 +83,7 @@ export async function PUT(req: NextRequest) {
     }
 
     const sanitizedContent = sanitizeRichTextHtml(content);
+    const description = extractPlainText(sanitizedContent).slice(0, 260);
     const readingTimeMinutes = computeReadingTimeMinutes(sanitizedContent);
 
     let article;
@@ -97,6 +99,7 @@ export async function PUT(req: NextRequest) {
       // Only update fields that have meaningful values — never clobber with placeholders.
       const $set: Record<string, unknown> = {
         content: sanitizedContent,
+        description,
         readingTimeMinutes,
         writer: session.writer.id,
         submitterEmail: session.writer.email,
@@ -107,14 +110,14 @@ export async function PUT(req: NextRequest) {
       if (titleRaw) {
         $set.title = titleRaw;
       }
-      if (descriptionRaw) {
-        $set.description = descriptionRaw;
-      }
       if (writerName || body?.writerName === "") {
         $set.writerName = writerName || null;
       }
       if (coverImage !== undefined) {
         $set.coverImage = coverImage;
+      }
+      if (draftToken) {
+        $set.draftToken = draftToken;
       }
 
       article = await StudentArticle.findOneAndUpdate(
@@ -140,7 +143,6 @@ export async function PUT(req: NextRequest) {
       // Skip creating empty shells (race with submit / idle page)
       const hasSignal =
         titleRaw ||
-        descriptionRaw ||
         sanitizedContent.replace(/<[^>]*>/g, "").trim() ||
         /<img\b/i.test(sanitizedContent) ||
         coverImage;
@@ -152,23 +154,70 @@ export async function PUT(req: NextRequest) {
         );
       }
 
-      const created = new StudentArticle({
-        title: titleRaw || "Untitled draft",
-        description: descriptionRaw || "Draft in progress",
-        content: sanitizedContent,
-        writerName: writerName || null,
-        readingTimeMinutes,
-        coverImage: coverImage ?? null,
-        reviewStatus: "DRAFT",
-        isPublished: false,
+      if (!draftToken) {
+        return NextResponse.json(
+          { error: "Draft token is required" },
+          { status: 400 }
+        );
+      }
+
+      // The client keeps this token with its local draft. A unique partial
+      // index makes repeated or overlapping autosaves update one document.
+      await StudentArticle.init();
+      const draftId = new mongoose.Types.ObjectId();
+      const filter = {
+        draftToken,
         writer: session.writer.id,
-        submitterEmail: session.writer.email,
-      });
-      created.slug = buildArticleSlug(
-        titleRaw || "untitled-draft",
-        String(created._id)
-      );
-      article = (await created.save()).toObject();
+        reviewStatus: "DRAFT",
+      };
+      const update = {
+        $set: {
+          title: titleRaw || "Untitled draft",
+          description,
+          content: sanitizedContent,
+          writerName: writerName || null,
+          readingTimeMinutes,
+          coverImage: coverImage ?? null,
+          isPublished: false,
+          submitterEmail: session.writer.email,
+        },
+        $setOnInsert: {
+          _id: draftId,
+          draftToken,
+          writer: session.writer.id,
+          reviewStatus: "DRAFT",
+          slug: buildArticleSlug(
+            titleRaw || "untitled-draft",
+            String(draftId)
+          ),
+        },
+      };
+
+      try {
+        article = await StudentArticle.findOneAndUpdate(filter, update, {
+          new: true,
+          upsert: true,
+          // All draft defaults are explicit above. Avoid evaluating document
+          // default functions without a document during an upsert.
+          setDefaultsOnInsert: false,
+        }).lean();
+      } catch (error) {
+        // A simultaneous first autosave can lose the unique-index race.
+        // Retrying without upsert updates the document created by the winner.
+        if (
+          !(error instanceof mongoose.mongo.MongoServerError) ||
+          error.code !== 11000
+        ) {
+          throw error;
+        }
+        article = await StudentArticle.findOneAndUpdate(filter, update, {
+          new: true,
+        }).lean();
+      }
+
+      if (!article) {
+        throw new Error("Draft upsert did not return an article");
+      }
     }
 
     const response = NextResponse.json(
@@ -181,6 +230,7 @@ export async function PUT(req: NextRequest) {
           content: article.content,
           writerName: article.writerName,
           coverImage: article.coverImage ?? null,
+          draftToken: article.draftToken,
           reviewStatus: "DRAFT",
           slug: article.slug,
           updatedAt: article.updatedAt,
@@ -232,6 +282,7 @@ export async function GET(req: NextRequest) {
       content: string;
       writerName?: string | null;
       coverImage?: string | null;
+      draftToken?: string | null;
       reviewStatus?: string;
       rejectionReason?: string | null;
       slug?: string | null;
@@ -249,6 +300,7 @@ export async function GET(req: NextRequest) {
         content: article.content,
         writerName: article.writerName,
         coverImage: article.coverImage ?? null,
+        draftToken: article.draftToken ?? null,
         reviewStatus: article.reviewStatus,
         rejectionReason: article.rejectionReason ?? null,
         slug: article.slug ?? null,

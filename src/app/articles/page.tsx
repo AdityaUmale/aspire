@@ -1,17 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import {
-  ArrowRight,
-  Feather,
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react';
+  EditorialArticleRow,
+  EditorialArticleRowSkeleton,
+} from '@/components/EditorialArticleRow';
+import { BookOpen, ChevronLeft, ChevronRight, Feather } from 'lucide-react';
 import {
   formatArticleDate,
   resolveReadingTimeMinutes,
@@ -24,10 +21,9 @@ interface Article {
   slug?: string | null;
   readingTimeMinutes?: number | null;
   coverImage?: string | null;
-  author: {
-    name: string;
-    email: string;
-  };
+  author?: {
+    name?: string;
+  } | null;
   createdAt?: string;
 }
 
@@ -39,191 +35,151 @@ interface PaginationInfo {
 }
 
 export default function ArticlesPage() {
-  const router = useRouter();
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [pagination, setPagination] = useState<PaginationInfo>({ total: 0, page: 1, limit: 10, pages: 0 });
+  const [pagination, setPagination] = useState<PaginationInfo>({
+    total: 0,
+    page: 1,
+    limit: 10,
+    pages: 0,
+  });
 
   const fetchArticles = async (page = 1) => {
     setLoading(true);
+    setError(null);
     try {
-      const response = await fetch(`/api/article?page=${page}&limit=${pagination.limit}`);
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch articles');
-      }
-
+      const response = await fetch(
+        `/api/article?page=${page}&limit=${pagination.limit}`
+      );
+      if (!response.ok) throw new Error('Failed to fetch articles');
       const data = await response.json();
       setArticles(data.articles);
       setPagination({ ...data.pagination, limit: pagination.limit });
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'An error occurred while fetching articles');
-      console.error('Error fetching articles:', err);
+    } catch (fetchError: unknown) {
+      setError(
+        fetchError instanceof Error
+          ? fetchError.message
+          : 'An error occurred while fetching articles'
+      );
+      console.error('Error fetching articles:', fetchError);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchArticles(1);
+    void fetchArticles(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlePageChange = (newPage: number) => {
-    fetchArticles(newPage);
+    void fetchArticles(newPage);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white font-sans selection:bg-[#1a237e] selection:text-white">
+    <div className="flex min-h-screen flex-col bg-[#fbfbfa] font-sans text-slate-950 selection:bg-[#1a237e] selection:text-white">
       <Navbar />
 
-      <main className="flex-1 pt-28 pb-20 lg:pt-36 lg:pb-24 bg-gray-50/50">
-        <div className="max-w-5xl mx-auto px-5 md:px-8">
-
-          {/* Clean Header */}
-          <header className="mb-16 text-center max-w-2xl mx-auto">
-            <div className="flex justify-center items-center gap-2 mb-5">
-              <span className="h-px w-6 bg-indigo-300"></span>
-              <span className="text-[11px] font-bold tracking-[0.2em] text-indigo-600 uppercase">Perspectives</span>
-              <span className="h-px w-6 bg-indigo-300"></span>
-            </div>
-
-            <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-5 tracking-tight">
-              Founder&apos;s Insights
+      <main className="flex-1 pb-24 pt-32 lg:pt-36">
+        <div className="mx-auto w-full max-w-[920px] px-5 md:px-8">
+          <header className="border-b border-slate-200 pb-8">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+              Founder perspectives
+            </p>
+            <h1 className="text-[38px] font-semibold leading-none tracking-[-0.045em] text-slate-950 md:text-[44px]">
+              Founder&apos;s insights
             </h1>
-
-            <p className="text-lg text-gray-500 leading-relaxed">
-              In-depth perspectives on leadership, human development, and building a vision from the ground up.
+            <p className="mt-4 max-w-2xl text-[15px] leading-6 text-slate-500">
+              Perspectives on leadership, human development, and building a vision from the ground up.
             </p>
           </header>
 
-          {/* Error State */}
-          {error && (
-            <div className="mb-10 p-5 bg-red-50 border border-red-100 text-red-800 rounded-xl text-sm">
-              <p className="font-medium">Unable to load articles</p>
-              <p className="text-red-600 mt-1">{error}</p>
+          {error ? (
+            <div className="mt-7 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+              <p className="font-semibold">Unable to load articles</p>
+              <p className="mt-1 text-red-700">{error}</p>
             </div>
-          )}
+          ) : null}
 
-          {/* Loading State */}
           {loading ? (
-            <div className="space-y-10">
-              {[...Array(3)].map((_, index) => (
-                <div key={index} className="py-8 border-b border-gray-100">
-                  <Skeleton className="h-3 w-28 mb-5 bg-gray-100" />
-                  <Skeleton className="h-7 w-full mb-3 bg-gray-100" />
-                  <Skeleton className="h-7 w-4/5 mb-5 bg-gray-100" />
-                  <Skeleton className="h-4 w-full mb-2 bg-gray-50" />
-                  <Skeleton className="h-4 w-3/4 bg-gray-50" />
-                </div>
+            <div className="divide-y divide-slate-200">
+              {[0, 1, 2].map((item) => (
+                <EditorialArticleRowSkeleton key={item} />
               ))}
             </div>
           ) : articles.length === 0 ? (
-            <div className="text-center py-20">
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gray-50 mb-5">
-                <Feather className="h-6 w-6 text-gray-300" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">No articles yet</h3>
-              <p className="text-gray-400">Stay tuned for upcoming insights.</p>
-            </div>
+            <section className="border-b border-slate-200 py-16 text-center">
+              <Feather className="mx-auto mb-5 h-9 w-9 text-slate-300" />
+              <h2 className="text-2xl font-semibold tracking-tight text-slate-900">
+                No founder articles yet
+              </h2>
+              <p className="mt-3 text-sm text-slate-500">
+                New perspectives will appear here when published.
+              </p>
+            </section>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              <section className="divide-y divide-slate-200 border-b border-slate-200">
                 {articles.map((article) => (
-                  <div
+                  <EditorialArticleRow
                     key={article._id}
-                    className="flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-indigo-500/5 hover:border-indigo-100 transition-all duration-300 cursor-pointer group"
-                    onClick={() =>
-                      router.push(
-                        `/articles/${article.slug || article._id}`
-                      )
-                    }
-                  >
-                    {article.coverImage ? (
-                      <div className="relative w-full aspect-[16/10] bg-gray-50 overflow-hidden">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={article.coverImage}
-                          alt=""
-                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      </div>
-                    ) : null}
-                    <div className="flex flex-col p-6 flex-1">
-                    <div className="flex items-center gap-3 mb-5 text-[12px] font-medium text-gray-500">
-                      {article.createdAt && (
-                        <time className="bg-gray-50 px-2.5 py-1 rounded-md text-gray-600">
-                          {formatArticleDate(article.createdAt)}
-                        </time>
-                      )}
-                      <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-                      <span className="flex items-center gap-1.5">
-                        <Feather className="w-3.5 h-3.5 text-gray-400" />
-                        {resolveReadingTimeMinutes({
-                          readingTimeMinutes: article.readingTimeMinutes,
-                        })}{' '}
-                        min
-                      </span>
-                    </div>
-
-                    <h2 className="text-[20px] font-bold text-gray-900 leading-[1.4] mb-3 group-hover:text-[#1a237e] transition-colors duration-200 line-clamp-3">
-                      {article.title}
-                    </h2>
-
-                    <p className="text-[15px] text-gray-500 leading-relaxed mb-6 line-clamp-3 flex-grow">
-                      {article.description}
-                    </p>
-
-                    <div className="mt-auto pt-5 border-t border-gray-50 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm font-bold">
-                          {article.author?.name ? article.author.name.charAt(0).toUpperCase() : 'A'}
-                        </div>
-                        <span className="text-sm font-medium text-gray-900">
+                    title={article.title}
+                    description={article.description}
+                    coverImage={article.coverImage}
+                    href={`/articles/${article.slug || article._id}`}
+                    metadata={
+                      <>
+                        <span className="font-semibold text-slate-700">
                           {article.author?.name || 'Aspire Institute Founder'}
                         </span>
-                      </div>
-                      <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-50 text-gray-400 group-hover:bg-[#1a237e] group-hover:text-white transition-all duration-300">
-                        <ArrowRight className="h-4 w-4" />
-                      </span>
-                    </div>
-                    </div>
-                  </div>
+                        {article.createdAt ? (
+                          <>
+                            <span className="h-1 w-1 rounded-full bg-slate-300" />
+                            <time>{formatArticleDate(article.createdAt)}</time>
+                          </>
+                        ) : null}
+                        <span className="h-1 w-1 rounded-full bg-slate-300" />
+                        <span className="inline-flex items-center gap-1.5">
+                          <BookOpen className="h-3.5 w-3.5" />
+                          {resolveReadingTimeMinutes({
+                            readingTimeMinutes: article.readingTimeMinutes,
+                          })}{' '}
+                          min read
+                        </span>
+                      </>
+                    }
+                  />
                 ))}
-              </div>
+              </section>
 
-              {/* Pagination Controls */}
-              {pagination.pages > 1 && (
-                <div className="flex justify-center items-center mt-16 gap-4">
+              {pagination.pages > 1 ? (
+                <div className="mt-12 flex items-center justify-center gap-3">
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-12 w-12 rounded-full border-gray-200 text-gray-600 hover:bg-[#1a237e] hover:text-white hover:border-[#1a237e] transition-all disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-gray-600 disabled:hover:border-gray-200 shadow-sm"
+                    className="h-10 w-10 rounded-full border-slate-200 bg-white text-slate-600 shadow-none hover:border-[#1a237e]/30 hover:text-[#1a237e]"
                     disabled={pagination.page === 1}
                     onClick={() => handlePageChange(pagination.page - 1)}
                   >
-                    <ChevronLeft className="h-5 w-5" />
+                    <ChevronLeft className="h-4 w-4" />
                   </Button>
-
-                  <span className="text-sm font-medium text-gray-500 bg-white px-4 py-2 rounded-full border border-gray-100 shadow-sm">
-                    Page <span className="text-gray-900 font-bold">{pagination.page}</span> of {pagination.pages}
+                  <span className="text-sm text-slate-500">
+                    Page <span className="font-semibold text-slate-900">{pagination.page}</span> of{' '}
+                    {pagination.pages}
                   </span>
-
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-12 w-12 rounded-full border-gray-200 text-gray-600 hover:bg-[#1a237e] hover:text-white hover:border-[#1a237e] transition-all disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-gray-600 disabled:hover:border-gray-200 shadow-sm"
+                    className="h-10 w-10 rounded-full border-slate-200 bg-white text-slate-600 shadow-none hover:border-[#1a237e]/30 hover:text-[#1a237e]"
                     disabled={pagination.page === pagination.pages}
                     onClick={() => handlePageChange(pagination.page + 1)}
                   >
-                    <ChevronRight className="h-5 w-5" />
+                    <ChevronRight className="h-4 w-4" />
                   </Button>
                 </div>
-              )}
+              ) : null}
             </>
           )}
         </div>

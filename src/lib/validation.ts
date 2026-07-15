@@ -46,6 +46,10 @@ export const isValidLength = (value: unknown, maxLength: number) => {
   return typeof value === "string" && value.trim().length > 0 && value.trim().length <= maxLength;
 };
 
+export const isValidOptionalLength = (value: unknown, maxLength: number) => {
+  return typeof value === "string" && value.trim().length <= maxLength;
+};
+
 export const normalizeString = (value: unknown) => {
   return typeof value === "string" ? value.trim() : "";
 };

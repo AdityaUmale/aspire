@@ -2,23 +2,17 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Badge } from '@/components/ui/badge';
 import { BookOpen, FileText, Trash2, AlertCircle } from 'lucide-react';
 import { AdminPageHeader } from '@/components/admin/page-header';
 import { AdminEmptyState } from '@/components/admin/empty-state';
 import { useAdminToast } from '@/components/admin/admin-toast';
+import {
+  EditorialArticleRow,
+  EditorialArticleRowSkeleton,
+} from '@/components/EditorialArticleRow';
 import { getFriendlyError } from '@/lib/admin-messages';
-import { cn } from '@/lib/utils';
+import { formatArticleDate } from '@/lib/article-utils';
 
 interface StudentArticle {
   _id: string;
@@ -33,6 +27,7 @@ interface StudentArticle {
   submitterEmail?: string | null;
   reviewStatus: 'PENDING' | 'PUBLISHED' | 'REJECTED' | 'DRAFT';
   isPublished: boolean;
+  createdAt?: string;
 }
 
 interface PaginationInfo {
@@ -44,15 +39,15 @@ interface PaginationInfo {
 
 function statusBadgeClass(reviewStatus: StudentArticle['reviewStatus']) {
   if (reviewStatus === 'PUBLISHED') {
-    return 'bg-emerald-100 text-emerald-800 hover:bg-emerald-100 border-0';
+    return 'border-emerald-200 bg-emerald-50 text-emerald-700';
   }
   if (reviewStatus === 'REJECTED') {
-    return 'bg-red-100 text-red-800 hover:bg-red-100 border-0';
+    return 'border-red-200 bg-red-50 text-red-700';
   }
   if (reviewStatus === 'DRAFT') {
-    return 'bg-gray-100 text-gray-700 hover:bg-gray-100 border-0';
+    return 'border-slate-200 bg-slate-50 text-slate-600';
   }
-  return 'bg-amber-100 text-amber-900 hover:bg-amber-100 border-0';
+  return 'border-amber-200 bg-amber-50 text-amber-800';
 }
 
 export default function ReviewArticlesPage() {
@@ -156,24 +151,9 @@ export default function ReviewArticlesPage() {
       ) : null}
 
       {loading ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-          {[...Array(6)].map((_, index) => (
-            <Card
-              key={index}
-              className="overflow-hidden border border-gray-200/60 bg-white/90 py-0 shadow-sm backdrop-blur-sm"
-            >
-              <Skeleton className="h-36 w-full rounded-none" />
-              <CardHeader className="p-4 pb-2">
-                <Skeleton className="mb-2 h-5 w-3/4" />
-                <Skeleton className="h-3 w-1/2" />
-              </CardHeader>
-              <CardContent className="p-4">
-                <Skeleton className="h-14 w-full" />
-              </CardContent>
-              <CardFooter className="p-4">
-                <Skeleton className="h-9 w-full" />
-              </CardFooter>
-            </Card>
+        <div className="divide-y divide-slate-200 border-y border-slate-200">
+          {[...Array(4)].map((_, index) => (
+            <EditorialArticleRowSkeleton key={index} dense />
           ))}
         </div>
       ) : articles.length === 0 ? (
@@ -188,71 +168,54 @@ export default function ReviewArticlesPage() {
             Showing {articles.length} of {pagination.total} submission
             {pagination.total === 1 ? '' : 's'}
           </p>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-            {articles.map((article) => (
-              <Card
-                key={article._id}
-                className="flex flex-col overflow-hidden border border-gray-200/60 bg-white/90 py-0 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
-              >
-                {article.coverImage ? (
-                  <div className="relative aspect-[16/10] w-full bg-gray-100">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={article.coverImage}
-                      alt=""
-                      className="absolute inset-0 h-full w-full object-cover"
-                      loading="lazy"
-                    />
-                  </div>
-                ) : (
-                  <div className="flex aspect-[16/10] w-full items-center justify-center bg-gradient-to-br from-[#e8eaf6] to-[#f5f5f5]">
-                    <FileText className="h-8 w-8 text-[#1a237e]/30" />
-                  </div>
-                )}
-                <CardHeader className="p-4 pb-2">
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                    <CardTitle className="line-clamp-2 text-base font-semibold text-[#1a237e] lg:text-lg">
-                      {article.title}
-                    </CardTitle>
-                    <Badge
-                      variant="secondary"
-                      className={cn('shrink-0 self-start text-[10px] font-semibold uppercase tracking-wide', statusBadgeClass(article.reviewStatus))}
-                    >
-                      {article.reviewStatus}
-                    </Badge>
-                  </div>
-                  <CardDescription className="space-y-1 text-xs">
-                    <span className="block">
-                      By {article.writerName || article.author?.name || 'Anonymous Student'}
-                    </span>
-                    {article.submitterEmail ? (
-                      <span className="block text-[11px] text-gray-500">{article.submitterEmail}</span>
-                    ) : null}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex-grow p-4 pt-0">
-                  <p className="line-clamp-3 text-sm text-gray-600">{article.description}</p>
-                </CardContent>
-                <CardFooter className="grid grid-cols-1 gap-2 p-4 pt-0 sm:grid-cols-2">
+          <div className="divide-y divide-slate-200 border-y border-slate-200">
+            {articles.map((article) => {
+              const writer = article.writerName || article.author?.name || 'Anonymous Student';
+
+              return (
+                <EditorialArticleRow
+                  key={article._id}
+                  dense
+                  href={`/admin/review-articles/${article._id}`}
+                  title={article.title}
+                  description={article.description}
+                  coverImage={article.coverImage}
+                  metadata={
+                    <>
+                      <span
+                        className={`rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] ${statusBadgeClass(article.reviewStatus)}`}
+                      >
+                        {article.reviewStatus}
+                      </span>
+                      <span>By {writer}</span>
+                      {article.createdAt ? <span>{formatArticleDate(article.createdAt)}</span> : null}
+                      {article.submitterEmail ? <span>{article.submitterEmail}</span> : null}
+                    </>
+                  }
+                  actions={
+                    <>
                   <Button
                     variant="outline"
-                    className="border-[#1a237e]/20 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e]"
+                    className="h-9 rounded-full border-[#1a237e]/20 px-4 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e]"
                     onClick={() => router.push(`/admin/review-articles/${article._id}`)}
                   >
                     <BookOpen className="h-4 w-4" />
                     {article.isPublished ? 'View' : 'Review'}
                   </Button>
                   <Button
-                    variant="destructive"
+                    variant="ghost"
                     onClick={() => handleDeleteArticle(article)}
                     disabled={isDeletingId === article._id}
+                    className="h-9 rounded-full px-4 text-red-600 hover:bg-red-50 hover:text-red-700"
                   >
                     <Trash2 className="h-4 w-4" />
                     {isDeletingId === article._id ? 'Deleting…' : 'Delete'}
                   </Button>
-                </CardFooter>
-              </Card>
-            ))}
+                    </>
+                  }
+                />
+              );
+            })}
           </div>
 
           {pagination.pages > 1 ? (

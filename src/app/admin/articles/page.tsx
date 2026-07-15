@@ -2,15 +2,17 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-import { Textarea } from "@/components/ui/textarea";
-import { PenLine, LoaderCircle, Trash2, FileText, AlertCircle, RefreshCw } from 'lucide-react';
-import { format } from 'date-fns';
+import { PenLine, LoaderCircle, Trash2, FileText, AlertCircle, RefreshCw, BookOpen } from 'lucide-react';
 import { MAX_LENGTHS } from '@/lib/validation';
-import { extractPlainText } from '@/lib/article-utils';
+import { extractPlainText, formatArticleDate } from '@/lib/article-utils';
 import CoverImageField from '@/components/CoverImageField';
+import {
+  EditorialArticleRow,
+  EditorialArticleRowSkeleton,
+} from '@/components/EditorialArticleRow';
 import { AdminPageHeader } from '@/components/admin/page-header';
 import { AdminEmptyState } from '@/components/admin/empty-state';
 import { useAdminToast } from '@/components/admin/admin-toast';
@@ -38,7 +40,6 @@ export default function AddArticlesPage() {
   const toast = useAdminToast();
   const errorRef = useRef<HTMLDivElement>(null);
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
   const [content, setContent] = useState('');
   const [coverImage, setCoverImage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -98,14 +99,6 @@ export default function AddArticlesPage() {
       return;
     }
 
-    if (!description.trim() || description.length > MAX_LENGTHS.description) {
-      const message = `Description is required (max ${MAX_LENGTHS.description} characters).`;
-      setError(message);
-      toast.error('Check the description', message);
-      setIsSubmitting(false);
-      return;
-    }
-
     if (!content.trim() || (!plainText && !hasImages)) {
       const message = 'Article content is required. Add text or images before publishing.';
       setError(message);
@@ -130,7 +123,6 @@ export default function AddArticlesPage() {
         },
         body: JSON.stringify({
           title,
-          description,
           content,
           coverImage,
         }),
@@ -143,7 +135,6 @@ export default function AddArticlesPage() {
       }
 
       setTitle('');
-      setDescription('');
       setContent('');
       setCoverImage(null);
       toast.success('Article published', `“${data.article?.title || title}” is now live.`);
@@ -237,40 +228,11 @@ export default function AddArticlesPage() {
             </div>
           </div>
 
-          {/* Section 02: Description */}
+          {/* Section 02: Cover */}
           <div className="space-y-3 group/section transition-all duration-500">
             <div className="flex items-center gap-3">
               <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1a237e] text-white text-[11px] font-bold shrink-0">
                 02
-              </span>
-              <div>
-                <label htmlFor="description" className="block text-sm font-semibold text-gray-800">
-                  Short Description <span className="text-red-400 text-xs">*</span>
-                </label>
-                <p className="text-xs text-gray-400 mt-0.5">A compelling summary that makes readers want to dive in</p>
-              </div>
-            </div>
-            <div className="bg-white rounded-2xl border border-gray-200 group-focus-within/section:border-[#1a237e]/40 transition-all duration-300 shadow-sm focus-within:shadow-md">
-              <Textarea
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Write a compelling summary that makes readers want to dive in..."
-                maxLength={MAX_LENGTHS.description}
-                className="border-0 bg-transparent p-5 min-h-[100px] text-lg font-light text-gray-700 placeholder:text-gray-300 focus-visible:ring-0 shadow-none resize-none leading-relaxed rounded-2xl"
-                required
-              />
-              <p className="text-[11px] text-gray-400 px-5 pb-3 text-right">
-                {description.length}/{MAX_LENGTHS.description}
-              </p>
-            </div>
-          </div>
-
-          {/* Section 03: Cover */}
-          <div className="space-y-3 group/section transition-all duration-500">
-            <div className="flex items-center gap-3">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1a237e] text-white text-[11px] font-bold shrink-0">
-                03
               </span>
               <div>
                 <p className="block text-sm font-semibold text-gray-800">
@@ -288,12 +250,12 @@ export default function AddArticlesPage() {
             />
           </div>
 
-          {/* Section 04: Content */}
+          {/* Section 03: Content */}
           <div className="space-y-3 group/section transition-all duration-500 pt-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1a237e] text-white text-[11px] font-bold shrink-0">
-                  04
+                  03
                 </span>
                 <div>
                   <label className="block text-sm font-semibold text-gray-800">
@@ -368,8 +330,10 @@ export default function AddArticlesPage() {
           ) : null}
 
           {isLoadingArticles ? (
-            <div className="rounded-2xl border border-gray-200 bg-white p-8 text-center text-gray-500 shadow-sm">
-              Loading founder articles…
+            <div className="divide-y divide-slate-200 border-y border-slate-200">
+              {[...Array(3)].map((_, index) => (
+                <EditorialArticleRowSkeleton key={index} dense />
+              ))}
             </div>
           ) : articles.length === 0 ? (
             <AdminEmptyState
@@ -378,52 +342,49 @@ export default function AddArticlesPage() {
               description="Publish your first founder article using the form above."
             />
           ) : (
-            <div className="space-y-4">
+            <div className="divide-y divide-slate-200 border-y border-slate-200">
               {articles.map((article) => (
-                <div
+                <EditorialArticleRow
                   key={article._id}
-                  className="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm transition-shadow hover:shadow-md"
-                >
-                  <div className="flex flex-col gap-0 md:flex-row md:items-stretch">
-                    {article.coverImage ? (
-                      <div className="relative md:w-48 shrink-0 aspect-[16/10] md:aspect-auto md:min-h-[120px] bg-gray-50">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={article.coverImage}
-                          alt=""
-                          className="absolute inset-0 h-full w-full object-cover"
-                          loading="lazy"
-                        />
-                      </div>
-                    ) : (
-                      <div className="md:w-48 shrink-0 aspect-[16/10] md:aspect-auto md:min-h-[120px] bg-gradient-to-br from-[#e8eaf6] to-gray-50 flex items-center justify-center">
-                        <FileText className="h-8 w-8 text-[#1a237e]/25" />
-                      </div>
-                    )}
-                    <div className="flex flex-1 flex-col gap-4 p-5 md:flex-row md:items-start md:justify-between">
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-lg font-semibold text-[#1a237e]">{article.title}</h3>
-                        {article.createdAt && (
-                          <p className="mt-1 text-xs text-gray-500">
-                            Published on {format(new Date(article.createdAt), 'PPP')}
-                          </p>
-                        )}
-                        <p className="mt-3 text-sm leading-6 text-gray-600 line-clamp-3">{article.description}</p>
-                      </div>
-
+                  dense
+                  href={`/articles/${article.slug || article._id}`}
+                  title={article.title}
+                  description={article.description}
+                  coverImage={article.coverImage}
+                  metadata={
+                    <>
+                      <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-700">
+                        Published
+                      </span>
+                      {article.createdAt ? <span>{formatArticleDate(article.createdAt)}</span> : null}
+                    </>
+                  }
+                  actions={
+                    <>
                       <Button
                         type="button"
-                        variant="destructive"
+                        variant="outline"
+                        asChild
+                        className="h-9 rounded-full border-[#1a237e]/20 px-4 text-[#1a237e] hover:bg-[#1a237e]/10 hover:text-[#1a237e]"
+                      >
+                        <Link href={`/articles/${article.slug || article._id}`}>
+                          <BookOpen className="h-4 w-4" />
+                          View live
+                        </Link>
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
                         onClick={() => handleDeleteArticle(article._id, article.title)}
                         disabled={isDeletingId === article._id}
-                        className="shrink-0"
+                        className="h-9 shrink-0 rounded-full px-4 text-red-600 hover:bg-red-50 hover:text-red-700"
                       >
-                        <Trash2 className="mr-2 h-4 w-4" />
+                        <Trash2 className="h-4 w-4" />
                         {isDeletingId === article._id ? 'Deleting...' : 'Delete'}
                       </Button>
-                    </div>
-                  </div>
-                </div>
+                    </>
+                  }
+                />
               ))}
             </div>
           )}

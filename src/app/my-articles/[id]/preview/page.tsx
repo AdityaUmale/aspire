@@ -19,7 +19,6 @@ import { sanitizeRichTextHtml } from "@/lib/sanitize";
 type PreviewArticle = {
   _id: string;
   title: string;
-  description: string;
   content: string;
   coverImage?: string | null;
   writerName?: string | null;
@@ -140,7 +139,6 @@ export default function WriterArticlePreviewPage() {
   return (
     <ArticleReader
       title={article.title}
-      description={article.description}
       contentHtml={sanitizeRichTextHtml(article.content)}
       coverImage={article.coverImage}
       createdAt={article.createdAt}

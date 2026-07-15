@@ -20,12 +20,14 @@ import {
 import {
   buildArticleSlug,
   computeReadingTimeMinutes,
+  extractPlainText,
 } from "@/lib/article-utils";
 import {
   MAX_LENGTHS,
   isValidLength,
   normalizeString,
 } from "@/lib/validation";
+import { isWriterArticleMutation } from "@/lib/student-article-request";
 
 const getAuthorProjection = (isAdmin: boolean) =>
   isAdmin ? "name email" : "name";
@@ -177,8 +179,10 @@ export async function PATCH(
     const body = await req.json();
 
     // Admin review path
-    const adminAuth = await requireAdmin(req);
-    if (adminAuth.ok) {
+    const adminAuth = isWriterArticleMutation(body)
+      ? null
+      : await requireAdmin(req);
+    if (adminAuth?.ok) {
       const reviewStatus = resolveReviewStatus(
         body?.reviewStatus,
         body?.isPublished
@@ -288,17 +292,15 @@ export async function PATCH(
     }
 
     const title = normalizeString(body?.title);
-    const description = normalizeString(body?.description);
     const content = normalizeString(body?.content);
     const writerName = normalizeString(body?.writerName);
 
     if (
       !isValidLength(title, MAX_LENGTHS.title) ||
-      !isValidLength(description, MAX_LENGTHS.description) ||
       !isValidLength(content, MAX_LENGTHS.content)
     ) {
       return NextResponse.json(
-        { error: "Missing or invalid title, description, or content" },
+        { error: "Missing or invalid title or content" },
         { status: 400 }
       );
     }
@@ -311,6 +313,7 @@ export async function PATCH(
     }
 
     const sanitizedContent = sanitizeRichTextHtml(content);
+    const description = extractPlainText(sanitizedContent).slice(0, 260);
     const readingTimeMinutes = computeReadingTimeMinutes(sanitizedContent);
 
     // Resubmit → PENDING. Autosave (saveOnly) never changes status (esp. REJECTED).

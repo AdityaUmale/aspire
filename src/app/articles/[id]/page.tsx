@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ArticleReader from "@/components/ArticleReader";
 import { getFounderArticleByParam } from "@/lib/article-queries";
-import { getArticlePath } from "@/lib/article-utils";
+import { extractPlainText, getArticlePath } from "@/lib/article-utils";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const revalidate = 3600;
@@ -25,7 +25,7 @@ export async function generateMetadata({
     "founder",
     article.slug || String(article._id)
   );
-  const description = article.description.slice(0, 160);
+  const description = extractPlainText(article.content).slice(0, 160);
   const image = article.coverImage || `${SITE_URL}/logo1.png`;
 
   return {
@@ -62,13 +62,15 @@ export default async function ArticleDetailPage({ params }: PageProps) {
   return (
     <ArticleReader
       title={article.title}
-      description={article.description}
       contentHtml={article.content}
       coverImage={article.coverImage}
       createdAt={article.createdAt}
       readingTimeMinutes={article.readingTimeMinutes}
       backHref="/articles"
       backLabel="All articles"
+      showAuthorBar
+      authorName={article.author?.name || "Aspire Institute Founder"}
+      authorSubtitle="Founder perspective"
     />
   );
 }

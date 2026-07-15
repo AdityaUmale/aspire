@@ -9,7 +9,7 @@ const StudentArticleSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      required: true,
+      default: "",
     },
     content: {
       type: String,
@@ -38,8 +38,10 @@ const StudentArticleSchema = new mongoose.Schema(
     reviewStatus: {
       type: String,
       enum: STUDENT_ARTICLE_REVIEW_STATUSES,
-      default: function defaultReviewStatus(this: { isPublished?: boolean }) {
-        return this.isPublished ? "PUBLISHED" : "PENDING";
+      default: function defaultReviewStatus(
+        this: { isPublished?: boolean } | null
+      ) {
+        return this?.isPublished ? "PUBLISHED" : "PENDING";
       },
     },
     isPublished: {
@@ -59,6 +61,10 @@ const StudentArticleSchema = new mongoose.Schema(
     coverImage: {
       type: String,
       default: null,
+    },
+    draftToken: {
+      type: String,
+      default: undefined,
     },
     rejectionReason: {
       type: String,
@@ -86,6 +92,13 @@ StudentArticleSchema.index({ reviewStatus: 1, createdAt: -1 });
 StudentArticleSchema.index({ writer: 1, createdAt: -1 });
 StudentArticleSchema.index({ submitterEmail: 1 });
 StudentArticleSchema.index({ isPublished: 1, createdAt: -1 });
+StudentArticleSchema.index(
+  { draftToken: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { draftToken: { $type: "string" } },
+  }
+);
 
 export type StudentArticleDocument = InferSchemaType<
   typeof StudentArticleSchema

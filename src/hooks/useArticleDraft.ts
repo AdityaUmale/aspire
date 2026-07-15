@@ -4,10 +4,10 @@ import { useCallback, useEffect, useRef } from "react";
 
 export type ArticleDraftPayload = {
   title: string;
-  description: string;
   writerName?: string;
   content: string;
   coverImage?: string | null;
+  draftToken?: string;
   savedAt: number;
 };
 
@@ -38,13 +38,13 @@ export const readArticleDraft = (
 
     return {
       title: typeof parsed.title === "string" ? parsed.title : "",
-      description:
-        typeof parsed.description === "string" ? parsed.description : "",
       writerName:
         typeof parsed.writerName === "string" ? parsed.writerName : "",
       content: typeof parsed.content === "string" ? parsed.content : "",
       coverImage:
         typeof parsed.coverImage === "string" ? parsed.coverImage : null,
+      draftToken:
+        typeof parsed.draftToken === "string" ? parsed.draftToken : undefined,
       savedAt: typeof parsed.savedAt === "number" ? parsed.savedAt : Date.now(),
     };
   } catch {
@@ -99,10 +99,10 @@ export const migrateAnonymousDraftToWriter = (writerId: string) => {
   if (anonDraft) {
     writeArticleDraft(writerKey, {
       title: anonDraft.title,
-      description: anonDraft.description,
       writerName: anonDraft.writerName,
       content: anonDraft.content,
       coverImage: anonDraft.coverImage ?? null,
+      draftToken: anonDraft.draftToken,
     });
     clearArticleDraft(ANON_DRAFT_KEY);
     return readArticleDraft(writerKey);
@@ -113,19 +113,16 @@ export const migrateAnonymousDraftToWriter = (writerId: string) => {
 
 const isDraftDirty = ({
   title,
-  description,
   writerName,
   content,
   coverImage,
 }: {
   title: string;
-  description: string;
   writerName?: string;
   content: string;
   coverImage?: string | null;
 }) =>
   title.trim().length > 0 ||
-  description.trim().length > 0 ||
   (writerName?.trim().length ?? 0) > 0 ||
   content.replace(/<[^>]*>/g, "").trim().length > 0 ||
   Boolean(coverImage);
@@ -133,26 +130,25 @@ const isDraftDirty = ({
 export const useArticleDraft = ({
   writerId,
   title,
-  description,
   writerName,
   content,
   coverImage,
+  draftToken,
   enabled = true,
   debounceMs = 600,
 }: {
   writerId?: string | null;
   title: string;
-  description: string;
   writerName?: string;
   content: string;
   coverImage?: string | null;
+  draftToken?: string;
   enabled?: boolean;
   debounceMs?: number;
 }) => {
   const draftKey = writerId ? getWriterDraftKey(writerId) : ANON_DRAFT_KEY;
   const isDirty = isDraftDirty({
     title,
-    description,
     writerName,
     content,
     coverImage,
@@ -171,10 +167,10 @@ export const useArticleDraft = ({
     saveTimer.current = setTimeout(() => {
       writeArticleDraft(draftKey, {
         title,
-        description,
         writerName: writerName ?? "",
         content,
         coverImage: coverImage ?? null,
+        draftToken,
       });
     }, debounceMs);
 
@@ -187,8 +183,8 @@ export const useArticleDraft = ({
     content,
     coverImage,
     debounceMs,
-    description,
     draftKey,
+    draftToken,
     enabled,
     isDirty,
     title,

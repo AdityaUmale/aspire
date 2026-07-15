@@ -26,6 +26,7 @@ import {
 import {
   buildArticleSlug,
   computeReadingTimeMinutes,
+  extractPlainText,
   resolveReadingTimeMinutes,
 } from "@/lib/article-utils";
 import {
@@ -115,19 +116,17 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
     const title = normalizeString(body?.title);
-    const description = normalizeString(body?.description);
     const content = normalizeString(body?.content);
     const writerName = normalizeString(body?.writerName);
 
     if (
       !isValidLength(title, MAX_LENGTHS.title) ||
-      !isValidLength(description, MAX_LENGTHS.description) ||
       !isValidLength(content, MAX_LENGTHS.content)
     ) {
       return NextResponse.json(
         {
           error:
-            "Missing or invalid required fields (title, description, content)",
+            "Missing or invalid required fields (title and content)",
         },
         { status: 400 }
       );
@@ -156,6 +155,7 @@ export async function POST(req: NextRequest) {
     }
 
     const sanitizedContent = sanitizeRichTextHtml(content);
+    const description = extractPlainText(sanitizedContent).slice(0, 260);
     const readingTimeMinutes = computeReadingTimeMinutes(sanitizedContent);
 
     const newStudentArticle = new StudentArticle({
@@ -348,6 +348,7 @@ export async function GET(req: NextRequest) {
 
       return {
         ...mapped,
+        description: extractPlainText(content).slice(0, 260),
         slug,
         readingTimeMinutes,
       };

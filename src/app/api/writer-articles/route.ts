@@ -8,6 +8,7 @@ import {
   getOrRefreshWriterSession,
   setWriterSessionCookie,
 } from "@/lib/writer-auth";
+import { extractPlainText } from "@/lib/article-utils";
 
 export async function GET(request: NextRequest) {
   try {
@@ -30,6 +31,7 @@ export async function GET(request: NextRequest) {
       _id: unknown;
       title: string;
       description: string;
+      content: string;
       slug?: string | null;
       coverImage?: string | null;
       reviewStatus?: unknown;
@@ -47,7 +49,7 @@ export async function GET(request: NextRequest) {
           return {
             id: String(article._id),
             title: article.title,
-            description: article.description,
+            description: extractPlainText(article.content).slice(0, 260),
             slug: article.slug || null,
             coverImage:
               typeof article.coverImage === "string"
