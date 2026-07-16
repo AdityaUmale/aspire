@@ -25,6 +25,7 @@ import CoverImageField from '@/components/CoverImageField';
 import type { RichTextEditorHandle } from '@/components/RichTextEditor';
 import { MAX_LENGTHS } from '@/lib/validation';
 import { extractPlainText } from '@/lib/article-utils';
+import { waitForPromiseOrTimeout } from '@/lib/promise-timeout';
 import {
   migrateAnonymousDraftToWriter,
   readArticleDraft,
@@ -51,12 +52,15 @@ const createDraftToken = () =>
   globalThis.crypto?.randomUUID?.() ??
   `draft-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
+const AUTOSAVE_SUBMIT_WAIT_MS = 5000;
+
 export default function PublishArticlePage() {
   const router = useRouter();
   const errorRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<RichTextEditorHandle | null>(null);
   const autosaveGenRef = useRef(0);
   const autosaveInFlightRef = useRef<Promise<void> | null>(null);
+  const autosaveAbortRef = useRef<AbortController | null>(null);
   const serverDraftIdRef = useRef<string | null>(null);
   const submitLockRef = useRef(false);
   const [email, setEmail] = useState('');
@@ -248,6 +252,8 @@ export default function PublishArticlePage() {
           return;
         }
 
+        const controller = new AbortController();
+        autosaveAbortRef.current = controller;
         const flushed = editorRef.current?.flush() ?? content;
         const activeDraftId = serverDraftIdRef.current || serverDraftId;
 
@@ -259,6 +265,7 @@ export default function PublishArticlePage() {
             await fetch(`/api/student-article/${activeDraftId}`, {
               method: 'PATCH',
               headers: { 'Content-Type': 'application/json' },
+              signal: controller.signal,
               body: JSON.stringify({
                 title,
                 content: flushed,
@@ -271,6 +278,7 @@ export default function PublishArticlePage() {
             const response = await fetch('/api/student-article/draft', {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
+              signal: controller.signal,
               body: JSON.stringify({
                 id: activeDraftId,
                 draftToken,
@@ -290,7 +298,13 @@ export default function PublishArticlePage() {
             }
           }
         } catch (saveError) {
-          console.error('Server draft save failed', saveError);
+          if (!(saveError instanceof DOMException && saveError.name === 'AbortError')) {
+            console.error('Server draft save failed', saveError);
+          }
+        } finally {
+          if (autosaveAbortRef.current === controller) {
+            autosaveAbortRef.current = null;
+          }
         }
       })();
 
@@ -480,8 +494,15 @@ export default function PublishArticlePage() {
     setIsSubmitting(true);
 
     try {
-      if (autosaveInFlightRef.current) {
-        await autosaveInFlightRef.current;
+      const pendingAutosave = autosaveInFlightRef.current;
+      if (pendingAutosave) {
+        const waitResult = await waitForPromiseOrTimeout(
+          pendingAutosave,
+          AUTOSAVE_SUBMIT_WAIT_MS
+        );
+        if (waitResult === 'timed_out') {
+          autosaveAbortRef.current?.abort();
+        }
       }
 
       const payload = {

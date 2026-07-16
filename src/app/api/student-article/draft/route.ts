@@ -163,7 +163,6 @@ export async function PUT(req: NextRequest) {
 
       // The client keeps this token with its local draft. A unique partial
       // index makes repeated or overlapping autosaves update one document.
-      await StudentArticle.init();
       const draftId = new mongoose.Types.ObjectId();
       const filter = {
         draftToken,

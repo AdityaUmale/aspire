@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "ts-node-esm --transpile-only src/lib/validation.test.ts && ts-node-esm --transpile-only src/lib/student-article-request.test.ts",
+    "test": "ts-node-esm --transpile-only src/lib/validation.test.ts && ts-node-esm --transpile-only src/lib/student-article-request.test.ts && ts-node-esm --transpile-only src/lib/promise-timeout.test.ts",
     "lint": "next lint",
     "create-admin": "node scripts/createAdmin.js",
     "analyze": "cross-env ANALYZE=true next build",
