@@ -3,12 +3,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { PenLine, LoaderCircle, Trash2, FileText, AlertCircle, RefreshCw, BookOpen } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import {
+  BookOpen,
+  FileText,
+  LoaderCircle,
+  Newspaper,
+  PenLine,
+  RefreshCw,
+  Send,
+  Terminal,
+  Trash2,
+} from 'lucide-react';
 import { MAX_LENGTHS } from '@/lib/validation';
 import { extractPlainText, formatArticleDate } from '@/lib/article-utils';
 import CoverImageField from '@/components/CoverImageField';
+import type { RichTextEditorHandle } from '@/components/RichTextEditor';
 import {
   EditorialArticleRow,
   EditorialArticleRowSkeleton,
@@ -22,7 +34,7 @@ import { cn } from '@/lib/utils';
 const RichTextEditor = dynamic(() => import('@/components/RichTextEditor'), {
   ssr: false,
   loading: () => (
-    <div className="min-h-[400px] rounded-2xl border-2 border-gray-200 bg-white animate-pulse" />
+    <div className="min-h-[400px] rounded-lg border border-gray-200 bg-white animate-pulse" />
   ),
 });
 
@@ -39,6 +51,7 @@ interface Article {
 export default function AddArticlesPage() {
   const toast = useAdminToast();
   const errorRef = useRef<HTMLDivElement>(null);
+  const editorRef = useRef<RichTextEditorHandle | null>(null);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [coverImage, setCoverImage] = useState<string | null>(null);
@@ -88,8 +101,11 @@ export default function AddArticlesPage() {
     setIsSubmitting(true);
     setError(null);
 
-    const plainText = extractPlainText(content);
-    const hasImages = /<img\b/i.test(content);
+    const flushedContent = editorRef.current?.flush() ?? content;
+    setContent(flushedContent);
+
+    const plainText = extractPlainText(flushedContent);
+    const hasImages = /<img\b/i.test(flushedContent);
 
     if (!title.trim() || title.length > MAX_LENGTHS.title) {
       const message = `Title is required (max ${MAX_LENGTHS.title} characters).`;
@@ -99,7 +115,7 @@ export default function AddArticlesPage() {
       return;
     }
 
-    if (!content.trim() || (!plainText && !hasImages)) {
+    if (!flushedContent.trim() || (!plainText && !hasImages)) {
       const message = 'Article content is required. Add text or images before publishing.';
       setError(message);
       toast.error('Content required', message);
@@ -107,7 +123,7 @@ export default function AddArticlesPage() {
       return;
     }
 
-    if (content.length > MAX_LENGTHS.content) {
+    if (flushedContent.length > MAX_LENGTHS.content) {
       const message = `Article content is too long (max ${MAX_LENGTHS.content.toLocaleString()} characters).`;
       setError(message);
       toast.error('Content too long', message);
@@ -123,7 +139,7 @@ export default function AddArticlesPage() {
         },
         body: JSON.stringify({
           title,
-          content,
+          content: flushedContent,
           coverImage,
         }),
       });
@@ -168,7 +184,9 @@ export default function AddArticlesPage() {
         throw new Error(data.error || 'Failed to delete article');
       }
 
-      setArticles((currentArticles) => currentArticles.filter((article) => article._id !== articleId));
+      setArticles((currentArticles) =>
+        currentArticles.filter((article) => article._id !== articleId)
+      );
       toast.success('Article deleted', `“${articleTitle}” has been removed.`);
     } catch (err: unknown) {
       const errorMessage = getFriendlyError(err, 'Could not delete this article. Please try again.');
@@ -180,135 +198,172 @@ export default function AddArticlesPage() {
     }
   };
 
+  const wordCount = content.trim().split(/\s+/).filter(Boolean).length;
+  const characterCount = content.replace(/<[^>]*>/g, '').length;
+
   return (
     <div>
       <AdminPageHeader
         badge="Founder articles"
         title="Create and manage founder articles"
-        description="Write and publish founder pieces, then manage existing published articles below."
+        description="Write and publish founder pieces with the same writing canvas used across the site, then manage published articles below."
       />
 
-      {error ? (
-        <div ref={errorRef} className="mb-6 flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-          <p>{error}</p>
-        </div>
-      ) : null}
+      <div className="space-y-4 mb-8">
+        {error ? (
+          <div ref={errorRef}>
+            <Alert
+              variant="destructive"
+              className="rounded-2xl border-red-100 bg-red-50 text-red-900 shadow-sm animate-in zoom-in-95"
+            >
+              <Terminal className="h-4 w-4" />
+              <AlertTitle className="font-bold">Something needs attention</AlertTitle>
+              <AlertDescription className="text-red-800/80">{error}</AlertDescription>
+            </Alert>
+          </div>
+        ) : null}
+      </div>
 
-      <div className="relative mx-auto max-w-5xl pb-24">
-        <form onSubmit={handleSubmit} className="space-y-10">
-          
-          {/* Section 01: Title */}
-          <div className="space-y-3 group/section transition-all duration-500">
-            <div className="flex items-center gap-3">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1a237e] text-white text-[11px] font-bold shrink-0">
-                01
-              </span>
-              <div>
-                <label htmlFor="title" className="block text-sm font-semibold text-gray-800">
-                  Article Title <span className="text-red-400 text-xs">*</span>
+      <div className="relative pb-16">
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div className="grid grid-cols-1 gap-8 items-start xl:grid-cols-[1fr_320px]">
+            {/* Left: Writing canvas */}
+            <div className="space-y-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm md:p-8">
+              <div className="space-y-1.5">
+                <label htmlFor="title" className="block text-sm font-semibold text-gray-900">
+                  Title <span className="text-red-500">*</span>
                 </label>
-                <p className="text-xs text-gray-400 mt-0.5">A clear, compelling headline for your article</p>
-              </div>
-            </div>
-            <div className="relative group/input bg-white rounded-2xl border border-gray-200 group-focus-within/section:border-[#1a237e]/40 transition-all duration-300 shadow-sm focus-within:shadow-md px-5 pt-5 pb-4">
-              <Input
-                id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="What is the name of your story?"
-                maxLength={MAX_LENGTHS.title}
-                className="border-0 bg-transparent p-0 pb-1 h-auto text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 placeholder:text-gray-300 focus-visible:ring-0 shadow-none -ml-[2px] transition-all"
-                required
-              />
-              <div className="absolute bottom-0 left-5 right-5 h-0.5 w-0 bg-[#1a237e] transition-all duration-700 group-focus-within/input:w-[calc(100%-40px)] opacity-40 rounded-full"></div>
-              <p className="text-[11px] text-gray-400 mt-3 text-right">
-                {title.length}/{MAX_LENGTHS.title}
-              </p>
-            </div>
-          </div>
-
-          {/* Section 02: Cover */}
-          <div className="space-y-3 group/section transition-all duration-500">
-            <div className="flex items-center gap-3">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1a237e] text-white text-[11px] font-bold shrink-0">
-                02
-              </span>
-              <div>
-                <p className="block text-sm font-semibold text-gray-800">
-                  Cover image <span className="text-gray-400 text-xs font-normal">(optional)</span>
+                <p className="mb-2 text-sm text-gray-500">
+                  Craft a clear, engaging title that summarizes your article.
                 </p>
-                <p className="text-xs text-gray-400 mt-0.5">
-                  Card thumbnail and social share image
-                </p>
-              </div>
-            </div>
-            <CoverImageField
-              value={coverImage}
-              onChange={setCoverImage}
-              disabled={isSubmitting}
-            />
-          </div>
-
-          {/* Section 03: Content */}
-          <div className="space-y-3 group/section transition-all duration-500 pt-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1a237e] text-white text-[11px] font-bold shrink-0">
-                  03
-                </span>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-800">
-                    Article Content <span className="text-red-400 text-xs">*</span>
-                  </label>
-                  <p className="text-xs text-gray-400 mt-0.5">
-                    Write the full article — headings, quotes, links (cover is separate above)
-                  </p>
+                <div className="relative">
+                  <Input
+                    id="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Enter a compelling title..."
+                    maxLength={MAX_LENGTHS.title}
+                    className="h-11 w-full rounded-lg border-gray-300 px-4 pr-16 text-base shadow-sm transition-all focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+                    required
+                  />
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium tabular-nums text-gray-400">
+                    {title.length}/{MAX_LENGTHS.title}
+                  </div>
                 </div>
               </div>
-              <div className="hidden sm:flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full">
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
-                Rich Text Editor
+
+              <div className="space-y-3">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="space-y-0.5">
+                    <label className="block text-sm font-semibold text-gray-900">
+                      Content <span className="text-red-500">*</span>
+                    </label>
+                    <p className="text-sm text-gray-500">
+                      Write the full article. Use headings, lists, and formatting to keep it readable.
+                    </p>
+                  </div>
+                  <div className="hidden shrink-0 text-xs font-medium tabular-nums text-gray-500 sm:block">
+                    {wordCount} words · {characterCount} characters
+                  </div>
+                </div>
+
+                <div className="relative flex min-h-[400px] flex-col overflow-hidden rounded-lg border border-gray-300 bg-white shadow-sm">
+                  <div className="min-h-[400px] flex-1">
+                    <RichTextEditor
+                      ref={editorRef}
+                      content={content}
+                      onChange={setContent}
+                      placeholder="Start writing your article here..."
+                      stickyToolbar={false}
+                      allowInlineImages={false}
+                      borderless
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="relative group/editor">
-              <RichTextEditor
-                content={content}
-                onChange={setContent}
-                placeholder="Share the full depth of your perspective here..."
-                stickyToolbar
-                toolbarOffsetPx={16}
-                allowInlineImages={false}
-              />
-            </div>
-          </div>
 
-          <div className="pt-12 flex items-center justify-end">
-            <Button
-              type="submit"
-              className="group h-16 px-12 bg-[#1a237e] hover:bg-[#0d1642] text-white rounded-full transition-all shadow-[0_10px_30px_rgba(26,35,126,0.3)] hover:shadow-[0_20px_40px_rgba(26,35,126,0.4)] hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 text-lg font-bold"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <LoaderCircle className="h-5 w-5 animate-spin" />
-                  Publishing...
-                </>
-              ) : (
-                <>
-                  Publish Article
-                  <PenLine className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
-                </>
-              )}
-            </Button>
+            {/* Right: Publishing sidebar */}
+            <div className="space-y-5 xl:sticky xl:top-6">
+              <div className="space-y-5 rounded-2xl border border-gray-100 bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="flex items-center gap-2 text-sm font-bold tracking-tight text-gray-900">
+                    <Newspaper className="h-4 w-4 text-[#1a237e]" />
+                    Publish Article
+                  </h3>
+                  <span className="rounded-full border border-emerald-100 bg-emerald-50 px-2.5 py-1 text-[10px] font-bold text-emerald-600">
+                    Live on site
+                  </span>
+                </div>
+
+                <div className="space-y-3">
+                  <Button
+                    type="submit"
+                    className="h-12 w-full rounded-2xl bg-[#1a237e] text-sm font-bold text-white shadow-[0_4px_16px_rgba(26,35,126,0.15)] transition-all duration-300 hover:scale-[1.01] hover:bg-[#0d1642] hover:shadow-[0_8px_24px_rgba(26,35,126,0.25)] active:scale-[0.99]"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <span className="flex items-center gap-2">
+                        <LoaderCircle className="h-4 w-4 animate-spin" />
+                        Publishing...
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-2">
+                        Publish Article
+                        <Send className="h-4 w-4" />
+                      </span>
+                    )}
+                  </Button>
+
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() =>
+                      document.getElementById('published-founder-articles')?.scrollIntoView({
+                        behavior: 'smooth',
+                      })
+                    }
+                    className="h-12 w-full rounded-2xl border-gray-200 text-xs font-semibold text-gray-600 transition-all hover:bg-gray-50 hover:text-[#1a237e]"
+                  >
+                    <BookOpen className="mr-2 h-3.5 w-3.5" />
+                    View published list
+                  </Button>
+                </div>
+
+                <p className="text-[11px] font-normal leading-relaxed text-gray-400">
+                  Founder articles publish immediately and appear on the public Articles page.
+                </p>
+              </div>
+
+              <div className="space-y-3 rounded-2xl border border-gray-100 bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+                <h3 className="flex items-center gap-2 text-sm font-bold tracking-tight text-gray-900">
+                  <PenLine className="h-4 w-4 text-[#1a237e]" />
+                  Cover Image
+                </h3>
+                <p className="text-[10px] leading-snug text-gray-400">
+                  Used as a thumbnail in article lists and for social card sharing.
+                </p>
+                <div className="pt-1">
+                  <CoverImageField
+                    value={coverImage}
+                    onChange={setCoverImage}
+                    disabled={isSubmitting}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </form>
 
-        <section className="mt-16 space-y-6">
+        <section id="published-founder-articles" className="mt-16 space-y-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-xl font-bold text-[#1a237e] sm:text-2xl">Published founder articles</h2>
-              <p className="mt-1 text-sm text-gray-500">Remove published founder articles from the site here.</p>
+              <h2 className="text-xl font-bold text-[#1a237e] sm:text-2xl">
+                Published founder articles
+              </h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Remove published founder articles from the site here.
+              </p>
             </div>
             <Button
               type="button"
@@ -324,7 +379,7 @@ export default function AddArticlesPage() {
 
           {articlesError ? (
             <div className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+              <Terminal className="mt-0.5 h-4 w-4 shrink-0" />
               <p>{articlesError}</p>
             </div>
           ) : null}
@@ -356,7 +411,9 @@ export default function AddArticlesPage() {
                       <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-700">
                         Published
                       </span>
-                      {article.createdAt ? <span>{formatArticleDate(article.createdAt)}</span> : null}
+                      {article.createdAt ? (
+                        <span>{formatArticleDate(article.createdAt)}</span>
+                      ) : null}
                     </>
                   }
                   actions={

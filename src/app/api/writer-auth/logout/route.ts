@@ -6,24 +6,27 @@ import {
 } from "@/lib/writer-auth";
 
 export async function POST(request: NextRequest) {
+  const response = NextResponse.json(
+    { message: "Logged out successfully" },
+    { status: 200 }
+  );
+  clearWriterSessionCookie(response);
+
   try {
     const token = request.cookies.get(WRITER_SESSION_COOKIE_NAME)?.value;
-    const response = NextResponse.json(
-      { message: "Logged out successfully" },
-      { status: 200 }
-    );
 
     if (token) {
       await revokeWriterSession(token);
     }
 
-    clearWriterSessionCookie(response);
     return response;
   } catch (error) {
     console.error("Error logging out writer session", error);
-    return NextResponse.json(
+    const errorResponse = NextResponse.json(
       { error: "Failed to log out" },
       { status: 500 }
     );
+    clearWriterSessionCookie(errorResponse);
+    return errorResponse;
   }
 }

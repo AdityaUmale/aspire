@@ -16,32 +16,6 @@ type WriterSessionState = {
   expiresAt: Date;
   needsRefresh: boolean;
   wasRefreshed: boolean;
-  /** True when session was issued via SKIP_WRITER_EMAIL_VERIFICATION (local/dev testing). */
-  emailVerificationSkipped?: boolean;
-};
-
-/**
- * When true, writer OTP/email is not required — a local test writer session is minted.
- * Set SKIP_WRITER_EMAIL_VERIFICATION=true in .env. Never enable in production.
- */
-export const isWriterEmailVerificationSkipped = () => {
-  const enabled =
-    process.env.SKIP_WRITER_EMAIL_VERIFICATION?.trim().toLowerCase() ===
-    "true";
-
-  if (enabled && process.env.NODE_ENV === "production") {
-    console.error(
-      "Ignoring SKIP_WRITER_EMAIL_VERIFICATION in production."
-    );
-    return false;
-  }
-
-  return enabled;
-};
-
-const getDevBypassWriterEmail = () => {
-  const configured = process.env.SKIP_WRITER_EMAIL?.trim().toLowerCase();
-  return configured || "dev-writer@local.test";
 };
 
 export const WRITER_SESSION_COOKIE_NAME = "writer_session";
@@ -64,8 +38,8 @@ const getWriterOtpSecret = () => {
 
 const hashValue = (value: string) => {
   return crypto
-    .createHash("sha256")
-    .update(`${getWriterOtpSecret()}:${value}`)
+    .createHmac("sha256", getWriterOtpSecret())
+    .update(value)
     .digest("hex");
 };
 
@@ -198,59 +172,6 @@ export const refreshWriterSession = async (session: WriterSessionState) => {
   };
 };
 
-/**
- * Mint a real Writer + session cookie for local testing when OTP/email is skipped.
- */
-const getOrCreateDevBypassSession = async (
-  request: NextRequest
-): Promise<WriterSessionState> => {
-  await connectDB();
-
-  const email = getDevBypassWriterEmail();
-  let writer = (await Writer.findOne({ email }).lean()) as {
-    _id: unknown;
-    email?: string;
-  } | null;
-
-  if (!writer) {
-    const created = await Writer.create({
-      email,
-      emailVerifiedAt: new Date(),
-      lastLoginAt: new Date(),
-    });
-    writer = {
-      _id: created._id,
-      email: created.email,
-    };
-  } else {
-    await Writer.findByIdAndUpdate(writer._id, {
-      $set: {
-        emailVerifiedAt: new Date(),
-        lastLoginAt: new Date(),
-      },
-    });
-  }
-
-  const { token, expiresAt, sessionId } = await createWriterSession({
-    writerId: String(writer._id),
-    ip: getRequestIp(request),
-    userAgent: getRequestUserAgent(request),
-  });
-
-  return {
-    writer: {
-      id: String(writer._id),
-      email: writer.email || email,
-    },
-    sessionId,
-    token,
-    expiresAt,
-    needsRefresh: false,
-    wasRefreshed: true,
-    emailVerificationSkipped: true,
-  };
-};
-
 export const getOrRefreshWriterSession = async (request: NextRequest) => {
   const session = await getWriterSessionFromRequest(request);
 
@@ -260,10 +181,6 @@ export const getOrRefreshWriterSession = async (request: NextRequest) => {
     }
 
     return refreshWriterSession(session);
-  }
-
-  if (isWriterEmailVerificationSkipped()) {
-    return getOrCreateDevBypassSession(request);
   }
 
   return null;

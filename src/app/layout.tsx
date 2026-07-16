@@ -50,6 +50,15 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: SITE_NAME }],
   creator: "Aspire - The Institute of Human Development",
+  icons: {
+    icon: [
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/logo1.png", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: ["/favicon-32.png"],
+  },
   openGraph: {
     title: DEFAULT_METADATA_TITLE,
     description: DEFAULT_METADATA_DESCRIPTION,

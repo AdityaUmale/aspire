@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ExternalLink, Menu, Shield, X } from 'lucide-react';
+import { ExternalLink, Menu, X } from 'lucide-react';
 import { AdminToastProvider } from '@/components/admin/admin-toast';
 import { ADMIN_NAV, isAdminNavActive } from '@/components/admin/nav-config';
 import { cn } from '@/lib/utils';
@@ -75,8 +76,15 @@ function SidebarContent({
   return (
     <>
       <div className="mb-6 flex items-center gap-3 px-1">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#1a237e] to-[#3949ab] text-white shadow-md shadow-[#1a237e]/25">
-          <Shield className="h-5 w-5" />
+        <div className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-[#1a237e]/10 bg-white shadow-md shadow-[#1a237e]/15">
+          <Image
+            src="/logo1.png"
+            alt="Aspire Institute"
+            width={40}
+            height={40}
+            className="h-9 w-9 object-contain"
+            priority
+          />
         </div>
         <div className="min-w-0">
           <p className="truncate text-base font-bold text-[#1a237e]">Aspire Institute Admin</p>
@@ -155,6 +163,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           >
             <Menu className="h-5 w-5" />
           </button>
+          <div className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[#1a237e]/10 bg-white">
+            <Image
+              src="/logo1.png"
+              alt="Aspire Institute"
+              width={32}
+              height={32}
+              className="h-8 w-8 object-contain"
+              priority
+            />
+          </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold text-[#1a237e]">
               {activeItem?.label ?? 'Admin'}

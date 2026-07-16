@@ -14,9 +14,9 @@ import {
   LoaderCircle,
   LogOut,
   Mail,
+  Newspaper,
   Send,
   ShieldCheck,
-  Sparkles,
   Terminal,
   User,
 } from 'lucide-react';
@@ -45,7 +45,6 @@ type WriterSessionResponse = {
     email: string;
   } | null;
   sessionExpiresAt: string | null;
-  emailVerificationSkipped?: boolean;
 };
 
 const createDraftToken = () =>
@@ -84,8 +83,6 @@ export default function PublishArticlePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [emailVerificationSkipped, setEmailVerificationSkipped] =
-    useState(false);
 
   const { clearDraft } = useArticleDraft({
     writerId,
@@ -173,18 +170,12 @@ export default function PublishArticlePage() {
 
       const data = await response.json() as WriterSessionResponse;
 
-      setEmailVerificationSkipped(Boolean(data.emailVerificationSkipped));
-
       if (data.writer?.email) {
         setEmail(data.writer.email);
         setVerifiedEmail(data.writer.email);
         setWriterId(data.writer.id);
         setSessionExpiresAt(data.sessionExpiresAt);
-        setVerificationMessage(
-          data.emailVerificationSkipped
-            ? 'Dev mode: email verification is skipped. You can submit articles without OTP.'
-            : 'This browser is already verified for article submissions.'
-        );
+        setVerificationMessage('This browser is already verified for article submissions.');
 
         if (draftParam) {
           const loaded = await loadServerDraft(draftParam);
@@ -699,17 +690,6 @@ export default function PublishArticlePage() {
                 </Alert>
               )}
 
-              {emailVerificationSkipped && (
-                <Alert className="bg-amber-50 border-amber-200 text-amber-950 rounded-2xl shadow-sm">
-                  <ShieldCheck className="h-4 w-4" />
-                  <AlertTitle className="font-bold">Email verification skipped</AlertTitle>
-                  <AlertDescription className="text-amber-900/80">
-                    <code className="text-xs">SKIP_WRITER_EMAIL_VERIFICATION=true</code> is set.
-                    OTP/Resend is bypassed for local testing. Turn this off before production.
-                  </AlertDescription>
-                </Alert>
-              )}
-
               {verificationMessage && (
                 <Alert className="bg-white border-[#1a237e]/10 text-[#1a237e] rounded-2xl shadow-sm">
                   <ShieldCheck className="h-4 w-4" />
@@ -793,7 +773,7 @@ export default function PublishArticlePage() {
                     <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-5 space-y-5">
                       <div className="flex items-center justify-between">
                         <h3 className="text-sm font-bold text-gray-900 tracking-tight flex items-center gap-2">
-                          <Sparkles className="h-4 w-4 text-[#1a237e]" />
+                          <Newspaper className="h-4 w-4 text-[#1a237e]" />
                           Publish Article
                         </h3>
                         {/* Auto-save status */}

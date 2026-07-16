@@ -160,6 +160,7 @@ export async function POST(request: NextRequest) {
     );
 
     setWriterSessionCookie(response, token);
+    response.headers.set("Cache-Control", "no-store");
     return response;
   } catch (error) {
     console.error("Error verifying writer OTP", error);

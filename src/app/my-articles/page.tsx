@@ -170,7 +170,7 @@ export default function MyArticlesPage() {
             </div>
             <Button
               onClick={() => router.push('/publish-article')}
-              className="h-11 w-fit rounded-full bg-[#1a237e] px-5 text-sm font-semibold text-white shadow-none transition hover:-translate-y-0.5 hover:bg-[#11194f] active:translate-y-0"
+              className="h-11 w-fit rounded-xl bg-[#1a237e] px-5 text-sm font-semibold text-white shadow-none transition hover:-translate-y-0.5 hover:bg-[#11194f] active:translate-y-0"
             >
               <Plus className="mr-2 h-4 w-4" />
               New article
@@ -213,7 +213,7 @@ export default function MyArticlesPage() {
               </p>
               <Button
                 onClick={() => router.push('/publish-article')}
-                className="mt-6 h-11 rounded-full bg-[#1a237e] px-6 text-white hover:bg-[#11194f]"
+                className="mt-6 h-11 rounded-xl bg-[#1a237e] px-6 text-white hover:bg-[#11194f]"
               >
                 Verify and write <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -229,7 +229,7 @@ export default function MyArticlesPage() {
               </p>
               <Button
                 onClick={() => router.push('/publish-article')}
-                className="mt-6 h-11 rounded-full bg-[#1a237e] px-6 text-white hover:bg-[#11194f]"
+                className="mt-6 h-11 rounded-xl bg-[#1a237e] px-6 text-white hover:bg-[#11194f]"
               >
                 Write an article <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
