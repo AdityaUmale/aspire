@@ -51,7 +51,7 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
       "Personal branding",
     ],
     slug: "/courses/personality-development",
-    image: "/pdc.jpg",
+    image: "/pdc-new/IMG_3805.jpg",
     matchers: [/personality development/i],
   },
   {
@@ -200,7 +200,7 @@ export const PROGRAM_CATALOG: ProgramCatalogEntry[] = [
       "Conflict Management",
     ],
     slug: "/courses/corporate-training",
-    image: "/corporate-training/IMG_6133.JPG",
+    image: "/corporate-training/PHOTO-2026-07-17-12-58-14.jpg",
     matchers: [/corporate training/i],
   },
 ];

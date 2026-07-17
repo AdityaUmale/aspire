@@ -388,7 +388,7 @@ export default function AboutUsPage() {
           HALL OF RECOGNITION
          ════════════════════════════════════════════════ */}
       <section className="py-16 sm:py-20 md:py-24 relative z-10">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="mx-auto w-full max-w-[100rem] px-4 md:px-6">
           <div className="text-center mb-10 sm:mb-12 md:mb-16">
             <h2 className="font-bold text-3xl sm:text-4xl md:text-5xl text-gray-900 mb-4 sm:mb-6 tracking-tight px-2">
               Hall of Recognition
@@ -399,7 +399,7 @@ export default function AboutUsPage() {
           </div>
 
           {/* Timeline Structure */}
-          <div className="max-w-7xl mx-auto relative">
+          <div className="mx-auto max-w-[100rem] relative">
             {/* Mobile left timeline line */}
             <div className="md:hidden absolute left-[11px] top-3 bottom-3 w-px bg-gradient-to-b from-[#1a237e]/0 via-[#1a237e]/25 to-[#1a237e]/0" />
             {/* Desktop center line */}
@@ -433,15 +433,15 @@ export default function AboutUsPage() {
                   <div className="hidden md:block md:w-[48%]" />
 
                   {/* Card */}
-                  <div className="w-full md:w-[48%] ml-8 md:ml-0 bg-white rounded-2xl sm:rounded-[1.75rem] md:rounded-[2rem] border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(26,35,126,0.12)] hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col lg:flex-row group/card">
+                  <div className="w-full md:w-[48%] ml-8 md:ml-0 bg-white rounded-2xl sm:rounded-[1.75rem] md:rounded-[2rem] border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(26,35,126,0.12)] hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col lg:flex-row 2xl:h-80 group/card">
                     {/* Image — full width on mobile/tablet, side strip on large screens */}
-                    <div className="relative h-48 sm:h-52 w-full shrink-0 overflow-hidden lg:h-auto lg:w-44 xl:w-52 lg:min-h-[260px]">
+                    <div className="relative h-48 sm:h-52 w-full shrink-0 overflow-hidden lg:h-auto lg:w-[40%] xl:w-[46%] 2xl:h-full 2xl:w-[56%]">
                       <Image
                         src={award.image}
                         alt={award.title}
                         fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 220px"
-                        className="object-cover object-center group-hover/card:scale-105 transition-transform duration-700 ease-out"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 24vw"
+                        className="object-cover object-center"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#1a237e]/70 via-[#1a237e]/10 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-white/80" />
                       <div className="absolute bottom-3 left-3 z-10 lg:bottom-4 lg:left-3">
@@ -466,16 +466,16 @@ export default function AboutUsPage() {
                         <p className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest mb-2.5">
                           Honoured By
                         </p>
-                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                        <ul className="space-y-1.5 border-l border-[#3949ab]/20 pl-3">
                           {award.guests.map((guest, i) => (
-                            <span
+                            <li
                               key={i}
-                              className="max-w-full text-[11px] sm:text-xs leading-snug font-semibold text-gray-600 bg-gray-50 px-2.5 py-1.5 rounded-xl border border-gray-100 break-words"
+                              className="relative max-w-full text-[11px] sm:text-xs leading-snug font-medium text-gray-600 break-words before:absolute before:-left-[15px] before:top-[0.4em] before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#3949ab]"
                             >
                               {guest}
-                            </span>
+                            </li>
                           ))}
-                        </div>
+                        </ul>
                       </div>
                     </div>
                   </div>

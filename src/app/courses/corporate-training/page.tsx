@@ -21,8 +21,8 @@ export default function CorporateTrainingPage() {
   ];
 
   const heroImage = '/corporate-training/IMG_6133.JPG';
-  const introImage = '/corporate-training/IMG_6133.JPG';
-  const featureImage = '/corporate-training/IMG_6133.JPG';
+  const introImage = '/corporate-training/IMG_6322.jpg';
+  const featureImage = '/corporate-training/IMG_9510.jpg';
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
