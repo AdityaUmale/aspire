@@ -15,10 +15,12 @@ import {
   AlertCircle,
   Loader2,
   Clock,
+  MapPin,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminToast } from '@/components/admin/admin-toast';
 import { getFriendlyError } from '@/lib/admin-messages';
+import { getEnquirySourceLabel } from '@/lib/enquiry-source';
 import { cn } from '@/lib/utils';
 
 interface Enquiry {
@@ -30,6 +32,10 @@ interface Enquiry {
   enquiry: string;
   createdAt: string;
   reviewed?: boolean;
+  sourceKey?: string;
+  sourceLabel?: string;
+  sourceDetail?: string;
+  sourcePath?: string;
 }
 
 function DetailRow({
@@ -194,7 +200,7 @@ export default function EnquiryDetailPage() {
         Back to enquiries
       </Button>
 
-      <div className="overflow-hidden rounded-2xl border border-gray-200/70 bg-white/90 shadow-sm backdrop-blur-md">
+      <div className="overflow-hidden rounded-2xl border border-gray-200/70 bg-white shadow-sm">
         <div className="border-b border-gray-100 px-5 py-5 sm:px-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
@@ -247,6 +253,24 @@ export default function EnquiryDetailPage() {
             <p className="whitespace-pre-wrap break-words font-normal leading-relaxed text-gray-700">
               {enquiry.enquiry}
             </p>
+          </DetailRow>
+          <DetailRow icon={MapPin} label="Clicked enquiry from">
+            <p>{getEnquirySourceLabel(enquiry)}</p>
+            {enquiry.sourceDetail ? (
+              <p className="mt-0.5 text-xs font-normal text-gray-500">
+                Interested in: {enquiry.sourceDetail}
+              </p>
+            ) : null}
+            {enquiry.sourcePath ? (
+              <a
+                href={enquiry.sourcePath}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-0.5 inline-block text-xs font-normal text-[#1a237e] hover:underline"
+              >
+                {enquiry.sourcePath}
+              </a>
+            ) : null}
           </DetailRow>
           <DetailRow icon={CalendarDays} label="Submitted on">
             {new Date(enquiry.createdAt).toLocaleString()}

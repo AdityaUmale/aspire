@@ -1,4 +1,5 @@
 import React from 'react';
+import { enquiryHref } from "@/lib/enquiry-source";
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
@@ -328,7 +329,7 @@ export default function SuccessStoriesPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 flex-shrink-0 w-full lg:w-auto">
-                  <Link href="/#enquiry" className="w-full sm:w-auto">
+                  <Link href={enquiryHref("success-stories")} className="w-full sm:w-auto">
                     <Button className="w-full sm:w-auto h-14 px-8 bg-white text-[#1a237e] hover:bg-white/90 text-base font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                       Start Your Transformation
                       <ArrowRight className="ml-2 h-5 w-5" />

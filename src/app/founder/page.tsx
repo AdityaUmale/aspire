@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { enquiryHref } from "@/lib/enquiry-source";
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
@@ -454,7 +455,7 @@ export default function FounderPage() {
                     Explore Programs
                   </Button>
                 </Link>
-                <Link href="/#enquiry">
+                <Link href={enquiryHref("founder")}>
                   <Button variant="outline" className="h-14 px-10 rounded-full border-2 border-[#1a237e]/10 text-[#1a237e] hover:bg-[#1a237e] hover:text-white text-base font-medium transition-all">
                     Get in Touch
                   </Button>

@@ -14,13 +14,14 @@ import {
   Calendar,
   GraduationCap
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 import EnquiryForm from "@/components/EnquiryForm";
 import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
 import SocialPostsSection from "@/components/SocialPostsSection";
 import { findProgramByCourseName, getCourseSectionLabel } from "@/lib/course-config";
+import { enquiryHref } from "@/lib/enquiry-source";
 import type { SocialFeedItem, SocialFeedResponse } from "@/lib/social-types";
 
 interface Course {
@@ -316,7 +317,7 @@ export default function HomePage() {
                 <p className="text-gray-500 text-lg mb-8 max-w-lg mx-auto">
                   Join the next cohort, share your interest and we&apos;ll notify you when dates are announced.
                 </p>
-                <Link href="#enquiry">
+                <Link href={enquiryHref("home-upcoming")}>
                   <Button className="h-12 px-8 rounded-full bg-[#1a237e] text-white hover:bg-[#10164f] shadow-lg transition-all duration-300 hover:-translate-y-0.5 group">
                     Notify Me
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -353,7 +354,7 @@ export default function HomePage() {
                     const programEntry = findProgramByCourseName(course.courseName);
                     const programSlug = programEntry?.slug ?? null;
                     const courseSectionLabel = getCourseSectionLabel(course.section);
-                    const ctaHref = "/#enquiry";
+                    const ctaHref = enquiryHref("home-upcoming", course.courseName);
                     return (
                       <div key={index} className="group relative rounded-[1.5rem] bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200 transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(26,35,126,0.25)] hover:border-[#1a237e]/30 hover:-translate-y-2 w-[300px] sm:w-[340px] flex-shrink-0 flex flex-col snap-start overflow-hidden h-[540px]">
                         {/* Top Decorative Stripe */}
@@ -446,7 +447,9 @@ export default function HomePage() {
       {/* <ArticlesSection /> */}
       <FAQSection />
       <SocialPostsSection items={socialFeedItems} isLoading={socialFeedLoading} />
-      <EnquiryForm />
+      <Suspense fallback={null}>
+        <EnquiryForm />
+      </Suspense>
       <Footer />
 
       {/* Floating Action Button pointing to Upcoming Courses */}
