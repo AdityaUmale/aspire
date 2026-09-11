@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { enquiryHref } from "@/lib/enquiry-source";
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -249,7 +250,7 @@ export default function TeamPage() {
                   <ArrowRight className="h-5 w-5 relative z-10 group-hover:translate-x-1 transition-transform" />
                 </button>
               </Link>
-              <Link href="/#enquiry" className="w-full sm:w-auto">
+              <Link href={enquiryHref("team")} className="w-full sm:w-auto">
                 <button className="flex items-center justify-center gap-3 px-8 py-4 bg-white border border-gray-200 text-gray-900 font-bold text-lg rounded-2xl hover:bg-gray-50 hover:border-gray-300 hover:shadow-sm transition-all duration-300 w-full">
                   Contact Us
                 </button>

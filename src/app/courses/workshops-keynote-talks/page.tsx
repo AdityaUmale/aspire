@@ -1,4 +1,5 @@
 import React from 'react';
+import { enquiryHref } from "@/lib/enquiry-source";
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
@@ -65,7 +66,7 @@ export default function WorkshopsKeynoteTalksPage() {
                                     Because the right two hours can rewrite the next twenty years. Aspire Institute&apos;s workshops are built to move you, challenge you, and leave you changed.
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                                    <Link href="/#enquiry">
+                                    <Link href={enquiryHref("workshops-keynote-talks")}>
                                         <button className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-[#1a237e] font-bold rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 w-full sm:w-auto">
                                             <span>Book a Session</span>
                                             <ArrowRight className="h-5 w-5" />
@@ -240,7 +241,7 @@ export default function WorkshopsKeynoteTalksPage() {
 
                                 {/* Buttons */}
                                 <div className="flex flex-col sm:flex-row gap-4 flex-shrink-0">
-                                    <Link href="/#enquiry">
+                                    <Link href={enquiryHref("workshops-keynote-talks")}>
                                         <button className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-[#1a237e] font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 whitespace-nowrap">
                                             <span>Inquire Now</span>
                                             <ArrowRight className="h-5 w-5" />

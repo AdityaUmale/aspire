@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { ENQUIRY_DETAIL_PARAM, ENQUIRY_SOURCE_PARAM } from '@/lib/enquiry-source';
 import {
   Mail,
   Phone,
@@ -25,7 +27,20 @@ interface FormData {
   enquiry: string;
 }
 
+/** Path of the page the visitor came from, when it is on this site. */
+const getReferrerPath = () => {
+  if (typeof document === 'undefined' || !document.referrer) return '';
+  try {
+    const referrer = new URL(document.referrer);
+    if (referrer.origin !== window.location.origin) return '';
+    return referrer.pathname;
+  } catch {
+    return '';
+  }
+};
+
 export default function EnquiryForm() {
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -55,7 +70,14 @@ export default function EnquiryForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          source: {
+            key: searchParams.get(ENQUIRY_SOURCE_PARAM) || '',
+            detail: searchParams.get(ENQUIRY_DETAIL_PARAM) || '',
+            path: getReferrerPath(),
+          },
+        }),
       });
 
       const result = await response.json();

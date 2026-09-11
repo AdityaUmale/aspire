@@ -8,6 +8,10 @@ export interface IEnquiry extends Document {
   enquiry: string;
   createdAt: Date;
   reviewed: boolean;
+  sourceKey?: string;
+  sourceLabel?: string;
+  sourceDetail?: string;
+  sourcePath?: string;
 }
 
 const EnquirySchema: Schema = new Schema({
@@ -47,6 +51,25 @@ const EnquirySchema: Schema = new Schema({
   reviewed: {
     type: Boolean,
     default: false,
+  },
+  // Where the visitor clicked the enquiry CTA from.
+  sourceKey: {
+    type: String,
+    trim: true,
+    index: true,
+  },
+  sourceLabel: {
+    type: String,
+    trim: true,
+  },
+  // Extra context for the CTA, e.g. the upcoming batch name.
+  sourceDetail: {
+    type: String,
+    trim: true,
+  },
+  sourcePath: {
+    type: String,
+    trim: true,
   },
 });
 

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from "next/link";
+import { enquiryHref } from "@/lib/enquiry-source";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, ArrowRight } from "lucide-react";
@@ -89,7 +90,7 @@ export default function HeroSection() {
                   <ChevronRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="#enquiry" className="w-full sm:w-auto">
+              <Link href={enquiryHref("home-hero")} className="w-full sm:w-auto">
                 <Button variant="outline" className="text-[#1a237e] border-[#1a237e] hover:bg-[#e8eaf6] transition-all duration-300 w-full sm:w-auto">
                   Start Your Journey
                 </Button>

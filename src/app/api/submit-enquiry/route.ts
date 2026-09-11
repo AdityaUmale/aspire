@@ -4,6 +4,7 @@ import Enquiry from '@/lib/models/Enquiry';
 import { requireAdmin } from '@/lib/auth';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { MAX_LENGTHS, normalizeString } from '@/lib/validation';
+import { resolveEnquirySource } from '@/lib/enquiry-source';
 
 export async function POST(req: NextRequest) {
   try {
@@ -53,12 +54,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Age must be a valid number' }, { status: 400 });
     }
 
+    const source = resolveEnquirySource({
+      key: body?.source?.key,
+      detail: body?.source?.detail,
+      path: body?.source?.path,
+    });
+
     const newEnquiry = new Enquiry({
       name,
       email,
       phone,
       age: parsedAge,
       enquiry,
+      ...source,
     });
 
     await newEnquiry.save();

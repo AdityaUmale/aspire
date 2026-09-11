@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Table,
@@ -11,11 +11,20 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Inbox, MessageSquare, CheckCircle2, Clock, AlertCircle, ChevronRight } from 'lucide-react';
+import {
+  Inbox,
+  MessageSquare,
+  CheckCircle2,
+  Clock,
+  AlertCircle,
+  ChevronRight,
+  MapPin,
+} from 'lucide-react';
 import { AdminPageHeader } from '@/components/admin/page-header';
 import { AdminEmptyState } from '@/components/admin/empty-state';
 import { useAdminToast } from '@/components/admin/admin-toast';
 import { getFriendlyError } from '@/lib/admin-messages';
+import { getEnquirySourceLabel, UNTRACKED_SOURCE_LABEL } from '@/lib/enquiry-source';
 import { cn } from '@/lib/utils';
 
 interface Enquiry {
@@ -27,7 +36,13 @@ interface Enquiry {
   enquiry: string;
   createdAt: string;
   reviewed?: boolean;
+  sourceKey?: string;
+  sourceLabel?: string;
+  sourceDetail?: string;
+  sourcePath?: string;
 }
+
+const ALL_SOURCES = '__all__';
 
 export default function ReviewEnquiriesPage() {
   const router = useRouter();
@@ -35,6 +50,7 @@ export default function ReviewEnquiriesPage() {
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sourceFilter, setSourceFilter] = useState<string>(ALL_SOURCES);
 
   useEffect(() => {
     const fetchEnquiries = async () => {
@@ -64,14 +80,33 @@ export default function ReviewEnquiriesPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Every source present in the data, most used first, for the filter dropdown.
+  const sourceOptions = useMemo(() => {
+    const counts = new Map<string, number>();
+    enquiries.forEach((enquiry) => {
+      const label = getEnquirySourceLabel(enquiry);
+      counts.set(label, (counts.get(label) ?? 0) + 1);
+    });
+    return [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  }, [enquiries]);
+
+  const visibleEnquiries = useMemo(
+    () =>
+      sourceFilter === ALL_SOURCES
+        ? enquiries
+        : enquiries.filter((enquiry) => getEnquirySourceLabel(enquiry) === sourceFilter),
+    [enquiries, sourceFilter]
+  );
+
   const pendingCount = enquiries.filter((e) => !e.reviewed).length;
+  const topSource = sourceOptions.find(([label]) => label !== UNTRACKED_SOURCE_LABEL);
 
   return (
     <div className="space-y-6">
       <AdminPageHeader
         badge="Inbox"
         title="Submitted enquiries"
-        description="Open a row to read the full message and mark it as reviewed when you’ve handled it."
+        description="Open a row to read the full message and mark it as reviewed when you’ve handled it. Each row shows the page the visitor was on when they clicked Enquire."
       />
 
       {!loading && enquiries.length > 0 ? (
@@ -91,6 +126,30 @@ export default function ReviewEnquiriesPage() {
             <Clock className="h-3.5 w-3.5" />
             {pendingCount} pending
           </span>
+          {topSource ? (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1 text-gray-600 shadow-sm">
+              <MapPin className="h-3.5 w-3.5" />
+              Top source: {topSource[0]} ({topSource[1]})
+            </span>
+          ) : null}
+
+          <label className="ml-auto inline-flex items-center gap-2 text-gray-600">
+            <span className="text-xs font-medium uppercase tracking-wide text-gray-400">
+              Source
+            </span>
+            <select
+              value={sourceFilter}
+              onChange={(event) => setSourceFilter(event.target.value)}
+              className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 shadow-sm outline-none focus:border-[#1a237e]/40 focus:ring-2 focus:ring-[#1a237e]/10"
+            >
+              <option value={ALL_SOURCES}>All sources ({enquiries.length})</option>
+              {sourceOptions.map(([label, count]) => (
+                <option key={label} value={label}>
+                  {label} ({count})
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
       ) : null}
 
@@ -101,7 +160,7 @@ export default function ReviewEnquiriesPage() {
         </div>
       ) : null}
 
-      <div className="overflow-hidden rounded-2xl border border-gray-200/70 bg-white/90 shadow-sm backdrop-blur-md">
+      <div className="overflow-hidden rounded-2xl border border-gray-200/70 bg-white shadow-sm">
         {loading ? (
           <div className="space-y-4 p-5">
             {[...Array(5)].map((_, i) => (
@@ -117,19 +176,23 @@ export default function ReviewEnquiriesPage() {
               </div>
             ))}
           </div>
-        ) : enquiries.length === 0 ? (
+        ) : visibleEnquiries.length === 0 ? (
           <div className="p-4">
             <AdminEmptyState
               icon={MessageSquare}
-              title="No enquiries yet"
-              description="Contact form submissions will show up here."
+              title={enquiries.length === 0 ? 'No enquiries yet' : 'No enquiries from this source'}
+              description={
+                enquiries.length === 0
+                  ? 'Contact form submissions will show up here.'
+                  : 'Pick a different source to see more enquiries.'
+              }
               className="border-0 bg-transparent shadow-none"
             />
           </div>
         ) : (
           <>
             <div className="space-y-2 p-3 md:hidden">
-              {enquiries.map((enquiry) => (
+              {visibleEnquiries.map((enquiry) => (
                 <button
                   key={enquiry._id}
                   type="button"
@@ -142,6 +205,11 @@ export default function ReviewEnquiriesPage() {
                   </div>
                   <p className="text-xs text-gray-600">{enquiry.email}</p>
                   {enquiry.phone ? <p className="text-xs text-gray-600">{enquiry.phone}</p> : null}
+                  <p className="mt-2 inline-flex items-center gap-1 text-xs text-gray-500">
+                    <MapPin className="h-3 w-3 shrink-0 text-gray-400" />
+                    {getEnquirySourceLabel(enquiry)}
+                    {enquiry.sourceDetail ? ` · ${enquiry.sourceDetail}` : ''}
+                  </p>
                   <div className="mt-2 flex items-center justify-between">
                     <p className="text-xs text-gray-400">
                       {new Date(enquiry.createdAt).toLocaleDateString()}
@@ -169,6 +237,9 @@ export default function ReviewEnquiriesPage() {
                       Age
                     </TableHead>
                     <TableHead className="text-xs font-semibold text-[#1a237e] lg:text-sm">
+                      Clicked from
+                    </TableHead>
+                    <TableHead className="text-xs font-semibold text-[#1a237e] lg:text-sm">
                       Date
                     </TableHead>
                     <TableHead className="text-xs font-semibold text-[#1a237e] lg:text-sm">
@@ -178,7 +249,7 @@ export default function ReviewEnquiriesPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {enquiries.map((enquiry) => (
+                  {visibleEnquiries.map((enquiry) => (
                     <TableRow
                       key={enquiry._id}
                       className="cursor-pointer border-b-gray-100 transition-colors hover:bg-[#eef2ff]/50"
@@ -195,6 +266,19 @@ export default function ReviewEnquiriesPage() {
                       </TableCell>
                       <TableCell className="whitespace-nowrap py-3 text-sm text-gray-600">
                         {typeof enquiry.age !== 'undefined' ? enquiry.age : '—'}
+                      </TableCell>
+                      <TableCell className="py-3 text-sm text-gray-600">
+                        <span className="block max-w-[220px] truncate" title={getEnquirySourceLabel(enquiry)}>
+                          {getEnquirySourceLabel(enquiry)}
+                        </span>
+                        {enquiry.sourceDetail ? (
+                          <span
+                            className="block max-w-[220px] truncate text-xs text-gray-400"
+                            title={enquiry.sourceDetail}
+                          >
+                            {enquiry.sourceDetail}
+                          </span>
+                        ) : null}
                       </TableCell>
                       <TableCell className="whitespace-nowrap py-3 text-xs text-gray-500">
                         {new Date(enquiry.createdAt).toLocaleDateString()}
