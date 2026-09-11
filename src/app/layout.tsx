@@ -6,6 +6,7 @@ import {
   SITE_NAME,
   SITE_URL,
 } from "@/lib/site";
+import PerfGuard from "@/components/PerfGuard";
 import "./globals.css";
 
 const inter = Inter({
@@ -13,6 +14,10 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
+
+// Applies the remembered render mode before first paint so lite-mode devices
+// never flash the expensive effects. Kept in sync with PerfGuard.
+const RENDER_MODE_BOOTSTRAP = `(function(){try{var m=localStorage.getItem('aspire:render-mode');if(m==='lite'||m==='full'){document.documentElement.dataset.perf=m;}}catch(e){}})();`;
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -93,10 +98,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.variable} font-sans antialiased`}
       >
+        <script dangerouslySetInnerHTML={{ __html: RENDER_MODE_BOOTSTRAP }} />
+        <PerfGuard />
         {children}
         <script
           type="application/ld+json"

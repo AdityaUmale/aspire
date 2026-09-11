@@ -403,7 +403,7 @@ export default function AdminDashboardPage() {
         />
       </div>
 
-      <section className="overflow-hidden rounded-2xl border border-gray-200/70 bg-white/90 shadow-sm backdrop-blur-md">
+      <section className="overflow-hidden rounded-2xl border border-gray-200/70 bg-white shadow-sm">
         <div className="flex flex-col gap-3 border-b border-gray-100 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-lg font-bold text-[#1a237e]">Upcoming courses</h2>
@@ -519,7 +519,7 @@ export default function AdminDashboardPage() {
             aria-modal="true"
             aria-labelledby="edit-course-title"
           >
-            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-100 bg-white/95 px-6 py-4 backdrop-blur">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-100 bg-white px-6 py-4">
               <div>
                 <h2 id="edit-course-title" className="text-lg font-bold text-[#1a237e]">
                   Edit course

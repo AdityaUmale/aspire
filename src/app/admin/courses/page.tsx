@@ -293,7 +293,7 @@ export default function AddCoursesPage() {
         description="Upload a schedule poster to extract draft cards, review them carefully, and publish only the rows you trust."
       />
 
-      <div className="space-y-5 rounded-2xl border border-gray-200/70 bg-white/90 p-4 shadow-sm backdrop-blur-md lg:p-6">
+      <div className="space-y-5 rounded-2xl border border-gray-200/70 bg-white p-4 shadow-sm lg:p-6">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-[#eef2ff] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#1a237e]">
@@ -637,7 +637,7 @@ export default function AddCoursesPage() {
         )}
       </div>
 
-      <div className="rounded-2xl border border-gray-200/70 bg-white/90 p-4 shadow-sm backdrop-blur-md lg:p-6">
+      <div className="rounded-2xl border border-gray-200/70 bg-white p-4 shadow-sm lg:p-6">
         <div className="mb-6">
           <div className="inline-flex items-center gap-2 rounded-full bg-[#eef2ff] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#1a237e]">
             <GraduationCap className="h-3.5 w-3.5" />

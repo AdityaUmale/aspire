@@ -69,6 +69,9 @@ function assertAllowedRequestUrl(value: string | URL) {
   return url;
 }
 
+/** A social platform that stops responding must not hold the request open. */
+const SOCIAL_FETCH_TIMEOUT_MS = 6000;
+
 async function fetchAllowedSocialUrl(
   value: string | URL,
   init: RequestInit
@@ -78,6 +81,7 @@ async function fetchAllowedSocialUrl(
   for (let redirects = 0; redirects <= MAX_REDIRECTS; redirects += 1) {
     const response = await fetch(currentUrl, {
       ...init,
+      signal: init.signal ?? AbortSignal.timeout(SOCIAL_FETCH_TIMEOUT_MS),
       redirect: 'manual',
     });
 

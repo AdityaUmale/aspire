@@ -9,6 +9,21 @@ const INSTAGRAM_POST_PATTERN = /instagram\.com\/(?:p|reel)\/[A-Za-z0-9_-]+/i;
 const TWITTER_STATUS_PATTERN = /(?:x\.com|twitter\.com)\/[^/]+\/status\/\d+/i;
 const CONFIG_KEY = 'social_posts_config';
 
+/**
+ * Building the feed means scraping four social platforms live (~3s). Without a
+ * cache every homepage visitor paid that cost and re-hit the platforms. The
+ * admin save path calls invalidateSocialFeedCache() so edits still show up at once.
+ */
+const FEED_CACHE_TTL_MS = 10 * 60 * 1000;
+
+let feedCache: { items: SocialFeedItem[]; expiresAt: number } | null = null;
+let inFlight: Promise<SocialFeedItem[]> | null = null;
+
+export function invalidateSocialFeedCache() {
+  feedCache = null;
+  inFlight = null;
+}
+
 function trimValue(value: unknown) {
   return typeof value === 'string' ? value.trim() : '';
 }
@@ -54,6 +69,28 @@ export async function getStoredSocialUrls(): Promise<SocialUrlsConfig> {
 }
 
 export async function loadSocialFeed(): Promise<SocialFeedItem[]> {
+  if (feedCache && feedCache.expiresAt > Date.now()) {
+    return feedCache.items;
+  }
+
+  // Concurrent first-load requests share one build instead of each scraping.
+  if (inFlight) {
+    return inFlight;
+  }
+
+  inFlight = buildSocialFeed()
+    .then((items) => {
+      feedCache = { items, expiresAt: Date.now() + FEED_CACHE_TTL_MS };
+      return items;
+    })
+    .finally(() => {
+      inFlight = null;
+    });
+
+  return inFlight;
+}
+
+async function buildSocialFeed(): Promise<SocialFeedItem[]> {
   const urls = await getStoredSocialUrls();
   const configuredPlatforms = SOCIAL_PLATFORM_ORDER.filter((platform) => urls[platform]);
 
