@@ -83,7 +83,7 @@ function ToastCard({
       role={item.variant === 'error' ? 'alert' : 'status'}
       aria-live={item.variant === 'error' ? 'assertive' : 'polite'}
       className={cn(
-        'pointer-events-auto w-[min(92vw,400px)] overflow-hidden rounded-2xl border shadow-[0_16px_48px_-18px_rgba(15,23,42,0.35)] backdrop-blur-md',
+        'pointer-events-auto w-[min(92vw,400px)] overflow-hidden rounded-2xl border shadow-[0_16px_48px_-18px_rgba(15,23,42,0.35)]',
         'animate-in fade-in slide-in-from-right-4 duration-300',
         config.className
       )}

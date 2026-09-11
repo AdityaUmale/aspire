@@ -56,8 +56,8 @@ export default function Navbar() {
         {/* The Glass Island */}
         <nav
           className={`
-            relative mx-auto bg-white/90 backdrop-blur-2xl border border-gray-200 
-            transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
+            relative mx-auto bg-white/95 border border-gray-200 
+            transition-[border-radius,box-shadow,background-color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
             ${isOpen ? 'rounded-[2rem] shadow-2xl bg-white' : 'rounded-full shadow-[0_4px_20px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]'}
           `}
         >
@@ -110,7 +110,7 @@ export default function Navbar() {
 
                 {/* Dropdown Menu - Premium Bento Style */}
                 {articlesDropdown && (
-                  <div className="absolute top-[calc(100%+0.5rem)] left-1/2 -translate-x-1/2 w-64 bg-white/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] border border-gray-100 p-2 z-50 animate-in fade-in slide-in-from-top-4 duration-300 ease-out">
+                  <div className="absolute top-[calc(100%+0.5rem)] left-1/2 -translate-x-1/2 w-64 bg-white/95 rounded-2xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] border border-gray-100 p-2 z-50 animate-in fade-in slide-in-from-top-4 duration-300 ease-out">
                     <div className="flex flex-col gap-1">
                       <DropdownLink href="/publish-article" icon={PenTool} onClick={() => setArticlesDropdown(false)}>
                         Publish Article

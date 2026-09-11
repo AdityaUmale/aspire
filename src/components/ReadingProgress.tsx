@@ -6,7 +6,12 @@ export default function ReadingProgress() {
   const barRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const update = () => {
+    let frame = 0;
+
+    // Reading scrollHeight forces a synchronous layout. Doing it inside rAF keeps
+    // it to one measurement per painted frame instead of one per scroll event.
+    const measure = () => {
+      frame = 0;
       const bar = barRef.current;
       if (!bar) {
         return;
@@ -17,23 +22,33 @@ export default function ReadingProgress() {
         document.documentElement.scrollHeight - window.innerHeight;
       const progress =
         docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0;
-      bar.style.width = `${progress}%`;
+      bar.style.transform = `scaleX(${progress / 100})`;
     };
 
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
+    const schedule = () => {
+      if (frame) {
+        return;
+      }
+      frame = requestAnimationFrame(measure);
+    };
+
+    measure();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
     return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
+      if (frame) {
+        cancelAnimationFrame(frame);
+      }
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
     };
   }, []);
 
   return (
     <div
       ref={barRef}
-      className="fixed top-0 left-0 h-[2px] bg-[#1a237e] z-[60] transition-none"
-      style={{ width: "0%" }}
+      className="fixed top-0 left-0 h-[2px] w-full origin-left bg-[#1a237e] z-[60] transition-none"
+      style={{ transform: "scaleX(0)" }}
       aria-hidden
     />
   );

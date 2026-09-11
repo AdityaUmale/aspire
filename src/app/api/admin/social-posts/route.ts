@@ -3,6 +3,7 @@ import connectDB from '@/lib/db';
 import SocialPost from '@/lib/models/SocialPost';
 import { requireAdmin } from '@/lib/auth';
 import { normalizeFacebookInput } from '@/lib/social-url';
+import { invalidateSocialFeedCache } from '@/lib/social-feed';
 
 const CONFIG_KEY = 'social_posts_config';
 
@@ -36,6 +37,9 @@ export async function PUT(request: NextRequest) {
       { linkedin: linkedin.trim(), instagram: instagram.trim(), facebook: normalizedFacebook, twitter: twitter.trim() },
       { upsert: true, new: true }
     );
+
+    // Homepage feed is cached for 10 minutes; show the new links immediately.
+    invalidateSocialFeedCache();
 
     return NextResponse.json({ success: true, data: doc });
   } catch {

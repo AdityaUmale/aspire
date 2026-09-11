@@ -37,7 +37,7 @@ export default function HeroSection() {
   return (
     <section className="relative w-full pt-6 pb-4 md:pt-16 md:pb-8 lg:pt-24 lg:pb-12 xl:pt-32 xl:pb-16 overflow-x-clip px-4 md:px-6 lg:pl-14">
       {/* Decorative elements */}
-      <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#1a237e]/5 blur-3xl -z-10 animate-pulse"></div>
+      <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#1a237e]/5 blur-3xl -z-10"></div>
 
       {/* ── LAYER 2: EXPANDED Campus Images covering right edge ── */}
       {CAMPUS_IMAGES.map((img, i) => {

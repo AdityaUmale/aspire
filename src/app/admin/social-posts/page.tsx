@@ -230,7 +230,7 @@ export default function SocialPostsPage() {
             return (
               <div
                 key={key}
-                className="space-y-3 rounded-2xl border border-[#1a237e]/10 bg-white/90 p-5 shadow-sm backdrop-blur-sm transition-shadow hover:shadow-md"
+                className="space-y-3 rounded-2xl border border-[#1a237e]/10 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
               >
                 <div className="flex items-center gap-3">
                   <div

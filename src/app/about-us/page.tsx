@@ -1100,7 +1100,7 @@ export default function AboutUsPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0f1337]/95 backdrop-blur-md p-4 md:p-10"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0f1337]/95 p-4 md:p-10"
             onClick={closeLightbox}
           >
             {/* Controls */}

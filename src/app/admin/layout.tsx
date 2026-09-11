@@ -149,12 +149,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="relative min-h-screen bg-[#f4f6fb]">
         <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-[#f8f9fa] via-[#eef1fb] to-[#dce3f8]" />
-          <div className="absolute -right-20 top-0 h-[480px] w-[480px] rounded-full bg-[#1a237e]/[0.06] blur-3xl" />
-          <div className="absolute -left-16 bottom-0 h-72 w-72 rounded-full bg-[#3949ab]/[0.08] blur-3xl" />
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                'radial-gradient(480px circle at 100% 0%, rgba(26,35,126,0.06), transparent 70%), radial-gradient(288px circle at 0% 100%, rgba(57,73,171,0.08), transparent 70%)',
+            }}
+          />
         </div>
 
         {/* Mobile top bar */}
-        <header className="sticky top-0 z-40 flex items-center gap-3 border-b border-[#1a237e]/10 bg-white/90 px-4 py-3 backdrop-blur-md lg:hidden">
+        <header className="sticky top-0 z-40 flex items-center gap-3 border-b border-[#1a237e]/10 bg-white px-4 py-3 lg:hidden">
           <button
             type="button"
             onClick={() => setSidebarOpen(true)}
@@ -185,7 +190,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         <div className="mx-auto flex min-h-[calc(100vh-57px)] max-w-[1400px] lg:min-h-screen">
           {/* Desktop sidebar */}
-          <aside className="sticky top-0 hidden h-screen w-72 shrink-0 flex-col border-r border-[#1a237e]/10 bg-white/80 p-5 backdrop-blur-md lg:flex">
+          <aside className="sticky top-0 hidden h-screen w-72 shrink-0 flex-col border-r border-[#1a237e]/10 bg-white p-5 lg:flex">
             <SidebarContent pathname={pathname} />
           </aside>
 
