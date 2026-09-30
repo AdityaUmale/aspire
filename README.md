@@ -11,13 +11,13 @@ ADMIN_EMAIL=...
 ADMIN_PASSWORD=...
 ADMIN_NAME=...
 BLOB_READ_WRITE_TOKEN=...
-OPENAI_API_KEY=...
-OPENAI_VISION_MODEL=gpt-5-mini
+GEMINI_API_KEY=...
+GEMINI_VISION_MODEL=gemini-3.5-flash-lite
 ```
 
 `BLOB_READ_WRITE_TOKEN` is used to store uploaded images, including admin schedule posters.
 
-`OPENAI_API_KEY` and `OPENAI_VISION_MODEL` are used by the admin poster-import flow that extracts upcoming course rows from uploaded schedule images.
+`GEMINI_API_KEY` is used by the admin poster-import flow that extracts upcoming course rows from uploaded schedule images. Create a free key at [Google AI Studio](https://aistudio.google.com/apikey); the free tier needs no billing account. `GEMINI_VISION_MODEL` is optional and defaults to `gemini-3.5-flash-lite`. If Gemini reports that model is overloaded, the import retries with `gemini-3.1-flash-lite`, then `gemini-3.6-flash`.
 
 ## Getting Started
 
@@ -43,7 +43,7 @@ The admin dashboard now supports a review-first upcoming course import flow:
 
 1. Open `/admin/courses`.
 2. Upload a schedule poster image.
-3. The app uploads the image, sends it to OpenAI vision, and returns editable draft rows.
+3. The app uploads the image, sends it to Gemini vision, and returns editable draft rows.
 4. Review the extracted rows, update any titles, dates, times, or descriptions, remove bad rows, and save only the selected items.
 
 The parser is instructed to avoid inventing rows and to prefer omission plus low confidence over guessing. Imported cards are saved as upcoming course entries and rendered on the homepage with an enquiry CTA.

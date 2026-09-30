@@ -6,9 +6,11 @@ import {
   createBlobUploadFileName,
   uploadToVercelBlob,
 } from "@/lib/blob-upload";
-import { parseUpcomingCoursesFromPoster } from "@/lib/openai/upcoming-course-parser";
+import { parseUpcomingCoursesFromPoster } from "@/lib/ai/upcoming-course-parser";
 
 export const runtime = "nodejs";
+// Blob upload plus up to three Gemini attempts; keep well under every Vercel plan limit.
+export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
   try {
@@ -31,7 +33,10 @@ export async function POST(req: NextRequest) {
       extension,
     });
     const imageUrl = await uploadToVercelBlob(fileName, fileEntry);
-    const parsed = await parseUpcomingCoursesFromPoster({ imageUrl });
+    const parsed = await parseUpcomingCoursesFromPoster({
+      imageUrl,
+      imageFile: fileEntry,
+    });
 
     return NextResponse.json(
       {
