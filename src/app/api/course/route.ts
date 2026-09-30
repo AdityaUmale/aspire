@@ -131,6 +131,15 @@ export async function DELETE(req: NextRequest) {
 
         await connectDB();
         const { searchParams } = new URL(req.url);
+
+        if (searchParams.get('all') === 'true') {
+            const result = await Course.deleteMany({});
+            return NextResponse.json(
+                { message: "All courses deleted successfully", deletedCount: result.deletedCount },
+                { status: 200 }
+            );
+        }
+
         const courseId = searchParams.get('id');
 
         if (!courseId) {

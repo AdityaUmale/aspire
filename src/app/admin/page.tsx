@@ -138,6 +138,9 @@ export default function AdminDashboardPage() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [coursesLoading, setCoursesLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleteAllOpen, setDeleteAllOpen] = useState(false);
+  const [deleteAllConfirm, setDeleteAllConfirm] = useState('');
+  const [deletingAll, setDeletingAll] = useState(false);
 
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
   const [editForm, setEditForm] = useState<EditFormState>({
@@ -220,6 +223,53 @@ export default function AdminDashboardPage() {
       document.body.style.overflow = '';
     };
   }, [editingCourse]);
+
+  useEffect(() => {
+    if (!deleteAllOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && !deletingAll) setDeleteAllOpen(false);
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [deleteAllOpen, deletingAll]);
+
+  const openDeleteAll = () => {
+    setDeleteAllConfirm('');
+    setDeleteAllOpen(true);
+  };
+
+  const handleDeleteAllCourses = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (deleteAllConfirm.trim() !== 'DELETE') return;
+
+    setDeletingAll(true);
+    try {
+      const response = await fetch('/api/course?all=true', { method: 'DELETE' });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to delete courses');
+      }
+
+      const deleted = typeof data.deletedCount === 'number' ? data.deletedCount : courses.length;
+      setCourses([]);
+      setDeleteAllOpen(false);
+      toast.success(
+        'All courses deleted',
+        `${deleted} upcoming course${deleted === 1 ? ' was' : 's were'} removed from the website.`
+      );
+    } catch (err: unknown) {
+      toast.error(
+        'Delete failed',
+        getFriendlyError(err, 'Could not delete the courses. Please try again.')
+      );
+    } finally {
+      setDeletingAll(false);
+    }
+  };
 
   const handleDeleteCourse = async (courseId: string, courseName: string) => {
     if (!confirm(`Delete “${courseName}”? This cannot be undone.`)) {
@@ -413,6 +463,17 @@ export default function AdminDashboardPage() {
             <Badge variant="outline" className="border-[#1a237e]/20 text-[#1a237e]">
               {coursesLoading ? '…' : `${courses.length} course${courses.length === 1 ? '' : 's'}`}
             </Badge>
+            {!coursesLoading && courses.length > 0 ? (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={openDeleteAll}
+                className="border-red-200 text-red-700 hover:bg-red-50 hover:text-red-800"
+              >
+                <Trash2 className="h-4 w-4" />
+                Delete all
+              </Button>
+            ) : null}
             <Button asChild size="sm" className="bg-[#1a237e] text-white hover:bg-[#10164f]">
               <Link href="/admin/courses">Add course</Link>
             </Button>
@@ -504,6 +565,82 @@ export default function AdminDashboardPage() {
           )}
         </div>
       </section>
+
+      {deleteAllOpen ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={(e) => {
+            if (e.target === e.currentTarget && !deletingAll) setDeleteAllOpen(false);
+          }}
+        >
+          <form
+            onSubmit={handleDeleteAllCourses}
+            className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl animate-in zoom-in-95 duration-200"
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="delete-all-title"
+            aria-describedby="delete-all-description"
+          >
+            <div className="flex items-start gap-4">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600">
+                <AlertCircle className="h-5 w-5" />
+              </span>
+              <div className="min-w-0">
+                <h2 id="delete-all-title" className="text-lg font-bold text-gray-900">
+                  Delete all {courses.length} upcoming course{courses.length === 1 ? '' : 's'}?
+                </h2>
+                <p id="delete-all-description" className="mt-1 text-sm leading-relaxed text-gray-600">
+                  Every course card will be removed from the website right away. This cannot be undone.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-5 space-y-1.5">
+              <Label htmlFor="delete-all-confirm" className="text-sm font-medium text-gray-700">
+                Type <span className="font-mono font-semibold text-red-700">DELETE</span> to confirm
+              </Label>
+              <Input
+                id="delete-all-confirm"
+                value={deleteAllConfirm}
+                onChange={(e) => setDeleteAllConfirm(e.target.value)}
+                autoComplete="off"
+                autoFocus
+                disabled={deletingAll}
+                className="border-gray-300 focus-visible:border-[#1a237e] focus-visible:ring-[#1a237e]/20"
+              />
+            </div>
+
+            <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setDeleteAllOpen(false)}
+                disabled={deletingAll}
+                className="border-gray-300 text-gray-700"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                variant="destructive"
+                disabled={deletingAll || deleteAllConfirm.trim() !== 'DELETE'}
+              >
+                {deletingAll ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Deleting…
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="h-4 w-4" />
+                    Delete all courses
+                  </>
+                )}
+              </Button>
+            </div>
+          </form>
+        </div>
+      ) : null}
 
       {editingCourse ? (
         <div
